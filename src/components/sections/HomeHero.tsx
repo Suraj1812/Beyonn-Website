@@ -98,8 +98,8 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
 
   return (
     <section ref={section} className="spotlight relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
-      <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl animate-drift" aria-hidden />
-      <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl animate-drift [animation-delay:-9s]" aria-hidden />
+      <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
 
       <div className="container-x grid items-center gap-12 pb-12 pt-32 sm:pt-36 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16 lg:pt-40">
         <div ref={copy} className="max-w-[42rem] will-change-transform">

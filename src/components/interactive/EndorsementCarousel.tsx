@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { endorsements } from "@/content/endorsements";
 import { EndorsementCard } from "@/components/sections/EndorsementCard";
-import { cn } from "@/lib/cn";
 
 const AUTO_MS = 4000;
 
@@ -15,21 +14,28 @@ const AUTO_MS = 4000;
  */
 export function EndorsementCarousel() {
   const track = useRef<HTMLUListElement>(null);
-  const [progress, setProgress] = useState(0);
+  const bar = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = track.current;
     if (!el) return;
+    let raf = 0;
     const update = () => {
       const max = el.scrollWidth - el.clientWidth;
-      setProgress(max > 0 ? el.scrollLeft / max : 0);
+      const p = max > 0 ? el.scrollLeft / max : 0;
+      if (bar.current) bar.current.style.transform = `scaleX(${(0.12 + p * 0.88).toFixed(3)})`;
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
     };
     update();
-    el.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      el.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
     };
   }, []);
 
@@ -120,7 +126,7 @@ export function EndorsementCarousel() {
 
       <div className="container-x mt-4">
         <div className="h-1 overflow-hidden rounded-full bg-ink/10" aria-hidden>
-          <div className={cn("h-full origin-left rounded-full bg-[linear-gradient(90deg,var(--color-breath),var(--color-dawn))]")} style={{ transform: `scaleX(${0.12 + progress * 0.88})` }} />
+          <div ref={bar} className="h-full origin-left rounded-full bg-[linear-gradient(90deg,var(--color-breath),var(--color-dawn))] will-change-transform" style={{ transform: "scaleX(0.12)" }} />
         </div>
       </div>
     </div>

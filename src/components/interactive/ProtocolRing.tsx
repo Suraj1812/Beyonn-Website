@@ -96,16 +96,16 @@ export function ProtocolRing() {
           })}
         </svg>
       </div>
-      <ol data-steps className="grid gap-5 lg:gap-7 lg:pb-[10vh]">
+      <ol data-steps className="grid gap-4 pb-[12vh] lg:gap-7 lg:pb-[10vh]">
         {protocolSteps.map((s, i) => (
           <li
             key={s.key}
             data-step
-            style={{ "--stack": `${8 + i * 1.5}rem` } as React.CSSProperties}
+            style={{ "--stack": `${8 + i * 1.5}rem`, "--stack-sm": `${4.75 + i * 0.75}rem` } as React.CSSProperties}
             className={cn(
-              "origin-top rounded-[var(--radius-panel)] border bg-white p-6 shadow-[0_-12px_40px_-28px_rgb(19_37_62/0.35)] transition-[opacity,border-color,box-shadow,transform] duration-500 sm:p-8 lg:sticky lg:top-[var(--stack)]",
+              "origin-top rounded-[var(--radius-panel)] border bg-white p-6 shadow-[0_-12px_40px_-28px_rgb(19_37_62/0.35)] transition-[opacity,border-color,box-shadow,transform] duration-500 sm:p-8 sticky top-[var(--stack-sm)] lg:top-[var(--stack)]",
               i === active && "border-dawn/50 shadow-[0_24px_50px_-28px_rgb(19_37_62/0.5)]",
-              i < active && "border-ink/10 lg:scale-[0.94] lg:bg-paper-2",
+              i < active && "scale-[0.94] border-ink/10 bg-paper-2",
               i > active && "border-ink/10",
             )}
           >

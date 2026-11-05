@@ -6,12 +6,13 @@ import { cn } from "@/lib/cn";
 /**
  * The Beyonn emblem as a real 3D object: two interlocking double rings, split by
  * the horizontal band, extruded with a soft bevel and lit with studio reflections.
- * It tilts toward the pointer and turns slowly as the page scrolls.
+ * It tilts toward the pointer and turns slowly as the page scrolls, and only
+ * renders while it is actually moving.
  *
  * Kept light on purpose:
- * - three.js is loaded on demand, only on desktop (≥1024px), so it never touches first paint;
+ * - three.js is loaded on demand after the intro, so it never touches first paint;
  * - it renders only while on screen and while the tab is visible;
- * - `fallback` (the flat emblem) shows on mobile, without WebGL, or until the scene is ready;
+ * - `fallback` (the flat emblem) shows without WebGL or until the scene is ready;
  * - with reduced motion it draws one still frame and stops.
  */
 export function Emblem3D({ className, fallback, distance = 12.5 }: { className?: string; fallback?: ReactNode; distance?: number }) {
@@ -21,16 +22,17 @@ export function Emblem3D({ className, fallback, distance = 12.5 }: { className?:
   useEffect(() => {
     const el = host.current;
     if (!el) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+    // Hidden at this screen size (e.g. display:none on mobile): don't spend a WebGL context.
+    if (el.getClientRects().length === 0) return;
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let disposed = false;
     let teardown = () => {};
 
     (async () => {
-      // A full page load opens with the ~2.6s intro; start the 3D after it so the
+      // A full page load opens with the ~2s intro; start the 3D after it so the
       // two never compete for the main thread. (Client navigations skip the intro.)
       if (!still && performance.now() < 3000) {
-        await new Promise((r) => setTimeout(r, Math.max(0, 2700 - performance.now())));
+        await new Promise((r) => setTimeout(r, Math.max(0, 2100 - performance.now())));
         if (disposed) return;
       }
       const THREE = await import("three");
@@ -44,7 +46,8 @@ export function Emblem3D({ className, fallback, distance = 12.5 }: { className?:
         setState("failed");
         return;
       }
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      // Phones get a sharper ratio (their canvas is small); big desktop canvases stay light.
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 1024 ? 1.75 : 1.25));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 0.92;
@@ -131,32 +134,35 @@ export function Emblem3D({ className, fallback, distance = 12.5 }: { className?:
       ro.observe(el);
 
       // ---- Motion ----------------------------------------------------------
+      // ---- Motion (render on demand) ---------------------------------------
+      // Frames are drawn only while something is changing: the entrance, the
+      // pointer moving, or the page scrolling. Once the emblem settles the loop
+      // stops, so an idle page costs nothing.
       const pointer = { x: 0, y: 0 };
-      const onPointer = (e: PointerEvent) => {
-        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-        pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
-      };
-      window.addEventListener("pointermove", onPointer, { passive: true });
-
       const start = performance.now();
       let raf = 0;
       let running = false;
+      let inView = false;
+
       const frame = (now: number) => {
         const t = (now - start) / 1000;
         const scroll = Math.min(1, Math.max(0, window.scrollY / Math.max(1, el.offsetHeight)));
         const intro = Math.min(1, t / 1.4);
         const ease = 1 - Math.pow(1 - intro, 3);
-        const ty = -0.35 + Math.sin(t * 0.25) * 0.12 + pointer.x * 0.22 + scroll * 0.9;
+        const ty = -0.35 + pointer.x * 0.22 + scroll * 0.9;
         const tx = 0.12 + pointer.y * 0.12 + scroll * 0.25;
-        group.rotation.y += (ty - group.rotation.y) * 0.05;
-        group.rotation.x += (tx - group.rotation.x) * 0.05;
-        group.position.y = Math.sin(t * 0.6) * 0.06;
+        const dy = ty - group.rotation.y;
+        const dx = tx - group.rotation.x;
+        group.rotation.y += dy * 0.08;
+        group.rotation.x += dx * 0.08;
         group.scale.setScalar(0.88 + 0.12 * ease);
         renderer.render(scene, camera);
-        if (running) raf = requestAnimationFrame(frame);
+        const moving = Math.abs(dy) + Math.abs(dx) > 0.0008 || intro < 1;
+        if (moving && inView && !document.hidden) raf = requestAnimationFrame(frame);
+        else running = false;
       };
-      const play = () => {
-        if (running || still) return;
+      const kick = () => {
+        if (running || still || !inView || document.hidden) return;
         running = true;
         raf = requestAnimationFrame(frame);
       };
@@ -165,9 +171,21 @@ export function Emblem3D({ className, fallback, distance = 12.5 }: { className?:
         cancelAnimationFrame(raf);
       };
 
-      const io = new IntersectionObserver(([entry]) => (entry.isIntersecting && !document.hidden ? play() : pause()));
+      const onPointer = (e: PointerEvent) => {
+        pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+        kick();
+      };
+      window.addEventListener("pointermove", onPointer, { passive: true });
+      window.addEventListener("scroll", kick, { passive: true });
+
+      const io = new IntersectionObserver(([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) kick();
+        else pause();
+      });
       io.observe(el);
-      const onVis = () => (document.hidden ? pause() : play());
+      const onVis = () => (document.hidden ? pause() : kick());
       document.addEventListener("visibilitychange", onVis);
 
       // Draw one frame right away so the canvas is never blank when the fallback fades out.
@@ -181,6 +199,7 @@ export function Emblem3D({ className, fallback, distance = 12.5 }: { className?:
         io.disconnect();
         ro.disconnect();
         window.removeEventListener("pointermove", onPointer);
+        window.removeEventListener("scroll", kick);
         document.removeEventListener("visibilitychange", onVis);
         geo.dispose();
         material.dispose();

@@ -18,9 +18,17 @@ export function ScrollExit({ children, className, y = 60, fade = false, shrink =
       el.style.transform = `translate3d(0, ${(p * y).toFixed(1)}px, 0)${shrink ? ` scale(${(1 - p * shrink).toFixed(3)})` : ""}`;
       if (fade) el.style.opacity = String(1 - p * 0.85);
     };
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, [y, fade, shrink]);
 
   return (

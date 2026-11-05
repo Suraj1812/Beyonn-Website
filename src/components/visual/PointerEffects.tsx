@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 
 /**
- * Site-wide pointer polish, attached once with delegated listeners:
- * - [data-magnetic] elements lean slightly toward the cursor;
- * - .spotlight sections get a soft light that follows the cursor.
+ * Site-wide pointer polish, attached once with a delegated listener:
+ * [data-magnetic] elements lean slightly toward the cursor.
  * Desktop pointers only; off for reduced motion.
  */
 export function PointerEffects() {
@@ -38,12 +37,6 @@ export function PointerEffects() {
         m.style.transform = `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0)`;
       }
 
-      const s = target?.closest<HTMLElement>(".spotlight");
-      if (s) {
-        const r = s.getBoundingClientRect();
-        s.style.setProperty("--sx", `${e.clientX - r.left}px`);
-        s.style.setProperty("--sy", `${e.clientY - r.top}px`);
-      }
     };
 
     const onMove = (e: PointerEvent) => {

@@ -19,10 +19,10 @@ export function CtaBand({ eyebrow = "Next step", title, sub, actions, children }
           {/* rising sun + wave: a quiet nod to sleep and breath */}
           <Emblem3D
             distance={10}
-            className="absolute -right-24 top-1/2 -z-10 hidden aspect-[1600/1306] w-[36rem] -translate-y-1/2 lg:block xl:-right-10"
+            className="absolute -right-24 top-1/2 -z-10 hidden aspect-[1600/1306] w-[30rem] -translate-y-1/2 md:block lg:w-[36rem] xl:-right-10"
           />
-          <div data-aos="sun-rise" data-aos-duration="1500" className="absolute -bottom-24 -right-16 -z-10 size-72 rounded-full bg-dawn sm:size-96 lg:hidden" aria-hidden />
-          <svg className="absolute bottom-10 right-8 -z-10 w-40 text-paper/70 animate-bob sm:w-56 lg:hidden" viewBox="0 0 160 30" fill="none" aria-hidden>
+          <div data-aos="sun-rise" data-aos-duration="1500" className="absolute -bottom-24 -right-16 -z-10 size-72 rounded-full bg-dawn sm:size-96 md:hidden" aria-hidden />
+          <svg className="absolute bottom-10 right-8 -z-10 w-40 text-paper/70 animate-bob sm:w-56 md:hidden" viewBox="0 0 160 30" fill="none" aria-hidden>
             <path d="M3 20c12-14 24-14 36 0s24 14 36 0 24-14 36 0 24 14 36 0" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
           </svg>
           <div className="relative max-w-3xl">

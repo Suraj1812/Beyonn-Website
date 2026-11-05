@@ -30,14 +30,18 @@ export function ScrollWords({ segments, className }: { segments: Segment[]; clas
         w.style.opacity = String(0.18 + 0.82 * Math.min(1, Math.max(0, lit - i)));
       });
     };
-    // Scroll events already arrive once per frame, so update directly.
-    const onScroll = update;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
     };
   }, []);
 

@@ -72,12 +72,18 @@ export function OsTiles() {
       el.style.transform = `perspective(1600px) rotateX(${((1 - e) * 22).toFixed(2)}deg) scale(${(0.9 + 0.1 * e).toFixed(3)})`;
       el.style.opacity = String(0.35 + 0.65 * e);
     };
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
     update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
     };
   }, []);
 

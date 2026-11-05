@@ -370,7 +370,7 @@ export function Header() {
         {/* Main bar */}
         <div
           className={cn(
-            "relative border-b border-ink/10 bg-paper/95 backdrop-blur-xl backdrop-saturate-150 transition-shadow duration-500",
+            "relative border-b border-ink/10 bg-paper transition-shadow duration-500",
             (scrolled || mobileOpen || openMenu !== null) && "shadow-[0_10px_30px_-18px_rgb(19_37_62/0.35)]",
           )}
         >

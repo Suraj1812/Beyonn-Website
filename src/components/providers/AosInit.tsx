@@ -76,7 +76,7 @@ export function AosInit() {
     let last = 0;
     const sweep = () => {
       const now = performance.now();
-      if (now - last < 120) return;
+      if (now - last < 250) return;
       last = now;
       const limit = window.innerHeight * 0.94;
       document.querySelectorAll<HTMLElement>("[data-aos]:not(.aos-animate)").forEach((el) => {

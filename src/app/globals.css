@@ -525,7 +525,7 @@
 }
 
 /* ---------- Intro + route curtain (see Intro.tsx, RouteTransition.tsx) ---------- */
-/* Intro: ~2.6s total. The pen draw is stroke-dashoffset; everything else is transform/opacity. */
+/* Intro: ~2s total. The pen draw is stroke-dashoffset; everything else is transform/opacity. */
 .intro {
   position: fixed;
   inset: 0;
@@ -534,14 +534,15 @@
   place-items: center;
   background: linear-gradient(135deg, var(--color-ink), var(--color-night));
   will-change: transform;
-  animation: intro-lift 0.8s cubic-bezier(0.76, 0, 0.24, 1) 1.85s forwards;
+  animation: intro-lift 0.7s cubic-bezier(0.76, 0, 0.24, 1) 1.35s forwards;
+  contain: strict;
 }
 .intro__inner {
   display: grid;
   justify-items: center;
   gap: 1.25rem;
   will-change: transform, opacity;
-  animation: intro-inner-out 0.5s ease-in 1.8s forwards;
+  animation: intro-inner-out 0.4s ease-in 1.3s forwards;
 }
 .intro__emblem {
   width: 9.5rem;
@@ -554,13 +555,13 @@
 .intro__pen {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: intro-draw 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+  animation: intro-draw 1.05s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards;
 }
 .intro__word {
   opacity: 0;
   transform: translateY(10px);
   will-change: transform, opacity;
-  animation: intro-word 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards;
+  animation: intro-word 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
 }
 .intro__bar {
   width: 9rem;
@@ -576,7 +577,7 @@
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;
-  animation: intro-bar 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+  animation: intro-bar 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.1s forwards;
 }
 @keyframes intro-draw {
   to {
@@ -647,14 +648,6 @@
 .spotlight {
   isolation: isolate;
 }
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(520px circle at var(--sx, -999px) var(--sy, -999px), rgb(114 207 183 / 0.11), transparent 45%);
-}
 
 /* ---------- 3D card tilt (see Tilt.tsx) ---------- */
 .tilt {
@@ -677,6 +670,15 @@
 }
 .tilt[data-tilt="on"] .tilt-shine {
   opacity: 1;
+}
+/* Touch screens have no hover tilt; give cards a soft press instead. */
+@media (hover: none) {
+  .tilt {
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+  .tilt:active {
+    transform: scale(0.975);
+  }
 }
 
 /* ---------- Calmer AOS movement ---------- */
