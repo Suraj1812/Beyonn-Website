@@ -82,25 +82,16 @@ export function AirwayModel() {
     const trace = q<SVGPathElement>("trace");
     const labels = root.querySelectorAll<SVGGElement>("[data-label]");
 
-    // Progress follows the step cards: each card arriving moves the scene on one step.
-    // On phones the cards are sticky (stacking), so they "arrive" at their sticky top.
-    const cards = Array.from(el.querySelectorAll<HTMLElement>("ol > li"));
+    // The illustration and the card stack are one pinned panel, so progress is
+    // simply how far we are through the section's scroll distance.
     const measure = () => {
-      const vh = window.innerHeight;
-      const arrive = cards.map((c) => {
-        const cs = getComputedStyle(c);
-        const end = cs.position === "sticky" ? parseFloat(cs.top) || 0 : vh * 0.4;
-        const start = Math.max(end + 1, vh * 0.92);
-        return clamp((start - c.getBoundingClientRect().top) / (start - end));
-      });
-      const later = arrive.slice(1);
-      const p = later.reduce((sum, x) => sum + x, 0) / Math.max(1, later.length);
+      const r = el.getBoundingClientRect();
+      const pin = el.firstElementChild as HTMLElement | null;
+      const top = pin ? parseFloat(getComputedStyle(pin).top) || 0 : 0;
+      const travel = Math.max(1, r.height - (pin?.offsetHeight ?? window.innerHeight));
+      const p = clamp((top - r.top) / travel);
       target.current = p;
-      let st = 0;
-      later.forEach((x, i) => {
-        if (x > 0.6) st = i + 1;
-      });
-      setStep(st);
+      setStep(p > 0.62 ? 2 : p > 0.28 ? 1 : 0);
     };
 
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -212,10 +203,10 @@ export function AirwayModel() {
   const status = step >= 2 ? { label: "Airway open", dot: "bg-breath-deep" } : step === 1 ? { label: "Appliance fitted", dot: "bg-dawn" } : { label: "Airway narrowed", dot: "bg-[#d4544f]" };
 
   return (
-    <div ref={section} className="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:gap-12">
-      {/* Pinned anatomy stage */}
-      <div className="sticky top-16 z-0 h-[42svh] lg:top-24 lg:h-[calc(100svh-8rem)]">
-        <div ref={stage} className="relative h-full overflow-hidden rounded-[var(--radius-panel)] bg-[radial-gradient(110%_80%_at_55%_45%,#ffffff_0%,#eef4fb_62%,#e3ecf7_100%)] ring-1 ring-ink/[0.07]">
+    <div ref={section} className="relative">
+      {/* Pinned panel: the illustration and the stacking cards */}
+      <div className="sticky top-16 z-0 flex h-[calc(100svh-4.5rem)] flex-col gap-3 lg:top-24 lg:grid lg:h-[calc(100svh-8rem)] lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:gap-12">
+        <div ref={stage} className="relative h-[42svh] flex-none overflow-hidden lg:h-full rounded-[var(--radius-panel)] bg-[radial-gradient(110%_80%_at_55%_45%,#ffffff_0%,#eef4fb_62%,#e3ecf7_100%)] ring-1 ring-ink/[0.07]">
           {/* faint grid, like a clinical lightbox */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgb(19_37_62/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(19_37_62/0.05)_1px,transparent_1px)] [background-size:28px_28px]" aria-hidden />
 
@@ -396,32 +387,47 @@ export function AirwayModel() {
             </span>
           </div>
         </div>
+
+        {/* Cards slide up and stack on each other inside the pinned panel */}
+        <div className="relative min-h-0 flex-1 lg:h-[25rem] lg:flex-none">
+          {steps.map((s, i) => (
+            <div
+              key={s.kicker}
+              aria-hidden={i > step}
+              className={cn(
+                "absolute inset-x-0 origin-top rounded-[var(--radius-card)] p-5 lg:p-8 shadow-[0_20px_44px_-28px_rgb(19_37_62/0.5)] ring-1 ring-ink/[0.07] transition-[transform,opacity,background-color] duration-[650ms] ease-[var(--ease-out-expo)]",
+                i < step ? "bg-paper-2" : "bg-white",
+                i > step && "pointer-events-none opacity-0",
+              )}
+              style={{
+                top: `${i * 0.75}rem`,
+                zIndex: i,
+                transform: i > step ? "translate3d(0, 60%, 0)" : `translate3d(0,0,0) scale(${1 - (step - i) * 0.04})`,
+              }}
+            >
+              <StepCopy s={s} i={i} />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Scrolling steps */}
-      <ol className="relative z-10 space-y-[24svh] pb-[6svh] lg:space-y-[38svh] lg:py-[18svh]">
-        {steps.map((s, i) => (
-          <li
-            key={s.kicker}
-            style={{ "--i": i } as React.CSSProperties}
-            className={cn(
-              // Phones: cards stick under the pinned illustration and stack on each other.
-              "origin-top max-lg:sticky max-lg:top-[calc(4.75rem+42svh+var(--i)*0.7rem)]",
-              i < step && "max-lg:scale-[0.95] max-lg:bg-paper-2",
-              "rounded-[var(--radius-card)] bg-white p-5 shadow-[0_24px_50px_-30px_rgb(19_37_62/0.45)] ring-1 ring-ink/[0.07] transition-[opacity,transform,background-color] duration-500 sm:p-8",
-              i === step ? "lg:translate-x-0 lg:opacity-100" : "lg:translate-x-2 lg:opacity-55",
-            )}
-          >
-            <p className="t-eyebrow text-dawn">
-              <span style={{ fontVariantNumeric: "tabular-nums" }}>0{i + 1}</span>
-              <span className="mx-2 text-ink/30">·</span>
-              {s.kicker}
-            </p>
-            <h3 className="mt-3 font-display text-[clamp(1.3rem,2vw,1.7rem)] font-semibold leading-snug text-ink">{s.title}</h3>
-            <p className="mt-3 text-[0.93rem] leading-relaxed text-muted sm:text-[0.98rem]">{s.body}</p>
-          </li>
-        ))}
-      </ol>
+      {/* Scroll distance while the panel is pinned */}
+      <div className="h-[170svh] lg:h-[200svh]" aria-hidden />
+
     </div>
+  );
+}
+
+function StepCopy({ s, i }: { s: (typeof steps)[number]; i: number }) {
+  return (
+    <>
+      <p className="t-eyebrow text-dawn">
+        <span style={{ fontVariantNumeric: "tabular-nums" }}>0{i + 1}</span>
+        <span className="mx-2 text-ink/30">·</span>
+        {s.kicker}
+      </p>
+      <h3 className="mt-2.5 font-display text-[clamp(1.2rem,2vw,1.7rem)] font-semibold leading-snug text-ink lg:mt-3">{s.title}</h3>
+      <p className="mt-2.5 text-[0.9rem] leading-relaxed text-muted lg:mt-3 lg:text-[0.98rem]">{s.body}</p>
+    </>
   );
 }
