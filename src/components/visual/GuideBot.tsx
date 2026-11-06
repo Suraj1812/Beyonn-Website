@@ -339,7 +339,7 @@ export function GuideBot() {
   };
 
   return (
-    <div className={cn("pointer-events-none fixed bottom-[4.25rem] right-1 z-40 flex flex-row-reverse items-end gap-1 transition-opacity duration-700 sm:bottom-[5.25rem] sm:right-3", ready ? "opacity-100" : "opacity-0")}>
+    <div className={cn("pointer-events-none fixed bottom-2 right-1 z-40 flex flex-row-reverse items-end gap-1 transition-opacity duration-700 sm:bottom-4 sm:right-4", ready ? "opacity-100" : "opacity-0")}>
       <button type="button" onClick={onTap} aria-label="Beyonn guide: show a tip" className="pointer-events-auto relative size-[84px] flex-none cursor-pointer rounded-full sm:size-[116px]">
         <div ref={host} className="absolute inset-0" aria-hidden />
       </button>

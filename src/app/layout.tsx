@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { FloatingCta } from "@/components/layout/FloatingCta";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { AosInit } from "@/components/providers/AosInit";
 import { GuideBot } from "@/components/visual/GuideBot";
@@ -104,7 +103,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {children}
             </main>
             <Footer />
-            <FloatingCta />
             <GuideBot />
             <AosInit />
             <PointerEffects />
