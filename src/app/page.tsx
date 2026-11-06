@@ -14,7 +14,7 @@ import { CheckList } from "@/components/ui/Check";
 import { SplitTable } from "@/components/sections/SplitTable";
 import { Ladder, certificationTiers } from "@/components/sections/Ladder";
 import { AirwayModel } from "@/components/visual/AirwayModel";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { PathSplit } from "@/components/visual/PathSplit";
 import { VisitorSelector } from "@/components/interactive/VisitorSelector";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
 import { ProtocolRing } from "@/components/interactive/ProtocolRing";
@@ -483,21 +483,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 15. Final CTA */}
+      {/* 15. Final: choose your path */}
       <div data-guide="cta">
-      <CtaBand
-        title={<>Your patients are already in the chair. <em className="text-breath">Let&apos;s get your team ready to treat them.</em></>}
-        actions={
-          <>
-            <Button href="/qualify" variant="dawn">
-              See If Your Practice Qualifies
-            </Button>
-            <Button href="/#workshop" variant="ghost-light">
-              Join the Free Workshop
-            </Button>
-          </>
-        }
-      />
+        <PathSplit />
       </div>
     </>
   );
