@@ -15,7 +15,10 @@ const nextConfig: NextConfig = {
   },
   turbopack: {
     rules: {
+      // Keep CSS Modules on Next's native compiler: the loader's `as` rename
+      // would otherwise remove their scoped class exports.
       "*.css": {
+        condition: { not: { path: /\.module\.css$/ } },
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },

@@ -224,8 +224,8 @@ export default function HomePage() {
       {/* 4b. How an appliance helps, in 3D */}
       <section id="how-it-works" data-guide="airway" className="section-y overflow-clip border-t border-ink/[0.06] bg-paper">
         <div className="container-x">
-          <SectionHeading eyebrow="How it works" title={<>What happens in the airway, <em>and how treatment helps.</em></>} />
-          <div className="mt-10 lg:mt-14">
+          <SectionHeading eyebrow="How it works" title={<>How an oral appliance <em>helps.</em></>} />
+          <div className="mt-8 lg:mt-10">
             <AirwayModel />
           </div>
         </div>
