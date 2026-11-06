@@ -82,12 +82,25 @@ export function AirwayModel() {
     const trace = q<SVGPathElement>("trace");
     const labels = root.querySelectorAll<SVGGElement>("[data-label]");
 
+    // Progress follows the step cards: each card arriving moves the scene on one step.
+    // On phones the cards are sticky (stacking), so they "arrive" at their sticky top.
+    const cards = Array.from(el.querySelectorAll<HTMLElement>("ol > li"));
     const measure = () => {
-      const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const p = clamp((vh * 0.55 - r.top) / Math.max(1, r.height - vh * 0.6));
+      const arrive = cards.map((c) => {
+        const cs = getComputedStyle(c);
+        const end = cs.position === "sticky" ? parseFloat(cs.top) || 0 : vh * 0.4;
+        const start = Math.max(end + 1, vh * 0.92);
+        return clamp((start - c.getBoundingClientRect().top) / (start - end));
+      });
+      const later = arrive.slice(1);
+      const p = later.reduce((sum, x) => sum + x, 0) / Math.max(1, later.length);
       target.current = p;
-      setStep(Math.min(steps.length - 1, Math.floor(p * steps.length * 0.999)));
+      let st = 0;
+      later.forEach((x, i) => {
+        if (x > 0.6) st = i + 1;
+      });
+      setStep(st);
     };
 
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -201,7 +214,7 @@ export function AirwayModel() {
   return (
     <div ref={section} className="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:gap-12">
       {/* Pinned anatomy stage */}
-      <div className="sticky top-16 z-0 h-[48svh] lg:top-24 lg:h-[calc(100svh-8rem)]">
+      <div className="sticky top-16 z-0 h-[42svh] lg:top-24 lg:h-[calc(100svh-8rem)]">
         <div ref={stage} className="relative h-full overflow-hidden rounded-[var(--radius-panel)] bg-[radial-gradient(110%_80%_at_55%_45%,#ffffff_0%,#eef4fb_62%,#e3ecf7_100%)] ring-1 ring-ink/[0.07]">
           {/* faint grid, like a clinical lightbox */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgb(19_37_62/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(19_37_62/0.05)_1px,transparent_1px)] [background-size:28px_28px]" aria-hidden />
@@ -386,12 +399,16 @@ export function AirwayModel() {
       </div>
 
       {/* Scrolling steps */}
-      <ol className="relative z-10 space-y-[30svh] pb-[12svh] pt-[4svh] lg:space-y-[38svh] lg:py-[18svh]">
+      <ol className="relative z-10 space-y-[24svh] pb-[6svh] lg:space-y-[38svh] lg:py-[18svh]">
         {steps.map((s, i) => (
           <li
             key={s.kicker}
+            style={{ "--i": i } as React.CSSProperties}
             className={cn(
-              "rounded-[var(--radius-card)] bg-white p-6 shadow-[0_24px_50px_-30px_rgb(19_37_62/0.45)] ring-1 ring-ink/[0.07] transition-[opacity,transform] duration-500 sm:p-8",
+              // Phones: cards stick under the pinned illustration and stack on each other.
+              "origin-top max-lg:sticky max-lg:top-[calc(4.75rem+42svh+var(--i)*0.7rem)]",
+              i < step && "max-lg:scale-[0.95] max-lg:bg-paper-2",
+              "rounded-[var(--radius-card)] bg-white p-5 shadow-[0_24px_50px_-30px_rgb(19_37_62/0.45)] ring-1 ring-ink/[0.07] transition-[opacity,transform,background-color] duration-500 sm:p-8",
               i === step ? "lg:translate-x-0 lg:opacity-100" : "lg:translate-x-2 lg:opacity-55",
             )}
           >
@@ -401,7 +418,7 @@ export function AirwayModel() {
               {s.kicker}
             </p>
             <h3 className="mt-3 font-display text-[clamp(1.3rem,2vw,1.7rem)] font-semibold leading-snug text-ink">{s.title}</h3>
-            <p className="mt-3 text-[0.98rem] leading-relaxed text-muted">{s.body}</p>
+            <p className="mt-3 text-[0.93rem] leading-relaxed text-muted sm:text-[0.98rem]">{s.body}</p>
           </li>
         ))}
       </ol>
