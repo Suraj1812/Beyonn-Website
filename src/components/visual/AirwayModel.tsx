@@ -205,7 +205,7 @@ export function AirwayModel() {
   return (
     <div ref={section} className="relative">
       {/* Pinned panel: the illustration and the stacking cards */}
-      <div className="sticky top-16 z-0 flex h-[calc(100svh-4.5rem)] flex-col gap-3 lg:top-24 lg:grid lg:h-[calc(100svh-8rem)] lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:gap-12">
+      <div className="sticky top-16 z-0 flex flex-col gap-3 lg:top-24 lg:grid lg:h-[calc(100svh-8rem)] lg:grid-cols-[1.3fr_0.7fr] lg:items-center lg:gap-12">
         <div ref={stage} className="relative h-[42svh] flex-none overflow-hidden lg:h-full rounded-[var(--radius-panel)] bg-[radial-gradient(110%_80%_at_55%_45%,#ffffff_0%,#eef4fb_62%,#e3ecf7_100%)] ring-1 ring-ink/[0.07]">
           {/* faint grid, like a clinical lightbox */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgb(19_37_62/0.05)_1px,transparent_1px),linear-gradient(90deg,rgb(19_37_62/0.05)_1px,transparent_1px)] [background-size:28px_28px]" aria-hidden />
@@ -389,20 +389,21 @@ export function AirwayModel() {
         </div>
 
         {/* Cards slide up and stack on each other inside the pinned panel */}
-        <div className="relative min-h-0 flex-1 lg:h-[25rem] lg:flex-none">
+        <div className="relative grid">
           {steps.map((s, i) => (
             <div
               key={s.kicker}
               aria-hidden={i > step}
               className={cn(
-                "absolute inset-x-0 origin-top rounded-[var(--radius-card)] p-5 lg:p-8 shadow-[0_20px_44px_-28px_rgb(19_37_62/0.5)] ring-1 ring-ink/[0.07] transition-[transform,opacity,background-color] duration-[650ms] ease-[var(--ease-out-expo)]",
+                "origin-top self-start [grid-area:1/1] rounded-[var(--radius-card)] p-5 lg:p-8 shadow-[0_20px_44px_-28px_rgb(19_37_62/0.5)] ring-1 ring-ink/[0.07]",
                 i < step ? "bg-paper-2" : "bg-white",
                 i > step && "pointer-events-none opacity-0",
               )}
               style={{
-                top: `${i * 0.75}rem`,
+                marginTop: `${i * 0.75}rem`,
                 zIndex: i,
-                transform: i > step ? "translate3d(0, 60%, 0)" : `translate3d(0,0,0) scale(${1 - (step - i) * 0.04})`,
+                transition: "transform 700ms var(--ease-out-expo), opacity 220ms linear, background-color 500ms ease",
+                transform: i > step ? "translate3d(0, 115%, 0)" : `translate3d(0,0,0) scale(${1 - (step - i) * 0.04})`,
               }}
             >
               <StepCopy s={s} i={i} />
@@ -412,7 +413,7 @@ export function AirwayModel() {
       </div>
 
       {/* Scroll distance while the panel is pinned */}
-      <div className="h-[170svh] lg:h-[200svh]" aria-hidden />
+      <div className="h-[150svh] lg:h-[180svh]" aria-hidden />
 
     </div>
   );
