@@ -141,6 +141,205 @@ function cardOutlines(node: HTMLElement, n: number, seed: number): Float32Array 
   return out;
 }
 
+/** Shapes the travelling swarm can take: all about sleep, breath, teeth and care. */
+const SWARM_ICONS = ["tooth", "moon", "zzz", "pulse", "breath", "lungs", "heart", "sunrise", "emblem"] as const;
+type Icon = (typeof SWARM_ICONS)[number];
+
+/** Draw an icon on a square canvas and sample dots inside it (unit 0..1 coordinates). */
+function sampleIcon(icon: Icon, n: number, emblem: HTMLImageElement | null, seed: number) {
+  const S = 320;
+  const c = document.createElement("canvas");
+  c.width = c.height = S;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  const out = new Float32Array(n * 2);
+  if (!ctx) return out;
+  ctx.fillStyle = ctx.strokeStyle = "#fff";
+  ctx.lineCap = ctx.lineJoin = "round";
+  const scaled = (d: string, k: number, dx: number, dy: number) => {
+    ctx.save();
+    ctx.translate(dx, dy);
+    ctx.scale(k, k);
+    ctx.fill(new Path2D(d));
+    ctx.restore();
+  };
+  switch (icon) {
+    case "emblem":
+      if (emblem) ctx.drawImage(emblem, 0, (S - 261) / 2, S, 261);
+      break;
+    case "tooth":
+      scaled("M40 62 C40 20 80 14 100 36 C120 14 160 20 160 62 C160 96 146 112 141 142 C137 176 129 196 118 196 C105 196 108 152 100 152 C92 152 95 196 82 196 C71 196 63 176 59 142 C54 112 40 96 40 62 Z", 1.45, 15, 20);
+      break;
+    case "heart":
+      scaled("M100 180 C40 135 12 104 12 66 C12 36 36 16 62 16 C80 16 93 26 100 40 C107 26 120 16 138 16 C164 16 188 36 188 66 C188 104 160 135 100 180 Z", 1.5, 10, 20);
+      break;
+    case "moon":
+      ctx.beginPath();
+      ctx.arc(145, 175, 112, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(205, 125, 98, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+      for (const [x, y, r] of [[262, 70, 13], [290, 150, 8], [235, 28, 7]]) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+    case "zzz":
+      ctx.font = "800 150px Montserrat, Arial, sans-serif";
+      ctx.fillText("Z", 18, 300);
+      ctx.font = "800 104px Montserrat, Arial, sans-serif";
+      ctx.fillText("z", 140, 205);
+      ctx.font = "800 70px Montserrat, Arial, sans-serif";
+      ctx.fillText("z", 235, 118);
+      break;
+    case "pulse":
+      ctx.lineWidth = 15;
+      ctx.beginPath();
+      ctx.moveTo(10, 170);
+      for (const [x, y] of [[88, 170], [112, 128], [138, 214], [168, 58], [198, 262], [224, 170], [310, 170]]) ctx.lineTo(x, y);
+      ctx.stroke();
+      break;
+    case "breath":
+      ctx.lineWidth = 14;
+      for (const [y, x0, x1, ph] of [[100, 30, 290, 0], [165, 15, 305, 1.4], [230, 55, 265, 2.6]]) {
+        ctx.beginPath();
+        for (let x = x0; x <= x1; x += 4) {
+          const yy = y + Math.sin((x / 290) * Math.PI * 3 + ph) * 16;
+          if (x === x0) ctx.moveTo(x, yy);
+          else ctx.lineTo(x, yy);
+        }
+        ctx.stroke();
+      }
+      break;
+    case "lungs":
+      ctx.lineWidth = 14;
+      ctx.beginPath();
+      ctx.moveTo(160, 22);
+      ctx.lineTo(160, 128);
+      ctx.moveTo(160, 120);
+      ctx.quadraticCurveTo(160, 140, 132, 150);
+      ctx.moveTo(160, 120);
+      ctx.quadraticCurveTo(160, 140, 188, 150);
+      ctx.stroke();
+      scaled("M128 108 C92 92 44 140 40 214 C37 268 72 300 112 288 C134 281 140 262 140 238 L140 122 C140 112 136 110 128 108 Z", 1, 0, 0);
+      scaled("M192 108 C228 92 276 140 280 214 C283 268 248 300 208 288 C186 281 180 262 180 238 L180 122 C180 112 184 110 192 108 Z", 1, 0, 0);
+      break;
+    case "sunrise":
+      ctx.beginPath();
+      ctx.arc(160, 232, 82, Math.PI, 0);
+      ctx.fill();
+      ctx.lineWidth = 13;
+      ctx.beginPath();
+      ctx.moveTo(18, 250);
+      ctx.lineTo(302, 250);
+      for (let i = 0; i < 7; i++) {
+        const a = Math.PI + (i / 6) * Math.PI;
+        ctx.moveTo(160 + Math.cos(a) * 110, 232 + Math.sin(a) * 110);
+        ctx.lineTo(160 + Math.cos(a) * 140, 232 + Math.sin(a) * 140);
+      }
+      ctx.stroke();
+      break;
+  }
+  const d = ctx.getImageData(0, 0, S, S).data;
+  const inside: number[] = [];
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) if (d[(y * S + x) * 4 + 3] > 140) inside.push(x, y);
+  const r = rng(seed);
+  const count = inside.length / 2;
+  if (!count) return out;
+  for (let i = 0; i < n; i++) {
+    const k = Math.floor(r() * count) * 2;
+    out[i * 2] = (inside[k] + r()) / S;
+    out[i * 2 + 1] = (inside[k + 1] + r()) / S;
+  }
+  return out;
+}
+
+/**
+ * Each travelling shape is alive: returns an offset (unit space), a size
+ * multiplier and an alpha multiplier for one dot at centred coords (ex, ey).
+ */
+const anim = [0, 0, 1, 1];
+function animateIcon(icon: Icon, ex: number, ey: number, t: number, rnd: number) {
+  let dx = 0, dy = 0, size = 1, alpha = 1;
+  const u = ex + 0.5;
+  switch (icon) {
+    case "pulse": {
+      // A heart-monitor sweep: the bright head draws the line, the trail fades.
+      const head = ((t * 0.42) % 1.35) - 0.15;
+      const behind = head - u;
+      alpha = behind >= 0 ? 0.12 + 0.88 * Math.max(0, 1 - behind / 0.85) : 0.12;
+      size = 1 + 1.4 * Math.exp(-Math.pow(behind * 14, 2));
+      break;
+    }
+    case "heart": {
+      // Lub-dub.
+      const ph = (t * 1.15) % 1;
+      const beat = Math.exp(-Math.pow((ph - 0.1) * 13, 2)) * 0.11 + Math.exp(-Math.pow((ph - 0.3) * 13, 2)) * 0.065;
+      dx = ex * beat;
+      dy = ey * beat;
+      size = 1 + beat * 3;
+      break;
+    }
+    case "lungs": {
+      // Breathe in and out (the windpipe stays put).
+      const br = Math.sin(t * 1.25) * 0.07;
+      const lobe = Math.abs(ex) > 0.05 ? 1 : 0.2;
+      dx = ex * br * 1.3 * lobe;
+      dy = (ey + 0.1) * br * 0.45 * lobe;
+      alpha = 0.75 + 0.25 * (br / 0.07 * 0.5 + 0.5);
+      break;
+    }
+    case "breath": {
+      // Air flowing: the waves ripple and travel.
+      dy = Math.sin(u * 13 - t * 3.2) * 0.028;
+      alpha = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(u * 9 - t * 3.2));
+      break;
+    }
+    case "zzz": {
+      // Each letter drifts up and fades, one after another.
+      const ph = (t * 0.32 + (1 - u) * 0.55) % 1;
+      dy = 0.05 - ph * 0.14;
+      dx = Math.sin(ph * Math.PI * 2) * 0.012;
+      alpha = Math.sin(ph * Math.PI);
+      break;
+    }
+    case "moon": {
+      // Gentle rocking; the stars twinkle.
+      const a = Math.sin(t * 0.6) * 0.1;
+      dx = ex * Math.cos(a) - ey * Math.sin(a) - ex;
+      dy = ex * Math.sin(a) + ey * Math.cos(a) - ey;
+      if (ex > 0.2 && ey < -0.05) alpha = 0.3 + 0.7 * Math.abs(Math.sin(t * 2.6 + rnd * 20));
+      break;
+    }
+    case "tooth": {
+      // A shine sweeps across.
+      const band = ((t * 0.32) % 1.7) - 0.35;
+      const g = Math.exp(-Math.pow(((ex + ey + 1) / 2 - band) * 9, 2));
+      size = 1 + 1.3 * g;
+      alpha = 0.7 + 0.3 * g;
+      break;
+    }
+    case "sunrise": {
+      // The sun rises a little and the rays pulse.
+      const rise = (Math.sin(t * 0.55) * 0.5 + 0.5) * 0.05;
+      const r = Math.hypot(ex, ey - 0.225);
+      if (ey < 0.26 && r < 0.27) dy = -rise;
+      else if (ey < 0.26) alpha = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(t * 2.2 - r * 10));
+      break;
+    }
+    default:
+      break;
+  }
+  anim[0] = dx;
+  anim[1] = dy;
+  anim[2] = size;
+  anim[3] = alpha;
+  return anim;
+}
+
 export function ParticleMorph() {
   const host = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -191,7 +390,12 @@ export function ParticleMorph() {
       });
       if (all.length < 2) return;
       // Shape the travelling swarm takes: the Beyonn emblem.
-      const swarmPts = sampleShape("emblem", N, emblemImg, 777);
+      // The travelling swarm takes a different on-theme shape on each leg, in a
+      // fresh random order every visit.
+      const swarmShapes = SWARM_ICONS.map((icon, i) => sampleIcon(icon, N, emblemImg, 700 + i * 13));
+      // `?swarm=<icon>` pins the shape (handy for checking each animation).
+      const pinned = SWARM_ICONS.indexOf(new URLSearchParams(window.location.search).get("swarm") as Icon);
+      const swarmOffset = Math.floor(Math.random() * swarmShapes.length);
 
       let renderer: import("three").WebGLRenderer;
       try {
@@ -470,6 +674,9 @@ export function ParticleMorph() {
         const twist = flight * 0.9 * side;
         const ct = Math.cos(twist), st = Math.sin(twist);
         const pa = a.t.pts, pb = b.t.pts, sa = a.t.sweep, sb = b.t.sweep;
+        const swarmIndex = pinned >= 0 ? pinned : (k + swarmOffset) % swarmShapes.length;
+        const swarmPts = swarmShapes[swarmIndex];
+        const swarmIcon = SWARM_ICONS[swarmIndex];
 
         prev2.set(prev1);
         prev1.set(cur);
@@ -485,8 +692,11 @@ export function ParticleMorph() {
           // The swarm holds the Beyonn emblem while it travels, slowly turning in 3D.
           const ex = swarmPts[i * 2] - 0.5;
           const ey = swarmPts[i * 2 + 1] - 0.5;
-          const sx = edgeX + ex * swarmW * turnC + depth[i] * 6 * turnS;
-          const sy = swarmY + ey * swarmW * (1306 / 1600);
+
+          const [adx, ady, aSize, aAlpha] = animateIcon(swarmIcon, ex, ey, time, rnd[i]);
+          const tilt = swarmIcon === "emblem" ? turnC : 1;
+          const sx = edgeX + (ex + adx) * swarmW * tilt + depth[i] * 6 * turnS;
+          const sy = swarmY + (ey + ady) * swarmW * 0.92;
           // Source -> swarm, then swarm -> target, each along a gentle curve.
           const bendA = Math.sin(du * Math.PI) * lane[i] * 40;
           const bendB = Math.sin(ru * Math.PI) * lane[i] * 40;
@@ -518,13 +728,14 @@ export function ParticleMorph() {
           }
           // Over the reading column, a stream in flight thins out so copy stays readable.
           const dc = Math.abs(x - vw / 2) / (Math.min(vw, 1312) / 2);
-          fade[i] = 1 - 0.55 * fly * (1 - smooth(clamp((dc - 0.5) / 0.45)));
+          const cruiseA = du * (1 - ru);
+          fade[i] = (1 - 0.55 * fly * (1 - smooth(clamp((dc - 0.5) / 0.45)))) * (1 + (aAlpha - 1) * cruiseA);
           cur[i * 3] = x;
           cur[i * 3 + 1] = -y;
           cur[i * 3 + 2] = 0;
           // While cruising as the emblem, dots are finer so the logo reads crisply.
           const cruise = du * (1 - ru);
-          scl[i] = (1 + (zs / 36) * 0.3 * fly) * (1 - 0.42 * cruise);
+          scl[i] = (1 + (zs / 36) * 0.3 * fly) * (1 - 0.42 * cruise) * (1 + (aSize - 1) * cruise);
         }
         if (warm < 2) {
           prev1.set(cur);

@@ -119,17 +119,29 @@ export default function HomePage() {
       {/* 3. Dr. Rodney Willey banner */}
       <section id="doctor" data-guide="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
         <div className="container-x py-12 sm:py-14 lg:py-16">
-          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-14">
-            {/* The Beyonn emblem stands in for a portrait here (the dots rebuild it on scroll). */}
-            <div data-aos="fade-up" className="order-2 hidden lg:order-1 lg:sticky lg:top-28 lg:block lg:self-start" aria-hidden>
-              <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
-                <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgb(114_207_183/0.16),transparent_65%)]" />
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+            {/* Left: the Beyonn emblem (the dots rebuild it on scroll) and why to partner with him. */}
+            <div className="order-2 lg:order-1 lg:sticky lg:top-28 lg:self-start">
+              <div data-aos="fade-up" className="relative mx-auto hidden aspect-[1600/1306] w-full max-w-[17rem] lg:block" aria-hidden>
+                <div className="absolute -inset-[18%] rounded-full bg-[radial-gradient(circle,rgb(114_207_183/0.16),transparent_65%)]" />
                 <div
                   data-morph-shape="emblem"
                   data-morph-hide
-                  className="absolute left-1/2 top-1/2 aspect-[1600/1306] w-[88%] -translate-x-1/2 -translate-y-1/2 bg-[linear-gradient(160deg,rgb(255_255_255/0.22),rgb(114_207_183/0.28))] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]"
+                  className="absolute inset-0 bg-[linear-gradient(160deg,rgb(255_255_255/0.22),rgb(114_207_183/0.28))] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]"
                 />
               </div>
+              <h3 data-aos="fade-up" className="t-h3 lg:mt-10">Why partner with him</h3>
+              <ol className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-1">
+                {doctorReasons.map(([t, d], i) => (
+                  <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="flex gap-4 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 transition-colors duration-300 hover:bg-paper/[0.08]">
+                    <span className="grid size-8 flex-none place-items-center rounded-full bg-dawn text-sm font-bold text-white">{i + 1}</span>
+                    <span>
+                      <span className="block font-display text-[1.05rem] font-semibold tracking-tight">{t}</span>
+                      <span className="mt-1.5 block text-[0.93rem] leading-relaxed text-paper/65">{d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
             </div>
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Learn from the clinician who has done it <em>10,000 times.</em></>} />
@@ -163,18 +175,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-10 lg:mt-12">
-            <h3 data-aos="fade-up" className="t-h3">Why partner with him</h3>
-            <ol className="mt-5 grid gap-4 md:grid-cols-3">
-              {doctorReasons.map(([t, d], i) => (
-                <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 transition-colors duration-300 hover:bg-paper/[0.08]">
-                  <span className="grid size-8 place-items-center rounded-full bg-dawn text-sm font-bold text-white">{i + 1}</span>
-                  <p className="mt-4 font-display text-lg font-semibold tracking-tight">{t}</p>
-                  <p className="mt-2 leading-relaxed text-paper/65">{d}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
         </div>
       </section>
 
