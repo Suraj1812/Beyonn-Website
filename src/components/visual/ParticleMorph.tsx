@@ -379,7 +379,14 @@ export function ParticleMorph() {
         const b = live[Math.min(live.length - 1, k + 1)];
         const ca = refOf(a.rc);
         const cb = refOf(b.rc);
-        const raw = a === b || cb <= ca ? 0 : clamp((mid - ca) / (cb - ca));
+        let raw = a === b || cb <= ca ? 0 : clamp((mid - ca) / (cb - ca));
+        // First leg: nothing breaks until the visitor actually scrolls. Progress runs
+        // from the top of the page to the moment the second target reaches the line.
+        if (k === 0 && a !== b) {
+          const sy = window.scrollY;
+          const needed = cb + sy - mid;
+          raw = needed <= 0 ? 1 : clamp(sy / needed);
+        }
         // Follow the scroll with a little easing so fast flicks stay fluid.
         const target = smooth(clamp((raw - 0.12) / 0.72));
         if (pairA !== a.t || pairB !== b.t) {
