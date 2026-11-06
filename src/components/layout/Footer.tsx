@@ -71,7 +71,7 @@ export function Footer() {
 
 
         <div className="mt-14 flex flex-col gap-4 border-t border-paper/10 pt-8 text-sm text-paper/50 md:flex-row md:items-center md:justify-between">
-          <span>© 2026 Beyonn. {site.line}</span>
+          <span>© 2026 Beyonn</span>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
             {legalNav.map((l) => (
               <Link key={l.href} href={l.href} className="link-u hover:text-paper">

@@ -1,8 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, BadgeCheck, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
 import { HomeHero } from "@/components/sections/HomeHero";
-import { CutoutPortrait } from "@/components/sections/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -10,19 +9,18 @@ import { CountUp } from "@/components/ui/CountUp";
 import { Tilt } from "@/components/visual/Tilt";
 import { Parallax } from "@/components/visual/Parallax";
 import { ScrollWords } from "@/components/visual/ScrollWords";
-import { CheckList } from "@/components/ui/Check";
 import { SplitTable } from "@/components/sections/SplitTable";
 import { Ladder, certificationTiers } from "@/components/sections/Ladder";
 import { AirwayModel } from "@/components/visual/AirwayModel";
-import { PathSplit } from "@/components/visual/PathSplit";
+import { CtaBand } from "@/components/sections/CtaBand";
 import { VisitorSelector } from "@/components/interactive/VisitorSelector";
+import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
 import { ProtocolRing } from "@/components/interactive/ProtocolRing";
 import { OsTiles } from "@/components/interactive/OsTiles";
 import { QuickAnswers } from "@/components/interactive/QuickAnswers";
 import { blueprintModules } from "@/content/protocol";
 import { articles } from "@/content/articles";
-import { endorsements } from "@/content/endorsements";
 import { pageMeta } from "@/lib/seo";
 import { cn } from "@/lib/cn";
 
@@ -37,7 +35,8 @@ export const metadata = pageMeta({
 
 const proof = [
   { value: "10,000+", label: "oral appliances delivered" },
-  { value: "~20 yrs", label: "treating only OSA + TMD" },
+  { value: "~20 yrs", label: "Nearly 20 years treating only OSA + TMD" },
+  { value: "In-clinic", label: "Built inside a clinic, not a classroom" },
 ];
 
 const teamRows: [string, string][] = [
@@ -60,30 +59,15 @@ const gains = [
 ];
 
 const doctorStats = [
-  { value: "10,000+", label: "oral appliances delivered in the US" },
-  { value: "~20 yrs", label: "practice limited to OSA + TMD" },
-  { value: "3", label: "credentials: DDS, D.ACSDD, D.ASBA" },
+  { value: "10,000+", label: "oral appliances delivered in the United States" },
+  { value: "~20 yrs", label: "Nearly 20 years of practice limited to OSA and TMD" },
+  { value: "DDS", label: "DDS, D.ACSDD, D.ASBA" },
 ];
 
 const doctorReasons: [string, string][] = [
   ["His system, not a textbook's.", "Every protocol, script and form in Beyonn was built and tested in his own OSA + TMD practices."],
   ["He coaches your team.", "Monthly coaching, a study club and guidance on your complex cases."],
-  ["He built Beyonn for you.", "He kept meeting dentists trained in OSA and TMD who could not get it running, so he built the system that gets them there."],
-];
-
-const supportPlans = [
-  { src: "/assets/site/card-done-for-you.png", alt: "OSA+TMD Done for You", title: "OSA + TMD Done for You", text: "We become your extended team and carry the operational load.", meta: "4 weeks · 15 resources" },
-  { src: "/assets/site/card-pr-marketing.png", alt: "PR & Marketing Suite", title: "PR & Marketing Suite", text: "Ready-to-use patient education and practice growth resources.", meta: "40+ page workbook · Yearly marketing kit" },
-];
-
-const signs = ["Snoring", "Clenching", "Morning headaches", "Scalloped tongues", "Worn-out night guards"];
-
-const credentials = [
-  { k: "DDS", v: "Doctor of Dental Surgery" },
-  { k: "D.ACSDD", v: "Diplomate credential" },
-  { k: "D.ASBA", v: "Diplomate credential" },
-  { k: "10,000+", v: "Oral appliances delivered in the US" },
-  { k: "~20 yrs", v: "Practice limited to OSA and TMD" },
+  ["He built Beyonn for you.", "He kept meeting dentists trained in treating OSA and TMD but could not get it running, so he built the system that gets them there."],
 ];
 
 export default function HomePage() {
@@ -104,9 +88,9 @@ export default function HomePage() {
           </>
         }
         below={
-          <dl className="grid max-w-md grid-cols-2 divide-x divide-paper/20">
+          <dl className="grid max-w-xl grid-cols-3 divide-x divide-paper/20">
             {proof.map((p, i) => (
-              <div key={p.label} className={i > 0 ? "pl-6 sm:pl-8" : "pr-6 sm:pr-8"}>
+              <div key={p.label} className={i > 0 ? "pl-4 pr-2 sm:pl-6" : "pr-4 sm:pr-6"}>
                 <dt className="sr-only">{p.label}</dt>
                 <dd>
                   <CountUp value={p.value} className="block font-display text-[1.75rem] font-semibold leading-tight tracking-tight sm:text-3xl" />
@@ -138,15 +122,21 @@ export default function HomePage() {
       <section id="doctor" data-guide="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
         <div className="container-x section-y">
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-            <div data-aos="fade-up" className="order-2 lg:order-1 lg:sticky lg:top-28 lg:self-start">
-              <CutoutPortrait
-                emblem="on-dark"
-                photo={{ src: "/assets/people/rodney-hero.webp", alt: "Dr. Rodney Willey", mode: "contain", caption: { name: "Dr. Rodney Willey", role: "DDS, D.ACSDD, D.ASBA" } }}
-              />
+            {/* The Beyonn emblem stands in for a portrait here (the dots rebuild it on scroll). */}
+            <div data-aos="fade-up" className="order-2 hidden lg:order-1 lg:sticky lg:top-28 lg:block lg:self-start" aria-hidden>
+              <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
+                <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgb(114_207_183/0.16),transparent_65%)]" />
+                <div
+                  data-morph-shape="emblem"
+                  data-morph-hide
+                  className="absolute left-1/2 top-1/2 aspect-[1600/1306] w-[88%] -translate-x-1/2 -translate-y-1/2 bg-[linear-gradient(160deg,rgb(255_255_255/0.22),rgb(114_207_183/0.28))] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]"
+                />
+              </div>
             </div>
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Learn from the clinician who has done it <em>10,000 times.</em></>} />
-              <dl className="mt-10 grid grid-cols-3 divide-x divide-paper/10 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10">
+              <h3 data-aos="fade-up" className="mt-10 t-eyebrow text-paper/55">Why he&apos;s trusted</h3>
+              <dl className="mt-4 grid grid-cols-3 divide-x divide-paper/10 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10">
                 {doctorStats.map((d, i) => (
                   <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-4 py-5 sm:px-6">
                     <dt className="sr-only">{d.label}</dt>
@@ -158,7 +148,7 @@ export default function HomePage() {
                 ))}
               </dl>
               <p data-aos="fade-up" className="mt-8 max-w-xl t-lead text-paper/75">
-                Known for the hard cases: chronic pain, disabilities and failed prior treatment. Every protocol in Beyonn comes from his own chair.
+                Known for the hard cases: chronic pain, disabilities and failed prior treatment.
               </p>
               <figure data-aos="fade-up" className="mt-8 rounded-[var(--radius-card)] bg-paper/[0.05] p-6 ring-1 ring-paper/10 sm:p-7">
                 <span className="block font-display text-6xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>
@@ -201,13 +191,6 @@ export default function HomePage() {
           </div>
           <div>
             <Parallax speed={0.05}><div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2" data-aos="reveal" data-aos-duration="1200"><Image src="/assets/people/patient-conversation.webp" alt="Clinician speaking with a patient" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-contain" /></div></Parallax>
-            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Common signs seen in the dental chair">
-              {signs.map((s, i) => (
-                <li key={s} data-aos="fade-up" data-aos-delay={i * 50} className="rounded-full border border-ink/15 bg-white/60 px-4 py-2 text-sm">
-                  {s}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
         <div className="container-x mt-14">
@@ -238,47 +221,22 @@ export default function HomePage() {
             <SectionHeading
               index="04"
               eyebrow="What Beyonn gives your team"
-              title={<>Choose the support <em>your practice needs.</em></>}
-              lead="Your team can run the program with Beyonn training and tools. Practices needing more operational help can explore Beyonn's Done-for-You support. Both paths share the same clinical foundation."
+              title={<>We don&apos;t do it for you. <em>We enable your team for it.</em></>}
+              lead="Outsourcing keeps you dependent. Beyonn builds the skills inside your practice, so the program, the patients and the know-how stay with you."
             />
-            <p data-aos="fade-up" className="rounded-full bg-ink px-6 py-3 font-semibold text-paper">Built around the way you work.</p>
+            <p data-aos="fade-up" className="rounded-full bg-ink px-6 py-3 font-semibold text-paper">More ownership. Not less support.</p>
           </div>
           <div className="mt-10">
             <SplitTable head={["Your team's job", "How Beyonn equips them"]} rows={teamRows} />
-          </div>
-
-          <div className="mt-14">
-            <h3 data-aos="fade-up" className="t-h3">Want more hands on deck?</h3>
-            <ul className="mt-5 grid gap-5 md:grid-cols-2">
-              {supportPlans.map((c, i) => (
-                <li key={c.title} data-aos="fade-up" data-aos-delay={i * 120}>
-                  <Tilt className="h-full rounded-[var(--radius-card)]">
-                  <Link href="/qualify#book" className="card group flex h-full flex-col gap-4 overflow-hidden bg-white p-4 sm:flex-row sm:items-center sm:gap-6 sm:pr-6">
-                    <span className="relative block aspect-[5/3] w-full flex-none overflow-hidden rounded-lg sm:w-48">
-                      <Image src={c.src} alt={c.alt} fill sizes="12rem" className="object-contain" />
-                    </span>
-                    <span className="min-w-0 flex-1 px-2 pb-2 sm:p-0">
-                      <span className="block text-[0.95rem] leading-snug text-text/85">{c.text}</span>
-                      <span className="mt-1.5 block text-sm font-semibold text-dawn-deep">{c.meta}</span>
-                    </span>
-                    <span className="hidden size-9 flex-none place-items-center rounded-full bg-ink text-paper transition-transform duration-500 group-hover:translate-x-1 sm:grid">
-                      <ArrowRight className="size-4" aria-hidden />
-                    </span>
-                  </Link>
-                  </Tilt>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div className="mt-14 grid gap-10 lg:grid-cols-[3.5fr_8.5fr]">
             <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
               <p className="t-eyebrow text-muted">At the core</p>
               <h3 className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
-              <p className="mt-4 leading-relaxed text-muted">Twelve modules from the first new patient call to replacement appliances, plus the Forms Center, onboarding and ongoing coaching. When staff change, the system stays.</p>
-              <div className="mt-5">
-                <ArrowLink href="/academy">Explore Beyonn Academy</ArrowLink>
-              </div>
+              <p className="mt-4 leading-relaxed text-muted">Twelve training modules that take your team from the first new patient call to replacement appliances.</p>
+              <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
+              <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
             </div>
             <ol data-morph-shape="rect" className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 sm:grid-cols-2 xl:grid-cols-4">
               {blueprintModules.map((m, i) => (
@@ -330,9 +288,8 @@ export default function HomePage() {
           <SectionHeading
             tone="dark"
             align="center"
-            eyebrow="The Beyonn Operating System"
-            title={<>Every part of your program, <em className="text-breath">on one platform.</em></>}
-            lead="Learning, patients, cases, tests, appliance orders, marketing and results."
+            title={<>The Beyonn <em className="text-breath">Operating System</em></>}
+            lead="Every part of your program lives on one platform: learning, patients, cases, tests, appliance orders, marketing and results."
           />
           <div className="mt-10">
             <OsTiles />
@@ -349,7 +306,7 @@ export default function HomePage() {
       {/* 8. What you gain */}
       <section id="gain" data-guide="gain" className="section-y bg-paper">
         <div className="container-x">
-          <SectionHeading index="07" eyebrow="What you gain" title={<>A program that pays you back <em>in every direction.</em></>} />
+          <SectionHeading index="07" title={<>What you <em>gain</em></>} />
           <div className="mt-10 grid gap-4 md:grid-cols-6 md:grid-rows-[auto_auto_auto]">
             {gains.map((g, i) => {
               const big = i === 0;
@@ -378,13 +335,10 @@ export default function HomePage() {
             })}
           </div>
           <div className="mt-16">
-            <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <div className="mb-10">
               <h3 data-aos="fade-up" className="t-h2">
-                Your growth path.
+                Your growth path
               </h3>
-              <Button href="/qualify#book" variant="dark">
-                Book a Discovery Call
-              </Button>
             </div>
             <Ladder tiers={certificationTiers.home} />
           </div>
@@ -396,56 +350,38 @@ export default function HomePage() {
         <div className="container-x relative grid gap-14 lg:grid-cols-[6fr_6fr]">
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading tone="dark" index="08" eyebrow="Free workshop" title={<>See it live. <em className="text-breath">A free one-hour workshop</em> with Dr. Rodney Willey.</>} />
+            <SectionHeading tone="dark" index="08" title={<>See it live. <em className="text-breath">A free one-hour workshop</em> with Dr. Rodney Willey.</>} />
             <div data-aos="fade-up" className="mt-10">
               <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
-              <CheckList
-                className="mt-6 text-paper/85"
-                items={[
+              <ol className="mt-5 divide-y divide-paper/10 border-y border-paper/10">
+                {[
                   "The missed opportunity of not offering OSA + TMD care in your practice",
                   "How to spot these patients in your chair",
                   "Why OSA and TMD must be treated together",
                   "How Beyonn trains your team to run the program",
-                ]}
-              />
+                ].map((item, i) => (
+                  <li key={item} className="group flex items-baseline gap-5 py-4">
+                    <span className="font-display text-sm font-semibold tabular-nums text-breath">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-[1.02rem] leading-snug text-paper/85 transition-colors duration-300 group-hover:text-paper">{item}</span>
+                  </li>
+                ))}
+              </ol>
             </div>
-            <p data-aos="fade-up" className="mt-10 max-w-md leading-relaxed text-paper/65">Ask the team for the next live session date and joining details.</p>
           </div>
-          <div data-morph-shape="rect" data-aos="fade-up" className="rounded-[var(--radius-panel)] border border-paper/10 bg-paper/[0.03] p-7 sm:p-10 lg:sticky lg:top-28 lg:self-start">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl" data-aos="reveal" data-aos-duration="1200" data-aos-delay="150"><Image src="/assets/people/rodney-hero.webp" alt="Dr. Rodney Willey" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-contain object-bottom" /></div>
-            <h3 className="mt-8 t-h3">Join the next conversation.</h3>
-            <p className="mt-3 text-paper/60">Online with Dr. Willey. The team will confirm the next date and access details.</p>
-            <div className="mt-6"><Button href="mailto:info@beyonn.com?subject=Next%20Beyonn%20Workshop" variant="dawn">Ask for the next workshop</Button></div>
+          <div data-morph-shape="rect" data-aos="fade-up" className="relative overflow-hidden rounded-[1.5rem] bg-[linear-gradient(160deg,rgb(255_255_255/0.09),rgb(255_255_255/0.025)_55%)] p-6 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7),inset_0_1px_0_rgb(255_255_255/0.08)] ring-1 ring-paper/12 sm:p-9 lg:sticky lg:top-28 lg:self-start">
+            <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-breath/15 blur-3xl" aria-hidden />
+            <WorkshopSignup />
           </div>
-        </div>
-      </section>
-
-      {/* 10. Recognition */}
-      <section className="section-y bg-paper" aria-labelledby="recognized">
-        <div className="container-x">
-          <SectionHeading index="09" eyebrow="Credentials" title={<span id="recognized">Recognized by <em>the profession.</em></span>} />
-          <ul className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 md:grid-cols-5">
-            {credentials.map((c, i) => (
-              <li key={c.k} data-aos="fade-up" data-aos-delay={i * 60} className="flex min-h-[10rem] flex-col justify-between bg-paper p-6">
-                <CountUp value={c.k} className="font-display text-3xl font-semibold tracking-tight" />
-                <span className="text-sm text-muted">{c.v}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
       {/* 11. Clinician endorsements */}
       <section id="stories" data-guide="stories" className="section-y overflow-clip bg-paper-2">
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="Clinical endorsements" title={<>The people behind <em>the perspective.</em></>} lead="Physicians, dentists, therapists and nurses who have worked with Dr. Willey." />
+          <SectionHeading title={<>From practitioners who <em>made the move.</em></>} />
         </div>
-        <div className="mt-6 lg:-mt-12">
+        <div className="mt-10">
           <EndorsementCarousel />
-        </div>
-        <div data-aos="fade-up" className="container-x mt-6 flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-muted">Summaries of endorsements published by Beyonn.</p>
-          <ArrowLink href="/endorsements">Meet all {endorsements.length} endorsers</ArrowLink>
         </div>
       </section>
 
@@ -453,7 +389,7 @@ export default function HomePage() {
       <section className="section-y bg-paper">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading index="11" eyebrow="Blogs and resources" title={<>Learn before <em>you leap.</em></>} />
+            <SectionHeading index="11" title={<>Learn before <em>you leap.</em></>} />
             <ArrowLink href="/resources">All resources</ArrowLink>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -477,15 +413,28 @@ export default function HomePage() {
       <section className="section-y bg-paper pt-0">
         <div className="container-x grid gap-12 lg:grid-cols-[4fr_8fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading eyebrow="Quick answers" title={<>Questions, <em>answered.</em></>} />
+            <SectionHeading title={<>Quick <em>answers</em></>} />
           </div>
           <QuickAnswers />
         </div>
       </section>
 
-      {/* 15. Final: choose your path */}
+      {/* 15. Final call to action */}
       <div data-guide="cta">
-        <PathSplit />
+        <CtaBand
+          eyebrow=""
+          title={<>Your patients are already in the chair. <em className="text-breath">Let&apos;s get your team ready to treat them.</em></>}
+          actions={
+            <>
+              <Button href="/qualify" variant="dawn">
+                See If Your Practice Qualifies
+              </Button>
+              <Button href="/#workshop" variant="ghost-light">
+                Join the Free Workshop
+              </Button>
+            </>
+          }
+        />
       </div>
     </>
   );

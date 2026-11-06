@@ -2,6 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { AppGet } from "@/components/interactive/AppGet";
 
 const questions = [
   "Do you snore loudly, loud enough to be heard through a closed door?",
@@ -22,38 +23,90 @@ const noSubscription = () => () => {};
 
 export function PatientCheck() {
   const [answers, setAnswers] = useState<(boolean | null)[]>(Array(12).fill(null));
-  const [show, setShow] = useState(false);
+  const [sharing, setSharing] = useState(false);
   const [copied, setCopied] = useState(false);
   const shareUrl = useSyncExternalStore(noSubscription, () => `${window.location.origin}/patients#quick-check`, () => "/patients#quick-check");
-  const complete = answers.every((answer) => answer !== null);
+  const sleepDone = answers.slice(0, 8).every((answer) => answer !== null);
+  const jawDone = answers.slice(8).every((answer) => answer !== null);
   const sleep = answers.slice(0, 8).filter(Boolean).length;
   const jaw = answers.slice(8).filter(Boolean).length;
-  const shareText = "I care about how you sleep. This two-minute check could tell us whether it's worth looking into.";
-
+  const message = `I care about how you sleep. This 2-minute check could tell us if it’s worth looking into. ${shareUrl}`;
 
   function update(index: number, value: boolean) {
-    setAnswers((previous) => previous.map((answer, i) => i === index ? value : answer));
-    setShow(false);
+    setAnswers((previous) => previous.map((answer, i) => (i === index ? value : answer)));
   }
 
   async function copy() {
-    try { await navigator.clipboard.writeText(`${shareText} ${shareUrl}`); setCopied(true); }
-    catch { setCopied(false); }
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+    } catch {
+      setCopied(false);
+    }
   }
 
-  return <section id="quick-check" className="spotlight section-y relative overflow-clip bg-ink text-paper"><div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-    <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start"><p className="t-eyebrow text-breath">Two-minute check</p><h2 className="mt-5 t-h2">Could it be sleep apnea or TMD?</h2><p className="mt-6 t-lead text-paper/65">Twelve yes-or-no questions. Your answers stay in this browser and are not sent to Beyonn.</p><p className="mt-6 text-sm text-paper/50">This check is for general information only. It cannot diagnose sleep apnea or TMD.</p></div>
-    <div data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] border border-paper/15 bg-paper/[0.04] p-6 sm:p-9">
-      <form onSubmit={(event) => { event.preventDefault(); if (complete) setShow(true); }}>
-        <fieldset><legend className="t-eyebrow text-breath">Part 1 · Sleep</legend><div className="mt-5 space-y-5">{questions.slice(0, 8).map((question, index) => <Question key={question} index={index} question={question} value={answers[index]} onChange={update} />)}</div></fieldset>
-        <fieldset className="mt-10"><legend className="t-eyebrow text-breath">Part 2 · Jaw</legend><div className="mt-5 space-y-5">{questions.slice(8).map((question, offset) => <Question key={question} index={offset + 8} question={question} value={answers[offset + 8]} onChange={update} />)}</div></fieldset>
-        <button type="submit" className="btn btn--dawn mt-9" disabled={!complete}><span>See my results</span></button>
-        {!complete && <p className="mt-3 text-sm text-paper/50">Answer every question to see your results.</p>}
-      </form>
-      {show && <div role="status" className="mt-10 space-y-5 border-t border-paper/15 pt-8"><h3 className="t-h3">Your results</h3><div className="grid gap-4 sm:grid-cols-2"><div className="rounded-2xl bg-paper/10 p-5"><p className="t-eyebrow text-breath">Sleep · {sleep} yes</p><p className="mt-3 leading-relaxed">{sleep >= 3 ? "Worth checking. Your answers suggest signs often linked with sleep apnea. A provider can help you find out for sure." : "Lower likelihood. Your answers do not point strongly to sleep apnea. If something still feels off, a check-up is worthwhile."}</p></div><div className="rounded-2xl bg-paper/10 p-5"><p className="t-eyebrow text-breath">Jaw · {jaw} yes</p><p className="mt-3 leading-relaxed">{jaw >= 2 ? "Worth checking. Your answers suggest signs often linked with TMD. A provider can look at your jaw and airway together." : "Lower likelihood. Your answers do not point strongly to TMD."}</p></div></div><Link className="btn btn--dawn" href="/patients/find-a-provider"><span>Find a provider</span></Link></div>}
-      <div className="mt-10 border-t border-paper/15 pt-6"><p className="font-semibold">Worried about someone&apos;s snoring?</p><p className="mt-2 text-sm text-paper/60">Share this check with someone you care about.</p><div className="mt-4 flex flex-wrap gap-3 text-sm"><a className="underline" href={`https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`} target="_blank" rel="noopener">WhatsApp</a><a className="underline" href={`sms:?body=${encodeURIComponent(`${shareText} ${shareUrl}`)}`}>SMS</a><a className="underline" href={`mailto:?subject=${encodeURIComponent("A quick sleep and jaw check")}&body=${encodeURIComponent(`${shareText} ${shareUrl}`)}`}>Email</a><button type="button" className="underline" onClick={copy}>{copied ? "Copied" : "Copy link"}</button></div></div>
-    </div>
-  </div></section>;
+  return (
+    <section id="quick-check" className="spotlight section-y relative overflow-clip bg-ink text-paper">
+      <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
+          <h2 className="t-h2">Quick check: could it be sleep apnea or TMD?</h2>
+          <p className="mt-6 t-lead text-paper/65">2 minutes. 12 yes/no questions. Not a diagnosis, just a sign of whether it’s worth getting checked.</p>
+        </div>
+        <div data-morph-shape="rect" data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] border border-paper/15 bg-paper/[0.04] p-6 sm:p-9">
+          <form onSubmit={(event) => event.preventDefault()}>
+            <fieldset>
+              <legend className="t-eyebrow text-breath">Part 1: Sleep</legend>
+              <div className="mt-5 space-y-5">{questions.slice(0, 8).map((question, index) => <Question key={question} index={index} question={question} value={answers[index]} onChange={update} />)}</div>
+            </fieldset>
+            <fieldset className="mt-10">
+              <legend className="t-eyebrow text-breath">Part 2: Jaw</legend>
+              <div className="mt-5 space-y-5">{questions.slice(8).map((question, offset) => <Question key={question} index={offset + 8} question={question} value={answers[offset + 8]} onChange={update} />)}</div>
+            </fieldset>
+          </form>
+          {(sleepDone || jawDone) && (
+            <div role="status" className="mt-10 space-y-5 border-t border-paper/15 pt-8">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {sleepDone && (
+                  <div className="rounded-2xl bg-paper/10 p-5">
+                    <p className="t-eyebrow text-breath">Sleep</p>
+                    <p className="mt-3 leading-relaxed">{sleep >= 3 ? "Worth checking. Your answers suggest signs often linked with sleep apnea. A Beyonn provider can help you find out for sure, often with a simple home sleep test." : "Lower likelihood. Your answers don’t point strongly to sleep apnea. If something still feels off, a check-up is always worthwhile."}</p>
+                  </div>
+                )}
+                {jawDone && (
+                  <div className="rounded-2xl bg-paper/10 p-5">
+                    <p className="t-eyebrow text-breath">Jaw</p>
+                    <p className="mt-3 leading-relaxed">{jaw >= 2 ? "Worth checking. Your answers suggest signs often linked with TMD. A Beyonn provider can look at your jaw and your airway together." : "Lower likelihood. Your answers don’t point strongly to TMD."}</p>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <Link className="btn btn--dawn" href="/patients/find-a-provider">
+                  <span>Find a Beyonn Provider Near You</span>
+                </Link>
+                <AppGet label="Get the Full Snore Score in the App" screen="snore-score" variant="ghost-light" />
+              </div>
+              <p className="text-sm text-paper/50">This check is for general information only and isn’t a medical diagnosis. Only a qualified provider can diagnose sleep apnea or TMD.</p>
+            </div>
+          )}
+          <div className="mt-10 border-t border-paper/15 pt-6">
+            <h3 className="t-h3">Worried about someone’s snoring?</h3>
+            <p className="mt-2 text-paper/70">Partners often notice the signs first, and they’re often the reason someone finally gets checked.</p>
+            <button type="button" className="btn btn--light btn--sm mt-5" aria-expanded={sharing} onClick={() => setSharing((open) => !open)}>
+              <span>Send this to someone you love</span>
+            </button>
+            {sharing && (
+              <div className="mt-4 flex flex-wrap gap-4 text-sm">
+                <a className="underline" href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noopener">WhatsApp</a>
+                <a className="underline" href={`sms:?body=${encodeURIComponent(message)}`}>SMS</a>
+                <a className="underline" href={`mailto:?body=${encodeURIComponent(message)}`}>Email</a>
+                <button type="button" className="underline" onClick={copy}>{copied ? "Copied" : "Copy link"}</button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function Question({ index, question, value, onChange }: { index: number; question: string; value: boolean | null; onChange: (index: number, value: boolean) => void }) {

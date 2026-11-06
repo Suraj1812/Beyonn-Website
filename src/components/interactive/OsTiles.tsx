@@ -10,32 +10,28 @@ const tiles = [
     name: "Learn",
     icon: BookOpen,
     url: "app.beyonn.com/learn",
-    lead: "One login for your whole team, with every lesson, form and video on demand.",
-    points: ["Coaching Clinician Blueprint, module by module", "Forms Center, video library and case studies", "Progress tracking and onboarding for new hires", "AI assistant trained on Dr. Willey's content"],
+    points: ["Beyonn Academy, which includes the Beyonn LMS: one login for your whole team, with the Coaching Clinician Blueprint, the Forms Center, the clinical video library and case studies, on demand.", "Track each team member's progress and onboard new hires in the same place.", "The Beyonn AI assistant answers questions on protocols, billing and the platform, trained on Dr. Rodney Willey's content."],
     shot: { src: "/assets/site/platform-platform.png", alt: "Beyonn LMS lesson with a video module and learning resources" },
   },
   {
     name: "Run",
     icon: Gauge,
     url: "app.beyonn.com/run",
-    lead: "Every lead, case and claim in one place, with follow-up that runs itself.",
-    points: ["Dashboard: leads, cases, conversion, claims", "CRM with email, SMS and WhatsApp follow-up", "The Golden Tracker, so no “yes” is lost", "Coding kit, optional Billing Assist, HIPAA built in"],
+    points: ["Admin Panel with a business dashboard (leads, cases, conversion, claim status, peer benchmarks), a CRM with automated email, SMS and WhatsApp follow-up, and the Golden Tracker.", "Coding and documentation kit.", "Optional Billing Assist.", "Practice and patient financing, with HIPAA compliance built in."],
     shot: { src: "/assets/site/platform-medical-billing.png", alt: "Patient intake form and file record in the Beyonn platform" },
   },
   {
     name: "Treat",
     icon: Stethoscope,
     url: "app.beyonn.com/treat",
-    lead: "Everything between the exam and the delivered appliance, in one workflow.",
-    points: ["The Beyonn appliance, ordered from the platform", "STOP-Bang screening and home sleep testing", "Case guidance from Dr. Willey's team", "Presentation templates and treatment planners"],
+    points: ["The Beyonn appliance, ordered from the platform.", "STOP-Bang screening and Beyonn home sleep testing, interpreted by a physician.", "Clinical case guidance from Dr. Rodney Willey's team.", "Medical referral network kit."],
     shot: { src: "/assets/site/platform-presentations.png", alt: "Treatment presentation templates and planners in the Beyonn platform" },
   },
   {
     name: "Grow",
     icon: Sprout,
     url: "app.beyonn.com/grow",
-    lead: "Bring the right patients to your door and keep them coming back.",
-    points: ["Patient App with Snore Score and Sleep Score", "National awareness campaigns and local kits", "A listing in the Beyonn provider directory", "Monthly study club with Dr. Willey"],
+    points: ["Beyonn Patient App with Snore Score and Sleep Score.", "National patient-awareness campaigns on OSA and TMD and local co-branded kits.", "A listing in the Beyonn provider directory.", "Monthly study club and office hours with Dr. Rodney Willey."],
     shot: { src: "/assets/site/card-pr-marketing.png", alt: "Beyonn PR & Marketing Suite" },
   },
 ];
@@ -192,8 +188,8 @@ export function OsTiles() {
 
       {/* What's inside the current tab */}
       <div key={t.name} className="mx-auto mt-10 max-w-5xl">
-        <p className="animate-fade-up text-center font-display text-[clamp(1.15rem,1.8vw,1.45rem)] font-semibold leading-snug text-paper">{t.lead}</p>
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <p className="animate-fade-up text-center t-eyebrow text-breath">{t.name} · What&apos;s inside</p>
+        <ul className={cn("mt-6 grid gap-3 sm:grid-cols-2", t.points.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4")}>
           {t.points.map((p, i) => (
             <li key={p} className="flex animate-fade-up gap-2.5 rounded-xl bg-paper/[0.05] p-4 text-[0.93rem] leading-snug text-paper/85 ring-1 ring-paper/10" style={{ animationDelay: `${80 + i * 70}ms` }}>
               <span className="mt-0.5 grid size-5 flex-none place-items-center rounded-full bg-breath/15 text-breath">

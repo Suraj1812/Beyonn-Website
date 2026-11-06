@@ -3,9 +3,9 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Emblem3D } from "@/components/visual/Emblem3D";
 
 /** Closing call to action used at the end of every page. */
-export function CtaBand({ eyebrow = "Next step", title, sub, actions, children }: { eyebrow?: string; title: ReactNode; sub?: ReactNode; actions?: ReactNode; children?: ReactNode }) {
+export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, children }: { id?: string; eyebrow?: string; title: ReactNode; sub?: ReactNode; actions?: ReactNode; children?: ReactNode }) {
   return (
-    <section className="bg-paper py-6 sm:py-10">
+    <section id={id} className="scroll-mt-24 bg-paper py-6 sm:py-10">
       <div className="container-x">
         <div className="spotlight relative isolate overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-12 text-paper sm:px-12 sm:py-16">
           <div className="hero-glow absolute inset-0 -z-10" aria-hidden />
@@ -25,10 +25,12 @@ export function CtaBand({ eyebrow = "Next step", title, sub, actions, children }
             <path d="M3 20c12-14 24-14 36 0s24 14 36 0 24-14 36 0 24 14 36 0" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
           </svg>
           <div className="relative max-w-3xl">
-            <div data-aos="fade-up">
-              <Eyebrow tone="dark">{eyebrow}</Eyebrow>
-            </div>
-            <h2 data-aos="fade-up" data-aos-delay="60" className="mt-6 t-h2">
+            {eyebrow && (
+              <div data-aos="fade-up">
+                <Eyebrow tone="dark">{eyebrow}</Eyebrow>
+              </div>
+            )}
+            <h2 data-aos="fade-up" data-aos-delay="60" className={eyebrow ? "mt-6 t-h2" : "t-h2"}>
               {title}
             </h2>
             {sub && (

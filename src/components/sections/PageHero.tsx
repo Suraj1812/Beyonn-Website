@@ -17,7 +17,11 @@ export type Photo = {
 type Props = {
   /** Kept for API compatibility; heroes no longer show a label above the headline. */
   eyebrow?: string;
+  /** Visible label above the headline (used where the approved copy specifies one). */
+  kicker?: string;
   title: ReactNode;
+  /** Second headline under the H1. */
+  headline?: ReactNode;
   sub?: ReactNode;
   actions?: ReactNode;
   below?: ReactNode;
@@ -29,7 +33,7 @@ type Props = {
  * Warm, light hero: copy on the left, a person (or a calm shape study) on the right.
  * Photos are always shown at their own aspect ratio, so nothing is cropped.
  */
-export function PageHero({ title, sub, actions, below, size = "page", photo }: Props) {
+export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo }: Props) {
   const full = size === "full";
   return (
     <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
@@ -43,9 +47,19 @@ export function PageHero({ title, sub, actions, below, size = "page", photo }: P
         )}
       >
         <ScrollExit y={70} fade className="max-w-[42rem]">
+          {kicker && (
+            <p className="mb-5 t-eyebrow text-breath animate-fade-up" style={{ animationDelay: "60ms" }}>
+              {kicker}
+            </p>
+          )}
           <h1 className={cn("animate-fade-up", full ? "t-display" : "t-h1")} style={{ animationDelay: "120ms" }}>
             {title}
           </h1>
+          {headline && (
+            <p className="mt-6 max-w-[38rem] font-display text-[clamp(1.35rem,2.4vw,2rem)] font-semibold leading-snug animate-fade-up" style={{ animationDelay: "170ms" }}>
+              {headline}
+            </p>
+          )}
           {sub && (
             <div className="mt-6 max-w-[35rem] t-lead text-paper/80 animate-fade-up" style={{ animationDelay: "220ms" }}>
               {sub}

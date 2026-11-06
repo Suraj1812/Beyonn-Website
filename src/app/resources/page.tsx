@@ -11,7 +11,7 @@ export const metadata = pageMeta({ title: "Resources | Beyonn", description: "Pr
 export default function ResourcesPage() {
   return <>
     <PageHero eyebrow="Beyonn Resources" title="Knowledge for the practice. Clarity for the patient." sub="Understand the clinical connection and the work around care, one useful guide at a time." />
-    <section className="container-x section-y"><div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <section className="container-x section-y"><div data-morph-shape="rect" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {articles.map((article, index) => {
         const patient = article.audience === "patients";
         return (

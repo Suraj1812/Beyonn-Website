@@ -91,7 +91,7 @@ function sampleShape(kind: Kind, n: number, emblem: HTMLImageElement | null, see
 }
 
 /** The element that actually draws the card (border, fill or shadow), not a layout wrapper. */
-function visualBox(el: HTMLElement): HTMLElement {
+function visualBox(el: HTMLElement): HTMLElement | null {
   const queue: [HTMLElement, number][] = [[el, 0]];
   while (queue.length) {
     const [n, d] = queue.shift()!;
@@ -101,7 +101,7 @@ function visualBox(el: HTMLElement): HTMLElement {
     if (filled || parseFloat(cs.borderTopWidth) > 0 || cs.boxShadow !== "none") return n;
     if (d < 4) for (const c of Array.from(n.children)) queue.push([c as HTMLElement, d + 1]);
   }
-  return el;
+  return null;
 }
 
 /**
@@ -112,7 +112,8 @@ function cardOutlines(node: HTMLElement, n: number, seed: number): Float32Array 
   const box = node.getBoundingClientRect();
   if (!box.width || !box.height) return null;
   const kids = Array.from(node.children)
-    .map((c) => visualBox(c as HTMLElement).getBoundingClientRect())
+    .map((c) => visualBox(c as HTMLElement)?.getBoundingClientRect())
+    .filter((r): r is DOMRect => !!r)
     .filter((r) => r.width > 40 && r.height > 30);
   if (kids.length < 2) return null;
   const boxes = kids.map((r) => [(r.left - box.left) / box.width, (r.top - box.top) / box.height, (r.right - box.left) / box.width, (r.bottom - box.top) / box.height]);
@@ -189,6 +190,8 @@ export function ParticleMorph() {
         return { node, kind, hide: true, decor: node.hasAttribute("data-morph-hide"), dark: darkness(node), ...shapeFor(node, kind, i) };
       });
       if (all.length < 2) return;
+      // Shape the travelling swarm takes: the Beyonn emblem.
+      const swarmPts = sampleShape("emblem", N, emblemImg, 777);
 
       let renderer: import("three").WebGLRenderer;
       try {
@@ -347,7 +350,8 @@ export function ParticleMorph() {
       let raf = 0;
       let pairA: Target | null = null;
       let pairB: Target | null = null;
-      let mShown = 0;
+      let dShown = 0;
+      let rShown = 0;
       let time = 0;
       let last = performance.now();
       let visible = false;
@@ -377,27 +381,36 @@ export function ParticleMorph() {
         for (let i = 0; i < live.length; i++) if (refOf(live[i].rc) <= mid) k = i;
         const a = live[k];
         const b = live[Math.min(live.length - 1, k + 1)];
-        const ca = refOf(a.rc);
         const cb = refOf(b.rc);
-        let raw = a === b || cb <= ca ? 0 : clamp((mid - ca) / (cb - ca));
-        // First leg: nothing breaks until the visitor actually scrolls. Progress runs
-        // from the top of the page to the moment the second target reaches the line.
-        if (k === 0 && a !== b) {
-          const sy = window.scrollY;
-          const needed = cb + sy - mid;
-          raw = needed <= 0 ? 1 : clamp(sy / needed);
+        // Two phases, each tied to what is on screen:
+        //  D (departure): the source has started scrolling away, so it breaks and
+        //    the dots gather into a small swarm at the side of the screen;
+        //  R (arrival): the target is coming into view, so the swarm streams in
+        //    and builds it. Long gaps between targets: the swarm travels along at
+        //    the screen edge, always visible. Short gaps: both phases overlap.
+        let D = 0;
+        let R = 0;
+        if (a !== b) {
+          const left = k === 0 ? window.scrollY : Math.max(0, vh * 0.5 - a.rc.bottom);
+          D = clamp(left / (vh * 0.55));
+          const arrive = cb - mid;
+          R = arrive <= 0 ? 1 : clamp(1 - arrive / (vh * 0.6));
+          D = Math.max(D, R);
         }
-        // Follow the scroll with a little easing so fast flicks stay fluid.
-        const target = smooth(clamp((raw - 0.12) / 0.72));
         if (pairA !== a.t || pairB !== b.t) {
           pairA = a.t;
           pairB = b.t;
-          mShown = target;
-        } else mShown += (target - mShown) * (1 - Math.exp(-dt * 9));
-        const m = mShown;
+          dShown = D;
+          rShown = R;
+        } else {
+          // Follow the scroll with a little easing so fast flicks stay fluid.
+          const f = 1 - Math.exp(-dt * 9);
+          dShown += (D - dShown) * f;
+          rShown += (R - rShown) * f;
+        }
+        const dp = dShown, rp = rShown;
 
-        // Only the element the dots are building is shown; the rest wait.
-        const pulseB = Math.sin(Math.PI * clamp((raw - 0.78) / 0.22));
+        const pulseB = Math.sin(Math.PI * clamp((rp - 0.75) / 0.25));
         // Background emblems break away and move on: only the one the dots are on shows.
         // Content (cards, ring, window) stays hidden until built, then stays built;
         // scrolling back up un-builds it in reverse.
@@ -410,12 +423,12 @@ export function ParticleMorph() {
         for (const t of all) if (!live.some((l) => l.t === t)) style(t, 1, 0, t.dark);
         if (a === b) style(a.t, 1, 0, a.t.dark);
         else {
-          style(a.t, a.t.decor ? 1 - smooth(clamp(m / 0.14)) : 1, 0, a.t.dark);
-          style(b.t, smooth(clamp((m - 0.78) / 0.2)), pulseB, b.t.dark);
+          style(a.t, a.t.decor ? 1 - smooth(clamp(dp / 0.15)) : 1, 0, a.t.dark);
+          style(b.t, smooth(clamp((rp - 0.8) / 0.2)), pulseB, b.t.dark);
         }
 
-        // Dots show from the moment the source starts breaking until the target is rebuilt.
-        const alpha = a === b ? 0 : smooth(clamp(m / 0.06)) * (1 - smooth(clamp((m - 0.9) / 0.1)));
+        // Dots show from the moment the source starts breaking until the target is built.
+        const alpha = a === b ? 0 : smooth(clamp(dp / 0.05)) * (1 - smooth(clamp((rp - 0.9) / 0.1)));
         if (alpha < 0.005) {
           if (visible) {
             el.style.visibility = "hidden";
@@ -429,8 +442,8 @@ export function ParticleMorph() {
           visible = true;
         }
 
-        const darkMix = (a.t.dark ? 1 - m : 0) + (b.t.dark ? m : 0);
-        const flight = Math.sin(m * Math.PI); // 0 at rest, 1 mid-flight
+        const darkMix = (a.t.dark ? 1 - rp : 0) + (b.t.dark ? rp : 0);
+        const flight = clamp(Math.sin(Math.min(dp, 0.5) * Math.PI) * (1 - rp) + Math.sin(rp * Math.PI) * 0.6);
         for (const [, mat, sz] of layers) {
           mat.uniforms.uTime.value = time;
           mat.uniforms.uSize.value = (mobile ? 3.2 : 3.8) * dpr * sz;
@@ -445,13 +458,15 @@ export function ParticleMorph() {
         head.uniforms.uAlpha.value = base;
         t1.uniforms.uAlpha.value = base * 0.42 * flight;
         t2.uniforms.uAlpha.value = base * 0.2 * flight;
-        halo.uniforms.uAlpha.value = base * (0.06 + 0.16 * flight) * (0.35 + 0.65 * darkMix);
+        halo.uniforms.uAlpha.value = base * (0.08 + 0.16 * flight) * (0.35 + 0.65 * darkMix) * (1 - 0.65 * clamp(dp * (1 - rp)));
 
-        // The stream bows out toward a page edge (alternating) instead of crossing the copy.
+        // The cruising swarm sits at a screen edge (alternating left / right).
         const side = k % 2 === 0 ? 1 : -1;
-        const edgeX = side > 0 ? vw * 0.93 : vw * 0.07;
-        const travel = Math.abs(cb - ca);
-        const bow = clamp(travel / vh, 0.35, 1);
+        const edgeX = mobile ? (side > 0 ? vw * 0.86 : vw * 0.14) : side > 0 ? vw * 0.9 : vw * 0.1;
+        const swarmY = vh * 0.5 + Math.sin(time * 0.4) * 24;
+        const swarmW = mobile ? 180 : 300;
+        const turn = Math.sin(time * 0.55) * 0.32;
+        const turnC = Math.cos(turn), turnS = Math.sin(turn);
         const twist = flight * 0.9 * side;
         const ct = Math.cos(twist), st = Math.sin(twist);
         const pa = a.t.pts, pb = b.t.pts, sa = a.t.sweep, sb = b.t.sweep;
@@ -461,28 +476,31 @@ export function ParticleMorph() {
 
         for (let i = 0; i < N; i++) {
           // Leave in a wave across the source, arrive in a wave across the target.
-          const delay = 0.32 * (sa[i] * (1 - m) + sb[i] * m);
-          const u = smooth(clamp((m - delay) / 0.68));
+          const du = smooth(clamp((dp - 0.3 * sa[i]) / 0.7));
+          const ru = smooth(clamp((rp - 0.3 * sb[i]) / 0.7));
           const ax = a.rc.left + pa[i * 2] * a.rc.width;
           const ay = a.rc.top + pa[i * 2 + 1] * a.rc.height;
           const bx = b.rc.left + pb[i * 2] * b.rc.width;
           const by = b.rc.top + pb[i * 2 + 1] * b.rc.height;
-          // Curved path: quadratic bezier through a control point near the page edge.
-          const cx = (ax + bx) / 2 + (edgeX - (ax + bx) / 2) * 0.8 * bow + lane[i] * 26;
-          const cy = (ay + by) / 2 + lane[i] * 34 * bow;
-          const iu = 1 - u;
-          let x = iu * iu * ax + 2 * iu * u * cx + u * u * bx;
-          let y = iu * iu * ay + 2 * iu * u * cy + u * u * by;
-          // Peel-off burst right after leaving / just before landing, plus a gentle swirl.
-          const fly = Math.sin(u * Math.PI);
-          const loose = fly * fly * (6 + rnd[i] * 22);
-          // Mid-air the swarm keeps drifting, even when the scroll pauses.
-          // The ribbon sways as one body (a wave travelling along it), with only a
-          // few pixels of individual jitter, so it reads as a stream, not noise.
-          x += dir[i * 2] * loose + (Math.sin(time * 0.9 + u * 5) * 16 + Math.sin(time * 1.7 + rnd[i] * 14) * 3) * fly;
-          y += dir[i * 2 + 1] * loose + (Math.cos(time * 0.7 + u * 4) * 10 + Math.cos(time * 1.5 + rnd[i] * 9) * 3) * fly;
-          // 3D twist of the whole stream around its own path.
-          const z = depth[i] * 36 * fly;
+          // The swarm holds the Beyonn emblem while it travels, slowly turning in 3D.
+          const ex = swarmPts[i * 2] - 0.5;
+          const ey = swarmPts[i * 2 + 1] - 0.5;
+          const sx = edgeX + ex * swarmW * turnC + depth[i] * 6 * turnS;
+          const sy = swarmY + ey * swarmW * (1306 / 1600);
+          // Source -> swarm, then swarm -> target, each along a gentle curve.
+          const bendA = Math.sin(du * Math.PI) * lane[i] * 40;
+          const bendB = Math.sin(ru * Math.PI) * lane[i] * 40;
+          const mx = ax + (sx - ax) * du + bendA;
+          const my = ay + (sy - ay) * du - bendA * 0.5;
+          let x = mx + (bx - mx) * ru + bendB;
+          let y = my + (by - my) * ru - bendB * 0.5;
+          // In the air: a soft peel-off burst and a sway that moves the swarm as one body.
+          const fly = clamp(Math.sin(du * Math.PI) * 0.6 + du * (1 - ru)) * (1 - ru * ru);
+          const loose = (Math.sin(du * Math.PI) + Math.sin(ru * Math.PI)) * (6 + rnd[i] * 20);
+          x += dir[i * 2] * loose + (Math.sin(time * 0.9 + rnd[i] * 4) * 6 + Math.sin(time * 1.7 + rnd[i] * 14) * 3) * fly * (1 - 0.8 * du * (1 - ru));
+          y += dir[i * 2 + 1] * loose + (Math.cos(time * 0.7 + rnd[i] * 3) * 5 + Math.cos(time * 1.5 + rnd[i] * 9) * 3) * fly * (1 - 0.8 * du * (1 - ru));
+          // 3D twist.
+          const z = depth[i] * 36 * fly * (1 - 0.8 * du * (1 - ru));
           x += z * st;
           const zs = z * ct;
           // Formed shapes breathe a little.
@@ -504,7 +522,9 @@ export function ParticleMorph() {
           cur[i * 3] = x;
           cur[i * 3 + 1] = -y;
           cur[i * 3 + 2] = 0;
-          scl[i] = 1 + (zs / 36) * 0.3 * fly;
+          // While cruising as the emblem, dots are finer so the logo reads crisply.
+          const cruise = du * (1 - ru);
+          scl[i] = (1 + (zs / 36) * 0.3 * fly) * (1 - 0.42 * cruise);
         }
         if (warm < 2) {
           prev1.set(cur);

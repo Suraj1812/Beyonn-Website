@@ -1,134 +1,78 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { endorsements } from "@/content/endorsements";
 import { EndorsementCard } from "@/components/sections/EndorsementCard";
 
-const AUTO_MS = 4000;
+const SPEED = 38; // px per second
 
 /**
- * Swipeable endorsement carousel: native scroll-snap (works with mouse, trackpad
- * and touch), prev/next arrows that loop, a progress bar that tracks the scroll,
- * and a gentle autoscroll that pauses whenever someone is reading or interacting.
+ * Endorsements as a continuous, self-running strip: it glides on its own in a
+ * seamless loop (no arrows, no manual scrolling) and eases to a stop while the
+ * pointer rests on it, so a card can be read. Only runs while on screen.
+ * With reduced motion it stays still and can be scrolled by hand instead.
  */
 export function EndorsementCarousel() {
-  const track = useRef<HTMLUListElement>(null);
-  const bar = useRef<HTMLDivElement>(null);
+  const viewport = useRef<HTMLDivElement>(null);
+  const strip = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    const el = track.current;
-    if (!el) return;
+    const vp = viewport.current;
+    const el = strip.current;
+    if (!vp || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let x = 0;
+    let speed = SPEED;
+    let target = SPEED;
+    let last = performance.now();
     let raf = 0;
-    const update = () => {
-      const max = el.scrollWidth - el.clientWidth;
-      const p = max > 0 ? el.scrollLeft / max : 0;
-      if (bar.current) bar.current.style.transform = `scaleX(${(0.12 + p * 0.88).toFixed(3)})`;
+    let onScreen = false;
+
+    const frame = (now: number) => {
+      raf = requestAnimationFrame(frame);
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (!onScreen || document.hidden) return;
+      speed += (target - speed) * (1 - Math.exp(-dt * 4));
+      // The list is rendered twice; wrap after one full set for a seamless loop.
+      const half = el.scrollWidth / 2;
+      x = (x + speed * dt) % half;
+      el.style.transform = `translate3d(${-x.toFixed(2)}px,0,0)`;
     };
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(update);
-    };
-    update();
-    el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    raf = requestAnimationFrame(frame);
+
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      last = performance.now();
+    });
+    io.observe(vp);
+    const slow = () => (target = 0);
+    const go = () => (target = SPEED);
+    vp.addEventListener("pointerenter", slow);
+    vp.addEventListener("pointerleave", go);
     return () => {
-      el.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);
+      io.disconnect();
+      vp.removeEventListener("pointerenter", slow);
+      vp.removeEventListener("pointerleave", go);
     };
   }, []);
 
-  const go = (dir: 1 | -1) => {
-    const el = track.current;
-    if (!el) return;
-    const card = el.querySelector("li");
-    const step = card ? card.getBoundingClientRect().width + 20 : el.clientWidth * 0.8;
-    const max = el.scrollWidth - el.clientWidth;
-    // At the end, loop back to the start (and vice versa).
-    if (dir === 1 && el.scrollLeft >= max - 8) el.scrollTo({ left: 0, behavior: "smooth" });
-    else if (dir === -1 && el.scrollLeft <= 8) el.scrollTo({ left: max, behavior: "smooth" });
-    else el.scrollBy({ left: dir * step, behavior: "smooth" });
-  };
-
-  // Autoscroll: one card every few seconds, paused on hover, focus, touch,
-  // while off screen, or for reduced motion.
-  const paused = useRef(false);
-  useEffect(() => {
-    const el = track.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const onScreen = () => {
-      const r = el.getBoundingClientRect();
-      return r.top < window.innerHeight * 0.85 && r.bottom > window.innerHeight * 0.15;
-    };
-    let resume = 0;
-    const hold = () => {
-      paused.current = true;
-      window.clearTimeout(resume);
-    };
-    const release = (delay = 0) => {
-      window.clearTimeout(resume);
-      resume = window.setTimeout(() => (paused.current = false), delay);
-    };
-    const onEnter = () => hold();
-    const onLeave = () => release(400);
-    const onTouch = () => {
-      hold();
-      release(6000);
-    };
-    el.addEventListener("pointerenter", onEnter);
-    el.addEventListener("pointerleave", onLeave);
-    el.addEventListener("focusin", onEnter);
-    el.addEventListener("focusout", onLeave);
-    el.addEventListener("touchstart", onTouch, { passive: true });
-    const tick = window.setInterval(() => {
-      if (!paused.current && onScreen() && !document.hidden) go(1);
-    }, AUTO_MS);
-    return () => {
-      window.clearInterval(tick);
-      window.clearTimeout(resume);
-      el.removeEventListener("pointerenter", onEnter);
-      el.removeEventListener("pointerleave", onLeave);
-      el.removeEventListener("focusin", onEnter);
-      el.removeEventListener("focusout", onLeave);
-      el.removeEventListener("touchstart", onTouch);
-    };
-  }, []);
+  const cards = [...endorsements, ...endorsements];
 
   return (
-    <div>
-      <div className="container-x flex items-center justify-end gap-2">
-        {([-1, 1] as const).map((dir) => (
-          <button
-            key={dir}
-            type="button"
-            onClick={() => go(dir)}
-            aria-label={dir === -1 ? "Previous endorsements" : "Next endorsements"}
-            className="grid size-11 place-items-center rounded-full bg-white text-ink ring-1 ring-ink/15 transition-[background-color,color] duration-300 hover:bg-ink hover:text-paper"
-          >
-            {dir === -1 ? <ArrowLeft className="size-4" aria-hidden /> : <ArrowRight className="size-4" aria-hidden />}
-          </button>
-        ))}
-      </div>
-
-      <ul
-        ref={track}
-        data-lenis-prevent-wheel
-        className="h-scroll mt-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-[max(var(--gutter),calc((100vw_-_82rem)/2_+_var(--gutter)))] scroll-px-[max(var(--gutter),calc((100vw_-_82rem)/2_+_var(--gutter)))] pb-4"
-        aria-label="Clinical endorsements"
-      >
-        {endorsements.map((person, i) => (
-          <li key={person.name} data-aos="fade-up" data-aos-delay={Math.min(i, 3) * 90} className="w-[18.5rem] flex-none snap-start sm:w-[21rem]">
-            <EndorsementCard person={person} index={i} />
+    <div
+      ref={viewport}
+      className="overflow-hidden motion-reduce:overflow-x-auto"
+      aria-label="Clinical endorsements"
+      role="region"
+    >
+      <ul ref={strip} className="flex w-max gap-5 px-[max(var(--gutter),calc((100vw_-_82rem)/2_+_var(--gutter)))] pb-4 will-change-transform">
+        {cards.map((person, i) => (
+          <li key={`${person.name}-${i}`} aria-hidden={i >= endorsements.length} className="w-[18.5rem] flex-none sm:w-[21rem]">
+            <EndorsementCard person={person} index={i % endorsements.length} />
           </li>
         ))}
       </ul>
-
-      <div className="container-x mt-4">
-        <div className="h-1 overflow-hidden rounded-full bg-ink/10" aria-hidden>
-          <div ref={bar} className="h-full origin-left rounded-full bg-[linear-gradient(90deg,var(--color-breath),var(--color-dawn))] will-change-transform" style={{ transform: "scaleX(0.12)" }} />
-        </div>
-      </div>
     </div>
   );
 }

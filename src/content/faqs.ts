@@ -60,7 +60,6 @@ export const partnerFaq: FaqItem[] = [
   },
   { q: "Is financing available?", a: "Yes. Practice and patient financing options are available; your Discovery Call covers them." },
   { q: "What are the certification tiers?", a: "Certified Provider, Advanced Provider and Centre of Excellence. Each tier unlocks more advanced cases and higher placement when patients search for a provider." },
-  { q: "Do I need sleep medicine experience?", a: "No. Training and case support are built in, for you and for your team." },
 ];
 
 export const patientFaq: FaqItem[] = [

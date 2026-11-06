@@ -8,43 +8,16 @@ import { cn } from "@/lib/cn";
 
 type Slide = { kicker: string; title: (play: boolean) => ReactNode; sub: string };
 
-/** The four-part story from beyonn.com, told one slide at a time. */
+/** Hero copy from the approved content doc. More slides can be added later. */
 const slides: Slide[] = [
   {
-    kicker: "The program",
+    kicker: "The OSA + TMD Program Your Team Can Run",
     title: (play) => (
       <>
-        Build the practice <Scribble play={play}>beyond</Scribble> the chair.
+        Your team. Our <Scribble play={play}>system.</Scribble> A complete OSA + TMD integration program.
       </>
     ),
-    sub: "A complete OSA + TMD program, built for your team to run. Clinical protocols, practical training and technology connect every patient journey from first question to follow-up.",
-  },
-  {
-    kicker: "The patients",
-    title: (play) => (
-      <>
-        OSA and TMD are <Scribble play={play}>already</Scribble> in your practice.
-      </>
-    ),
-    sub: "Snoring, clenching, morning headaches, the night guard that never worked. Most of these patients leave your chair undiagnosed.",
-  },
-  {
-    kicker: "Why they are missed",
-    title: (play) => (
-      <>
-        One patient. <Scribble play={play}>Two</Scribble> conditions.
-      </>
-    ),
-    sub: "Sleep apnea and TMJ disorder share an airway, a joint and a nervous system. Treated separately, they relapse. Treated together, they resolve.",
-  },
-  {
-    kicker: "What your practice gets",
-    title: (play) => (
-      <>
-        New revenue from patients you <Scribble play={play}>already</Scribble> see.
-      </>
-    ),
-    sub: "It is billed to medical insurance, so it adds to your dental revenue instead of competing with it. Your whole team is trained, not just you.",
+    sub: "Beyonn helps dental practitioners add Obstructive Sleep Apnea and Temporomandibular Joint Disorder treatment to their practice. We train your team step by step, give you the tech ecosystem, and coach you alongside Dr. Rodney Willey, one of the pioneers of the field, until your program runs on its own.",
   },
 ];
 
@@ -123,13 +96,17 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
                   )}
                 >
                   <p className="t-eyebrow text-breath">
-                    <span style={{ fontVariantNumeric: "tabular-nums" }}>
-                      {i + 1} / {slides.length}
-                    </span>
-                    <span className="mx-2 text-paper/40">·</span>
+                    {slides.length > 1 && (
+                      <>
+                        <span style={{ fontVariantNumeric: "tabular-nums" }}>
+                          {i + 1} / {slides.length}
+                        </span>
+                        <span className="mx-2 text-paper/40">·</span>
+                      </>
+                    )}
                     {s.kicker}
                   </p>
-                  <Title className="mt-4 t-display !text-[clamp(2.4rem,4.4vw,4.25rem)]">{s.title(active)}</Title>
+                  <Title className="mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)]">{s.title(active)}</Title>
                   <p className="mt-6 max-w-[35rem] t-lead text-paper/80">{s.sub}</p>
                 </div>
               );
@@ -138,6 +115,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
 
           <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
 
+          {slides.length > 1 && (
           <div className="mt-8 flex items-center gap-3" role="group" aria-label="Hero slides">
             <button
               type="button"
@@ -174,6 +152,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
               </button>
             ))}
           </div>
+          )}
 
           <div className="mt-12">{below}</div>
         </div>

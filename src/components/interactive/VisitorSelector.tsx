@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { useVisitor } from "@/components/providers/VisitorProvider";
@@ -120,19 +119,7 @@ export function VisitorSelector() {
   const others = pick !== null ? opts.filter((_, i) => i !== pick).slice(0, 4) : [];
 
   return (
-    <div className="grid items-center gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-12">
-      {/* The human behind it */}
-      <div data-aos="fade-up" className="relative mx-auto hidden w-full max-w-sm lg:block">
-        <div className="relative aspect-[4/5]">
-          <div className="absolute inset-x-[6%] bottom-0 top-[14%] rounded-[var(--radius-panel)] bg-[linear-gradient(160deg,var(--color-dawn-soft),#e5edf9)]" aria-hidden />
-          <Image src="/assets/team/rod.webp" alt="Dr. Rodney Willey" fill sizes="24rem" className="object-contain object-bottom" />
-        </div>
-        <div className="absolute -bottom-4 left-1/2 w-max -translate-x-1/2 rounded-xl bg-white px-4 py-2.5 text-center shadow-[0_18px_36px_-20px_rgb(19_37_62/0.5)] ring-1 ring-ink/[0.06]">
-          <p className="font-display text-[0.95rem] font-semibold leading-tight">Dr. Rodney Willey</p>
-          <p className="text-xs text-muted">Founder · ~20 years in OSA + TMD</p>
-        </div>
-      </div>
-
+    <div>
       {/* The conversation */}
       <div data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] bg-white p-5 shadow-[0_30px_60px_-40px_rgb(19_37_62/0.55)] ring-1 ring-ink/10 sm:p-7">
         <div className="flex items-center justify-between gap-4 border-b border-ink/[0.08] pb-4">

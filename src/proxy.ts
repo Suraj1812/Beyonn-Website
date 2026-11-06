@@ -14,7 +14,6 @@ import { articles } from "@/content/articles";
 const known = new Set<string>([
   "/",
   "/resources",
-  "/endorsements",
   ...Object.keys(pages).map((k) => `/${k}`),
   ...articles.map((a) => `/resources/${a.slug}`),
 ]);
