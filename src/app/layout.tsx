@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingCta } from "@/components/layout/FloatingCta";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { AosInit } from "@/components/providers/AosInit";
+import { GuideBot } from "@/components/visual/GuideBot";
 import { VisitorProvider } from "@/components/providers/VisitorProvider";
 import { ScrollProgress } from "@/components/visual/ScrollProgress";
 import { PointerEffects } from "@/components/visual/PointerEffects";
@@ -104,6 +105,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </main>
             <Footer />
             <FloatingCta />
+            <GuideBot />
             <AosInit />
             <PointerEffects />
           </SmoothScroll>

@@ -13,6 +13,7 @@ import { ScrollWords } from "@/components/visual/ScrollWords";
 import { CheckList } from "@/components/ui/Check";
 import { SplitTable } from "@/components/sections/SplitTable";
 import { Ladder, certificationTiers } from "@/components/sections/Ladder";
+import { AirwayModel } from "@/components/visual/AirwayModel";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { VisitorSelector } from "@/components/interactive/VisitorSelector";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
@@ -118,7 +119,7 @@ export default function HomePage() {
       />
 
       {/* 2. Visitor selector */}
-      <section className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-16 lg:py-20" aria-labelledby="welcome">
+      <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-16 lg:py-20" aria-labelledby="welcome">
         <div className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
@@ -134,7 +135,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. Dr. Rodney Willey banner */}
-      <section id="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
+      <section id="doctor" data-guide="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
         <div className="container-x section-y">
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
             <div data-aos="fade-up" className="order-2 lg:order-1 lg:sticky lg:top-28 lg:self-start">
@@ -190,7 +191,7 @@ export default function HomePage() {
       </section>
 
       {/* 4. The opportunity */}
-      <section id="opportunity" className="section-y bg-paper">
+      <section id="opportunity" data-guide="opportunity" className="section-y bg-paper">
         <div className="container-x grid gap-14 lg:grid-cols-[7fr_5fr] lg:items-end">
           <div>
             <SectionHeading index="03" eyebrow="The opportunity" title={<>The patients are <em>already in your chair.</em></>} />
@@ -220,8 +221,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 4b. How an appliance helps, in 3D */}
+      <section id="how-it-works" data-guide="airway" className="section-y overflow-clip border-t border-ink/[0.06] bg-paper">
+        <div className="container-x">
+          <SectionHeading eyebrow="How it works" title={<>What happens in the airway, <em>and how treatment helps.</em></>} />
+          <div className="mt-10 lg:mt-14">
+            <AirwayModel />
+          </div>
+        </div>
+      </section>
+
       {/* 5. What Beyonn gives your team */}
-      <section id="gives" className="section-y bg-paper-2">
+      <section id="gives" data-guide="gives" className="section-y bg-paper-2">
         <div className="container-x">
           <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <SectionHeading
@@ -298,7 +309,7 @@ export default function HomePage() {
       </div>
 
       {/* 6. The Beyonn Protocol */}
-      <section id="protocol" className="section-y bg-paper">
+      <section id="protocol" data-guide="protocol" className="section-y bg-paper">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHeading index="05" eyebrow="The Beyonn Protocol" title={<>One system. Four steps. <em>Run by your team.</em></>} />
@@ -313,7 +324,7 @@ export default function HomePage() {
       </section>
 
       {/* 7. The Beyonn Operating System */}
-      <section id="platform" className="spotlight section-y relative overflow-hidden bg-ink text-paper">
+      <section id="platform" data-guide="platform" className="spotlight section-y relative overflow-hidden bg-ink text-paper">
         <div className="hero-glow absolute inset-0 opacity-30" aria-hidden />
         <div className="container-x relative">
           <SectionHeading
@@ -336,7 +347,7 @@ export default function HomePage() {
       </section>
 
       {/* 8. What you gain */}
-      <section id="gain" className="section-y bg-paper">
+      <section id="gain" data-guide="gain" className="section-y bg-paper">
         <div className="container-x">
           <SectionHeading index="07" eyebrow="What you gain" title={<>A program that pays you back <em>in every direction.</em></>} />
           <div className="mt-10 grid gap-4 md:grid-cols-6 md:grid-rows-[auto_auto_auto]">
@@ -381,7 +392,7 @@ export default function HomePage() {
       </section>
 
       {/* 9. Free workshop */}
-      <section id="workshop" className="spotlight section-y relative overflow-clip bg-night text-paper">
+      <section id="workshop" data-guide="workshop" className="spotlight section-y relative overflow-clip bg-night text-paper">
         <div className="container-x relative grid gap-14 lg:grid-cols-[6fr_6fr]">
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
@@ -425,7 +436,7 @@ export default function HomePage() {
       </section>
 
       {/* 11. Clinician endorsements */}
-      <section id="stories" className="section-y overflow-clip bg-paper-2">
+      <section id="stories" data-guide="stories" className="section-y overflow-clip bg-paper-2">
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
           <SectionHeading eyebrow="Clinical endorsements" title={<>The people behind <em>the perspective.</em></>} lead="Physicians, dentists, therapists and nurses who have worked with Dr. Willey." />
         </div>
@@ -473,6 +484,7 @@ export default function HomePage() {
       </section>
 
       {/* 15. Final CTA */}
+      <div data-guide="cta">
       <CtaBand
         title={<>Your patients are already in the chair. <em className="text-breath">Let&apos;s get your team ready to treat them.</em></>}
         actions={
@@ -486,6 +498,7 @@ export default function HomePage() {
           </>
         }
       />
+      </div>
     </>
   );
 }
