@@ -103,28 +103,26 @@ export default function HomePage() {
       />
 
       {/* 2. Visitor selector */}
-      <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-16 lg:py-20" aria-labelledby="welcome">
+      <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome">
         <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
-        <div className="container-x">
-          <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
+        <div className="container-x grid gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-14">
+          <div>
             <SectionHeading eyebrow="Choose your path" title={<span id="welcome">Welcome to Beyonn. <em>Where should we start?</em></span>} />
-            <p data-aos="fade-up" data-aos-delay="120" className="max-w-sm text-muted">
+            <p data-aos="fade-up" data-aos-delay="120" className="mt-5 max-w-sm text-muted">
               Two quick taps and we&apos;ll point you to the right next step, whether you treat patients or you are one.
             </p>
           </div>
-          <div className="mt-10 lg:mt-12">
-            <VisitorSelector />
-          </div>
+          <VisitorSelector />
         </div>
       </section>
 
       {/* 3. Dr. Rodney Willey banner */}
       <section id="doctor" data-guide="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
-        <div className="container-x section-y">
-          <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="container-x py-12 sm:py-14 lg:py-16">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-14">
             {/* The Beyonn emblem stands in for a portrait here (the dots rebuild it on scroll). */}
             <div data-aos="fade-up" className="order-2 hidden lg:order-1 lg:sticky lg:top-28 lg:block lg:self-start" aria-hidden>
-              <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
+              <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
                 <div className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgb(114_207_183/0.16),transparent_65%)]" />
                 <div
                   data-morph-shape="emblem"
@@ -135,10 +133,10 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Learn from the clinician who has done it <em>10,000 times.</em></>} />
-              <h3 data-aos="fade-up" className="mt-10 t-eyebrow text-paper/55">Why he&apos;s trusted</h3>
+              <h3 data-aos="fade-up" className="mt-7 t-eyebrow text-paper/55">Why he&apos;s trusted</h3>
               <dl className="mt-4 grid grid-cols-3 divide-x divide-paper/10 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10">
                 {doctorStats.map((d, i) => (
-                  <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-4 py-5 sm:px-6">
+                  <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-4 py-4 sm:px-5">
                     <dt className="sr-only">{d.label}</dt>
                     <dd>
                       <CountUp value={d.value} className="block font-display text-2xl font-semibold tracking-tight text-breath sm:text-3xl" />
@@ -147,17 +145,17 @@ export default function HomePage() {
                   </div>
                 ))}
               </dl>
-              <p data-aos="fade-up" className="mt-8 max-w-xl t-lead text-paper/75">
+              <p data-aos="fade-up" className="mt-5 max-w-xl t-lead text-paper/75">
                 Known for the hard cases: chronic pain, disabilities and failed prior treatment.
               </p>
-              <figure data-aos="fade-up" className="mt-8 rounded-[var(--radius-card)] bg-paper/[0.05] p-6 ring-1 ring-paper/10 sm:p-7">
-                <span className="block font-display text-6xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>
+              <figure data-aos="fade-up" className="mt-5 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 sm:p-6">
+                <span className="block font-display text-5xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>
                 <blockquote className="mt-3 font-display text-[clamp(1.25rem,2vw,1.65rem)] font-medium leading-snug">
                   Don&apos;t treat an airway without understanding the joint. Don&apos;t treat the joint without understanding the airway.
                 </blockquote>
                 <figcaption className="mt-4 text-sm text-paper/60">Dr. Rodney Willey</figcaption>
               </figure>
-              <div className="mt-8" data-aos="fade-up">
+              <div className="mt-6" data-aos="fade-up">
                 <Button href="/dr-rodney-willey" variant="light">
                   Meet Dr. Rodney Willey
                 </Button>
@@ -165,13 +163,13 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-14">
+          <div className="mt-10 lg:mt-12">
             <h3 data-aos="fade-up" className="t-h3">Why partner with him</h3>
-            <ol className="mt-6 grid gap-4 md:grid-cols-3">
+            <ol className="mt-5 grid gap-4 md:grid-cols-3">
               {doctorReasons.map(([t, d], i) => (
-                <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="rounded-[var(--radius-card)] bg-paper/[0.05] p-6 ring-1 ring-paper/10 transition-colors duration-300 hover:bg-paper/[0.08]">
-                  <span className="grid size-9 place-items-center rounded-full bg-dawn text-sm font-bold text-white">{i + 1}</span>
-                  <p className="mt-5 font-display text-lg font-semibold tracking-tight">{t}</p>
+                <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 transition-colors duration-300 hover:bg-paper/[0.08]">
+                  <span className="grid size-8 place-items-center rounded-full bg-dawn text-sm font-bold text-white">{i + 1}</span>
+                  <p className="mt-4 font-display text-lg font-semibold tracking-tight">{t}</p>
                   <p className="mt-2 leading-relaxed text-paper/65">{d}</p>
                 </li>
               ))}
