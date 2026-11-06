@@ -34,7 +34,8 @@ const clamp = (x: number) => Math.min(1, Math.max(0, x));
  */
 export function PathSplit() {
   const root = useRef<HTMLElement>(null);
-  const blobs = useRef<HTMLCanvasElement>(null);
+  const blobHost = useRef<HTMLDivElement>(null);
+  const [noGL, setNoGL] = useState(false);
   const streams = useRef<HTMLCanvasElement>(null);
   const [active, setActive] = useState<Side>("practice");
   const activeRef = useRef<Side>("practice");
@@ -60,9 +61,15 @@ export function PathSplit() {
 
   useEffect(() => {
     const el = root.current;
-    const blobCanvas = blobs.current;
+    const host = blobHost.current;
     const streamCanvas = streams.current;
-    if (!el || !blobCanvas || !streamCanvas) return;
+    if (!el || !host || !streamCanvas) return;
+    // A fresh canvas per mount: a WebGL context released on unmount can never
+    // be reused (React mounts twice in development).
+    const blobCanvas = document.createElement("canvas");
+    blobCanvas.setAttribute("aria-hidden", "true");
+    blobCanvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;pointer-events:none;";
+    host.appendChild(blobCanvas);
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
@@ -73,6 +80,8 @@ export function PathSplit() {
     let uRes: WebGLUniformLocation | null = null;
     let uBalls: WebGLUniformLocation | null = null;
     let uK: WebGLUniformLocation | null = null;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- no WebGL on this device: show the gradient fallback
+    if (!gl) setNoGL(true);
     if (gl) {
       const vs = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }";
       const fs = `precision mediump float;
@@ -105,7 +114,15 @@ export function PathSplit() {
       gl.attachShader(program, compile(gl.VERTEX_SHADER, vs));
       gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fs));
       gl.linkProgram(program);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) program = null;
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        program = null;
+        setNoGL(true);
+      }
+      blobCanvas.addEventListener("webglcontextlost", (e) => {
+        e.preventDefault();
+        program = null;
+        setNoGL(true);
+      });
       if (program) {
         gl.useProgram(program);
         const buf = gl.createBuffer();
@@ -278,6 +295,7 @@ export function PathSplit() {
       el.removeEventListener("pointermove", onMove);
       document.removeEventListener("visibilitychange", run);
       gl?.getExtension("WEBGL_lose_context")?.loseContext();
+      blobCanvas.remove();
     };
   }, []);
 
@@ -294,11 +312,15 @@ export function PathSplit() {
               onPointerEnter={() => setActive(side)}
               className="relative flex min-h-[78svh] flex-col items-center justify-center overflow-hidden px-6 py-20 text-center lg:min-h-[88svh]"
             >
-              <canvas
-                ref={side === "practice" ? blobs : streams}
-                aria-hidden
-                className="pointer-events-none absolute inset-0 -z-10 h-full w-full"
-              />
+              {side === "practice" ? (
+                <div ref={blobHost} aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+                  {noGL && (
+                    <div className={cn("absolute inset-0 transition-opacity duration-700 [background:radial-gradient(30%_28%_at_30%_30%,rgb(49_119_191/0.75),transparent_70%),radial-gradient(26%_24%_at_68%_62%,rgb(114_207_183/0.45),transparent_70%),radial-gradient(34%_30%_at_40%_75%,rgb(31_90_170/0.6),transparent_70%)]", on ? "opacity-100" : "opacity-25")} />
+                  )}
+                </div>
+              ) : (
+                <canvas ref={streams} aria-hidden className="pointer-events-none absolute inset-0 -z-10 h-full w-full" />
+              )}
               <p className={cn("text-[0.72rem] font-medium uppercase tracking-[0.55em] transition-colors duration-700", on ? "text-paper/80" : "text-paper/30")}>
                 {side === "practice" ? "For dental teams" : "For patients"}
               </p>
