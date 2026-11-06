@@ -120,7 +120,7 @@ export default function HomePage() {
 
       {/* 2. Visitor selector */}
       <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-16 lg:py-20" aria-labelledby="welcome">
-        <div className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
+        <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-4">
             <SectionHeading eyebrow="Choose your path" title={<span id="welcome">Welcome to Beyonn. <em>Where should we start?</em></span>} />
@@ -212,7 +212,7 @@ export default function HomePage() {
         </div>
         <div className="container-x mt-14">
           <div className="relative overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-12 text-paper sm:px-14 sm:py-16">
-            <div className="pointer-events-none absolute -right-16 top-1/2 aspect-[1600/1306] w-[28rem] -translate-y-1/2 bg-paper/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
+            <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -right-16 top-1/2 aspect-[1600/1306] w-[28rem] -translate-y-1/2 bg-paper/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
             <ScrollWords
               className="relative mx-auto max-w-4xl text-center font-display text-[clamp(1.5rem,2.8vw,2.5rem)] font-semibold leading-[1.25] tracking-tight"
               segments={[{ text: "OSA and TMD are married. Treated separately, they relapse." }, { text: "Treated together, they resolve.", className: "text-breath" }]}
@@ -280,7 +280,7 @@ export default function HomePage() {
                 <ArrowLink href="/academy">Explore Beyonn Academy</ArrowLink>
               </div>
             </div>
-            <ol className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 sm:grid-cols-2 xl:grid-cols-4">
+            <ol data-morph-shape="rect" className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 sm:grid-cols-2 xl:grid-cols-4">
               {blueprintModules.map((m, i) => (
                 <li key={m} data-aos="fade-up" data-aos-delay={(i % 4) * 60} className="flex min-h-[7rem] flex-col justify-between gap-3 bg-paper-2 p-5 transition-colors duration-500 hover:bg-paper">
                   <span className="font-mono text-sm text-dawn-deep">{String(i + 1).padStart(2, "0")}</span>
@@ -364,7 +364,7 @@ export default function HomePage() {
                       )}
                     >
                       {big && (
-                        <div className="pointer-events-none absolute -bottom-20 -right-24 aspect-[1600/1306] w-[26rem] bg-paper/[0.06] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
+                        <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -bottom-20 -right-24 aspect-[1600/1306] w-[26rem] bg-paper/[0.06] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
                       )}
                       <span className={cn("grid size-12 place-items-center rounded-xl", big ? "bg-paper/10 text-breath" : "bg-dawn/10 text-dawn")}>
                         <g.icon className="size-6" aria-hidden />
@@ -411,7 +411,7 @@ export default function HomePage() {
             </div>
             <p data-aos="fade-up" className="mt-10 max-w-md leading-relaxed text-paper/65">Ask the team for the next live session date and joining details.</p>
           </div>
-          <div data-aos="fade-up" className="rounded-[var(--radius-panel)] border border-paper/10 bg-paper/[0.03] p-7 sm:p-10 lg:sticky lg:top-28 lg:self-start">
+          <div data-morph-shape="rect" data-aos="fade-up" className="rounded-[var(--radius-panel)] border border-paper/10 bg-paper/[0.03] p-7 sm:p-10 lg:sticky lg:top-28 lg:self-start">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl" data-aos="reveal" data-aos-duration="1200" data-aos-delay="150"><Image src="/assets/people/rodney-hero.webp" alt="Dr. Rodney Willey" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-contain object-bottom" /></div>
             <h3 className="mt-8 t-h3">Join the next conversation.</h3>
             <p className="mt-3 text-paper/60">Online with Dr. Willey. The team will confirm the next date and access details.</p>

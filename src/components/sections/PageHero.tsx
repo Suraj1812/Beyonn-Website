@@ -91,7 +91,7 @@ export function CutoutPortrait({ photo, emblem, emblem3d }: { photo: Photo; embl
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]">
       {emblem ? (
-        <div className="pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]" aria-hidden>
+        <div className="pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]" data-morph-shape="emblem" data-morph-hide aria-hidden>
           {(() => {
             const flat = (
               <div className="size-full animate-emblem-in">
@@ -124,7 +124,7 @@ function FramedPhoto({ photo }: { photo: Photo }) {
     <div className="relative mx-auto w-full max-w-[36rem] pb-4 pr-4 lg:max-w-none">
       <div className="absolute inset-0 left-6 top-6 rounded-[var(--radius-panel)] bg-breath/70" aria-hidden />
       <Tilt className="rounded-[var(--radius-panel)]" max={4}>
-        <div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-35px_rgb(19_37_62/0.55)]">
+        <div data-morph-shape="rect" className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-35px_rgb(19_37_62/0.55)]">
           <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 40vw, 90vw" className="object-contain" />
         </div>
       </Tilt>
@@ -139,7 +139,7 @@ function EmblemStage() {
     <div className="size-full animate-emblem-in bg-paper/[0.12] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" />
   );
   return (
-    <div className="relative mx-auto aspect-[1600/1306] w-full max-w-[22rem] sm:max-w-[28rem] lg:max-w-[36rem]" aria-hidden>
+    <div data-morph-shape="emblem" data-morph-hide className="relative mx-auto aspect-[1600/1306] w-full max-w-[22rem] sm:max-w-[28rem] lg:max-w-[36rem]" aria-hidden>
       <Emblem3D className="size-full" distance={8.5} fallback={flat} />
     </div>
   );

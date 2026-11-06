@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 /** Numbered point cards with a gentle 3D tilt, used across content pages. */
 export function FeatureCards({ points, className }: { points: string[]; className?: string }) {
   return (
-    <ul className={cn("grid gap-4", className)}>
+    <ul data-morph-shape="rect" className={cn("grid gap-4", className)}>
       {points.map((point, i) => (
         <li key={point} data-aos="fade-up" data-aos-delay={Math.min(i * 70, 280)}>
           <Tilt className="h-full rounded-[var(--radius-card)]" max={5}>

@@ -47,7 +47,7 @@ export function ProtocolRing() {
   return (
     <div ref={root} className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
       <div className="lg:sticky lg:top-28 lg:h-[28rem] lg:self-start">
-        <svg data-aos="zoom-in" viewBox="-60 -40 440 400" className="mx-auto w-full max-w-[24rem]" role="img" aria-label={`The Beyonn Protocol: ${protocolSteps.map((s) => s.name).join(", ")}. Current step: ${protocolSteps[active].name}.`}>
+        <svg data-morph-shape="ring" data-aos="zoom-in" viewBox="-60 -40 440 400" className="mx-auto w-full max-w-[24rem]" role="img" aria-label={`The Beyonn Protocol: ${protocolSteps.map((s) => s.name).join(", ")}. Current step: ${protocolSteps[active].name}.`}>
           <defs>
             <linearGradient id="ringG" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0" stopColor="#72cfb7" />

@@ -162,7 +162,7 @@ export function OsTiles() {
         <FloatingBadge className="-left-10 bottom-[16%] hidden lg:flex" delay="-2.4s" label="Beyonn Patient App" />
 
         <div ref={stage} className="origin-bottom will-change-transform">
-          <div className="overflow-hidden rounded-2xl bg-paper shadow-[0_50px_100px_-40px_rgb(0_0_0/0.75)] ring-1 ring-paper/15">
+          <div data-morph-shape="rect" className="overflow-hidden rounded-2xl bg-paper shadow-[0_50px_100px_-40px_rgb(0_0_0/0.75)] ring-1 ring-paper/15">
             <div className="flex items-center gap-3 border-b border-ink/10 bg-paper-2 px-4 py-2.5">
               <span className="flex gap-1.5" aria-hidden>
                 <span className="size-2.5 rounded-full bg-[#ff5f57]" />

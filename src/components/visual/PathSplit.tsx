@@ -373,7 +373,7 @@ export function PathSplit() {
             className="absolute -inset-px rounded-full transition-transform duration-[900ms] ease-[var(--ease-out-expo)] [background:conic-gradient(from_0deg,transparent_0deg,transparent_200deg,rgb(114_207_183/0.9)_300deg,transparent_360deg)] [mask:radial-gradient(closest-side,transparent_calc(100%-2px),#000_calc(100%-1.5px))]"
             style={{ transform: `rotate(${active === "practice" ? 0 : 180}deg)` }}
           />
-          <div className="absolute inset-7 bg-paper/85 [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" />
+          <div data-morph-shape="emblem" data-morph-hide className="absolute inset-7 bg-paper/85 [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" />
         </div>
       </div>
     </section>

@@ -19,7 +19,7 @@ export const certificationTiers = {
 /** Growth path shown as an ascending ladder. */
 export function Ladder({ tiers, tone = "light" }: { tiers: Tier[]; tone?: "light" | "dark" }) {
   return (
-    <ol className="grid gap-4 md:grid-cols-3 md:items-end">
+    <ol data-morph-shape="rect" className="grid gap-4 md:grid-cols-3 md:items-end">
       {tiers.map((t, i) => (
         <li key={t.name} data-aos="fade-up" data-aos-delay={i * 120} className={["md:min-h-[15rem]", "md:min-h-[18rem]", "md:min-h-[21rem]"][i]}>
           <Tilt className="h-full rounded-[var(--radius-card)]" max={5}>

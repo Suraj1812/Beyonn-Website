@@ -100,7 +100,7 @@ export default async function ContentRoute({ params }: Props) {
                 </div>
                 <Parallax speed={0.05} className={flip ? "lg:order-1" : ""}>
                   <Tilt className="rounded-[var(--radius-panel)]" max={4}>
-                    <div data-aos="reveal" data-aos-duration="1200" className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-38px_rgb(19_37_62/0.55)]">
+                    <div data-morph-shape="rect" data-aos="reveal" data-aos-duration="1200" className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-38px_rgb(19_37_62/0.55)]">
                       <Image src={section.image} alt={section.imageAlt ?? section.title} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain" />
                     </div>
                   </Tilt>
@@ -130,7 +130,7 @@ export default async function ContentRoute({ params }: Props) {
         return (
           <section key={section.title} id={section.id} className={`section-y ${tone}`}>
             <div className="container-x">
-              <div className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-6 py-14 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
+              <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-6 py-14 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
                 <div className="pointer-events-none absolute -bottom-24 -right-20 -z-10 aspect-[1600/1306] w-[30rem] bg-dawn/[0.08] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
                 <SectionHeading eyebrow={section.eyebrow} title={section.title} />
                 {section.body && <p data-aos="fade-up" className="mt-6 max-w-2xl t-lead text-muted">{section.body}</p>}
@@ -139,7 +139,7 @@ export default async function ContentRoute({ params }: Props) {
           </section>
         );
       })}
-      {key === "team" && <section className="section-y bg-paper-2"><div className="container-x"><SectionHeading eyebrow="Our people" title="The team behind your team." /><div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{team.map((person, i) => <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 4) * 70}><Tilt className="h-full rounded-[var(--radius-card)]"><article className="h-full overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]"><div className="relative aspect-[4/5] bg-breath/40"><Image src={person.image} alt={person.name} fill sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" className="object-contain object-bottom" /></div><div className="p-6"><h3 className="t-h3">{person.name}</h3><p className="mt-2 text-sm text-muted">{person.role}</p></div></article></Tilt></div>)}</div></div></section>}
+      {key === "team" && <section className="section-y bg-paper-2"><div className="container-x"><SectionHeading eyebrow="Our people" title="The team behind your team." /><div data-morph-shape="rect" className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">{team.map((person, i) => <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 4) * 70}><Tilt className="h-full rounded-[var(--radius-card)]"><article className="h-full overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]"><div className="relative aspect-[4/5] bg-breath/40"><Image src={person.image} alt={person.name} fill sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw" className="object-contain object-bottom" /></div><div className="p-6"><h3 className="t-h3">{person.name}</h3><p className="mt-2 text-sm text-muted">{person.role}</p></div></article></Tilt></div>)}</div></div></section>}
       {key === "patients" && <PatientCheck />}
       {(key === "academy" || key === "partner") && (
         <section className="spotlight section-y relative overflow-hidden bg-ink text-paper"><div className="container-x"><SectionHeading tone="dark" eyebrow="Certification" title="A path that grows with your practice." /><div className="mt-12"><Ladder tiers={certificationTiers.academy} tone="dark" /></div></div></section>
