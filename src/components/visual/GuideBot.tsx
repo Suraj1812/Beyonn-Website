@@ -63,6 +63,7 @@ export function GuideBot() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- close the guide when the route changes
     close();
   }, [pathname, close]);
 
@@ -135,7 +136,7 @@ export function GuideBot() {
         room.dispose();
         const geometries = new Set<Three.BufferGeometry>();
         const materials = new Set<Three.Material>();
-        let shadow: Three.DirectionalLightShadow | undefined;
+        let shadow: Three.DirectionalLightShadow | undefined = undefined;
         let released = false;
         const release = () => {
           if (released) return;
@@ -153,136 +154,149 @@ export function GuideBot() {
           materials.add(result);
           return result;
         };
-        const ceramic = material("#f0f4f7", { roughness: 0.29, sheen: 0.15 });
-        const pearl = material("#d7e5ef", { roughness: 0.4 });
-        const blue = material("#3a78b0", { roughness: 0.31, metalness: 0.32 });
-        const navy = material("#17344f", { roughness: 0.33, metalness: 0.22 });
-        const chrome = material("#c2d5dd", { roughness: 0.22, metalness: 0.7 });
-        const glass = material("#102838", { roughness: 0.12, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.05 });
-        const mint = material("#b8eadb", { roughness: 0.3, emissive: "#72c7ab", emissiveIntensity: 0.25 });
-        const eyeHighlight = material("#ffffff", { roughness: .15, emissive: "#ffffff", emissiveIntensity: .15 });
-        const blush = material("#e6b8ac", { roughness: .7, transparent: true, opacity: .58 });
+        // Glossy white shell, soft sky-blue accents, a dark glass face screen
+        // with glowing eyes: a friendly medical helper.
+        const ceramic = material("#f6f9fd", { roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.08, sheen: 0.2 });
+        const pearl = material("#e6eef8", { roughness: 0.3, clearcoat: 0.8 });
+        const sky = material("#6eaeee", { roughness: 0.26, clearcoat: 0.9, clearcoatRoughness: 0.12 });
+        const skyDeep = material("#4b8fd8", { roughness: 0.3, clearcoat: 0.7 });
+        const chrome = material("#cfdcec", { roughness: 0.25, metalness: 0.3 });
+        const glass = material("#0a1c36", { roughness: 0.1, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 0.35 });
+        // "mint" is the glowing material (kept name: it is excluded from shadows).
+        const mint = material("#e9f6ff", { roughness: 0.3, emissive: "#d6efff", emissiveIntensity: 1.15, clearcoat: 0 });
+        const glowBlue = material("#9fd3ff", { roughness: 0.3, emissive: "#6fb8ff", emissiveIntensity: 0.9, clearcoat: 0 });
+        const pupil = material("#0b1d38", { roughness: 0.2, clearcoat: 0 });
+        const blush = material("#7fa7e4", { roughness: 0.6, transparent: true, opacity: 0.6, emissive: "#5e8fd8", emissiveIntensity: 0.35, clearcoat: 0 });
         const mesh = (geometry: Three.BufferGeometry, surface: Three.Material, parent: Three.Object3D) => {
           geometries.add(geometry);
           const object = new THREE.Mesh(geometry, surface);
-          object.castShadow = surface !== mint;
+          object.castShadow = surface !== mint && surface !== glowBlue && surface !== blush;
           object.receiveShadow = true;
           parent.add(object);
           return object;
         };
-        const round = (w: number, h: number, d: number, radius: number) => new RoundedBoxGeometry(w, h, d, 5, radius);
+        const round = (w: number, h: number, d: number, radius: number) => new RoundedBoxGeometry(w, h, d, 6, radius);
         const bot = new THREE.Group();
         bot.rotation.y = -0.12;
         scene.add(bot);
 
-        // A small, rounded body leaves the expressive head as the focal point.
+        // Rounded, egg-shaped body with a chest panel and a medical plus.
         const body = new THREE.Group();
-        body.position.y = -0.36;
+        body.position.y = -0.38;
         bot.add(body);
-        const profile = [[0, -.46], [.24, -.44], [.34, -.34], [.39, -.15], [.36, .04], [.27, .18], [.14, .21], [0, .21]];
-        const torso = mesh(new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(r, y)), 48), ceramic, body);
-        torso.scale.z = 0.88;
-        const chestInset = mesh(round(.32, .2, .035, .065), pearl, body);
-        chestInset.position.set(0, -.11, .337);
-        const chestLight = mesh(round(.15, .025, .012, .012), blue, body);
-        chestLight.position.set(0, -.09, .36);
-        const indicator = mesh(new THREE.SphereGeometry(.024, 12, 8), mint, body);
-        indicator.position.set(0, -.18, .36);
-        const waist = mesh(new THREE.TorusGeometry(.267, .018, 8, 48), pearl, body);
-        waist.rotation.x = Math.PI / 2;
-        waist.scale.y = .8;
-        waist.position.y = -.37;
-        const neck = mesh(new THREE.CylinderGeometry(.13, .16, .2, 28), chrome, bot);
-        neck.position.y = -.055;
+        const profile = [[0, -.4], [.2, -.39], [.3, -.31], [.345, -.15], [.335, .02], [.28, .14], [.16, .2], [0, .21]];
+        const torso = mesh(new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(r, y)), 56), ceramic, body);
+        torso.scale.z = 0.86;
+        const panel = mesh(round(.3, .24, .05, .08), pearl, body);
+        panel.position.set(0, -.11, .275);
+        panel.rotation.x = -.08;
+        const plusV = mesh(round(.05, .14, .03, .018), sky, body);
+        plusV.position.set(0, -.11, .305);
+        const plusH = mesh(round(.14, .05, .03, .018), sky, body);
+        plusH.position.set(0, -.11, .305);
+        // Neck with a softly glowing collar.
+        const neck = mesh(new THREE.CylinderGeometry(.13, .15, .14, 32), chrome, bot);
+        neck.position.y = -.12;
+        const collar = mesh(new THREE.TorusGeometry(.155, .016, 10, 48), glowBlue, bot);
+        collar.rotation.x = Math.PI / 2;
+        collar.position.y = -.175;
 
-        // Generous rounded cheeks and wide eyes make the face readable at icon size.
+        // A big pill-shaped helmet head; the dark screen holds the face.
         const head = new THREE.Group();
-        head.position.y = .47;
+        head.position.y = .5;
         bot.add(head);
-        mesh(round(1.34, 1.01, .84, .35), ceramic, head);
-        const forehead = mesh(round(.59, .019, .018, .009), pearl, head);
-        forehead.position.set(0, .382, .347);
-        const visorFrame = mesh(new THREE.SphereGeometry(1, 44, 28), pearl, head);
-        visorFrame.scale.set(.605, .36, .145);
-        visorFrame.position.set(0, -.025, .427);
-        const visor = mesh(new THREE.SphereGeometry(1, 44, 28), glass, head);
-        visor.scale.set(.578, .33, .14);
-        visor.position.set(0, -.025, .45);
-        const eyes = new THREE.Group();
-        eyes.position.set(0, .025, .593);
-        head.add(eyes);
-        const eyeGeometry = new THREE.SphereGeometry(.085, 24, 18);
-        const eyeL = mesh(eyeGeometry, mint, eyes);
-        const eyeR = mesh(eyeGeometry, mint, eyes);
-        eyeL.position.x = -.215;
-        eyeR.position.x = .215;
-        eyeL.scale.set(1, 1.17, .25);
-        eyeR.scale.set(1, 1.17, .25);
-        for (const eye of [eyeL, eyeR]) {
-          const glint = mesh(new THREE.SphereGeometry(.018, 12, 8), eyeHighlight, eye);
-          glint.position.set(-.025, .034, .099);
-          glint.castShadow = false;
-        }
-        for (const side of [-1, 1]) {
-          const cheek = mesh(new THREE.SphereGeometry(.055, 20, 14), blush, head);
-          cheek.scale.set(1.15, .55, .18);
-          cheek.position.set(side * .34, -.13, .559);
-          cheek.castShadow = false;
-        }
-        const smileCurve = new THREE.CatmullRomCurve3([new THREE.Vector3(-.07, -.12, .602), new THREE.Vector3(0, -.155, .611), new THREE.Vector3(.07, -.12, .602)]);
-        const smile = mesh(new THREE.TubeGeometry(smileCurve, 20, .01, 7, false), mint, head);
-        for (const side of [-1, 1]) {
-          const earpiece = mesh(new THREE.CylinderGeometry(.135, .135, .07, 28), blue, head);
-          earpiece.rotation.z = Math.PI / 2;
-          earpiece.position.set(side * .67, -.025, 0);
-          const cap = mesh(new THREE.CylinderGeometry(.097, .097, .012, 28), pearl, head);
-          cap.rotation.z = Math.PI / 2;
-          cap.position.set(side * .713, -.025, 0);
-          const screw = mesh(new THREE.CylinderGeometry(.022, .022, .018, 16), chrome, head);
-          screw.rotation.z = Math.PI / 2;
-          screw.position.set(side * .725, -.025, 0);
-        }
-        const fin = mesh(round(.07, .11, .13, .035), blue, head);
-        fin.position.set(.36, .515, -.04);
+        mesh(round(1.38, 1.02, .94, .42), ceramic, head);
+        const visor = mesh(new THREE.SphereGeometry(1, 56, 36), glass, head);
+        visor.scale.set(.6, .385, .17);
+        visor.position.set(0, -.03, .4);
+        // Glossy reflection streak across the top of the screen.
+        const shineMat = material("#ffffff", { transparent: true, opacity: .32, emissive: "#ffffff", emissiveIntensity: .6, clearcoat: 0 });
+        const shine = mesh(new THREE.TorusGeometry(.46, .012, 6, 48, Math.PI * .32), shineMat, head);
+        shine.castShadow = false;
+        shine.position.set(.02, -.2, .56);
+        shine.rotation.z = Math.PI * .34;
+        shine.scale.set(1, .62, 1);
 
-        // Separate upper arms, elbow joints, forearms and little open palms.
+        const eyes = new THREE.Group();
+        eyes.position.set(0, .02, .555);
+        head.add(eyes);
+        const makeEye = (x: number) => {
+          const eye = new THREE.Group();
+          eye.position.x = x;
+          eyes.add(eye);
+          const white = mesh(new THREE.SphereGeometry(.105, 32, 20), mint, eye);
+          white.scale.z = .22;
+          const iris = mesh(new THREE.SphereGeometry(.072, 28, 18), pupil, eye);
+          iris.scale.z = .2;
+          iris.position.set(.016, .012, .012);
+          const glint = mesh(new THREE.SphereGeometry(.024, 16, 10), mint, eye);
+          glint.scale.z = .3;
+          glint.position.set(.04, .044, .026);
+          return eye;
+        };
+        const eyeL = makeEye(-.2);
+        const eyeR = makeEye(.2);
+        for (const side of [-1, 1]) {
+          const cheek = mesh(new THREE.SphereGeometry(.06, 24, 14), blush, head);
+          cheek.scale.set(1.25, .62, .16);
+          cheek.position.set(side * .33, -.14, .528);
+        }
+        const smileCurve = new THREE.CatmullRomCurve3([new THREE.Vector3(-.075, -.105, .575), new THREE.Vector3(-.035, -.142, .58), new THREE.Vector3(.035, -.142, .58), new THREE.Vector3(.075, -.105, .575)]);
+        const smile = mesh(new THREE.TubeGeometry(smileCurve, 24, .013, 8, false), mint, head);
+        for (const side of [-1, 1]) {
+          const ear = mesh(new THREE.CylinderGeometry(.16, .16, .1, 36), sky, head);
+          ear.rotation.z = Math.PI / 2;
+          ear.position.set(side * .69, -.03, 0);
+          const ring = mesh(new THREE.TorusGeometry(.11, .02, 10, 36), glowBlue, head);
+          ring.rotation.y = Math.PI / 2;
+          ring.position.set(side * .745, -.03, 0);
+          const cap = mesh(new THREE.CylinderGeometry(.085, .085, .02, 32), ceramic, head);
+          cap.rotation.z = Math.PI / 2;
+          cap.position.set(side * .748, -.03, 0);
+        }
+        // Antenna with a glowing bead.
+        const stalk = mesh(new THREE.CylinderGeometry(.018, .022, .2, 12), pearl, head);
+        stalk.position.set(0, .6, 0);
+        const bead = mesh(new THREE.SphereGeometry(.068, 24, 16), glowBlue, head);
+        bead.position.set(0, .73, 0);
+
+        // Shoulder pads, round arms with a blue band, and mitten hands.
         const makeArm = (side: number) => {
           const shoulder = new THREE.Group();
-          shoulder.position.set(side * .37, -.2, 0);
-          shoulder.rotation.z = side * .12;
+          shoulder.position.set(side * .36, -.24, 0);
+          shoulder.rotation.z = side * .14;
           bot.add(shoulder);
-          const socket = mesh(new THREE.SphereGeometry(.09, 20, 14), navy, shoulder);
-          socket.scale.z = .9;
-          const upper = mesh(new THREE.CapsuleGeometry(.073, .12, 8, 18), ceramic, shoulder);
-          upper.position.y = -.115;
+          const pad = mesh(new THREE.SphereGeometry(.13, 28, 16, 0, Math.PI * 2, 0, Math.PI * .55), sky, shoulder);
+          pad.scale.set(1, .85, .95);
+          pad.position.y = .01;
+          const padGlow = mesh(new THREE.TorusGeometry(.118, .011, 8, 40), glowBlue, shoulder);
+          padGlow.rotation.x = Math.PI / 2;
+          padGlow.position.y = -.005;
+          const upper = mesh(new THREE.CapsuleGeometry(.085, .1, 10, 20), ceramic, shoulder);
+          upper.position.y = -.1;
           const elbow = new THREE.Group();
-          elbow.position.y = -.24;
+          elbow.position.y = -.2;
           shoulder.add(elbow);
-          mesh(new THREE.SphereGeometry(.065, 18, 12), chrome, elbow);
-          const forearm = mesh(new THREE.CapsuleGeometry(.078, .1, 8, 18), ceramic, elbow);
-          forearm.position.y = -.1;
-          const cuff = mesh(new THREE.CylinderGeometry(.071, .071, .045, 20), blue, elbow);
-          cuff.position.y = -.185;
-          const hand = mesh(round(.145, .14, .09, .045), pearl, elbow);
-          hand.position.set(0, -.25, .005);
-          const thumb = mesh(new THREE.CapsuleGeometry(.025, .035, 6, 12), pearl, elbow);
-          thumb.position.set(-side * .075, -.235, .025);
-          thumb.rotation.z = side * -.65;
+          const band = mesh(new THREE.CylinderGeometry(.09, .09, .04, 28), sky, elbow);
+          band.position.y = -.01;
+          const forearm = mesh(new THREE.CapsuleGeometry(.088, .08, 10, 20), ceramic, elbow);
+          forearm.position.y = -.09;
+          const hand = mesh(new THREE.SphereGeometry(.105, 28, 18), ceramic, elbow);
+          hand.scale.set(1, 1.05, .9);
+          hand.position.set(0, -.22, .005);
           return { shoulder, elbow };
         };
         const left = makeArm(-1);
         const right = makeArm(1);
         const shoes: Three.Mesh[] = [];
         for (const side of [-1, 1]) {
-          const hip = mesh(new THREE.SphereGeometry(.07, 16, 12), navy, bot);
-          hip.position.set(side * .17, -.81, 0);
-          const shin = mesh(new THREE.CapsuleGeometry(.077, .075, 8, 18), pearl, bot);
-          shin.position.set(side * .17, -.89, 0);
-          const shoe = mesh(round(.24, .145, .34, .07), blue, bot);
-          shoe.position.set(side * .17, -1.015, .055);
+          const leg = mesh(new THREE.CapsuleGeometry(.09, .08, 10, 20), ceramic, bot);
+          leg.position.set(side * .15, -.87, 0);
+          const shoe = mesh(round(.25, .14, .32, .07), sky, bot);
+          shoe.position.set(side * .15, -1.02, .045);
           shoes.push(shoe);
-          const sole = mesh(round(.25, .028, .35, .013), navy, bot);
-          sole.position.set(side * .17, -1.085, .055);
+          const sole = mesh(round(.255, .03, .325, .014), skyDeep, bot);
+          sole.position.set(side * .15, -1.087, .045);
         }
 
         const key = new THREE.DirectionalLight("#fff7ee", 3.1);
@@ -346,8 +360,8 @@ export function GuideBot() {
           eyes.position.x += ((reduced ? 0 : state.open ? -.028 : gaze.x * .025) - eyes.position.x) * response;
           const blink = blinkAt < 0 || reduced ? 0 : Math.min(1, (now - blinkAt) / 230);
           const blinkScale = blink > 0 && blink < 1 ? 1 - Math.sin(blink * Math.PI) * .95 : 1;
-          eyeL.scale.y = 1.17 * blinkScale * (1 - wink * .92 - wave * .13);
-          eyeR.scale.y = 1.17 * blinkScale * (1 + wink * .06 - wave * .13);
+          eyeL.scale.y = blinkScale * (1 - wink * .92 - wave * .13);
+          eyeR.scale.y = blinkScale * (1 + wink * .06 - wave * .13);
           eyeL.scale.x = eyeR.scale.x = 1 + wave * .04;
           smile.scale.x = 1 + pulse * .18;
           right.shoulder.rotation.z = .12 + wave * 2.15 + flight * .26;
