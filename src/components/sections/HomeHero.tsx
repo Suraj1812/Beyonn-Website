@@ -70,7 +70,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
   return (
-    <section ref={section} data-guide="hero" className="spotlight relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
+    <section ref={section} data-guide="hero" className="spotlight relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--em-color:var(--color-breath)] [--scribble:var(--color-dawn-deep)]">
       <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
 
