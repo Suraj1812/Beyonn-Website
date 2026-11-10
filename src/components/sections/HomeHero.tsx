@@ -14,7 +14,8 @@ const slides: Slide[] = [
     kicker: "The OSA + TMD Program Your Team Can Run",
     title: (play) => (
       <>
-        Your team. Our <Scribble play={play}>system.</Scribble> A complete OSA + TMD integration program.
+        Your team. Our <Scribble play={play}>system.</Scribble>{" "}
+        <span className="hidden sm:inline">A complete OSA + TMD integration program.</span>
       </>
     ),
     sub: "Beyonn helps dental practitioners add Obstructive Sleep Apnea and Temporomandibular Joint Disorder treatment to their practice. We train your team step by step, give you the tech ecosystem, and coach you alongside Dr. Rodney Willey, one of the pioneers of the field, until your program runs on its own.",
@@ -45,10 +46,11 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
   const figure = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const desktop = window.matchMedia("(min-width: 40rem)");
     let raf = 0;
     const update = () => {
       const h = section.current?.offsetHeight ?? 1;
-      const p = Math.min(1, Math.max(0, window.scrollY / h));
+      const p = desktop.matches ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
       if (copy.current) {
         copy.current.style.transform = `translate3d(0, ${(p * 70).toFixed(1)}px, 0)`;
         copy.current.style.opacity = String(1 - p * 0.85);
@@ -60,8 +62,10 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
       raf = requestAnimationFrame(update);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
+    desktop.addEventListener("change", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      desktop.removeEventListener("change", onScroll);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -74,7 +78,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
       <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
 
-      <div className="container-x grid items-center gap-12 pb-12 pt-32 sm:pt-36 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16 lg:pt-40">
+      <div className="container-x grid items-center gap-6 pb-8 pt-24 sm:gap-12 sm:pb-12 sm:pt-36 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16 lg:pt-40">
         <div ref={copy} className="max-w-[42rem] will-change-transform">
           <div
             className="grid"
@@ -104,16 +108,20 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
                         <span className="mx-2 text-paper/40">·</span>
                       </>
                     )}
-                    {s.kicker}
+                    <span className="sm:hidden">Dental sleep medicine · OSA + TMD</span>
+                    <span className="hidden sm:inline">{s.kicker}</span>
                   </p>
-                  <Title className="mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)]">{s.title(active)}</Title>
-                  <p className="mt-6 max-w-[35rem] t-lead text-paper/80">{s.sub}</p>
+                  <Title className="mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)] max-sm:!text-[clamp(1.95rem,8.5vw,2.8rem)]">{s.title(active)}</Title>
+                  <p className="mt-4 max-w-[35rem] text-[0.95rem] leading-relaxed text-paper/80 sm:hidden">
+                    Bring sleep apnea and jaw joint care into your practice with team training, technology and coaching from Dr. Rodney Willey.
+                  </p>
+                  <p className="mt-6 hidden max-w-[35rem] t-lead text-paper/80 sm:block">{s.sub}</p>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
+          <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">{actions}</div>
 
           {slides.length > 1 && (
           <div className="mt-8 flex items-center gap-3" role="group" aria-label="Hero slides">
@@ -154,7 +162,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
           </div>
           )}
 
-          <div className="mt-12">{below}</div>
+          <div className="mt-6 border-t border-paper/15 pt-4 sm:mt-12 sm:border-0 sm:pt-0">{below}</div>
         </div>
 
         <div className="animate-fade-up" style={{ animationDelay: "200ms" }}>
@@ -162,6 +170,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
           <CutoutPortrait
             emblem="on-dark"
             emblem3d
+            compact
             photo={{
               src: "/assets/people/rodney-hero.webp",
               alt: "Dr. Rodney Willey seated in clinic",

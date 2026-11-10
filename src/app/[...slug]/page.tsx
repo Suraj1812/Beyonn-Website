@@ -3,6 +3,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { ContentSection, ActionButton, discoveryFields } from "@/components/sections/ContentSection";
 import { MailtoForm } from "@/components/interactive/MailtoForm";
+import { SectionJumps } from "@/components/ui/SectionJumps";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { pages } from "@/content/pages";
@@ -57,6 +58,11 @@ export default async function ContentRoute({ params }: Props) {
     return { "@type": "ListItem", position: i + 2, name: pages[k]?.title ?? parts[i], item: `${site.url}/${k}` };
   });
   const faqText = page.sections.flatMap((section) => section.faq ?? []).filter((f) => typeof f.a === "string");
+  const jumpLinks = page.sections.flatMap(({ id }) => id ? [{
+    id,
+    label: id === "faq" || id === "tmd" ? id.toUpperCase() : id.charAt(0).toUpperCase() + id.slice(1).replaceAll("-", " "),
+  }] : []);
+  if (page.closing?.id) jumpLinks.push({ id: page.closing.id, label: page.closing.form === "partner" ? "Discovery call" : "Next step" });
   const hero = page.photo
     ? { src: page.photo, alt: page.photoAlt ?? page.title, mode: key === "dr-rodney-willey" ? ("contain" as const) : ("cover" as const) }
     : undefined;
@@ -106,6 +112,7 @@ export default async function ContentRoute({ params }: Props) {
           )
         }
       />
+      <SectionJumps links={jumpLinks} />
       {!legacy && page.sections.map((section, index) => <ContentSection key={section.id ?? section.title ?? section.eyebrow ?? index} section={section} index={index} />)}
       {legacy && page.sections.map((section, index) => {
         const tone = index % 2 === 0 ? "bg-paper" : "bg-paper-2";
@@ -115,7 +122,7 @@ export default async function ContentRoute({ params }: Props) {
         if (section.image) {
           return (
             <section key={section.title} id={section.id} className={`section-y ${tone}`}>
-              <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-14">
+              <div className="container-x grid items-center gap-6 sm:gap-12 lg:grid-cols-2 lg:gap-14">
                 <div className={flip ? "lg:order-2" : ""}>
                   <SectionHeading eyebrow={section.eyebrow} title={section.title ?? ""} />
                   {section.body && <p data-aos="fade-up" className="mt-7 max-w-2xl t-lead text-muted">{paragraphText(section.body)}</p>}
@@ -137,7 +144,7 @@ export default async function ContentRoute({ params }: Props) {
         if (section.points) {
           return (
             <section key={section.title} id={section.id} className={`section-y ${tone}`}>
-              <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+              <div className="container-x grid gap-6 sm:gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
                 <div className="lg:sticky lg:top-28 lg:self-start">
                   <SectionHeading eyebrow={section.eyebrow} title={section.title ?? ""} />
                   {section.body && <p data-aos="fade-up" className="mt-7 max-w-xl t-lead text-muted">{paragraphText(section.body)}</p>}
@@ -152,7 +159,7 @@ export default async function ContentRoute({ params }: Props) {
         return (
           <section key={section.title} id={section.id} className={`section-y ${tone}`}>
             <div className="container-x">
-              <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-6 py-14 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
+              <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-5 py-8 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
                 <div className="pointer-events-none absolute -bottom-24 -right-20 -z-10 aspect-[1600/1306] w-[30rem] bg-dawn/[0.08] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
                 <SectionHeading eyebrow={section.eyebrow} title={section.title ?? ""} />
                 {section.body && <p data-aos="fade-up" className="mt-6 max-w-2xl t-lead text-muted">{paragraphText(section.body)}</p>}

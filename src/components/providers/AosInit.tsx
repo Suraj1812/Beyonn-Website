@@ -19,10 +19,13 @@ export function AosInit() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const mobile = window.matchMedia("(width < 48rem)").matches;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const still = !mobile && motionPreference.matches;
+
     const body = document.body;
     body.dataset.aosEasing = "ease-out-cubic";
     body.dataset.aosDuration = "800";
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     // Elements already revealed. React may rewrite a className on re-render and
     // drop "aos-animate"; we put it straight back so nothing vanishes.
@@ -31,7 +34,7 @@ export function AosInit() {
       revealed.add(el);
       const delay = el.dataset.aosDelay;
       if (delay) {
-        el.style.transitionDelay = `${delay}ms`;
+        el.style.transitionDelay = `${mobile ? Math.min(Number(delay), 120) : delay}ms`;
         // Drop the delay once the entrance is done so hover transitions stay instant.
         el.addEventListener("transitionend", () => (el.style.transitionDelay = ""), { once: true });
       }
@@ -46,7 +49,7 @@ export function AosInit() {
           io.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px -6% 0px", threshold: 0 },
+      { rootMargin: mobile ? "0px 0px -24px 0px" : "0px 0px -6% 0px", threshold: 0 },
     );
 
     const scan = (root: ParentNode) => {
@@ -78,7 +81,7 @@ export function AosInit() {
       const now = performance.now();
       if (now - last < 250) return;
       last = now;
-      const limit = window.innerHeight * 0.94;
+      const limit = mobile ? window.innerHeight - 24 : window.innerHeight * 0.94;
       document.querySelectorAll<HTMLElement>("[data-aos]:not(.aos-animate)").forEach((el) => {
         const r = el.getBoundingClientRect();
         if (r.top < limit && r.bottom > 0 && (r.width || r.height)) {
@@ -87,12 +90,12 @@ export function AosInit() {
         }
       });
     };
-    // Start only after the page has loaded and React has hydrated, so adding
-    // classes never races hydration (which caused attribute mismatches).
+    // Phones have no entrance curtain, so begin after the initial render.
+    // Desktop keeps its load-time reveal schedule.
     let started = false;
     let timer = 0;
     const start = () => {
-      if (started) return;
+      if (started || (mobile && motionPreference.matches)) return;
       started = true;
       scan(document);
       mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
@@ -104,8 +107,12 @@ export function AosInit() {
         sweep();
       }, 400);
     };
-    const schedule = () => window.setTimeout(start, 60);
-    if (document.readyState === "complete") schedule();
+    let readyTimer = 0;
+    const schedule = () => {
+      readyTimer = window.setTimeout(start, 60);
+    };
+    if (mobile) motionPreference.addEventListener("change", start);
+    if (mobile || document.readyState === "complete") schedule();
     else window.addEventListener("load", schedule, { once: true });
     // Never wait forever (e.g. a slow third-party asset holding "load").
     const failSafe = window.setTimeout(start, 2500);
@@ -113,10 +120,12 @@ export function AosInit() {
     return () => {
       io.disconnect();
       mo.disconnect();
+      motionPreference.removeEventListener("change", start);
       window.removeEventListener("load", schedule);
       window.removeEventListener("scroll", sweep);
       window.removeEventListener("resize", sweep);
       window.clearTimeout(timer);
+      window.clearTimeout(readyTimer);
       window.clearTimeout(failSafe);
     };
   }, [pathname]);

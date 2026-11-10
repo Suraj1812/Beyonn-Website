@@ -21,7 +21,7 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
         hydrated = true;
         return;
       }
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (window.matchMedia("(width < 48rem), (prefers-reduced-motion: reduce)").matches) return;
       const tl = gsap.timeline();
       tl.set(curtain.current, { display: "grid", yPercent: 0 })
         .fromTo(curtain.current!.firstElementChild, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" })

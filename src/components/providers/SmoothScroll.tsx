@@ -11,6 +11,11 @@ export const useLenis = () => useContext(LenisContext);
 
 gsap.registerPlugin(ScrollTrigger);
 
+function anchorOffset() {
+  // On phones the target's CSS scroll margin already clears the fixed header.
+  return window.matchMedia("(width < 48rem)").matches ? 0 : -96;
+}
+
 /** Lenis smooth scrolling driven by the GSAP ticker, so ScrollTrigger and AOS stay in sync. */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
@@ -18,7 +23,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const instance = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.2, anchors: { offset: -96 } });
+    const instance = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.2, anchors: { offset: anchorOffset() } });
     const raf = (time: number) => instance.raf(time * 1000);
     instance.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(raf);
@@ -39,7 +44,7 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       if (hash) {
         const el = document.getElementById(decodeURIComponent(hash.slice(1)));
         if (el) {
-          if (lenis) lenis.scrollTo(el, { offset: -96, immediate: false, duration: 1.2 });
+          if (lenis) lenis.scrollTo(el, { offset: anchorOffset(), immediate: false, duration: 1.2 });
           else el.scrollIntoView({ behavior: "smooth" });
           return;
         }

@@ -42,7 +42,7 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
 
       <div
         className={cn(
-          "container-x grid items-center gap-10 pb-12 pt-32 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
+          "container-x grid items-center gap-6 pb-8 pt-24 sm:gap-10 sm:pb-12 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
           photo?.mode === "cover" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_0.9fr]",
         )}
       >
@@ -66,7 +66,7 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
             </div>
           )}
           {actions && (
-            <div className="mt-9 flex flex-wrap gap-3 animate-fade-up" style={{ animationDelay: "320ms" }}>
+            <div className="mt-6 flex flex-wrap gap-3 animate-fade-up max-sm:[&>.btn]:w-full max-sm:[&>.btn]:justify-between sm:mt-9" style={{ animationDelay: "320ms" }}>
               {actions}
             </div>
           )}
@@ -101,9 +101,9 @@ function NameCard({ caption, className }: { caption: NonNullable<Photo["caption"
  * `emblem` it stands in front of an oversized Beyonn emblem that bleeds off the
  * section edge, as on beyonn.com. The full image is always shown.
  */
-export function CutoutPortrait({ photo, emblem, emblem3d }: { photo: Photo; emblem?: boolean | "on-dark"; emblem3d?: boolean }) {
+export function CutoutPortrait({ photo, emblem, emblem3d, compact = false }: { photo: Photo; emblem?: boolean | "on-dark"; emblem3d?: boolean; compact?: boolean }) {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]">
+    <div className={cn("relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]", compact && "max-sm:aspect-[2.1] max-sm:overflow-hidden max-sm:rounded-2xl max-sm:border max-sm:border-paper/15 max-sm:bg-paper/[0.06]")}>
       {emblem ? (
         <div className="pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]" data-morph-shape="emblem" data-morph-hide aria-hidden>
           {(() => {
@@ -126,8 +126,8 @@ export function CutoutPortrait({ photo, emblem, emblem3d }: { photo: Photo; embl
           <div className="absolute bottom-[4%] left-1/2 aspect-square w-[80%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_32%_26%,rgb(255_255_255/0.35),transparent_58%)] animate-sun-in" aria-hidden />
         </>
       )}
-      <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 36rem, 90vw" className="object-contain [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]" />
-      {photo.caption && <NameCard caption={photo.caption} className="bottom-[12%] left-0 sm:-left-4" />}
+      <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 36rem, 90vw" className={cn("object-contain [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]", compact && "max-sm:object-right-bottom")} />
+      {photo.caption && <NameCard caption={photo.caption} className={cn("bottom-[12%] left-0 sm:-left-4", compact && "max-sm:left-4 max-sm:w-[9rem] max-sm:bg-transparent max-sm:px-0 max-sm:text-paper max-sm:shadow-none max-sm:ring-0 max-sm:[&_p:last-child]:text-paper/70")} />}
     </div>
   );
 }
@@ -153,7 +153,7 @@ function EmblemStage() {
     <div className="size-full animate-emblem-in bg-paper/[0.12] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" />
   );
   return (
-    <div data-morph-shape="emblem" data-morph-hide className="relative mx-auto aspect-[1600/1306] w-full max-w-[22rem] sm:max-w-[28rem] lg:max-w-[36rem]" aria-hidden>
+    <div data-morph-shape="emblem" data-morph-hide className="relative mx-auto aspect-[1600/1306] w-full max-w-[11rem] sm:max-w-[28rem] lg:max-w-[36rem]" aria-hidden>
       <Emblem3D className="size-full" distance={8.5} fallback={flat} />
     </div>
   );

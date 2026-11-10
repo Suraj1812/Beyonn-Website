@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import type { Action, Card, PageSection } from "@/content/pages";
 import { team } from "@/content/team";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -135,12 +135,12 @@ function Columns({ columns }: { columns: NonNullable<PageSection["columns"]> }) 
 function Steps({ steps }: { steps: Card[] }) {
   const cols = steps.length === 6 ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6" : steps.length === 5 ? "sm:grid-cols-2 lg:grid-cols-5" : "sm:grid-cols-2 lg:grid-cols-4";
   return (
-    <ol data-morph-shape="rect" className={cn("grid gap-4", cols)}>
+    <ol data-morph-shape="rect" className={cn("relative grid gap-4 max-sm:gap-2 max-sm:before:absolute max-sm:before:inset-y-6 max-sm:before:left-[1.125rem] max-sm:before:w-px max-sm:before:bg-dawn/25", cols)}>
       {steps.map((s, i) => (
-        <li key={s.title ?? s.text} data-aos="fade-up" data-aos-delay={Math.min(i * 80, 400)} className="relative flex flex-col gap-3 rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]">
-          <span className="grid size-10 place-items-center rounded-full bg-dawn font-display text-sm font-bold text-white">{i + 1}</span>
-          {s.title && <h3 className="text-lg font-semibold leading-snug">{s.title}</h3>}
-          {s.text && <p className="leading-relaxed text-text/80">{s.text}</p>}
+        <li key={s.title ?? s.text} data-aos="fade-up" data-aos-delay={Math.min(i * 80, 400)} className="relative flex flex-col gap-3 rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)] max-sm:ml-12 max-sm:gap-1.5 max-sm:p-4">
+          <span className="grid size-10 place-items-center rounded-full bg-dawn font-display text-sm font-bold text-white max-sm:absolute max-sm:-left-[3.0625rem] max-sm:top-3 max-sm:size-9 max-sm:ring-4 max-sm:ring-paper">{i + 1}</span>
+          {s.title && <h3 className="text-lg font-semibold leading-snug max-sm:text-base">{s.title}</h3>}
+          {s.text && <p className="leading-relaxed text-text/80 max-sm:text-sm">{s.text}</p>}
         </li>
       ))}
     </ol>
@@ -192,12 +192,15 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
             </div>
           ))}
         </div>
-        {/* Phones: one block per column */}
-        <div className="divide-y divide-ink/8 md:hidden">
+        <div className="divide-y divide-ink/10 md:hidden">
           {head.slice(1).map((h, c) => (
-            <div key={h} className="px-5 py-5">
-              <h3 className="font-semibold text-dawn-deep">{h}</h3>
-              <dl className="mt-3 space-y-3">
+            <details key={h} name={`comparison-${head.join("-")}`} open={c === 0} className="group open:bg-paper-2/50">
+              <summary className="grid min-h-14 cursor-pointer list-none grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 font-semibold text-ink focus-visible:-outline-offset-2 [&::-webkit-details-marker]:hidden">
+                <span className="font-mono text-xs text-dawn-deep" aria-hidden>{String(c + 1).padStart(2, "0")}</span>
+                {h}
+                <ChevronDown className="size-4 text-dawn-deep group-open:rotate-180 motion-safe:transition-transform" aria-hidden />
+              </summary>
+              <dl className="mobile-reveal mx-4 space-y-3 border-t border-ink/10 py-4 text-sm">
                 {rows.map((row) => (
                   <div key={row[0]}>
                     <dt className="t-eyebrow text-muted">{row[0]}</dt>
@@ -205,7 +208,7 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
                   </div>
                 ))}
               </dl>
-            </div>
+            </details>
           ))}
         </div>
       </div>
@@ -237,11 +240,11 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
 
 function Stats({ stats }: { stats: NonNullable<PageSection["stats"]> }) {
   return (
-    <dl data-morph-shape="rect" className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 sm:grid-cols-2 lg:grid-cols-4">
+    <dl data-morph-shape="rect" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 lg:grid-cols-4">
       {stats.map((s, i) => (
-        <div key={s.value} data-aos="fade-up" data-aos-delay={i * 80} className="flex flex-col gap-2 bg-white p-6 sm:p-7">
-          <dt className="order-2 leading-relaxed text-muted">{s.label}</dt>
-          <dd className="order-1 font-display text-[clamp(1.8rem,3vw,2.6rem)] font-bold leading-none tracking-tight text-ink">{s.value}</dd>
+        <div key={s.value} data-aos="fade-up" data-aos-delay={i * 80} className="flex flex-col gap-2 bg-white p-4 sm:p-7">
+          <dt className="order-2 leading-relaxed text-muted max-sm:text-sm">{s.label}</dt>
+          <dd className="order-1 font-display text-[clamp(1.8rem,3vw,2.6rem)] font-bold max-sm:text-xl leading-none tracking-tight text-ink">{s.value}</dd>
         </div>
       ))}
     </dl>
@@ -277,7 +280,7 @@ function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
 
 function TeamGrid() {
   return (
-    <div data-morph-shape="rect" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+    <div data-morph-shape="rect" className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
       {team.map((person, i) => (
         <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 5) * 70}>
           <Tilt className="h-full rounded-[var(--radius-card)]">
@@ -285,8 +288,8 @@ function TeamGrid() {
               <div className="relative aspect-[4/5] bg-breath/40">
                 <Image src={person.image} alt={person.name} fill sizes="(min-width: 1280px) 20vw, (min-width: 768px) 33vw, 50vw" className="object-contain object-bottom" />
               </div>
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-lg font-semibold leading-snug">{person.name}</h3>
+              <div className="flex flex-1 flex-col p-3 sm:p-6">
+                <h3 className="text-base font-semibold leading-snug sm:text-lg">{person.name}</h3>
                 {person.role && <p className="mt-2 text-sm text-muted">{person.role}</p>}
                 {person.href && (
                   <div className="mt-auto pt-4">
@@ -317,7 +320,7 @@ function Widget({ section }: { section: PageSection }) {
     case "team":
       return <TeamGrid />;
     case "ladder":
-      return <Ladder tiers={certificationTiers.academy} tone="dark" />;
+      return <Ladder tiers={certificationTiers.academy} tone="dark" compact />;
     case "testimonials":
       return <EndorsementCarousel />;
     case "countries":
@@ -423,7 +426,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
   if (section.faq) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.3fr]">
+        <div className="container-x grid gap-6 sm:gap-12 lg:grid-cols-[1fr_1.3fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <Header section={section} />
           </div>
@@ -494,7 +497,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
   if (section.image) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-14">
+        <div className="container-x grid items-center gap-6 sm:gap-12 lg:grid-cols-2 lg:gap-14">
           <div className={index % 2 === 1 ? "lg:order-2" : ""}>{intro}</div>
           <Parallax speed={0.05} className={index % 2 === 1 ? "lg:order-1" : ""}>
             <Tilt className="rounded-[var(--radius-panel)]" max={4}>
@@ -504,7 +507,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
             </Tilt>
           </Parallax>
         </div>
-        <div className="container-x mt-12 space-y-8 empty:hidden">{blocks}</div>
+        <div className="container-x mt-6 space-y-5 sm:mt-12 sm:space-y-8 empty:hidden">{blocks}</div>
       </section>
     );
   }
@@ -515,7 +518,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
-          <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-6 py-14 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
+          <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-5 py-8 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
             <div className="pointer-events-none absolute -bottom-24 -right-20 -z-10 aspect-[1600/1306] w-[30rem] bg-dawn/[0.08] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
             {intro}
           </div>
@@ -528,7 +531,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
     <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
       <div className="container-x">
         {hasHeader || section.body ? <div>{intro}</div> : list}
-        <div className={cn("space-y-8", (hasHeader || section.body) && "mt-12")}>{blocks}</div>
+        <div className={cn("space-y-5 sm:space-y-8", (hasHeader || section.body) && "mt-6 sm:mt-12")}>{blocks}</div>
       </div>
     </section>
   );

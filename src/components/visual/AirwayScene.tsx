@@ -1,5 +1,7 @@
 "use client";
 
+import { particleViewport } from "@/lib/motion";
+
 import { useCallback, useEffect, useId, useRef, useState, type RefObject } from "react";
 import type * as Three from "three";
 
@@ -387,8 +389,11 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
         narrowing.position.set(261 - 305, 283 - 341, 90);
         model.add(narrowing);
 
-        // Air: soft glowing wisps, not dots. Each has its own lane across the
-        // airway, speed and size; they arrive in breathing pulses.
+        // The airway glow remains visible on phones; the travelling wisps are desktop-only.
+        const particleQuery = window.matchMedia(particleViewport);
+        const wispGroup = new THREE.Group();
+        wispGroup.visible = particleQuery.matches;
+        model.add(wispGroup);
         const wispCanvas = document.createElement("canvas");
         wispCanvas.width = wispCanvas.height = 64;
         const wctx = wispCanvas.getContext("2d");
@@ -417,7 +422,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
           materials.add(mat);
           const sprite = new THREE.Sprite(mat);
           sprite.renderOrder = 20;
-          model.add(sprite);
+          wispGroup.add(sprite);
           const w = { sprite, mat, u: 0, lane: 0, speed: 1, size: 1, seed: 0 };
           spawn(w, index / 46);
           wisps.push(w);
@@ -634,7 +639,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
           // Breathing: gentle inhale pulses (about 4.5s each) with a slow drift between.
           const breath = 0.3 + 0.7 * Math.pow(Math.max(0, Math.sin(clock * 1.4)), 1.6);
           const NARROW = 0.56;
-          for (const w of wisps) {
+          for (const w of wispGroup.visible ? wisps : []) {
             // Near the narrowing, air slows and piles up unless the airway is open.
             const near = Math.exp(-Math.pow((w.u - NARROW) / 0.07, 2));
             const choke = 1 - near * (1 - open) * 0.82;
@@ -708,6 +713,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
           if (!document.hidden) { last = performance.now(); kick(); }
         };
         const onMotion = () => { still = reducedQuery.matches; kick(); };
+        const onParticleViewport = () => { wispGroup.visible = particleQuery.matches; kick(); };
         const onControl = () => kick();
         const onDown = (event: PointerEvent) => {
           if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
@@ -771,6 +777,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
         document.addEventListener("pointerdown", onOutside);
         document.addEventListener("keydown", onEscape);
         reducedQuery.addEventListener("change", onMotion);
+        particleQuery.addEventListener("change", onParticleViewport);
         window.addEventListener("scroll", onControl, { passive: true });
         // Range and stage controls emit native input/click events, including
         // keyboard input, so reduced-motion mode redraws on demand as well.
@@ -795,6 +802,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
           document.removeEventListener("pointerdown", onOutside);
           document.removeEventListener("keydown", onEscape);
           reducedQuery.removeEventListener("change", onMotion);
+          particleQuery.removeEventListener("change", onParticleViewport);
           window.removeEventListener("scroll", onControl);
           controlRoot?.removeEventListener("input", onControl);
           controlRoot?.removeEventListener("click", onControl);

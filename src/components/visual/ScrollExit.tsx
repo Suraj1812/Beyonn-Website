@@ -13,7 +13,13 @@ export function ScrollExit({ children, className, y = 60, fade = false, shrink =
   useEffect(() => {
     const el = ref.current;
     if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const desktop = window.matchMedia("(min-width: 48rem)");
     const update = () => {
+      if (!desktop.matches) {
+        el.style.transform = "";
+        el.style.opacity = "";
+        return;
+      }
       const p = Math.min(1, Math.max(0, window.scrollY / Math.max(1, window.innerHeight)));
       el.style.transform = `translate3d(0, ${(p * y).toFixed(1)}px, 0)${shrink ? ` scale(${(1 - p * shrink).toFixed(3)})` : ""}`;
       if (fade) el.style.opacity = String(1 - p * 0.85);
@@ -24,8 +30,10 @@ export function ScrollExit({ children, className, y = 60, fade = false, shrink =
       raf = requestAnimationFrame(update);
     };
     update();
+    desktop.addEventListener("change", update);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
+      desktop.removeEventListener("change", update);
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(raf);
     };

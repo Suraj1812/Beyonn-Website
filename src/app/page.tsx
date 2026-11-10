@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, BadgeCheck, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
 import { HomeHero } from "@/components/sections/HomeHero";
+import { SectionJumps } from "@/components/ui/SectionJumps";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -79,10 +80,10 @@ export default function HomePage() {
       <HomeHero
         actions={
           <>
-            <Button href="/qualify" variant="light">
+            <Button href="/qualify" variant="light" className="max-sm:w-full max-sm:justify-between">
               See if your clinic qualifies
             </Button>
-            <Button href="/#workshop" variant="ghost-light">
+            <Button href="/#workshop" variant="ghost-light" className="max-sm:w-full max-sm:justify-between">
               Join the Free Workshop
             </Button>
           </>
@@ -93,8 +94,8 @@ export default function HomePage() {
               <div key={p.label} className={i > 0 ? "pl-4 pr-2 sm:pl-6" : "pr-4 sm:pr-6"}>
                 <dt className="sr-only">{p.label}</dt>
                 <dd>
-                  <CountUp value={p.value} className="block font-display text-[1.75rem] font-semibold leading-tight tracking-tight sm:text-3xl" />
-                  <span className="mt-0.5 block text-sm text-paper/65">{p.label}</span>
+                  <CountUp value={p.value} className="block font-display text-[clamp(1.1rem,5.8vw,1.75rem)] font-semibold leading-tight tracking-tight sm:text-3xl" />
+                  <span className="mt-0.5 block text-[0.72rem] leading-snug text-paper/65 sm:text-sm">{p.label}</span>
                 </dd>
               </div>
             ))}
@@ -102,12 +103,21 @@ export default function HomePage() {
         }
       />
 
+      <SectionJumps links={[
+        { id: "welcome", label: "Choose your path" },
+        { id: "how-it-works", label: "3D airway" },
+        { id: "protocol", label: "Four-step protocol" },
+        { id: "platform", label: "See the platform" },
+        { id: "workshop", label: "Free workshop" },
+        { id: "stories", label: "Practitioner stories" },
+      ]} />
+
       {/* 2. Visitor selector */}
-      <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome">
+      <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome-title" id="welcome">
         <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
-        <div className="container-x grid gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-14">
+        <div className="container-x grid gap-5 sm:gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-14">
           <div>
-            <SectionHeading eyebrow="Choose your path" title={<span id="welcome">Welcome to Beyonn. <em>Where should we start?</em></span>} />
+            <SectionHeading eyebrow="Choose your path" title={<span id="welcome-title">Welcome to Beyonn. <em>Where should we start?</em></span>} />
             <p data-aos="fade-up" data-aos-delay="120" className="mt-5 max-w-sm text-muted">
               Two quick taps and we&apos;ll point you to the right next step, whether you treat patients or you are one.
             </p>
@@ -119,7 +129,7 @@ export default function HomePage() {
       {/* 3. Dr. Rodney Willey banner */}
       <section id="doctor" data-guide="doctor" className="spotlight relative overflow-clip bg-ink text-paper">
         <div className="container-x py-12 sm:py-14 lg:py-16">
-          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+          <div className="grid gap-7 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
             {/* Left: the Beyonn emblem (the dots rebuild it on scroll) and why to partner with him. */}
             <div className="order-2 lg:order-1 lg:sticky lg:top-28 lg:self-start">
               <div data-aos="fade-up" className="relative mx-auto hidden aspect-[1600/1306] w-full max-w-[17rem] lg:block" aria-hidden>
@@ -131,13 +141,13 @@ export default function HomePage() {
                 />
               </div>
               <h3 data-aos="fade-up" className="t-h3 lg:mt-10">Why partner with him</h3>
-              <ol className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-1">
+              <ol className="mt-4 grid gap-2 sm:mt-5 sm:gap-3 md:grid-cols-3 lg:grid-cols-1">
                 {doctorReasons.map(([t, d], i) => (
-                  <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="flex gap-4 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 transition-colors duration-300 hover:bg-paper/[0.08]">
+                  <li key={t} data-aos="fade-up" data-aos-delay={i * 100} className="flex gap-4 rounded-[var(--radius-card)] bg-paper/[0.05] p-3.5 ring-1 ring-paper/10 transition-colors sm:p-5 duration-300 hover:bg-paper/[0.08]">
                     <span className="grid size-8 flex-none place-items-center rounded-full bg-dawn text-sm font-bold text-white">{i + 1}</span>
                     <span>
                       <span className="block font-display text-[1.05rem] font-semibold tracking-tight">{t}</span>
-                      <span className="mt-1.5 block text-[0.93rem] leading-relaxed text-paper/65">{d}</span>
+                      <span className="mt-1.5 block text-sm leading-snug text-paper/65 sm:text-[0.93rem] sm:leading-relaxed">{d}</span>
                     </span>
                   </li>
                 ))}
@@ -148,10 +158,10 @@ export default function HomePage() {
               <h3 data-aos="fade-up" className="mt-7 t-eyebrow text-paper/55">Why he&apos;s trusted</h3>
               <dl className="mt-4 grid grid-cols-3 divide-x divide-paper/10 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10">
                 {doctorStats.map((d, i) => (
-                  <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-4 py-4 sm:px-5">
+                  <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-2.5 py-3 sm:px-5 sm:py-4">
                     <dt className="sr-only">{d.label}</dt>
                     <dd>
-                      <CountUp value={d.value} className="block font-display text-2xl font-semibold tracking-tight text-breath sm:text-3xl" />
+                      <CountUp value={d.value} className="block font-display text-[clamp(1.1rem,5.5vw,1.5rem)] font-semibold tracking-tight text-breath sm:text-3xl" />
                       <span className="mt-1 block text-[0.8rem] leading-snug text-paper/65 sm:text-sm">{d.label}</span>
                     </dd>
                   </div>
@@ -179,11 +189,11 @@ export default function HomePage() {
       </section>
 
       {/* 4. The opportunity */}
-      <section id="opportunity" data-guide="opportunity" className="section-y bg-paper">
-        <div className="container-x grid gap-14 lg:grid-cols-[7fr_5fr] lg:items-end">
+      <section id="opportunity" data-guide="opportunity" className="section-y max-sm:py-10 bg-paper">
+        <div className="container-x grid gap-5 sm:gap-14 lg:grid-cols-[7fr_5fr] lg:items-end">
           <div>
             <SectionHeading index="03" eyebrow="The opportunity" title={<>The patients are <em>already in your chair.</em></>} />
-            <p data-aos="fade-up" className="mt-8 max-w-2xl t-lead text-muted">
+            <p data-aos="fade-up" className="mt-4 max-w-2xl sm:mt-8 t-lead text-muted">
               Snoring, clenching, morning headaches, scalloped tongues, worn-out night guards. These are often signs of OSA and TMD, and most go unrecognized in a dental office. Each one is a patient you could help and a case your practice isn&apos;t treating yet.
             </p>
           </div>
@@ -191,8 +201,8 @@ export default function HomePage() {
             <Parallax speed={0.05}><div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2" data-aos="reveal" data-aos-duration="1200"><Image src="/assets/people/patient-conversation.webp" alt="Clinician speaking with a patient" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-contain" /></div></Parallax>
           </div>
         </div>
-        <div className="container-x mt-14">
-          <div className="relative overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-12 text-paper sm:px-14 sm:py-16">
+        <div className="container-x mt-6 sm:mt-14">
+          <div className="relative overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-7 text-paper sm:px-14 sm:py-16">
             <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -right-16 top-1/2 aspect-[1600/1306] w-[28rem] -translate-y-1/2 bg-paper/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
             <ScrollWords
               className="relative mx-auto max-w-4xl text-center font-display text-[clamp(1.5rem,2.8vw,2.5rem)] font-semibold leading-[1.25] tracking-tight"
@@ -203,7 +213,7 @@ export default function HomePage() {
       </section>
 
       {/* 4b. How an appliance helps, in 3D */}
-      <section id="how-it-works" data-guide="airway" className="section-y overflow-clip border-t border-ink/[0.06] bg-paper">
+      <section id="how-it-works" data-guide="airway" className="section-y max-sm:py-10 overflow-clip border-t border-ink/[0.06] bg-paper">
         <div className="container-x">
           <SectionHeading eyebrow="How it works" title={<>How an oral appliance <em>helps.</em></>} />
           <div className="mt-8 lg:mt-10">
@@ -213,9 +223,9 @@ export default function HomePage() {
       </section>
 
       {/* 5. What Beyonn gives your team */}
-      <section id="gives" data-guide="gives" className="section-y bg-paper-2">
+      <section id="gives" data-guide="gives" className="section-y max-sm:py-10 bg-paper-2">
         <div className="container-x">
-          <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="grid gap-5 sm:gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <SectionHeading
               index="04"
               eyebrow="What Beyonn gives your team"
@@ -224,11 +234,26 @@ export default function HomePage() {
             />
             <p data-aos="fade-up" className="rounded-full bg-ink px-6 py-3 font-semibold text-paper">More ownership. Not less support.</p>
           </div>
-          <div className="mt-10">
+          <div className="mt-6 md:hidden">
+            <p className="mb-3 t-eyebrow text-muted">Tap a role to see what your team gets</p>
+            <div className="divide-y divide-ink/10 overflow-hidden rounded-2xl border border-ink/10 bg-white">
+              {teamRows.map(([role, support], i) => (
+                <details key={role} name="home-team-roles" className="group open:bg-paper">
+                  <summary className="grid min-h-14 cursor-pointer list-none grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 font-semibold focus-visible:-outline-offset-2 [&::-webkit-details-marker]:hidden">
+                    <span className="font-mono text-xs text-dawn-deep" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+                    {role}
+                    <ChevronDown className="size-4 text-dawn-deep group-open:rotate-180 motion-safe:transition-transform" aria-hidden />
+                  </summary>
+                  <p className="mobile-reveal pb-4 pl-11 pr-4 text-sm leading-relaxed text-muted">{support}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+          <div className="mt-10 hidden md:block">
             <SplitTable head={["Your team's job", "How Beyonn equips them"]} rows={teamRows} />
           </div>
 
-          <div className="mt-14 grid gap-10 lg:grid-cols-[3.5fr_8.5fr]">
+          <div className="mt-9 grid gap-5 sm:mt-14 sm:gap-10 lg:grid-cols-[3.5fr_8.5fr]">
             <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
               <p className="t-eyebrow text-muted">At the core</p>
               <h3 className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
@@ -236,9 +261,9 @@ export default function HomePage() {
               <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
               <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
             </div>
-            <ol data-morph-shape="rect" className="grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 sm:grid-cols-2 xl:grid-cols-4">
+            <ol data-morph-shape="rect" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 xl:grid-cols-4">
               {blueprintModules.map((m, i) => (
-                <li key={m} data-aos="fade-up" data-aos-delay={(i % 4) * 60} className="flex min-h-[7rem] flex-col justify-between gap-3 bg-paper-2 p-5 transition-colors duration-500 hover:bg-paper">
+                <li key={m} data-aos="fade-up" data-aos-delay={(i % 4) * 60} className="flex flex-col justify-between gap-2 bg-paper-2 p-3 text-sm sm:min-h-[7rem] sm:gap-3 sm:p-5 sm:text-base transition-colors duration-500 hover:bg-paper">
                   <span className="font-mono text-sm text-dawn-deep">{String(i + 1).padStart(2, "0")}</span>
                   <span className="font-medium leading-snug">{m}</span>
                 </li>
@@ -265,7 +290,7 @@ export default function HomePage() {
       </div>
 
       {/* 6. The Beyonn Protocol */}
-      <section id="protocol" data-guide="protocol" className="section-y bg-paper">
+      <section id="protocol" data-guide="protocol" className="section-y max-sm:py-10 bg-paper">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHeading index="05" eyebrow="The Beyonn Protocol" title={<>One system. Four steps. <em>Run by your team.</em></>} />
@@ -273,14 +298,14 @@ export default function HomePage() {
               See the full Beyonn System
             </Button>
           </div>
-          <div className="mt-12">
+          <div className="mt-6 lg:mt-12">
             <ProtocolRing />
           </div>
         </div>
       </section>
 
       {/* 7. The Beyonn Operating System */}
-      <section id="platform" data-guide="platform" className="spotlight section-y relative overflow-hidden bg-ink text-paper">
+      <section id="platform" data-guide="platform" className="spotlight section-y max-sm:py-10 relative overflow-hidden bg-ink text-paper">
         <div className="hero-glow absolute inset-0 opacity-30" aria-hidden />
         <div className="container-x relative">
           <SectionHeading
@@ -302,54 +327,54 @@ export default function HomePage() {
       </section>
 
       {/* 8. What you gain */}
-      <section id="gain" data-guide="gain" className="section-y bg-paper">
+      <section id="gain" data-guide="gain" className="section-y max-sm:py-10 bg-paper">
         <div className="container-x">
           <SectionHeading index="07" title={<>What you <em>gain</em></>} />
-          <div className="mt-10 grid gap-4 md:grid-cols-6 md:grid-rows-[auto_auto_auto]">
+          <div className="mt-6 grid grid-cols-2 gap-3 md:mt-10 md:grid-cols-6 md:gap-4 md:grid-rows-[auto_auto_auto]">
             {gains.map((g, i) => {
               const big = i === 0;
               const span = ["md:col-span-3 md:row-span-2", "md:col-span-3", "md:col-span-3", "md:col-span-3", "md:col-span-3"][i];
               return (
-                <div key={g.title} data-aos="fade-up" data-aos-delay={(i % 3) * 90} className={span}>
+                <div key={g.title} data-aos="fade-up" data-aos-delay={(i % 3) * 90} className={cn(span, big && "col-span-2")}>
                   <Tilt className="h-full rounded-[var(--radius-panel)]" max={big ? 4 : 6}>
                     <div
                       className={cn(
-                        "relative flex h-full flex-col overflow-hidden rounded-[var(--radius-panel)] p-7",
-                        big ? "min-h-[19rem] bg-ink text-paper" : "border border-ink/10 bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]",
+                        "relative flex h-full flex-col overflow-hidden rounded-[var(--radius-panel)] p-4 md:p-7",
+                        big ? "bg-ink text-paper md:min-h-[19rem]" : "border border-ink/10 bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]",
                       )}
                     >
                       {big && (
                         <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -bottom-20 -right-24 aspect-[1600/1306] w-[26rem] bg-paper/[0.06] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
                       )}
-                      <span className={cn("grid size-12 place-items-center rounded-xl", big ? "bg-paper/10 text-breath" : "bg-dawn/10 text-dawn")}>
-                        <g.icon className="size-6" aria-hidden />
+                      <span className={cn("grid size-9 place-items-center rounded-xl md:size-12", big ? "bg-paper/10 text-breath" : "bg-dawn/10 text-dawn")}>
+                        <g.icon className="size-5 md:size-6" aria-hidden />
                       </span>
-                      <h3 className={cn("relative font-display font-semibold tracking-tight", big ? "mt-auto pt-12 text-[clamp(1.7rem,2.6vw,2.4rem)]" : "mt-5 text-xl")}>{g.title}</h3>
-                      <p className={cn("relative mt-2 leading-relaxed", big ? "max-w-md text-lg text-paper/75" : "text-[0.95rem] text-muted")}>{g.text}</p>
+                      <h3 className={cn("relative font-display font-semibold tracking-tight", big ? "mt-auto pt-4 md:pt-12 text-[clamp(1.7rem,2.6vw,2.4rem)]" : "mt-3 text-lg md:mt-5 md:text-xl")}>{g.title}</h3>
+                      <p className={cn("relative mt-2 leading-relaxed", big ? "max-w-md text-paper/75 md:text-lg" : "text-sm text-muted md:text-[0.95rem]")}>{g.text}</p>
                     </div>
                   </Tilt>
                 </div>
               );
             })}
           </div>
-          <div className="mt-16">
-            <div className="mb-10">
+          <div className="mt-9 md:mt-16">
+            <div className="mb-5 md:mb-10">
               <h3 data-aos="fade-up" className="t-h2">
                 Your growth path
               </h3>
             </div>
-            <Ladder tiers={certificationTiers.home} />
+            <Ladder tiers={certificationTiers.home} compact />
           </div>
         </div>
       </section>
 
       {/* 9. Free workshop */}
-      <section id="workshop" data-guide="workshop" className="spotlight section-y relative overflow-clip bg-night text-paper">
-        <div className="container-x relative grid gap-14 lg:grid-cols-[6fr_6fr]">
+      <section id="workshop" data-guide="workshop" className="spotlight section-y max-sm:py-10 relative overflow-clip bg-night text-paper">
+        <div className="container-x relative grid gap-6 lg:grid-cols-[6fr_6fr] lg:gap-14">
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading tone="dark" index="08" title={<>See it live. <em className="text-breath">A free one-hour workshop</em> with Dr. Rodney Willey.</>} />
-            <div data-aos="fade-up" className="mt-10">
+            <div data-aos="fade-up" className="mt-6 lg:mt-10">
               <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
               <ol className="mt-5 divide-y divide-paper/10 border-y border-paper/10">
                 {[
@@ -358,7 +383,7 @@ export default function HomePage() {
                   "Why OSA and TMD must be treated together",
                   "How Beyonn trains your team to run the program",
                 ].map((item, i) => (
-                  <li key={item} className="group flex items-baseline gap-5 py-4">
+                  <li key={item} className="group flex items-baseline gap-5 py-2.5 lg:py-4">
                     <span className="font-display text-sm font-semibold tabular-nums text-breath">{String(i + 1).padStart(2, "0")}</span>
                     <span className="text-[1.02rem] leading-snug text-paper/85 transition-colors duration-300 group-hover:text-paper">{item}</span>
                   </li>
@@ -374,7 +399,7 @@ export default function HomePage() {
       </section>
 
       {/* 11. Clinician endorsements */}
-      <section id="stories" data-guide="stories" className="section-y overflow-clip bg-paper-2">
+      <section id="stories" data-guide="stories" className="section-y max-sm:py-10 overflow-clip bg-paper-2">
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
           <SectionHeading title={<>From practitioners who <em>made the move.</em></>} />
         </div>
@@ -384,22 +409,23 @@ export default function HomePage() {
       </section>
 
       {/* 12. Blogs and resources */}
-      <section className="section-y bg-paper">
+      <section className="section-y max-sm:py-10 bg-paper">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading index="11" title={<>Learn before <em>you leap.</em></>} />
             <ArrowLink href="/resources">All resources</ArrowLink>
           </div>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <p className="mt-5 t-eyebrow text-muted md:hidden">Swipe to explore articles →</p>
+          <div className="mt-3 grid gap-4 max-md:-mx-[var(--gutter)] max-md:snap-x max-md:snap-mandatory max-md:auto-cols-[min(82%,23rem)] max-md:grid-flow-col max-md:overflow-x-auto max-md:overscroll-x-contain max-md:px-[var(--gutter)] max-md:pb-3 max-md:[scroll-padding-inline:var(--gutter)] md:mt-10 md:grid-cols-3">
             {practitionerArticles.map((a, i) => (
-              <Link key={a.slug} href={`/resources/${a.slug}`} data-aos="fade-up" data-aos-delay={i * 80} className="card card-hover group flex min-h-[20rem] flex-col justify-between bg-white/55 p-7">
+              <Link key={a.slug} href={`/resources/${a.slug}`} data-aos="fade-up" data-aos-delay={i * 80} className="card card-hover group flex flex-col justify-between gap-4 bg-white/55 p-5 max-md:snap-start md:min-h-[20rem] md:gap-0 md:p-7">
                 <span className="flex items-center justify-between t-eyebrow text-muted">
                   <span>For practitioners · {a.minutes} min</span>
                   <ArrowUpRight className="size-5 transition-transform duration-500 group-hover:rotate-45" aria-hidden />
                 </span>
                 <span>
                   <span className="block t-h3">{a.title}</span>
-                  <span className="mt-3 block leading-relaxed text-muted">{a.excerpt}</span>
+                  <span className="mt-3 block leading-relaxed text-muted max-md:line-clamp-3">{a.excerpt}</span>
                 </span>
               </Link>
             ))}
@@ -408,7 +434,7 @@ export default function HomePage() {
       </section>
 
       {/* 14. Quick answers */}
-      <section className="section-y bg-paper pt-0">
+      <section className="section-y max-sm:pb-10 bg-paper pt-0">
         <div className="container-x grid gap-12 lg:grid-cols-[4fr_8fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading title={<>Quick <em>answers</em></>} />

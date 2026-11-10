@@ -17,7 +17,7 @@ export const certificationTiers = {
 } satisfies Record<string, Tier[]>;
 
 /** Growth path shown as an ascending ladder. */
-export function Ladder({ tiers, tone = "light" }: { tiers: Tier[]; tone?: "light" | "dark" }) {
+export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier[]; tone?: "light" | "dark"; compact?: boolean }) {
   return (
     <ol data-morph-shape="rect" className="grid gap-4 md:grid-cols-3 md:items-end">
       {tiers.map((t, i) => (
@@ -26,6 +26,7 @@ export function Ladder({ tiers, tone = "light" }: { tiers: Tier[]; tone?: "light
             <div
               className={cn(
                 "card relative flex h-full flex-col justify-between overflow-hidden p-7",
+                compact && "max-md:p-4",
                 tone === "dark" ? "bg-paper/[0.05]" : "bg-white",
               )}
             >
@@ -41,9 +42,9 @@ export function Ladder({ tiers, tone = "light" }: { tiers: Tier[]; tone?: "light
                 <span className="t-eyebrow opacity-60">Tier 0{i + 1}</span>
                 <span className="rounded-full bg-dawn px-3 py-1 text-xs font-semibold text-white">{t.level}</span>
               </div>
-              <div className="relative mt-12">
+              <div className={cn("relative mt-12", compact && "max-md:mt-3")}>
                 <h3 className="t-h3">{t.name}</h3>
-                <p className="mt-3 leading-relaxed opacity-70">{t.text}</p>
+                <p className={cn("mt-3 leading-relaxed opacity-70", compact && "max-md:mt-1 max-md:text-sm")}>{t.text}</p>
               </div>
             </div>
           </Tilt>

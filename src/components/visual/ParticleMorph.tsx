@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
+import { particleViewport } from "@/lib/motion";
 
 /**
  * Scroll-driven "break and rebuild" for the home page.
@@ -16,7 +17,7 @@ import { usePathname } from "next/navigation";
  * Runs on every page (it re-scans on navigation). Targets are any elements in
  * <main> marked `data-morph-shape="emblem" | "ring" | "rect"`, in page order. `data-morph-hide` elements are only visible while the dots
  * have built them (decor such as background emblems); others stay visible.
- * One fixed, click-through WebGL layer; hidden for reduced motion.
+ * One fixed, click-through WebGL layer; mounted only on desktop when motion is enabled.
  */
 
 type Kind = "emblem" | "ring" | "rect";
@@ -340,19 +341,37 @@ function animateIcon(icon: Icon, ex: number, ey: number, t: number, rnd: number)
   return anim;
 }
 
+const particleMedia = `${particleViewport} and (prefers-reduced-motion: no-preference)`;
+
+function subscribeToParticleMedia(onChange: () => void) {
+  const media = window.matchMedia(particleMedia);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
 export function ParticleMorph() {
+  const enabled = useSyncExternalStore(
+    subscribeToParticleMedia,
+    () => window.matchMedia(particleMedia).matches,
+    () => false,
+  );
+  return enabled ? <ParticleCanvas /> : null;
+}
+
+function ParticleCanvas() {
   const host = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
     const el = host.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!el) return;
     let disposed = false;
     let teardown = () => {};
 
     (async () => {
       // Let the new page lay out (and its AOS reveals settle) before measuring.
       await new Promise((r) => setTimeout(r, 450));
+      if (disposed) return;
       const THREE = await import("three");
       const emblemImg = await new Promise<HTMLImageElement | null>((res) => {
         const i = new Image();
@@ -362,8 +381,7 @@ export function ParticleMorph() {
       });
       if (disposed) return;
 
-      const mobile = window.innerWidth < 768;
-      const N = mobile ? 1200 : 2400;
+      const N = 2400;
 
       // ---- Targets ----------------------------------------------------------
       type Target = { node: HTMLElement; kind: Kind; hide: boolean; decor: boolean; dark: boolean; pts: Float32Array; sweep: Float32Array };
@@ -650,7 +668,7 @@ export function ParticleMorph() {
         const flight = clamp(Math.sin(Math.min(dp, 0.5) * Math.PI) * (1 - rp) + Math.sin(rp * Math.PI) * 0.6);
         for (const [, mat, sz] of layers) {
           mat.uniforms.uTime.value = time;
-          mat.uniforms.uSize.value = (mobile ? 3.2 : 3.8) * dpr * sz;
+          mat.uniforms.uSize.value = 3.8 * dpr * sz;
           const A = mat.uniforms.uColorA.value as import("three").Color;
           const B = mat.uniforms.uColorB.value as import("three").Color;
           A.copy(onLight[0]).lerp(onDark[0], darkMix);
@@ -658,7 +676,7 @@ export function ParticleMorph() {
         }
         (halo.uniforms.uColorA.value as import("three").Color).copy(glowDark);
         (halo.uniforms.uColorB.value as import("three").Color).copy(onDark[1]);
-        const base = alpha * (mobile ? 0.85 : 1);
+        const base = alpha;
         head.uniforms.uAlpha.value = base;
         t1.uniforms.uAlpha.value = base * 0.42 * flight;
         t2.uniforms.uAlpha.value = base * 0.2 * flight;
@@ -666,9 +684,9 @@ export function ParticleMorph() {
 
         // The cruising swarm sits at a screen edge (alternating left / right).
         const side = k % 2 === 0 ? 1 : -1;
-        const edgeX = mobile ? (side > 0 ? vw * 0.86 : vw * 0.14) : side > 0 ? vw * 0.9 : vw * 0.1;
+        const edgeX = side > 0 ? vw * 0.9 : vw * 0.1;
         const swarmY = vh * 0.5 + Math.sin(time * 0.4) * 24;
-        const swarmW = mobile ? 180 : 300;
+        const swarmW = 300;
         const turn = Math.sin(time * 0.55) * 0.32;
         const turnC = Math.cos(turn), turnS = Math.sin(turn);
         const twist = flight * 0.9 * side;
@@ -778,5 +796,5 @@ export function ParticleMorph() {
     };
   }, [pathname]);
 
-  return <div ref={host} className="pointer-events-none fixed inset-0 z-[35]" style={{ visibility: "hidden" }} aria-hidden />;
+  return <div ref={host} data-particle-morph className="pointer-events-none fixed inset-0 z-[35]" style={{ visibility: "hidden" }} aria-hidden />;
 }

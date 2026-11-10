@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUp, ArrowUpRight, ChevronDown, Mail, Phone } from "lucide-react";
 
 function Linkedin({ className }: { className?: string }) {
   return (
@@ -14,16 +14,16 @@ import { Logo } from "./Logo";
 export function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink text-paper">
-      <div className="container-x relative pt-16 pb-10">
-        <div className="grid gap-14 lg:grid-cols-[1.2fr_2fr]">
+      <div className="container-x relative pb-10 pt-10 sm:pt-16">
+        <div className="grid gap-8 sm:gap-14 lg:grid-cols-[1.2fr_2fr]">
           <div data-aos="fade-up">
             <Link href="/" aria-label="Beyonn home">
               <Logo size="lg" tone="light" />
             </Link>
-            <p className="mt-6 max-w-sm text-xl leading-snug text-paper/80">
+            <p className="mt-4 max-w-sm text-xl sm:mt-6 leading-snug text-paper/80">
               Beyond Training. Beyond Billing. <em className="serif-em text-breath">Beyond the Appliance.</em>
             </p>
-            <div className="mt-8 grid gap-2 text-paper/70">
+            <div className="mt-5 grid gap-2 sm:mt-8 text-paper/70">
               <a href={`mailto:${site.email}`} className="flex w-fit items-center gap-2.5 hover:text-paper">
                 <Mail className="size-4" aria-hidden /> <span className="link-u">{site.email}</span>
               </a>
@@ -40,22 +40,32 @@ export function Footer() {
               </a>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
-            {footerNav.map((col, i) => (
-              <div key={col.title} data-aos="fade-up" data-aos-delay={i * 80}>
-                <h2 className="t-eyebrow text-paper/45">{col.title}</h2>
-                <ul className="mt-5 grid gap-3">
-                  {col.links.map((l) => (
-                    <li key={l.href}>
-                      <Link href={l.href} className="link-u text-paper/80 hover:text-paper">
-                        {l.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            <div className="col-span-2 sm:col-span-3" data-aos="fade-up">
+          <div className="grid gap-4 sm:grid-cols-3 sm:gap-10">
+            {footerNav.map((col, i) => {
+              const links = col.links.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="link-u text-paper/80 hover:text-paper max-sm:inline-flex max-sm:min-h-11 max-sm:items-center">
+                    {l.label}
+                  </Link>
+                </li>
+              ));
+              return (
+                <div key={col.title} data-aos="fade-up" data-aos-delay={i * 80}>
+                  <details className="group border-b border-paper/15 sm:hidden">
+                    <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between text-sm font-semibold [&::-webkit-details-marker]:hidden">
+                      {col.title}
+                      <ChevronDown className="size-4 text-breath group-open:rotate-180 motion-safe:transition-transform" aria-hidden />
+                    </summary>
+                    <ul className="mobile-reveal pb-2">{links}</ul>
+                  </details>
+                  <div className="hidden sm:block">
+                    <h2 className="t-eyebrow text-paper/45">{col.title}</h2>
+                    <ul className="mt-5 grid gap-3">{links}</ul>
+                  </div>
+                </div>
+              );
+            })}
+            <div className="sm:col-span-3" data-aos="fade-up">
               <Link href="/qualify" className="group flex items-center justify-between gap-6 rounded-[var(--radius-card)] border border-paper/12 p-6 transition-colors hover:border-dawn/60 hover:bg-paper/[0.03]">
                 <span>
                   <span className="t-eyebrow text-breath">For practitioners</span>
@@ -70,8 +80,13 @@ export function Footer() {
         </div>
 
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-paper/10 pt-8 text-sm text-paper/50 md:flex-row md:items-center md:justify-between">
-          <span>© 2026 Beyonn</span>
+        <div className="mt-8 flex flex-col gap-4 border-t border-paper/10 pt-5 sm:mt-14 sm:pt-8 text-sm text-paper/50 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center justify-between gap-3">
+            <span>© 2026 Beyonn</span>
+            <a href="#main" className="inline-flex min-h-11 items-center gap-1.5 text-breath sm:hidden">
+              Back to top <ArrowUp className="size-4" aria-hidden />
+            </a>
+          </div>
           <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
             {legalNav.map((l) => (
               <Link key={l.href} href={l.href} className="link-u hover:text-paper">
