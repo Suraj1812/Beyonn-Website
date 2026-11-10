@@ -209,7 +209,7 @@ export default function HomePage() {
       <section id="how-it-works" data-guide="airway" className="section-y max-sm:py-10 overflow-clip border-t border-ink/[0.06] bg-paper">
         <div className="container-x">
           <SectionHeading eyebrow="How it works" title={<>How an oral appliance <em>helps.</em></>} />
-          <div className="mt-8 lg:mt-10">
+          <div data-aos="phone-lift" className="mt-8 lg:mt-10">
             <AirwayModel />
           </div>
         </div>
@@ -231,7 +231,7 @@ export default function HomePage() {
             <p className="mb-3 t-eyebrow text-muted">Tap a role to see what your team gets</p>
             <div className="divide-y divide-ink/10 overflow-hidden rounded-2xl border border-ink/10 bg-white">
               {teamRows.map(([role, support], i) => (
-                <details key={role} name="home-team-roles" className="group open:bg-paper">
+                <details key={role} data-aos="phone-lift" data-aos-delay={(i % 3) * 55} name="home-team-roles" className="group open:bg-paper">
                   <summary className="grid min-h-14 cursor-pointer list-none grid-cols-[auto_1fr_auto] items-center gap-3 px-4 py-3 font-semibold focus-visible:-outline-offset-2 [&::-webkit-details-marker]:hidden">
                     <span className="font-mono text-xs text-dawn-deep" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
                     {role}
@@ -246,23 +246,23 @@ export default function HomePage() {
             <SplitTable head={["Your team's job", "How Beyonn equips them"]} rows={teamRows} />
           </div>
 
-          <div className="mt-9 grid gap-5 sm:mt-14 sm:gap-10 lg:grid-cols-[3.5fr_8.5fr]">
+          <section aria-labelledby="coaching-blueprint" className="mt-8 grid gap-5 max-sm:-mx-[var(--gutter)] max-sm:-mb-10 max-sm:border-t max-sm:border-dawn/20 max-sm:bg-white max-sm:px-[var(--gutter)] max-sm:py-8 sm:mt-14 sm:gap-10 lg:grid-cols-[3.5fr_8.5fr]">
             <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
-              <p className="t-eyebrow text-muted">At the core</p>
-              <h3 className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
+              <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">At the core</p>
+              <h3 id="coaching-blueprint" className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
               <p className="mt-4 leading-relaxed text-muted">Twelve training modules that take your team from the first new patient call to replacement appliances.</p>
               <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
               <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
             </div>
-            <ol data-morph-shape="rect" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 xl:grid-cols-4">
+            <ol data-morph-shape="rect" className="grid grid-cols-2 gap-2 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10 xl:grid-cols-4">
               {blueprintModules.map((m, i) => (
-                <li key={m} data-aos="fade-up" data-aos-delay={(i % 4) * 60} className="flex flex-col justify-between gap-2 bg-paper-2 p-3 text-sm sm:min-h-[7rem] sm:gap-3 sm:p-5 sm:text-base transition-colors duration-500 hover:bg-paper">
-                  <span className="font-mono text-sm text-dawn-deep">{String(i + 1).padStart(2, "0")}</span>
+                <li key={m} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:min-h-[7rem] sm:justify-between sm:gap-3 sm:p-5 sm:text-base sm:hover:bg-paper">
+                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(i + 1).padStart(2, "0")}</span>
                   <span className="font-medium leading-snug">{m}</span>
                 </li>
               ))}
             </ol>
-          </div>
+          </section>
         </div>
       </section>
 
@@ -328,7 +328,7 @@ export default function HomePage() {
               const big = i === 0;
               const span = ["md:col-span-3 md:row-span-2", "md:col-span-3", "md:col-span-3", "md:col-span-3", "md:col-span-3"][i];
               return (
-                <div key={g.title} data-aos="fade-up" data-aos-delay={(i % 3) * 90} className={cn(span, big && "col-span-2")}>
+                <div key={g.title} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 3) * 90} className={cn(span, big && "col-span-2")}>
                   <Tilt className="h-full rounded-[var(--radius-panel)]" max={big ? 4 : 6}>
                     <div
                       className={cn(
@@ -376,7 +376,7 @@ export default function HomePage() {
                   "Why OSA and TMD must be treated together",
                   "How Beyonn trains your team to run the program",
                 ].map((item, i) => (
-                  <li key={item} className="group flex items-baseline gap-3 py-2 sm:gap-5 sm:py-2.5 lg:py-4">
+                  <li key={item} data-aos="phone-lift" data-aos-delay={i * 40} className="group flex items-baseline gap-3 py-2 sm:gap-5 sm:py-2.5 lg:py-4">
                     <span className="font-display text-sm font-semibold tabular-nums text-breath">{String(i + 1).padStart(2, "0")}</span>
                     <span className="text-sm leading-snug text-paper/85 sm:text-[1.02rem] transition-colors duration-300 group-hover:text-paper">{item}</span>
                   </li>
@@ -396,7 +396,7 @@ export default function HomePage() {
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
           <SectionHeading title={<>From practitioners who <em>made the move.</em></>} />
         </div>
-        <div className="mt-5 sm:mt-10">
+        <div data-aos="phone-lift" className="mt-5 sm:mt-10">
           <EndorsementCarousel />
         </div>
       </section>
@@ -411,7 +411,7 @@ export default function HomePage() {
           <p className="mt-5 t-eyebrow text-muted md:hidden">Swipe to explore articles →</p>
           <div className="mt-3 grid gap-4 max-md:-mx-[var(--gutter)] max-md:snap-x max-md:snap-mandatory max-md:auto-cols-[min(82%,23rem)] max-md:grid-flow-col max-md:overflow-x-auto max-md:overscroll-x-contain max-md:px-[var(--gutter)] max-md:pb-3 max-md:[scroll-padding-inline:var(--gutter)] md:mt-10 md:grid-cols-3">
             {practitionerArticles.map((a, i) => (
-              <Link key={a.slug} href={`/resources/${a.slug}`} data-aos="fade-up" data-aos-delay={i * 80} className="card card-hover group flex flex-col justify-between gap-4 bg-white/55 p-5 max-md:snap-start md:min-h-[20rem] md:gap-0 md:p-7">
+              <Link key={a.slug} href={`/resources/${a.slug}`} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={i * 80} className="card card-hover group flex flex-col justify-between gap-4 bg-white/55 p-5 max-md:snap-start md:min-h-[20rem] md:gap-0 md:p-7">
                 <span className="flex items-center justify-between t-eyebrow text-muted">
                   <span>For practitioners · {a.minutes} min</span>
                   <ArrowUpRight className="size-5 transition-transform duration-500 group-hover:rotate-45" aria-hidden />

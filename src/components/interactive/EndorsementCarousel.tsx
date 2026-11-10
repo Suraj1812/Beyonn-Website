@@ -137,7 +137,7 @@ export function EndorsementCarousel() {
       </div>
       <div
         ref={viewport}
-        className="overflow-x-auto max-sm:snap-x max-sm:snap-mandatory max-sm:overscroll-x-contain max-sm:[scroll-padding-inline:var(--gutter)] sm:overflow-hidden motion-reduce:sm:overflow-x-auto"
+        className="overflow-x-auto max-sm:[scrollbar-width:none] max-sm:[&::-webkit-scrollbar]:hidden max-sm:snap-x max-sm:snap-mandatory max-sm:overscroll-x-contain max-sm:[scroll-padding-inline:var(--gutter)] sm:overflow-hidden motion-reduce:sm:overflow-x-auto"
         aria-label="Clinical endorsements"
         role="region"
         tabIndex={0}

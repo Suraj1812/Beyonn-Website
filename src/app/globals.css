@@ -831,7 +831,35 @@
     transition-timing-function: var(--phone-reveal-ease);
   }
 
-  [data-aos="fade-up"]:not(.aos-animate),
+  body [data-aos="phone-lift"][data-aos][data-aos],
+  body [data-aos][data-aos][data-phone-reveal="card"] {
+    transition-property: opacity, translate, scale;
+    transition-duration: 620ms;
+    transition-timing-function: var(--phone-reveal-ease);
+  }
+
+  [data-aos="phone-lift"]:not(.aos-animate),
+  [data-aos][data-phone-reveal="card"]:not(.aos-animate) {
+    opacity: 0;
+    translate: 0 18px;
+  }
+
+  [data-aos][data-phone-reveal="card"]:not(.aos-animate) {
+    transform: none;
+    scale: 0.975;
+  }
+
+  [data-aos][data-phone-reveal="card"].aos-animate {
+    scale: 1;
+  }
+
+  [data-aos="phone-lift"]:focus-within,
+  [data-aos][data-phone-reveal="card"]:focus-within {
+    translate: none;
+    scale: none;
+  }
+
+  [data-aos="fade-up"]:not(.aos-animate, [data-phone-reveal="card"]),
   [data-aos="fade-left"]:not(.aos-animate),
   [data-aos="fade-right"]:not(.aos-animate) {
     transform: translateY(16px);
