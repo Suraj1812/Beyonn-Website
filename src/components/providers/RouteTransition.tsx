@@ -24,6 +24,9 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
       }
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (window.matchMedia("(width < 48rem)").matches) {
+        const intro = document.querySelector(".intro");
+        if (intro && getComputedStyle(intro).visibility === "visible") return;
+        ref.current?.style.setProperty("--phone-intro-handoff", "0ms");
         gsap.fromTo(ref.current, { opacity: 0.72, y: 7 }, {
           opacity: 1,
           y: 0,

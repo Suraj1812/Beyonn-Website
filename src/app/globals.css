@@ -735,14 +735,46 @@
   opacity: 1;
 }
 
-/* Phone layouts leave the entrance reveals visible as soon as the page opens. */
+/* Phone layout spacing. */
 @media (width < 48rem) {
   :root {
     --section-y: 2.5rem;
   }
+}
 
-  .intro {
-    display: none;
+/* Workshop fields keep their labels above the controls on phones. */
+@media (width < 40rem) {
+  [data-workshop-field] {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  [data-workshop-field] :is(input, select) {
+    height: 2.75rem;
+    padding-block: 0;
+    border-radius: 0.625rem;
+    background-color: rgb(255 255 255 / 0.09);
+    font-size: 1rem;
+  }
+
+  [data-workshop-field] > span {
+    position: static;
+    order: -1;
+    translate: none;
+    transform: none;
+    color: rgb(255 255 255 / 0.83);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  [data-workshop-field] > svg {
+    top: auto;
+    bottom: 0.875rem;
+    translate: none;
   }
 }
 
@@ -760,6 +792,38 @@
 @media (width < 48rem) and (prefers-reduced-motion: no-preference) {
   :root {
     --phone-reveal-ease: cubic-bezier(0.22, 0.75, 0.28, 1);
+    --phone-intro-hold: 580ms;
+    --phone-intro-lift: 420ms;
+    --phone-intro-handoff: calc(var(--phone-intro-hold) + var(--phone-intro-lift));
+  }
+
+  .intro {
+    animation-duration: var(--phone-intro-lift);
+    animation-delay: var(--phone-intro-hold);
+  }
+
+  .intro__inner {
+    animation-duration: 240ms;
+    animation-delay: 550ms;
+  }
+
+  .intro__emblem {
+    width: 7rem;
+  }
+
+  .intro__pen {
+    animation-duration: 440ms;
+    animation-delay: 40ms;
+  }
+
+  .intro__word {
+    animation-duration: 260ms;
+    animation-delay: 250ms;
+  }
+
+  .intro__bar > span {
+    animation-duration: 480ms;
+    animation-delay: 40ms;
   }
 
   body [data-aos][data-aos][data-aos] {
@@ -815,7 +879,7 @@
   }
 
   [data-mobile-hero-enter] {
-    animation: phone-enter 520ms var(--phone-reveal-ease) var(--phone-hero-delay, 0ms) backwards;
+    animation: phone-enter 520ms var(--phone-reveal-ease) calc(var(--phone-intro-handoff) + var(--phone-hero-delay, 0ms)) backwards;
   }
 
   details[open] > .mobile-reveal,

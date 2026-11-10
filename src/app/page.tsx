@@ -369,22 +369,22 @@ export default function HomePage() {
             <SectionHeading tone="dark" index="08" title={<>See it live. <em className="text-breath">A free one-hour workshop</em> with Dr. Rodney Willey.</>} />
             <div data-aos="fade-up" className="mt-6 lg:mt-10">
               <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
-              <ol className="mt-5 divide-y divide-paper/10 border-y border-paper/10">
+              <ol className="mt-3 divide-y divide-paper/10 border-y border-paper/10 sm:mt-5">
                 {[
                   "The missed opportunity of not offering OSA + TMD care in your practice",
                   "How to spot these patients in your chair",
                   "Why OSA and TMD must be treated together",
                   "How Beyonn trains your team to run the program",
                 ].map((item, i) => (
-                  <li key={item} className="group flex items-baseline gap-5 py-2.5 lg:py-4">
+                  <li key={item} className="group flex items-baseline gap-3 py-2 sm:gap-5 sm:py-2.5 lg:py-4">
                     <span className="font-display text-sm font-semibold tabular-nums text-breath">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="text-[1.02rem] leading-snug text-paper/85 transition-colors duration-300 group-hover:text-paper">{item}</span>
+                    <span className="text-sm leading-snug text-paper/85 sm:text-[1.02rem] transition-colors duration-300 group-hover:text-paper">{item}</span>
                   </li>
                 ))}
               </ol>
             </div>
           </div>
-          <div data-morph-shape="rect" data-aos="fade-up" className="relative overflow-hidden rounded-[1.5rem] bg-[linear-gradient(160deg,rgb(255_255_255/0.09),rgb(255_255_255/0.025)_55%)] p-6 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7),inset_0_1px_0_rgb(255_255_255/0.08)] ring-1 ring-paper/12 sm:p-9 lg:sticky lg:top-28 lg:self-start">
+          <div data-morph-shape="rect" data-aos="fade-up" className="relative overflow-hidden rounded-[1.5rem] bg-[linear-gradient(160deg,rgb(255_255_255/0.09),rgb(255_255_255/0.025)_55%)] p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7),inset_0_1px_0_rgb(255_255_255/0.08)] ring-1 ring-paper/12 sm:p-9 lg:sticky lg:top-28 lg:self-start">
             <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-breath/15 blur-3xl" aria-hidden />
             <WorkshopSignup />
           </div>
@@ -396,7 +396,7 @@ export default function HomePage() {
         <div className="container-x flex flex-wrap items-end justify-between gap-6">
           <SectionHeading title={<>From practitioners who <em>made the move.</em></>} />
         </div>
-        <div className="mt-10">
+        <div className="mt-5 sm:mt-10">
           <EndorsementCarousel />
         </div>
       </section>
@@ -428,7 +428,7 @@ export default function HomePage() {
 
       {/* 14. Quick answers */}
       <section className="section-y max-sm:pb-10 bg-paper pt-0">
-        <div className="container-x grid gap-12 lg:grid-cols-[4fr_8fr]">
+        <div className="container-x grid gap-4 sm:gap-12 lg:grid-cols-[4fr_8fr]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading title={<>Quick <em>answers</em></>} />
           </div>

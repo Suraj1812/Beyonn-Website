@@ -90,7 +90,7 @@ export function AosInit() {
         }
       });
     };
-    // Phones have no entrance curtain, so begin after the initial render.
+    // Let the phone intro finish before revealing the first visible sections.
     // Desktop keeps its load-time reveal schedule.
     let started = false;
     let timer = 0;
@@ -111,13 +111,26 @@ export function AosInit() {
     const schedule = () => {
       readyTimer = window.setTimeout(start, 60);
     };
-    if (mobile) motionPreference.addEventListener("change", start);
-    if (mobile || document.readyState === "complete") schedule();
-    else window.addEventListener("load", schedule, { once: true });
+    let disposed = false;
+    if (mobile) {
+      motionPreference.addEventListener("change", start);
+      const intro = document.querySelector(".intro")?.getAnimations().find((animation) => animation.pending || animation.playState === "running");
+      if (intro) {
+        const afterIntro = () => { if (!disposed) start(); };
+        void intro.finished.then(afterIntro, afterIntro);
+      } else {
+        schedule();
+      }
+    } else if (document.readyState === "complete") {
+      schedule();
+    } else {
+      window.addEventListener("load", schedule, { once: true });
+    }
     // Never wait forever (e.g. a slow third-party asset holding "load").
     const failSafe = window.setTimeout(start, 2500);
 
     return () => {
+      disposed = true;
       io.disconnect();
       mo.disconnect();
       motionPreference.removeEventListener("change", start);
