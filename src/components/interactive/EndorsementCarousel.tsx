@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
-import { endorsements } from "@/content/endorsements";
+import { endorsements, endorsementSource } from "@/content/endorsements";
 import { EndorsementCard } from "@/components/sections/EndorsementCard";
 
 const SPEED = 38; // px per second
@@ -39,9 +39,12 @@ export function EndorsementCarousel() {
         last = now;
         if (!onScreen || document.hidden) return;
         speed += (target - speed) * (1 - Math.exp(-dt * 4));
-        // The list is rendered twice; wrap after one full set for a seamless loop.
-        const half = el.scrollWidth / 2;
-        x = (x + speed * dt) % half;
+        // Wrap at the first repeated card, including the gap between sets.
+        const first = el.children[0] as HTMLElement;
+        const repeat = el.children[endorsements.length] as HTMLElement;
+        const loopWidth = repeat.offsetLeft - first.offsetLeft;
+        if (loopWidth <= 0) return;
+        x = (x + speed * dt) % loopWidth;
         el.style.transform = `translate3d(${-x.toFixed(2)}px,0,0)`;
       };
       raf = requestAnimationFrame(frame);
@@ -125,7 +128,7 @@ export function EndorsementCarousel() {
     };
   }, [paused]);
 
-  const cards = [...endorsements, ...endorsements];
+  const cards = Array.from({ length: 4 }, () => endorsements).flat();
 
   return (
     <>
@@ -149,6 +152,9 @@ export function EndorsementCarousel() {
             </li>
           ))}
         </ul>
+      </div>
+      <div className="container-x mt-3">
+        <a href={endorsementSource} className="text-sm font-semibold text-dawn-deep underline underline-offset-4">Read the full clinician endorsements</a>
       </div>
     </>
   );

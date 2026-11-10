@@ -78,7 +78,7 @@ export function useAirwayNarration(options: NarrationOptions) {
       const voice = englishVoice(voices.current);
       if (voice) speech.voice = voice;
       speech.lang = voice?.lang || "en-US";
-      speech.rate = 0.98;
+      speech.rate = 0.91;
       speech.pitch = 1;
       speech.volume = 1;
       utterance.current = speech;

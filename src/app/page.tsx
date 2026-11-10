@@ -11,7 +11,6 @@ import { Parallax } from "@/components/visual/Parallax";
 import { ScrollWords } from "@/components/visual/ScrollWords";
 import { SplitTable } from "@/components/sections/SplitTable";
 import { Ladder, certificationTiers } from "@/components/sections/Ladder";
-import { AirwayModel } from "@/components/visual/AirwayModel";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { VisitorSelector } from "@/components/interactive/VisitorSelector";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
@@ -205,16 +204,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4b. How an appliance helps, in 3D */}
-      <section id="how-it-works" data-guide="airway" className="section-y max-sm:py-10 overflow-clip border-t border-ink/[0.06] bg-paper">
-        <div className="container-x">
-          <SectionHeading eyebrow="How it works" title={<>How an oral appliance <em>helps.</em></>} />
-          <div data-aos="phone-lift" className="mt-8 lg:mt-10">
-            <AirwayModel />
-          </div>
-        </div>
-      </section>
-
       {/* 5. What Beyonn gives your team */}
       <section id="gives" data-guide="gives" className="section-y max-sm:py-10 bg-paper-2">
         <div className="container-x">
@@ -366,7 +355,7 @@ export default function HomePage() {
         <div className="container-x relative grid gap-6 lg:grid-cols-[6fr_6fr] lg:gap-14">
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <SectionHeading tone="dark" index="08" title={<>See it live. <em className="text-breath">A free one-hour workshop</em> with Dr. Rodney Willey.</>} />
+            <SectionHeading tone="dark" index="08" title={<>See it live. <em className="text-breath">A free live workshop</em> with Dr. Rodney Willey.</>} />
             <div data-aos="fade-up" className="mt-6 lg:mt-10">
               <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
               <ol className="mt-3 divide-y divide-paper/10 border-y border-paper/10 sm:mt-5">

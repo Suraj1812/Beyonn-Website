@@ -15,7 +15,7 @@ export const practitionerQuickAnswers: FaqItem[] = [
   { q: "Can my team really handle insurance?", a: "Yes. The coding and documentation kit, payer rules library and claim dashboard guide every claim. If you'd like a hand, optional Billing Assist is there as a safety net." },
   { q: "Will Beyonn help me find patients?", a: "Yes. National awareness campaigns, the Patient App and the provider directory all route patients to Beyonn providers." },
   { q: "What if we get stuck at 9 pm?", a: "The Beyonn AI assistant answers questions on protocols, billing and the platform around the clock." },
-  { q: "How do I know if my practice qualifies?", a: "Take the 2-minute check, then book a Discovery Call. We'll tell you honestly whether it's a fit." },
+  { q: "How do I know if my practice qualifies?", a: "Start on the Discovery Call page. The Beyonn team will discuss your practice, team and goals and help you decide whether the program is a fit." },
   { q: "What does it cost?", a: "Every practice is different. Your Discovery Call walks through the investment for yours." },
 ];
 

@@ -13,7 +13,7 @@ export const site = {
   line: "You're the operator. Beyonn is the operating system.",
   linkedin: {
     beyonn: "https://www.linkedin.com/company/beyonn",
-    doctor: "https://www.linkedin.com/search/results/people/?keywords=Rodney%20Willey%20DDS",
+    doctor: "https://www.linkedin.com/in/dr-rodney-willey-246a42381",
   },
   /** Patient app store links. Leave empty until the app is live (CONFIRM launch date). */
   app: {
@@ -49,14 +49,13 @@ export const primaryNav: (NavGroup | NavLink)[] = [
       { label: "Sleep Apnea Symptoms", href: "/patients#symptoms" },
       { label: "TMD Treatment", href: "/patients#treatment" },
       { label: "Find a Provider", href: "/patients/find-a-provider" },
-      { label: "Patient Portal", href: "/portal" },
     ],
   },
   { label: "Resources", href: "/resources" },
 ];
 
 export const signInNav: NavLink[] = [
-  { label: "Patient Login", href: "/portal" },
+  { label: "Patient Portal", href: "/portal" },
   { label: "Partner Login", href: "/partner-login" },
 ];
 

@@ -15,39 +15,37 @@ import { Ladder, certificationTiers } from "@/components/sections/Ladder";
 import { AppGet } from "@/components/interactive/AppGet";
 import { PatientCheck } from "@/components/interactive/PatientCheck";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
-import { MailtoForm, type MailtoField } from "@/components/interactive/MailtoForm";
+import { FormPreview, type PreviewField } from "@/components/interactive/FormPreview";
+import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
 import { Tilt } from "@/components/visual/Tilt";
-import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 
-const SIGN_IN_URL = "https://www.beyonn.com/sign-in";
-
-const registerFields: MailtoField[] = [
-  { name: "name", label: "Name", required: true, autoComplete: "name" },
-  { name: "country", label: "Country", required: true, autoComplete: "country-name" },
-  { name: "city", label: "City", autoComplete: "address-level2" },
-  { name: "practice", label: "Practice name", autoComplete: "organization" },
+const registerFields: PreviewField[] = [
+  { name: "name", label: "Name" },
+  { name: "country", label: "Country" },
+  { name: "city", label: "City" },
+  { name: "practice", label: "Practice name" },
   { name: "role", label: "Role" },
-  { name: "email", label: "Email", type: "email", required: true, autoComplete: "email" },
-  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
+  { name: "email", label: "Email", type: "email" },
+  { name: "phone", label: "Phone", type: "tel" },
 ];
 
-const referralFields: MailtoField[] = [
-  { name: "name", label: "Name", required: true, autoComplete: "name" },
-  { name: "zip", label: "ZIP", required: true, autoComplete: "postal-code" },
-  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-  { name: "email", label: "Email", type: "email", required: true, autoComplete: "email" },
+const referralFields: PreviewField[] = [
+  { name: "name", label: "Name" },
+  { name: "zip", label: "ZIP" },
+  { name: "phone", label: "Phone", type: "tel" },
+  { name: "email", label: "Email", type: "email" },
   { name: "symptoms", label: "Symptoms", type: "textarea" },
 ];
 
-export const discoveryFields: MailtoField[] = [
-  { name: "name", label: "Name", required: true, autoComplete: "name" },
-  { name: "practice", label: "Practice", required: true, autoComplete: "organization" },
+export const discoveryFields: PreviewField[] = [
+  { name: "name", label: "Name" },
+  { name: "practice", label: "Practice" },
   { name: "role", label: "Role" },
-  { name: "city", label: "City", autoComplete: "address-level2" },
-  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-  { name: "email", label: "Email", type: "email", required: true, autoComplete: "email" },
+  { name: "city", label: "City" },
+  { name: "phone", label: "Phone", type: "tel" },
+  { name: "email", label: "Email", type: "email" },
   { name: "time", label: "Best time", wide: true },
 ];
 
@@ -317,6 +315,14 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
 
 function Widget({ section }: { section: PageSection }) {
   switch (section.widget) {
+    case "airway-model":
+      return <AirwayModel />;
+    case "discovery-booking":
+      return (
+        <Panel className="max-w-3xl">
+          <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" />
+        </Panel>
+      );
     case "team":
       return <TeamGrid />;
     case "ladder":
@@ -342,13 +348,13 @@ function Widget({ section }: { section: PageSection }) {
     case "register-form":
       return (
         <Panel className="max-w-3xl">
-          <MailtoForm fields={registerFields} subject="Beyonn Global: Register your interest" submitLabel="Register Your Interest" confirmation="Thank you. Our international team will contact you about availability in your country." />
+          <FormPreview fields={registerFields} submitLabel="Register Your Interest" />
         </Panel>
       );
     case "referral-form":
       return (
         <Panel className="max-w-3xl">
-          <MailtoForm fields={referralFields} subject="Request a Referral" submitLabel="Request a Referral" />
+          <FormPreview fields={referralFields} submitLabel="Request a Referral" />
         </Panel>
       );
     case "app-download":
@@ -370,25 +376,7 @@ function Widget({ section }: { section: PageSection }) {
     case "partner-signin":
       return (
         <Panel className="mx-auto max-w-xl text-center">
-          <Button href={SIGN_IN_URL} variant="dawn">
-            Sign In
-          </Button>
-          {section.widget === "portal-signin" && (
-            <>
-              <p className="mt-6 text-sm text-muted">Your information is protected and handled in line with HIPAA.</p>
-              <p className="mt-3 text-sm text-muted">
-                Trouble signing in? Call{" "}
-                <a className="font-semibold text-text underline" href={site.phoneHref}>
-                  {site.phone}
-                </a>{" "}
-                or email{" "}
-                <a className="font-semibold text-text underline" href={`mailto:${site.email}`}>
-                  {site.email}
-                </a>
-                .
-              </p>
-            </>
-          )}
+          <p className="font-semibold text-dawn-deep">Sign-in coming soon</p>
         </Panel>
       );
     default:

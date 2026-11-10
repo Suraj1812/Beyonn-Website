@@ -742,42 +742,6 @@
   }
 }
 
-/* Workshop fields keep their labels above the controls on phones. */
-@media (width < 40rem) {
-  [data-workshop-field] {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  [data-workshop-field] :is(input, select) {
-    height: 2.75rem;
-    padding-block: 0;
-    border-radius: 0.625rem;
-    background-color: rgb(255 255 255 / 0.09);
-    font-size: 1rem;
-  }
-
-  [data-workshop-field] > span {
-    position: static;
-    order: -1;
-    translate: none;
-    transform: none;
-    color: rgb(255 255 255 / 0.83);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: normal;
-    text-transform: none;
-  }
-
-  [data-workshop-field] > svg {
-    top: auto;
-    bottom: 0.875rem;
-    translate: none;
-  }
-}
-
 @keyframes phone-enter {
   from {
     opacity: 0;

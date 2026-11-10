@@ -1,43 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronDown, Plus } from "lucide-react";
 import { useVisitor } from "@/components/providers/VisitorProvider";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { practitionerQuickAnswers, patientQuickAnswers } from "@/content/faqs";
 import { cn } from "@/lib/cn";
 
-/** Home §14: two tabs above the accordion; opens to match the visitor's choice. */
+/** Home questions follow the selected audience; practitioners are the default. */
 export function QuickAnswers() {
   const { visitor } = useVisitor();
-  const [tab, setTab] = useState<"practitioners" | "patients">("practitioners");
-  const [showAll, setShowAll] = useState(false);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- follow the remembered visitor choice
-    setTab(visitor === "patient" ? "patients" : "practitioners");
-    setShowAll(false);
-  }, [visitor]);
+  const audience = visitor === "patient" ? "patients" : "practitioners";
+  return <AudienceAnswers key={audience} audience={audience} />;
+}
 
+function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" }) {
+  const [showAll, setShowAll] = useState(false);
   const previewCount = 4;
-  const items = tab === "patients" ? patientQuickAnswers : practitionerQuickAnswers;
+  const items = audience === "patients" ? patientQuickAnswers : practitionerQuickAnswers;
   return (
     <div data-aos="fade-up">
-      <div role="tablist" aria-label="Quick answers audience" className="inline-flex rounded-full bg-ink/5 p-1 max-sm:grid max-sm:grid-cols-2">
-        {(["practitioners", "patients"] as const).map((t) => (
-          <button
-            key={t}
-            role="tab"
-            id={`qa-tab-${t}`}
-            aria-selected={tab === t}
-            aria-controls="qa-panel"
-            onClick={() => { setTab(t); setShowAll(false); }}
-            className={cn("rounded-full px-3 py-2.5 sm:px-5 text-sm font-semibold transition-colors duration-300", tab === t ? "bg-ink text-paper" : "text-muted hover:text-text")}
-          >
-            For {t === "practitioners" ? "Practitioners" : "Patients"}
-          </button>
-        ))}
-      </div>
-      <div id="qa-panel" role="tabpanel" aria-labelledby={`qa-tab-${tab}`} className="mt-4 border-t hairline sm:mt-8" key={tab}>
+      <p className="t-eyebrow text-dawn-deep">{audience === "patients" ? "For Patients" : "For Practitioners"}</p>
+      <div id="qa-panel" className="mt-4 border-t hairline">
         {[items.slice(0, previewCount), items.slice(previewCount)].map((group, index) => (
           <div key={index} id={index === 1 ? "qa-more" : undefined} className={cn(index === 1 && !showAll && "hidden sm:block")}>
             {group.map((item, i) => (
@@ -61,7 +45,7 @@ export function QuickAnswers() {
         </button>
       )}
       <div className="mt-4 sm:mt-8">
-        {tab === "patients" ? <ArrowLink href="/patients#faq">More patient questions: For Patients</ArrowLink> : <ArrowLink href="/partner#faq">More practitioner questions: Partner With Us</ArrowLink>}
+        {audience === "patients" ? <ArrowLink href="/patients#faq">More patient questions: For Patients</ArrowLink> : <ArrowLink href="/partner#faq">More practitioner questions: Partner With Us</ArrowLink>}
       </div>
     </div>
   );

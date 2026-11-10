@@ -7,9 +7,24 @@ import { useAirwayNarration } from "./useAirwayNarration";
 import styles from "./AirwayModel.module.css";
 
 const steps = [
-  { label: "During sleep", title: "Your airway can narrow.", body: "As throat muscles relax, the tongue and soft palate can narrow the airway. In obstructive sleep apnea, this can interrupt breathing.", spoken: "During sleep, the muscles around your throat relax. The tongue and soft palate can narrow the airway. And in obstructive sleep apnea, that can interrupt breathing." },
-  { label: "The appliance", title: "The lower jaw moves forward.", body: "This custom-fitted appliance holds the lower jaw slightly forward. The tongue moves with it, helping create space behind it.", spoken: "Now, watch the lower jaw. This custom-fitted appliance holds it slightly forward. The tongue moves with the jaw, helping create more space behind it." },
-  { label: "The airway", title: "A little more room to breathe.", body: "Moving the jaw forward can help keep the airway open. Your provider adjusts the fit with your jaw comfort in mind, and follow-up sleep testing checks the result.", spoken: "With more room behind the tongue, air can move more easily. The fit still matters. Your provider checks your jaw comfort, and follow-up sleep testing shows how well the treatment is working." },
+  {
+    label: "During sleep",
+    title: "Your airway can narrow.",
+    body: "Your airway is the passage air travels through to reach your lungs. In obstructive sleep apnea, it narrows or closes repeatedly during sleep, briefly interrupting breathing.",
+    spoken: "Think of the airway as the passage air takes to reach your lungs. When you fall asleep, the muscles in your throat relax. For someone with obstructive sleep apnea, that passage can narrow or close repeatedly. Breathing pauses briefly, then starts again. A sleep study helps a physician find out whether that's happening.",
+  },
+  {
+    label: "The appliance",
+    title: "The lower jaw moves forward.",
+    body: "A custom appliance fits over your teeth and holds your lower jaw slightly forward during sleep. As the jaw moves, it helps create more room behind the tongue.",
+    spoken: "Now look at the lower jaw in the model. The appliance fits over your teeth. It holds your lower jaw a little forward while you sleep. As your jaw moves, the tongue moves with it. That can create more space behind the tongue for air to pass.",
+  },
+  {
+    label: "The airway",
+    title: "Your provider checks the fit and results.",
+    body: "TMD refers to problems affecting the jaw joints or chewing muscles. Tell your provider if you have jaw pain or stiffness so they can consider your comfort. Follow-up sleep testing checks how well the appliance works.",
+    spoken: "T M D is a group of problems affecting the jaw joints or the muscles you use to chew. If your jaw hurts or feels stiff, tell your provider. They can adjust the fit and check your comfort. A follow-up sleep test helps your care team check whether the appliance is improving your breathing during sleep.",
+  },
 ];
 
 // Loop timeline (seconds): where each chapter starts, plus the loop's reset point.

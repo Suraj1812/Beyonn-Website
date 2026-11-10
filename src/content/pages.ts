@@ -8,7 +8,7 @@ export type Action = { label: string; href?: string; app?: AppScreen; variant?: 
 export type Card = { label?: string; title?: string; text?: string };
 
 /** Interactive or data-driven blocks rendered by the page route. */
-export type Widget = "quick-check" | "team" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
+export type Widget = "airway-model" | "discovery-booking" | "quick-check" | "team" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
 
 export type PageSection = {
   id?: string;
@@ -559,6 +559,7 @@ export const pages: Record<string, ContentPage> = {
           { text: "Medical treatment for sleep apnea is often covered by medical insurance, not dental. Your provider's team checks your benefits for you." },
         ],
       },
+      { id: "how-it-works", eyebrow: "Oral appliance therapy", title: "How an oral appliance helps", widget: "airway-model" },
       {
         id: "journey",
         eyebrow: "Your journey with a Beyonn dentist",
@@ -682,11 +683,11 @@ export const pages: Record<string, ContentPage> = {
     eyebrow: "Discovery Call",
     title: "See if Beyonn fits your practice.",
     description: "One conversation about your patients, team, goals and the support you need to run OSA + TMD care.",
+    actions: [{ label: "Book a Discovery Call", href: "#book", variant: "dawn" }],
     sections: [
       { eyebrow: "What to expect", title: "A useful conversation, not a sales maze.", points: ["Tell the Beyonn team about your practice and team.", "Discuss the OSA + TMD patients you already see.", "Review training, systems and operational support options.", "Leave with a clear answer about next steps and fit."] },
-      { id: "book", eyebrow: "Book now", title: "Use Beyonn's live scheduling page.", body: "Discovery Calls are currently scheduled through Beyonn's existing website. The booking page opens in a new tab." },
+      { id: "book", eyebrow: "Book now", title: "Schedule a Discovery Call", widget: "discovery-booking" },
     ],
-    cta: { label: "Open live booking", href: "https://www.beyonn.com/discovery-call" },
   },
   contact: {
     eyebrow: "Contact Beyonn",

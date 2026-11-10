@@ -110,15 +110,36 @@ function visualBox(el: HTMLElement): HTMLElement | null {
  * so the dots draw the cards rather than one frame through them.
  */
 function cardOutlines(node: HTMLElement, n: number, seed: number): Float32Array | null {
-  const box = node.getBoundingClientRect();
-  if (!box.width || !box.height) return null;
+  const width = node.offsetWidth;
+  const height = node.offsetHeight;
+  if (!width || !height) return null;
+
+  // Layout offsets ignore temporary entrance and hover transforms.
+  const origin = (element: HTMLElement) => {
+    let x = 0;
+    let y = 0;
+    for (let el: HTMLElement | null = element; el;) {
+      x += el.offsetLeft;
+      y += el.offsetTop;
+      const parent: HTMLElement | null = el.offsetParent instanceof HTMLElement ? el.offsetParent : null;
+      if (parent) {
+        x += parent.clientLeft;
+        y += parent.clientTop;
+      }
+      el = parent;
+    }
+    return { x, y };
+  };
+  const box = origin(node);
   const kids = Array.from(node.children)
-    .map((c) => visualBox(c as HTMLElement)?.getBoundingClientRect())
-    .filter((r): r is DOMRect => !!r)
-    .filter((r) => r.width > 40 && r.height > 30);
+    .map((child) => visualBox(child as HTMLElement))
+    .filter((child): child is HTMLElement => !!child && child.offsetWidth > 40 && child.offsetHeight > 30);
   if (kids.length < 2) return null;
-  const boxes = kids.map((r) => [(r.left - box.left) / box.width, (r.top - box.top) / box.height, (r.right - box.left) / box.width, (r.bottom - box.top) / box.height]);
-  const per = boxes.map(([x0, y0, x1, y1]) => (x1 - x0) * box.width + (y1 - y0) * box.height);
+  const boxes = kids.map((child) => {
+    const { x, y } = origin(child);
+    return [(x - box.x) / width, (y - box.y) / height, (x - box.x + child.offsetWidth) / width, (y - box.y + child.offsetHeight) / height];
+  });
+  const per = boxes.map(([x0, y0, x1, y1]) => (x1 - x0) * width + (y1 - y0) * height);
   const total = per.reduce((a, b) => a + b, 0);
   const r = rng(seed);
   const out = new Float32Array(n * 2);
@@ -128,14 +149,14 @@ function cardOutlines(node: HTMLElement, n: number, seed: number): Float32Array 
     while (k < boxes.length - 1 && pick > per[k]) pick -= per[k++];
     const [x0, y0, x1, y1] = boxes[k];
     const w = x1 - x0, h = y1 - y0;
-    const pw = w * box.width, ph = h * box.height;
+    const pw = w * width, ph = h * height;
     let d = r() * (pw + ph) * 2;
     const j = (r() - 0.5) * 2;
     let x: number, y: number;
-    if (d < pw) { x = x0 + (d / pw) * w; y = y0 + j / box.height; }
-    else if ((d -= pw) < ph) { x = x1 + j / box.width; y = y0 + (d / ph) * h; }
-    else if ((d -= ph) < pw) { x = x1 - (d / pw) * w; y = y1 + j / box.height; }
-    else { d -= pw; x = x0 + j / box.width; y = y1 - (d / ph) * h; }
+    if (d < pw) { x = x0 + (d / pw) * w; y = y0 + j / height; }
+    else if ((d -= pw) < ph) { x = x1 + j / width; y = y0 + (d / ph) * h; }
+    else if ((d -= ph) < pw) { x = x1 - (d / pw) * w; y = y1 + j / height; }
+    else { d -= pw; x = x0 + j / width; y = y1 - (d / ph) * h; }
     out[i * 2] = x;
     out[i * 2 + 1] = y;
   }
@@ -534,8 +555,7 @@ function ParticleCanvas() {
       };
       resize();
       let remeasure = 0;
-      const onResize = () => {
-        resize();
+      const measureTargets = () => {
         window.clearTimeout(remeasure);
         remeasure = window.setTimeout(() => {
           all.forEach((t, i) => {
@@ -543,7 +563,13 @@ function ParticleCanvas() {
           });
         }, 250);
       };
+      const onResize = () => {
+        resize();
+        measureTargets();
+      };
       window.addEventListener("resize", onResize);
+      const sizeObserver = new ResizeObserver(measureTargets);
+      all.filter((t) => t.kind === "rect").forEach((t) => sizeObserver.observe(t.node));
 
       const pointer = { x: -9999, y: -9999 };
       const onPointer = (e: PointerEvent) => {
@@ -774,6 +800,7 @@ function ParticleCanvas() {
       teardown = () => {
         cancelAnimationFrame(raf);
         window.removeEventListener("resize", onResize);
+        sizeObserver.disconnect();
         window.clearTimeout(remeasure);
         window.removeEventListener("pointermove", onPointer);
         document.removeEventListener("pointerleave", onLeave);

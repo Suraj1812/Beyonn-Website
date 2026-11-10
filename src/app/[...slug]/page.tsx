@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { ContentSection, ActionButton, discoveryFields } from "@/components/sections/ContentSection";
-import { MailtoForm } from "@/components/interactive/MailtoForm";
+import { FormPreview } from "@/components/interactive/FormPreview";
 import { SectionJumps } from "@/components/ui/SectionJumps";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -179,7 +179,7 @@ export default async function ContentRoute({ params }: Props) {
         >
           {page.closing.form === "partner" && (
             <div data-morph-shape="rect" className="relative z-10 max-w-3xl rounded-[var(--radius-card)] border border-paper/10 bg-night/85 p-6 backdrop-blur-md sm:p-8">
-              <MailtoForm fields={discoveryFields} subject="Discovery Call booking" submitLabel="Book Your Discovery Call" tone="dark" />
+              <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" tone="dark" />
             </div>
           )}
           {page.closing.signoff && <p className="t-eyebrow text-paper/60">{page.closing.signoff}</p>}
