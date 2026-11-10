@@ -103,9 +103,9 @@ function NameCard({ caption, className }: { caption: NonNullable<Photo["caption"
  */
 export function CutoutPortrait({ photo, emblem, emblem3d, compact = false }: { photo: Photo; emblem?: boolean | "on-dark"; emblem3d?: boolean; compact?: boolean }) {
   return (
-    <div className={cn("relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]", compact && "max-sm:aspect-[2.1] max-sm:overflow-hidden max-sm:rounded-2xl max-sm:border max-sm:border-paper/15 max-sm:bg-paper/[0.06]")}>
+    <div className={cn("relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]", compact && "max-sm:aspect-[2.1] max-sm:rounded-2xl max-sm:border max-sm:border-paper/15 max-sm:bg-paper/[0.06]")}>
       {emblem ? (
-        <div className="pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]" data-morph-shape="emblem" data-morph-hide aria-hidden>
+        <div className={cn("pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]", compact && "max-sm:-right-[20%] max-sm:left-auto max-sm:top-[54%] max-sm:w-[106%] max-sm:translate-x-0 max-sm:opacity-45 max-sm:[mask-image:linear-gradient(to_right,transparent,black_43%)]")} data-morph-shape="emblem" data-morph-hide aria-hidden>
           {(() => {
             const flat = (
               <div className="size-full animate-emblem-in">
@@ -126,7 +126,7 @@ export function CutoutPortrait({ photo, emblem, emblem3d, compact = false }: { p
           <div className="absolute bottom-[4%] left-1/2 aspect-square w-[80%] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_32%_26%,rgb(255_255_255/0.35),transparent_58%)] animate-sun-in" aria-hidden />
         </>
       )}
-      <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 36rem, 90vw" className={cn("object-contain [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]", compact && "max-sm:object-right-bottom")} />
+      <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 36rem, 90vw" className={cn("object-contain [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]", compact && "max-sm:rounded-2xl max-sm:object-right-bottom")} />
       {photo.caption && <NameCard caption={photo.caption} className={cn("bottom-[12%] left-0 sm:-left-4", compact && "max-sm:left-4 max-sm:w-[9rem] max-sm:bg-transparent max-sm:px-0 max-sm:text-paper max-sm:shadow-none max-sm:ring-0 max-sm:[&_p:last-child]:text-paper/70")} />}
     </div>
   );

@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, BadgeCheck, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
 import { HomeHero } from "@/components/sections/HomeHero";
-import { SectionJumps } from "@/components/ui/SectionJumps";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -60,9 +59,8 @@ const gains = [
 ];
 
 const doctorStats = [
-  { value: "10,000+", label: "oral appliances delivered in the United States" },
-  { value: "~20 yrs", label: "Nearly 20 years of practice limited to OSA and TMD" },
-  { value: "DDS", label: "DDS, D.ACSDD, D.ASBA" },
+  { value: "10,000+", label: "Oral appliances delivered in the U.S." },
+  { value: "~20 yrs", label: "Practicing exclusively in OSA and TMD" },
 ];
 
 const doctorReasons: [string, string][] = [
@@ -102,15 +100,6 @@ export default function HomePage() {
           </dl>
         }
       />
-
-      <SectionJumps links={[
-        { id: "welcome", label: "Choose your path" },
-        { id: "how-it-works", label: "3D airway" },
-        { id: "protocol", label: "Four-step protocol" },
-        { id: "platform", label: "See the platform" },
-        { id: "workshop", label: "Free workshop" },
-        { id: "stories", label: "Practitioner stories" },
-      ]} />
 
       {/* 2. Visitor selector */}
       <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome-title" id="welcome">
@@ -156,16 +145,20 @@ export default function HomePage() {
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Learn from the clinician who has done it <em>10,000 times.</em></>} />
               <h3 data-aos="fade-up" className="mt-7 t-eyebrow text-paper/55">Why he&apos;s trusted</h3>
-              <dl className="mt-4 grid grid-cols-3 divide-x divide-paper/10 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10">
-                {doctorStats.map((d, i) => (
-                  <div key={d.label} data-aos="fade-up" data-aos-delay={i * 80} className="px-2.5 py-3 sm:px-5 sm:py-4">
-                    <dt className="sr-only">{d.label}</dt>
-                    <dd>
-                      <CountUp value={d.value} className="block font-display text-[clamp(1.1rem,5.5vw,1.5rem)] font-semibold tracking-tight text-breath sm:text-3xl" />
-                      <span className="mt-1 block text-[0.8rem] leading-snug text-paper/65 sm:text-sm">{d.label}</span>
+              <dl className="mt-4 grid grid-cols-2 overflow-hidden rounded-[var(--radius-card)] bg-paper/[0.05] ring-1 ring-paper/10 sm:grid-cols-3">
+                {doctorStats.map((stat, i) => (
+                  <div key={stat.label} data-aos="fade-up" data-aos-delay={i * 80} className="flex min-w-0 flex-col gap-1 px-3.5 py-3.5 even:border-l even:border-paper/10 sm:px-5 sm:py-4">
+                    <dt className="text-xs leading-snug text-paper/75 sm:text-sm">{stat.label}</dt>
+                    <dd className="order-first font-display text-[clamp(1.25rem,6vw,1.625rem)] font-semibold leading-none tracking-tight text-breath sm:text-3xl">
+                      <CountUp value={stat.value} />
                     </dd>
                   </div>
                 ))}
+                <div data-aos="fade-up" data-aos-delay="160" className="col-span-2 grid grid-cols-[auto_1fr] items-center gap-x-3 border-t border-paper/10 bg-breath/[0.06] px-3.5 py-2.5 sm:col-span-1 sm:flex sm:flex-col sm:items-start sm:justify-center sm:gap-1 sm:border-l sm:border-t-0 sm:bg-transparent sm:px-5 sm:py-4">
+                  <BadgeCheck className="row-span-2 size-5 text-breath sm:hidden" aria-hidden />
+                  <dt className="text-xs leading-snug text-paper/70 sm:text-sm">Clinical credentials</dt>
+                  <dd className="font-display text-sm font-semibold leading-snug text-paper sm:text-breath">DDS, D.ACSDD, D.ASBA</dd>
+                </div>
               </dl>
               <p data-aos="fade-up" className="mt-5 max-w-xl t-lead text-paper/75">
                 Known for the hard cases: chronic pain, disabilities and failed prior treatment.

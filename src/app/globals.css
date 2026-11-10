@@ -746,36 +746,61 @@
   }
 }
 
+@keyframes phone-enter {
+  from {
+    opacity: 0;
+    translate: 0 var(--phone-enter-distance, 10px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
 @media (width < 48rem) and (prefers-reduced-motion: no-preference) {
+  :root {
+    --phone-reveal-ease: cubic-bezier(0.22, 0.75, 0.28, 1);
+  }
+
   body [data-aos][data-aos][data-aos] {
-    transition-duration: 560ms;
-    transition-timing-function: var(--ease-out-expo);
+    transition-duration: 520ms;
+    transition-timing-function: var(--phone-reveal-ease);
   }
 
   [data-aos="fade-up"]:not(.aos-animate),
   [data-aos="fade-left"]:not(.aos-animate),
   [data-aos="fade-right"]:not(.aos-animate) {
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
 
   [data-aos="fade-down"]:not(.aos-animate) {
-    transform: translateY(-16px);
+    transform: translateY(-12px);
+  }
+
+  body [data-aos="reveal"][data-aos][data-aos] {
+    transition-duration: 720ms;
   }
 
   [data-aos="reveal"]:not(.aos-animate) {
-    clip-path: inset(65% 0 0 round var(--radius-panel));
+    clip-path: inset(12% 0 12% round var(--radius-panel));
+  }
+
+  [data-aos="reveal"] img {
+    transform: scale(1.045);
+    transition: transform 850ms var(--phone-reveal-ease);
   }
 
   [data-aos="words"] .w > span {
-    transition-duration: 620ms;
-    transition-delay: min(calc(var(--i, 0) * 32ms), 200ms);
+    transition-timing-function: var(--phone-reveal-ease);
+    transition-duration: 560ms;
+    transition-delay: min(calc(var(--i, 0) * 27ms), 180ms);
   }
 
   [data-aos="words"] em {
     background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-    transition: background-size 540ms var(--ease-out-expo) 180ms;
+    transition: background-size 520ms var(--phone-reveal-ease) 200ms;
   }
 
   [data-aos="words"].aos-animate em {
@@ -789,9 +814,22 @@
     transition-delay: 0s !important;
   }
 
+  [data-mobile-hero-enter] {
+    animation: phone-enter 520ms var(--phone-reveal-ease) var(--phone-hero-delay, 0ms) backwards;
+  }
+
   details[open] > .mobile-reveal,
   [data-mobile-selected] {
-    animation: fade-up 420ms var(--ease-out-expo) both;
+    --phone-enter-distance: 6px;
+    animation: phone-enter 340ms var(--phone-reveal-ease) backwards;
+  }
+
+  main .btn {
+    transition: scale 180ms var(--phone-reveal-ease), background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+  }
+
+  main .btn:active {
+    scale: 0.98;
   }
 }
 

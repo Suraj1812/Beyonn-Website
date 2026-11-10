@@ -8,7 +8,8 @@ let hydrated = false;
 
 /**
  * Client navigation: a navy curtain with the Beyonn emblem sweeps up off the new
- * page while the content settles in. Skipped on the first, server-rendered load
+ * page while the content settles in. Phones get a short settle without the curtain.
+ * Skipped on the first, server-rendered load
  * (the intro handles that) and for reduced motion.
  */
 export function RouteTransition({ children }: { children: React.ReactNode }) {
@@ -21,7 +22,17 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
         hydrated = true;
         return;
       }
-      if (window.matchMedia("(width < 48rem), (prefers-reduced-motion: reduce)").matches) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (window.matchMedia("(width < 48rem)").matches) {
+        gsap.fromTo(ref.current, { opacity: 0.72, y: 7 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.32,
+          ease: "power2.out",
+          clearProps: "transform,opacity",
+        });
+        return;
+      }
       const tl = gsap.timeline();
       tl.set(curtain.current, { display: "grid", yPercent: 0 })
         .fromTo(curtain.current!.firstElementChild, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" })

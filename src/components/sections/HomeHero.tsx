@@ -99,7 +99,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
                     active ? "visible translate-y-0 opacity-100 delay-150" : "invisible translate-y-3 opacity-0",
                   )}
                 >
-                  <p className="t-eyebrow text-breath">
+                  <p data-mobile-hero-enter className="t-eyebrow text-breath">
                     {slides.length > 1 && (
                       <>
                         <span style={{ fontVariantNumeric: "tabular-nums" }}>
@@ -111,8 +111,8 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
                     <span className="sm:hidden">Dental sleep medicine · OSA + TMD</span>
                     <span className="hidden sm:inline">{s.kicker}</span>
                   </p>
-                  <Title className="mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)] max-sm:!text-[clamp(1.95rem,8.5vw,2.8rem)]">{s.title(active)}</Title>
-                  <p className="mt-4 max-w-[35rem] text-[0.95rem] leading-relaxed text-paper/80 sm:hidden">
+                  <Title data-mobile-hero-enter className="[--phone-hero-delay:65ms] mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)] max-sm:!text-[clamp(1.95rem,8.5vw,2.8rem)]">{s.title(active)}</Title>
+                  <p data-mobile-hero-enter className="[--phone-hero-delay:125ms] mt-4 max-w-[35rem] text-[0.95rem] leading-relaxed text-paper/80 sm:hidden">
                     Bring sleep apnea and jaw joint care into your practice with team training, technology and coaching from Dr. Rodney Willey.
                   </p>
                   <p className="mt-6 hidden max-w-[35rem] t-lead text-paper/80 sm:block">{s.sub}</p>
@@ -121,7 +121,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
             })}
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">{actions}</div>
+          <div data-mobile-hero-enter className="[--phone-hero-delay:185ms] mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">{actions}</div>
 
           {slides.length > 1 && (
           <div className="mt-8 flex items-center gap-3" role="group" aria-label="Hero slides">
