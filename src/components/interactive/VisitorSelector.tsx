@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { useVisitor } from "@/components/providers/VisitorProvider";
 import { AppGet, type AppScreen } from "./AppGet";
@@ -85,6 +85,7 @@ function Chip({ children, onClick }: { children: React.ReactNode; onClick: () =>
  */
 export function VisitorSelector() {
   const { visitor, setVisitor } = useVisitor();
+  const needId = useId();
   const path: Path | null = visitor === "patient" || visitor === "practitioner" ? visitor : null;
   const [pick, setPick] = useState<number | null>(null);
   const [typing, setTyping] = useState(false);
@@ -92,6 +93,7 @@ export function VisitorSelector() {
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
   const choosePath = (p: Path) => {
+    window.clearTimeout(timer.current);
     setVisitor(p);
     setPick(null);
     setTyping(false);
@@ -109,6 +111,7 @@ export function VisitorSelector() {
   };
 
   const reset = () => {
+    window.clearTimeout(timer.current);
     setVisitor(null);
     setPick(null);
     setTyping(false);
@@ -119,10 +122,10 @@ export function VisitorSelector() {
   const others = pick !== null ? opts.filter((_, i) => i !== pick).slice(0, 4) : [];
 
   return (
-    <div>
-      {/* The conversation */}
-      <div data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] bg-white p-5 shadow-[0_30px_60px_-40px_rgb(19_37_62/0.55)] ring-1 ring-ink/10 sm:p-7">
-        <div className="flex items-center justify-between gap-4 border-b border-ink/[0.08] pb-4">
+    <div data-visitor-selector>
+      {/* The desktop conversation keeps its existing layout. */}
+      <div data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] bg-white p-4 shadow-[0_30px_60px_-40px_rgb(19_37_62/0.55)] ring-1 ring-ink/10 sm:p-7">
+        <div className="flex items-center justify-between gap-3 border-b border-ink/[0.08] pb-3 sm:gap-4 sm:pb-4">
           <div className="flex items-center gap-2.5">
             <span className="relative flex size-2.5" aria-hidden>
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-breath opacity-60" />
@@ -131,14 +134,38 @@ export function VisitorSelector() {
             <p className="text-sm font-semibold">Find your starting point</p>
           </div>
           {path && (
-            <button type="button" onClick={reset} className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-ink">
+            <button type="button" onClick={reset} className="inline-flex min-h-11 flex-none items-center gap-1.5 text-xs text-muted sm:min-h-0 sm:text-sm transition-colors hover:text-ink">
               <RotateCcw className="size-3.5" aria-hidden />
               Start over
             </button>
           )}
         </div>
 
-        <div className="mt-5 space-y-4" aria-live="polite">
+        <div className="mt-4 sm:hidden" data-mobile-selector>
+          <p className="text-sm font-medium text-ink">Who are you here as?</p>
+          <div className="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Choose your audience">
+            {(["practitioner", "patient"] as const).map((audience) => <button key={audience} type="button" aria-pressed={path === audience} onClick={() => choosePath(audience)} className={cn("min-h-11 rounded-lg border px-2 py-2 text-xs font-semibold transition-colors", path === audience ? "border-ink bg-ink text-paper" : "border-ink/15 bg-white text-ink")}>
+              I&apos;m a {audience}
+            </button>)}
+          </div>
+          {path && <div className="mt-4">
+            <label htmlFor={needId} className="text-sm font-medium text-ink">What brings you here today?</label>
+            <select id={needId} value={pick ?? ""} onChange={(event) => { window.clearTimeout(timer.current); setTyping(false); setPick(event.target.value === "" ? null : Number(event.target.value)); }} className="mt-2 min-h-12 w-full min-w-0 rounded-lg border border-ink/20 bg-paper-2 px-3 py-2 text-base text-ink focus:border-dawn">
+              <option value="">Choose what you need</option>
+              {opts.map((option,i) => <option key={option.chip} value={i}>{option.chip}</option>)}
+            </select>
+          </div>}
+          <div aria-live="polite">
+            {chosen && <div key={`${path}-${pick}`} className="mt-4 border-t border-ink/10 pt-4 motion-safe:animate-fade-up">
+              <p className="text-sm leading-relaxed text-muted">{chosen.reply}</p>
+              <div className="mt-3 [&_.btn]:h-auto [&_.btn]:min-h-11 [&_.btn]:w-full [&_.btn]:justify-between [&_.btn]:whitespace-normal [&_.btn]:py-2 [&_.btn]:text-left [&_.btn]:text-sm">
+                {chosen.app ? <AppGet label={chosen.cta} screen={chosen.app} size="sm" variant="dawn" /> : <Link href={chosen.href!} className="btn btn--dawn btn--sm"><span>{chosen.cta}</span><ArrowRight className="size-4 flex-none" aria-hidden /></Link>}
+              </div>
+            </div>}
+          </div>
+        </div>
+
+        <div className="mt-5 hidden space-y-4 sm:block" aria-live="polite" data-desktop-selector>
           <Bubble from="beyonn">Hi, welcome to Beyonn. Who are you here as?</Bubble>
 
           {!path ? (
