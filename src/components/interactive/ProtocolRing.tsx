@@ -1,169 +1,85 @@
 "use client";
 
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, Check, Users, Layers } from "lucide-react";
 import { protocolSteps } from "@/content/protocol";
 import { cn } from "@/lib/cn";
+import styles from "./ProtocolRing.module.css";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const R = 120;
-const nodes = protocolSteps.map((_, i) => {
-  const a = -Math.PI / 2 + (i * Math.PI * 2) / 4;
-  return { x: 160 + R * Math.cos(a), y: 160 + R * Math.sin(a) };
-});
-
-/** Home §6: a circular system diagram that lights each step as its copy scrolls past. */
 export function ProtocolRing() {
-  const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [mobileStep, setMobileStep] = useState(0);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const id = useId();
+  const step = protocolSteps[active];
 
-  useGSAP(
-    () => {
-      const media = gsap.matchMedia();
-      media.add("(min-width: 64rem)", () => {
-        const steps = gsap.utils.toArray<HTMLElement>("[data-step]");
-        steps.forEach((el, i) => {
-          ScrollTrigger.create({
-            trigger: el,
-            start: "top 60%",
-            end: "bottom 60%",
-            onToggle: (self) => self.isActive && setActive(i),
-          });
-        });
-        gsap.fromTo(
-          "[data-ring-progress]",
-          { strokeDashoffset: 2 * Math.PI * R },
-          {
-            strokeDashoffset: 0,
-            ease: "none",
-            scrollTrigger: { trigger: "[data-steps]", start: "top 60%", end: "bottom 60%", scrub: 0.6 },
-          },
-        );
-      }, root);
-      return () => media.revert();
-    },
-    { scope: root },
-  );
+  function onKey(event: React.KeyboardEvent, index: number) {
+    const next = event.key === "ArrowRight" ? (index + 1) % protocolSteps.length
+      : event.key === "ArrowLeft" ? (index + protocolSteps.length - 1) % protocolSteps.length
+      : event.key === "Home" ? 0 : event.key === "End" ? protocolSteps.length - 1 : null;
+    if (next === null) return;
+    event.preventDefault();
+    setActive(next);
+    tabs.current[next]?.focus();
+  }
 
   return (
-    <div ref={root} className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-      <div className="hidden lg:sticky lg:top-28 lg:block lg:h-[24rem] lg:self-start">
-        <svg data-morph-shape="ring" data-aos="zoom-in" viewBox="-60 -40 440 400" className="mx-auto w-full max-w-[20rem]" role="img" aria-label={`The Beyonn Protocol: ${protocolSteps.map((s) => s.name).join(", ")}. Current step: ${protocolSteps[active].name}.`}>
-          <defs>
-            <linearGradient id="ringG" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stopColor="#72cfb7" />
-              <stop offset="1" stopColor="#3177bf" />
-            </linearGradient>
-          </defs>
-          <circle cx="160" cy="160" r={R} fill="none" stroke="currentColor" strokeOpacity=".12" strokeWidth="2" strokeDasharray="2 6" strokeLinecap="round" />
-          <circle
-            data-ring-progress
-            cx="160"
-            cy="160"
-            r={R}
-            fill="none"
-            stroke="url(#ringG)"
-            strokeWidth="4"
-            strokeLinecap="round"
-            strokeDasharray={2 * Math.PI * R}
-            transform="rotate(-90 160 160)"
-          />
-          <circle cx="160" cy="160" r="70" className="fill-white" stroke="currentColor" strokeOpacity=".08" />
-          <text x="160" y="150" textAnchor="middle" className="fill-dawn-deep text-[11px] font-semibold">
-            Step {active + 1} of 4
-          </text>
-          <text x="160" y="178" textAnchor="middle" className="fill-current font-display text-[24px] font-semibold">
-            {protocolSteps[active].name}
-          </text>
-          {nodes.map((n, i) => {
-            const on = i <= active;
-            const label = [
-              { x: n.x, y: n.y - 34, anchor: "middle" },
-              { x: n.x + 30, y: n.y + 5, anchor: "start" },
-              { x: n.x, y: n.y + 44, anchor: "middle" },
-              { x: n.x - 30, y: n.y + 5, anchor: "end" },
-            ][i] as { x: number; y: number; anchor: "middle" | "start" | "end" };
-            return (
-              <g key={i}>
-                <circle cx={n.x} cy={n.y} r={i === active ? 21 : 16} className={cn("transition-all duration-500", on ? "fill-dawn" : "fill-paper")} stroke="currentColor" strokeOpacity={on ? 0 : 0.18} />
-                <text x={n.x} y={n.y + 4} textAnchor="middle" className={cn("text-[11px] font-bold", on ? "fill-white" : "fill-ink")}>
-                  0{i + 1}
-                </text>
-                <text x={label.x} y={label.y} textAnchor={label.anchor} className={cn("text-[13px] font-semibold transition-colors duration-500", i === active ? "fill-dawn-deep" : "fill-ink/45")}>
-                  {protocolSteps[i].name}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
-        <nav aria-label="Explore protocol steps" className="mt-2 flex justify-center gap-2">
-          {protocolSteps.map((step, i) => <button key={step.key} type="button" aria-label={`Go to ${step.name}`} className="grid size-11 place-items-center rounded-full border border-ink/15 text-sm font-semibold transition-colors hover:bg-dawn hover:text-white" onClick={() => { setActive(i); root.current?.querySelector(`#protocol-step-${step.key}`)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" }); }}>{i + 1}</button>)}
-        </nav>
-      </div>
-      <fieldset className="min-w-0 lg:hidden">
-        <legend className="mb-3 t-eyebrow text-muted">Explore the four steps</legend>
-        <div className="grid grid-cols-4 gap-1 rounded-2xl bg-paper-2 p-1 ring-1 ring-ink/10">
-          {protocolSteps.map((step, i) => (
-            <label key={step.key} className="relative cursor-pointer">
-              <input
-                type="radio"
-                name="beyonn-protocol-step"
-                className="peer sr-only"
-                checked={i === mobileStep}
-                onChange={() => setMobileStep(i)}
-                aria-controls={`protocol-step-${step.key}`}
-              />
-              <span className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-xl px-1 text-xs font-semibold text-ink peer-checked:bg-ink peer-checked:text-paper peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-dawn">
-                <span className="font-mono text-[0.68rem] opacity-70">0{i + 1}</span>
-                {step.name}
-              </span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-      <ol data-steps className="grid gap-4 lg:gap-7 lg:pb-[10vh]">
-        {protocolSteps.map((s, i) => (
-          <li
-            key={s.key}
-            id={`protocol-step-${s.key}`}
-            data-step
-            data-mobile-selected={i === mobileStep ? "" : undefined}
-            style={{ "--stack": `${8 + i * 1.5}rem` } as React.CSSProperties}
-            className={cn(
-              "origin-top rounded-[var(--radius-panel)] border bg-white p-5 shadow-[0_-12px_40px_-28px_rgb(19_37_62/0.35)] transition-[opacity,border-color,box-shadow,transform] duration-500 sm:p-8 lg:sticky lg:top-[var(--stack)]",
-              i !== mobileStep && "hidden lg:list-item",
-              i === active && "lg:border-dawn/50 lg:shadow-[0_24px_50px_-28px_rgb(19_37_62/0.5)]",
-              i < active && "lg:scale-[0.94] lg:border-ink/10 lg:bg-paper-2",
-              i > active && "lg:border-ink/10",
-              "max-lg:border-ink/10",
-            )}
-          >
-            <div data-aos="fade-up" className="max-lg:!translate-y-0 max-lg:!opacity-100">
-              <div className="flex items-center gap-4">
-                <span className={cn("grid size-10 flex-none place-items-center rounded-full font-display text-base font-bold transition-colors duration-500", i === active ? "lg:bg-dawn lg:text-white" : "lg:bg-paper-2 lg:text-ink/60", "max-lg:bg-dawn max-lg:text-white")}>
-                  0{i + 1}
-                </span>
-                <h3 className="font-display text-[clamp(1.5rem,2.2vw,2rem)] font-semibold tracking-tight">{s.name}</h3>
-              </div>
-              <p className="mt-4 max-w-xl leading-relaxed text-muted">{s.short}</p>
-              <dl className="mt-6 grid gap-5 border-t border-ink/10 pt-5 text-[0.95rem] sm:grid-cols-2">
-                <div>
-                  <dt className="text-sm font-semibold text-dawn-deep">Your team does</dt>
-                  <dd className="mt-1.5 text-[0.95rem] leading-relaxed text-text/85">{s.teamDoes}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm font-semibold text-breath-deep">Beyonn gives</dt>
-                  <dd className="mt-1.5 text-[0.95rem] leading-relaxed text-text/85">{s.beyonnGives}</dd>
-                </div>
-              </dl>
+    <div className="overflow-hidden rounded-[1.5rem] border border-ink/10 bg-paper-2/65">
+      <div className="grid items-center gap-4 p-4 sm:p-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:p-8">
+        <div className={styles.navigator}>
+          <p className="mb-3 text-center t-eyebrow text-dawn-deep lg:mb-0">Explore the four steps</p>
+          <div className={styles.diagram}>
+            <svg viewBox="0 0 360 360" className={styles.orbit} aria-hidden>
+              <circle cx="180" cy="180" r="123" fill="none" stroke="#d8e5f3" strokeWidth="2" />
+              <circle cx="180" cy="180" r="123" fill="none" stroke="#3177bf" strokeWidth="3" strokeLinecap="round" pathLength="100" strokeDasharray="100" strokeDashoffset={100 - (active + 1) * 25} transform="rotate(-90 180 180)" className="motion-safe:transition-[stroke-dashoffset] motion-safe:duration-500" />
+            </svg>
+            <div className={styles.center} aria-hidden>
+              <span className="text-xs font-semibold uppercase tracking-widest text-dawn-deep">One connected system</span>
+              <span key={step.key} className="mt-2 font-display text-3xl font-semibold tracking-tight text-ink">{step.name}</span>
+              <span className="mt-2 text-xs text-muted">Step 0{active + 1} / 04</span>
             </div>
-          </li>
-        ))}
-      </ol>
+            <div role="tablist" aria-label="Beyonn Protocol steps" className={styles.tabs}>
+              {protocolSteps.map((item, i) => (
+                <button key={item.key} ref={(el) => { tabs.current[i] = el; }} type="button" role="tab" id={`${id}-tab-${i}`} aria-selected={i === active} aria-controls={`${id}-panel-${i}`} tabIndex={i === active ? 0 : -1} onClick={() => setActive(i)} onKeyDown={(event) => onKey(event, i)} className={cn(styles.tab, i === active && styles.selected)}>
+                  <span className={styles.number}>{i < active ? <Check className="size-4" aria-hidden /> : `0${i + 1}`}</span>
+                  <span>{item.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="mt-1 hidden text-center text-xs text-muted lg:block">Select a step to see how your team is supported.</p>
+        </div>
+
+        <div className="min-w-0 rounded-2xl border border-ink/10 bg-white shadow-[0_16px_48px_-36px_rgb(19_37_62/0.4)]">
+          <div className="grid">
+            {protocolSteps.map((item, i) => (
+              <div key={item.key} role="tabpanel" id={`${id}-panel-${i}`} aria-labelledby={`${id}-tab-${i}`} aria-hidden={active !== i} inert={active !== i} tabIndex={0} className={cn("[grid-area:1/1] p-5 sm:p-7", active === i ? "visible opacity-100 motion-safe:animate-fade-up" : "invisible opacity-0")}>
+                <div className="flex items-center gap-3">
+                  <span className="grid size-10 flex-none place-items-center rounded-xl bg-dawn/10 font-mono text-sm font-semibold text-dawn-deep">0{i + 1}</span>
+                  <h3 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{item.name}</h3>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">{item.short}</p>
+                <dl className="mt-5 grid gap-3 border-t border-ink/10 pt-5">
+                  <div className="rounded-xl bg-paper-2 p-4">
+                    <dt className="flex items-center gap-2 text-sm font-semibold text-dawn-deep"><Users className="size-4" aria-hidden />Your team does</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-text/85">{item.teamDoes}</dd>
+                  </div>
+                  <div className="rounded-xl border border-breath-deep/10 bg-breath/10 p-4">
+                    <dt className="flex items-center gap-2 text-sm font-semibold text-breath-deep"><Layers className="size-4" aria-hidden />Beyonn gives</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-text/85">{item.beyonnGives}</dd>
+                  </div>
+                </dl>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between gap-3 border-t border-ink/10 px-5 py-3 sm:px-7">
+            <span className="text-xs font-medium tabular-nums text-muted">0{active + 1} / 04</span>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setActive((active + 3) % 4)} aria-label="Previous protocol step" className="grid size-11 place-items-center rounded-full border border-ink/15 text-ink transition-colors hover:bg-paper-2"><ArrowLeft className="size-4" aria-hidden /></button>
+              <button type="button" onClick={() => setActive((active + 1) % 4)} className="flex min-h-11 items-center gap-2 rounded-full bg-ink px-4 text-sm font-semibold text-paper transition-colors hover:bg-dawn">Next step<ArrowRight className="size-4" aria-hidden /></button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

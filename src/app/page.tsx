@@ -284,7 +284,7 @@ export default function HomePage() {
           <div className="mt-6 lg:mt-12">
             <ProtocolRing />
           </div>
-          <div className="mt-6"><Button href="/workshop">Join a Workshop</Button></div>
+          <div className="mt-5 flex justify-start"><Button href="/workshop#register">Join a Workshop</Button></div>
         </div>
       </section>
 
