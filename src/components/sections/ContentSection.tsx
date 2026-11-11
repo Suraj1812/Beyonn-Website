@@ -325,6 +325,25 @@ function Widget({ section }: { section: PageSection }) {
       return <div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>;
     case "founder-video":
       return <DoctorIntroVideo />;
+    case "walkthrough-video":
+      return (
+        <div>
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
+            <iframe
+              src="https://next.frame.io/share/acca1aa2-1ce9-4d17-8f4d-e012dfc7f4ba/view/fbe45912-e622-4b35-8e5d-ca24ec347ff6"
+              title="Beyonn walkthrough with Dr. Rodney Willey"
+              className="absolute inset-0 size-full border-0"
+              loading="lazy"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+          <a href="https://next.frame.io/share/acca1aa2-1ce9-4d17-8f4d-e012dfc7f4ba/view/fbe45912-e622-4b35-8e5d-ca24ec347ff6" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-dawn-deep underline underline-offset-4">
+            Open walkthrough in a new tab <ArrowRight className="size-4" aria-hidden />
+          </a>
+        </div>
+      );
     case "patient-video":
       return <div className="overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
         <video className="aspect-video w-full" controls playsInline preload="none" poster="/assets/videos/osa-tmd-poster.jpg" aria-label="OSA and TMD Patient Consultation">
