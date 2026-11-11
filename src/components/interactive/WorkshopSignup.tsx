@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/Button";
+import { workshopContent } from "@/content/workshop";
 import { CalendarDays, Clock } from "lucide-react";
 
 export function WorkshopSignup() {
@@ -22,9 +24,8 @@ export function WorkshopSignup() {
         </p>
       </div>
 
-      <p className="mt-4 flex min-h-12 items-center justify-center rounded-xl border border-breath/25 bg-breath/10 px-4 py-3 text-center text-sm font-semibold text-breath">
-        Workshop registration coming soon
-      </p>
+      <div className="mt-5"><Button href={workshopContent.registrationUrl} variant="dawn" className="w-full justify-between" target="_blank" rel="noopener noreferrer">{workshopContent.cta}</Button></div>
+      <p className="mt-3 text-center text-xs leading-relaxed text-paper/60">{workshopContent.microcopy}</p>
     </div>
   );
 }

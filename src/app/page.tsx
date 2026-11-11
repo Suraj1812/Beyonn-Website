@@ -20,6 +20,7 @@ import { ProtocolRing } from "@/components/interactive/ProtocolRing";
 import { OsTiles } from "@/components/interactive/OsTiles";
 import { QuickAnswers } from "@/components/interactive/QuickAnswers";
 import { blueprintModules } from "@/content/protocol";
+import { workshopContent } from "@/content/workshop";
 import { articles } from "@/content/articles";
 import { pageMeta } from "@/lib/seo";
 import { cn } from "@/lib/cn";
@@ -354,19 +355,14 @@ export default function HomePage() {
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-breath/30 bg-breath/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-breath"><CalendarDays className="size-4" aria-hidden /> Free live workshop · December 1</p>
-            <SectionHeading tone="dark" index="08" title={<>Build your next service line. <em className="text-breath">Join a free workshop</em> with Dr. Rodney Willey.</>} />
+            <SectionHeading tone="dark" index="08" title={workshopContent.title} lead={workshopContent.subhead} />
             <div data-aos="fade-up" className="mt-6 lg:mt-10">
-              <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
+              <h3 className="t-eyebrow text-paper/50">What You’ll Walk Away With</h3>
               <ol className="mt-3 divide-y divide-paper/10 border-y border-paper/10 sm:mt-5">
-                {[
-                  "The missed opportunity of not offering OSA + TMD care in your practice",
-                  "How to spot these patients in your chair",
-                  "Why OSA and TMD must be treated together",
-                  "How to build a service line with medical billing, patient demand and ongoing team support",
-                ].map((item, i) => (
-                  <li key={item} data-aos="phone-lift" data-aos-delay={i * 40} className="group flex items-baseline gap-3 py-2 sm:gap-5 sm:py-2.5 lg:py-4">
+                {workshopContent.takeaways.map((item, i) => (
+                  <li key={item.title} data-aos="phone-lift" data-aos-delay={i * 40} className="group flex items-baseline gap-3 py-2 sm:gap-5 sm:py-2.5 lg:py-4">
                     <span className="font-display text-sm font-semibold tabular-nums text-breath">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="text-sm leading-snug text-paper/85 sm:text-[1.02rem] transition-colors duration-300 group-hover:text-paper">{item}</span>
+                    <span className="text-sm leading-snug text-paper/85 sm:text-[1.02rem]"><span className="block font-semibold text-paper">{item.title}</span><span className="mt-1 block text-sm leading-relaxed text-paper/65">{item.text}</span></span>
                   </li>
                 ))}
               </ol>

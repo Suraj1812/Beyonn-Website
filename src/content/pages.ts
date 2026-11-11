@@ -1,3 +1,4 @@
+import { workshopContent } from "@/content/workshop";
 import type { FaqItem } from "@/components/ui/Faq";
 import type { AppScreen } from "@/components/interactive/AppGet";
 import { academyFaq, globalFaq, partnerFaq, patientFaq, systemFaq } from "@/content/faqs";
@@ -429,9 +430,9 @@ export const pages: Record<string, ContentPage> = {
 
   partner: {
     eyebrow: "Become a Beyonn Network Partner",
-    title: "Build an OSA + TMD program your team can run.",
-    description: "Train your team. Connect your workflow. Grow with clinical and operational support.",
-    heroLine: "You're the operator. Beyonn is the operating system.",
+    title: "The Fastest Way to Launch a Medically Billable OSA + TMD Service Line",
+    description: "Team training, connected workflows and ongoing clinical and operational support, so your practice grows from day one.",
+    heroLine: "You run the practice. Beyonn powers the program.",
     photo: "/assets/people/patient-handshake.webp",
     photoAlt: "Clinician greeting a patient",
     seo: {
@@ -453,17 +454,17 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "What you get",
         title: "Everything your team needs to run the program.",
         cards: [
-          { title: "Sleep apnea and TMD training for dentists and staff", text: "On-demand protocols, clinical video and case-study libraries, and oral appliance therapy training." },
-          { title: "The Coaching Clinician Blueprint", text: "Twelve modules covering patient calls, case preparation, treatment presentation and follow-up. Templates help your team put training into practice." },
-          { title: "Ongoing support", text: "Monthly expert coaching, study club and treatment-planning support on complex cases." },
-          { title: "Staff onboarding system", text: "Online, on-site or hybrid, built to survive turnover." },
-          { title: "Beyonn tech systems", text: "Connect learning, patient communication and case tracking. The Patient App, Academy and Admin Panel support the workflow around care." },
-          { title: "Beyonn AI assistant", text: "Answers your team's questions on protocols, billing and the platform around the clock, trained on Dr. Rodney Willey's content." },
-          { title: "Coding and documentation kit", text: "CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and a payer rules library. Optional Billing Assist if you'd like a hand." },
-          { title: "Sleep testing and the Beyonn appliance", text: "STOP-Bang screening, Beyonn home sleep tests interpreted by a physician, and the Beyonn appliance, ordered from the platform." },
-          { title: "Medical referral network kit", text: "Pathways for working with sleep physicians, ENTs, cardiologists and primary care." },
-          { title: "Patients sent your way", text: "National patient-awareness campaigns, co-branded local kits and a listing in the Beyonn provider directory." },
-          { title: "Financing", text: "Practice and patient financing options, explained on your Discovery Call." },
+          { title: "Sleep Apnea + TMD Training", text: "On-demand protocols, clinical videos, case studies and oral appliance therapy training for dentists and staff." },
+          { title: "The Coaching Clinician Blueprint", text: "Convert more consultations into treatment. 12 modules plus templates for patient calls, case prep, presentation and follow-up." },
+          { title: "Ongoing Support", text: "Never face a complex case alone. Monthly coaching, study club and treatment-planning help." },
+          { title: "Staff Onboarding System", text: "Train new hires fast. Online, on-site or hybrid, built to survive turnover." },
+          { title: "Beyonn Technology System", text: "Run your whole program in one place. Training, patient communication and case tracking via the Patient App, Academy and Admin Panel." },
+          { title: "Beyonn AI Assistant", text: "24/7 answers on protocols, billing and the platform, trained on Dr. Rodney Willey’s content." },
+          { title: "Coding + Documentation Kit", text: "Get paid for your care. CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and payer rules. Optional Billing Assist." },
+          { title: "Sleep Testing + the Beyonn Appliance", text: "Screen, test and treat in one platform. STOP-Bang, physician-read home sleep tests and the Beyonn appliance." },
+          { title: "Medical Referral Network Kit", text: "Build referral pipelines with sleep physicians, ENTs, cardiologists and primary care." },
+          { title: "Patients Sent Your Way", text: "Fill your schedule with national campaigns, co-branded local kits and a provider directory listing." },
+          { title: "Financing", text: "Make yes easier. Practice and patient financing, covered on your Discovery Call." },
         ],
       },
       {
@@ -695,8 +696,8 @@ export const pages: Record<string, ContentPage> = {
 
   workshop: {
     eyebrow: "Free live workshop",
-    title: "Make sleep and jaw care part of your practice.",
-    description: "Join Dr. Rodney Willey for practical clinical learning and a clearer path to building an OSA + TMD service line.",
+    title: workshopContent.title,
+    description: workshopContent.subhead,
     actions: [{ label: "Join a Workshop", href: "#register", variant: "dawn" }],
     sections: [
       { title: "Built for your whole practice", body: "For dentists, ENTs, nurse practitioners and the teams who support them.", cards: [
@@ -704,6 +705,7 @@ export const pages: Record<string, ContentPage> = {
         { title: "Connect the workflow", text: "See how screening, testing, treatment and follow-up fit together." },
         { title: "Understand practice growth", text: "Explore medical billing, patient education and the operational work behind a new service line." },
       ] },
+      { title: "What You’ll Walk Away With", cards: workshopContent.takeaways.map((item) => ({ ...item })) },
       { id: "register", title: "Choose your session", widget: "workshop-preview" },
     ],
   },

@@ -12,14 +12,9 @@ type Slide = { kicker: string; title: (play: boolean) => ReactNode; sub: string 
 /** Hero copy from the approved content doc. More slides can be added later. */
 const slides: Slide[] = [
   {
-    kicker: "The OSA + TMD Program Your Team Can Run",
-    title: (play) => (
-      <>
-        Your team. Our <Scribble play={play}>system.</Scribble>{" "}
-        <span className="hidden sm:inline">A complete OSA + TMD integration program.</span>
-      </>
-    ),
-    sub: "Bring OSA + TMD care into your practice with team training, practical tools and coaching from Dr. Rodney Willey. Build a program that runs with confidence.",
+    kicker: "Your Team. Our System.",
+    title: (play) => <>The OSA + TMD Program Your Team Can <Scribble play={play}>Run</Scribble></>,
+    sub: "Team training, practical tools and coaching from Dr. Rodney Willey.",
   },
 ];
 
@@ -111,12 +106,11 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
                         <span className="mx-2 text-paper/40">·</span>
                       </>
                     )}
-                    <span className="sm:hidden">Dental sleep medicine · OSA + TMD</span>
-                    <span className="hidden sm:inline">{s.kicker}</span>
+                    <span>{s.kicker}</span>
                   </p>
                   <Title data-mobile-hero-enter className="[--phone-hero-delay:65ms] mt-4 t-display !text-[clamp(2.2rem,3.9vw,3.7rem)] max-sm:!text-[clamp(1.95rem,8.5vw,2.8rem)]">{s.title(active)}</Title>
                   <p data-mobile-hero-enter className="[--phone-hero-delay:125ms] mt-4 max-w-[35rem] text-[0.95rem] leading-relaxed text-paper/80 sm:hidden">
-                    Bring sleep apnea and jaw joint care into your practice with team training, technology and coaching from Dr. Rodney Willey.
+                    {s.sub}
                   </p>
                   <p className="mt-6 hidden max-w-[35rem] t-lead text-paper/80 sm:block">{s.sub}</p>
                 </div>
