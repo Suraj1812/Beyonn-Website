@@ -100,4 +100,4 @@ export const legalNav: NavLink[] = [
 export const isGroup = (item: NavGroup | NavLink): item is NavGroup => "links" in item;
 
 /** Routes where the persistent CTA switches to the patient version. */
-export const isPatientRoute = (path: string) => path.startsWith("/patients") || path === "/portal";
+export const isPatientRoute = (path: string) => path.startsWith("/patients") || path === "/patient-app" || path === "/portal";

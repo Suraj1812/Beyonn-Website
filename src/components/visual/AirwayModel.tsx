@@ -45,16 +45,13 @@ export function AirwayModel() {
   const [sceneState, setSceneState] = useState<"loading" | "ready" | "failed">("loading");
   const [inspecting, setInspecting] = useState(false);
   const [resetting, setResetting] = useState(false);
-  const [detailText, setDetailText] = useState<string | null>(null);
   const [userPaused, setUserPaused] = useState(false);
   const step = value >= 80 ? 2 : value >= 32 ? 1 : 0;
   const narration = useAirwayNarration({
     step,
-    text: steps[step].spoken,
     audioSrc: `/assets/audio/kiara-airway-${step + 1}.m4a`,
-    paused: userPaused,
+    paused: userPaused || inspecting,
     suspended: !inView || !pageVisible || resetting || sceneState === "loading",
-    detailText,
   });
   const { speakingRef, speakingStepRef, getRecordedProgress } = narration;
   // Autoplay waits for a meaningful first view. Scroll/tab interruptions and
@@ -63,10 +60,7 @@ export function AirwayModel() {
     && inView && pageVisible && !inspecting && !userPaused && sceneState === "ready";
   const onReady = useCallback(() => setSceneState("ready"), []);
   const onError = useCallback(() => setSceneState("failed"), []);
-  const onInspectChange = useCallback((open: boolean, text?: string) => {
-    setInspecting(open);
-    setDetailText(open ? text ?? null : null);
-  }, []);
+  const onInspectChange = useCallback((open: boolean) => setInspecting(open), []);
 
   useEffect(() => {
     if (!playing) {
@@ -199,7 +193,7 @@ export function AirwayModel() {
           <span className={styles.hint}>Tap a part to learn more</span>
         </div>
       </div>
-      <p className="sr-only">The animation repeats while this section is visible. As the lower jaw and tongue move forward, the space behind the tongue increases. Click an anatomical part to learn its role, or use the focused part labels with your keyboard. Opening an explanation stops the animation while you read. Listen enables spoken explanations.</p>
+      <p className="sr-only">The animation repeats while this section is visible. As the lower jaw and tongue move forward, the space behind the tongue increases. Click an anatomical part to learn its role, or use the focused part labels with your keyboard. Opening an explanation pauses the animation and recording while you read. Listen plays the recorded chapter explanations.</p>
     </div>
   );
 }

@@ -353,7 +353,15 @@ function Widget({ section }: { section: PageSection }) {
         </video>
       </div>;
     case "patient-stories":
-      return <div className="rounded-2xl border border-dashed border-dawn/25 bg-paper-2 p-6"><p className="font-semibold">Patient stories coming soon</p><p className="mt-2 text-sm text-muted">Hear about care from the people who experience it.</p></div>;
+      return (
+        <figure className="max-w-3xl border-l-2 border-dawn pl-5 sm:pl-8">
+          <blockquote cite="https://www.beyonn.com/platforms/done-by-you" className="font-display text-xl leading-relaxed text-ink sm:text-2xl">
+            <p>“help me medically, but also offer genuine kindness and support.”</p>
+          </blockquote>
+          <figcaption className="mt-4 text-sm text-muted">Dr. Fayeza Fayez · Personal experience</figcaption>
+          <a href="https://www.beyonn.com/platforms/done-by-you" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-dawn-deep underline underline-offset-4">Read her published endorsement</a>
+        </figure>
+      );
     case "app-preview":
       return <PatientAppScreenshots />;
     case "patient-blogs":

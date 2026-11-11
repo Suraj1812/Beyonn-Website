@@ -117,7 +117,6 @@ export default function HomePage() {
         <div data-aos="phone-lift" className="mt-5 sm:mt-10">
           <EndorsementCarousel />
         </div>
-        <p className="container-x mt-4 text-sm text-muted">Video testimonials and patient stories coming soon.</p>
       </section>
 
       {/* 3. Dr. Rodney Willey banner */}
@@ -233,7 +232,7 @@ export default function HomePage() {
             <ol data-morph-shape="rect" className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10">
               {blueprintModules.map((module, i) => (
                 <li key={module} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:justify-start sm:gap-2 sm:p-4 sm:text-base sm:hover:bg-paper">
-                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(101 + i)}</span>
                   <span className="font-medium leading-snug">{module}</span>
                 </li>
               ))}

@@ -29,21 +29,6 @@ export const protocolSteps = [
   },
 ] as const;
 
-export const blueprintModules = [
-  "New patient calls",
-  "Registering a new patient",
-  "No-shows and follow-up",
-  "Understanding sleep studies (AHI and RDI)",
-  "Pre-service and insurance billing prep",
-  "New patient check-in",
-  "Interview and exam documentation",
-  "Treatment planning and presentation",
-  "Understanding medical necessity",
-  "Production planning",
-  "The patient lifecycle, from consent to delivery and follow-up",
-  "Replacement appliance planning",
-];
-
 /** Academy view: modules grouped by protocol step, with catalogue numbers. */
 export const blueprintByStep = [
   { step: "Identify", modules: [["101", "New Patient Calls"], ["102", "Registering a New Patient"], ["103", "No-Show and Tickler Policy"]] },
@@ -51,3 +36,9 @@ export const blueprintByStep = [
   { step: "Treat", modules: [["106", "New Patient Check-In"], ["107", "New Patient Interview and Exam Documentation"], ["108", "Treatment Planning, Preparation and Presentation"]] },
   { step: "Manage", modules: [["110", "Production Planning"], ["111", "Patient Lifecycle"], ["112", "Replacement Appliance Planning"]] },
 ] as const;
+
+/** One catalogue for home previews and the Academy; labels match the supplied copy. */
+export const blueprintModules = blueprintByStep
+  .flatMap<readonly [string, string]>(({ modules }) => modules)
+  .sort(([a], [b]) => Number(a) - Number(b))
+  .map(([, name]) => name);

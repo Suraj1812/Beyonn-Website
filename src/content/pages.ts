@@ -1,3 +1,4 @@
+import { blueprintByStep } from "@/content/protocol";
 import { workshopContent } from "@/content/workshop";
 import type { FaqItem } from "@/components/ui/Faq";
 import type { AppScreen } from "@/components/interactive/AppGet";
@@ -162,6 +163,10 @@ export const pages: Record<string, ContentPage> = {
 
 
       {
+        id: "experience",
+        eyebrow: "Professional background",
+        title: "Credentials & clinical experience",
+        body: "DDS, D.ACSDD, D.ASBA · Founder & Clinical Lead",
         stats: [
           { value: "10,000+", label: "Oral appliances delivered in the United States" },
           { value: "~20 years", label: "Of practice limited to OSA and TMD" },
@@ -272,12 +277,10 @@ export const pages: Record<string, ContentPage> = {
         id: "blueprint",
         eyebrow: "The Coaching Clinician Blueprint",
         title: "12 modules. Every step your team takes.",
-        columns: [
-          { title: "Identify", items: ["101 New Patient Calls", "102 Registering a New Patient", "103 No-Show and Tickler Policy"] },
-          { title: "Prepare", items: ["104 Understanding Sleep Studies (AHI and RDI)", "105 Pre-Service and Insurance Billing Prep", "109 Understanding Medical Necessity"] },
-          { title: "Treat", items: ["106 New Patient Check-In", "107 New Patient Interview and Exam Documentation", "108 Treatment Planning, Preparation and Presentation"] },
-          { title: "Manage", items: ["110 Production Planning", "111 Patient Lifecycle", "112 Replacement Appliance Planning"] },
-        ],
+        columns: blueprintByStep.map(({ step, modules }) => ({
+          title: step,
+          items: modules.map(([number, name]) => `${number} ${name}`),
+        })),
         lines: ["Built so a new hire can learn the system in the same way as the team member they replace."],
       },
       {
@@ -315,7 +318,7 @@ export const pages: Record<string, ContentPage> = {
       description: "Beyonn Global brings Dr. Rodney Willey's OSA + TMD protocols, training and technology to dental practices outside the United States.",
       keywords: ["dental sleep medicine", "sleep apnea training for dentists", "TMD training for dentists"],
     },
-    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join an International Workshop", href: "/workshop#register", variant: "ghost-light" }],
+    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join a Workshop", href: "/workshop#register", variant: "ghost-light" }],
     sections: [
       {
         eyebrow: "Why Beyonn Global",
@@ -327,7 +330,7 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "How it works",
         title: "How it works",
         steps: [
-          { title: "Join an international workshop.", text: "Live sessions scheduled for time zones outside the US." },
+          { title: "Explore the workshop.", text: "See the upcoming session times and choose a session that works for you." },
           { title: "Book a Discovery Call.", text: "We look at your practice, country and goals." },
           { title: "Adapt.", text: "We align the program with your local regulations, payment models and language." },
           { title: "Launch.", text: "Your team goes live, with Beyonn's training, technology and coaching behind you." },
@@ -491,7 +494,7 @@ export const pages: Record<string, ContentPage> = {
         callout: { text: "Ready to find care near you?", action: { label: "Find a Provider", href: "/patients/find-a-provider#referral" } },
       },
       { title: "OSA and TMD, explained", widget: "patient-video" },
-      { title: "Patient experiences", widget: "patient-stories" },
+      { title: "Care, in her own words", widget: "patient-stories" },
       { title: "Understand your sleep and jaw health", widget: "patient-blogs" },
       { id: "faq", title: "Patient FAQ", faq: patientFaq },
     ],
