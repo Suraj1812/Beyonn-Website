@@ -322,7 +322,7 @@ export const pages: Record<string, ContentPage> = {
   academy: {
     eyebrow: "Beyonn Academy",
     title: "Learn it. Run it. Get certified for it.",
-    description: "Beyonn Academy trains your whole team, not just the doctor, to treat Obstructive Sleep Apnea and Temporomandibular Joint Disorder. Clinical learning, step-by-step team training and live coaching from Dr. Rodney Willey, in one place.",
+    description: "Clinical training, practical workflows and live coaching for your whole OSA + TMD team.",
     photo: "/assets/people/team-training.webp",
     photoAlt: "Dr. Rodney Willey teaching a practice team during an in-person training session",
     seo: {
@@ -334,8 +334,8 @@ export const pages: Record<string, ContentPage> = {
     sections: [
       {
         eyebrow: "More than a course",
-        title: "Most courses end with a certificate. Ours ends with a program that runs.",
-        body: "Knowing how to treat OSA + TMD is only half the job. The other half is the calls, the paperwork, the billing and the follow-up. Beyonn Academy teaches both, so what your team learns on Monday is in use by Friday.",
+        title: "Put your training into practice.",
+        body: "Learn the clinical care and the daily work around it: patient calls, documentation, billing and follow-up.",
       },
       {
         eyebrow: "What's inside",
@@ -386,8 +386,8 @@ export const pages: Record<string, ContentPage> = {
 
   global: {
     eyebrow: "Beyonn Global",
-    title: "The Beyonn program, now beyond the United States.",
-    description: "Obstructive Sleep Apnea and Temporomandibular Joint Disorder go unrecognized in dental chairs everywhere. Beyonn Global brings Dr. Rodney Willey's protocols, training and technology to practitioners around the world.",
+    title: "The Beyonn program, worldwide.",
+    description: "Dr. Rodney Willey's OSA + TMD protocols, training and technology for practices outside the US.",
     photo: "/assets/people/front-desk-team.webp",
     photoAlt: "Beyonn practice team coordinating patient calls at the front desk",
     seo: {
@@ -399,8 +399,8 @@ export const pages: Record<string, ContentPage> = {
     sections: [
       {
         eyebrow: "Why Beyonn Global",
-        title: "Every country has the patients. Now every country can have the program.",
-        body: "Practitioners worldwide see the same patients: snorers, clenchers, failed night guards. And many face the same problem: trained in OSA and TMD, but without a system to run it. Beyonn Global gives them that system, adapted to how care works in their country.",
+        title: "A connected program. Adapted locally.",
+        body: "Bring OSA + TMD care into your practice with workflows adapted to local regulations, payment models and language.",
       },
       {
         eyebrow: "What international partners get",
@@ -431,9 +431,8 @@ export const pages: Record<string, ContentPage> = {
 
   partner: {
     eyebrow: "Become a Beyonn Network Partner",
-    title: "The Fastest Way to Launch a Medically Billable OSA + TMD Service Line",
-    description: "Team training, connected workflows and ongoing clinical and operational support, so your practice grows from day one.",
-    heroLine: "You run the practice. Beyonn powers the program.",
+    title: "Build your OSA + TMD service line.",
+    description: "Train your team, connect your workflows and get ongoing clinical and operational support.",
     photo: "/assets/people/practice-support.webp",
     photoAlt: "A Beyonn team member supporting patients by phone",
     seo: {

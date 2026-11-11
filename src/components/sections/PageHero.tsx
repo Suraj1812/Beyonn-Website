@@ -140,7 +140,7 @@ function FramedPhoto({ photo }: { photo: Photo }) {
       <div className="absolute inset-0 left-6 top-6 rounded-[var(--radius-panel)] bg-breath/70" aria-hidden />
       <Tilt className="rounded-[var(--radius-panel)]" max={4}>
         <div data-morph-shape="rect" className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-35px_rgb(19_37_62/0.55)]">
-          <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 40vw, 90vw" className="object-contain" />
+          <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" />
         </div>
       </Tilt>
       {photo.caption && <NameCard caption={photo.caption} className="-bottom-2 left-4" />}

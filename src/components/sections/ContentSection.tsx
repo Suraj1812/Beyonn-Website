@@ -579,7 +579,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
           <Parallax speed={0.05} className={index % 2 === 1 ? "lg:order-1" : ""}>
             <Tilt className="rounded-[var(--radius-panel)]" max={4}>
               <div data-morph-shape="rect" data-aos="reveal" data-aos-duration="1200" className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2 shadow-[0_30px_60px_-38px_rgb(19_37_62/0.55)]">
-                <Image src={section.image} alt={section.imageAlt ?? section.title ?? ""} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-contain" />
+                <Image src={section.image} alt={section.imageAlt ?? section.title ?? ""} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               </div>
             </Tilt>
           </Parallax>
