@@ -10,10 +10,8 @@ import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { CountUp } from "@/components/ui/CountUp";
 import { Tilt } from "@/components/visual/Tilt";
-import { Parallax } from "@/components/visual/Parallax";
 import { ScrollWords } from "@/components/visual/ScrollWords";
 import { SplitTable } from "@/components/sections/SplitTable";
-import { Ladder, certificationTiers } from "@/components/sections/Ladder";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { VisitorSelector } from "@/components/interactive/VisitorSelector";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
@@ -173,16 +171,14 @@ export default function HomePage() {
 
       {/* 4. The opportunity */}
       <section id="opportunity" data-guide="opportunity" className="section-y max-sm:py-10 bg-paper">
-        <div className="container-x grid gap-5 sm:gap-14 lg:grid-cols-[7fr_5fr] lg:items-end">
+        <div className="container-x">
           <div>
             <SectionHeading index="03" eyebrow="The opportunity" title={<>The patients are <em>already in your chair.</em></>} />
             <p data-aos="fade-up" className="mt-4 max-w-2xl sm:mt-8 t-lead text-muted">
               Snoring, clenching and morning headaches can point to OSA + TMD. Help the patients already in your chair.
             </p>
           </div>
-          <div>
-            <Parallax speed={0.05}><div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-panel)] bg-paper-2" data-aos="reveal" data-aos-duration="1200"><Image src="/assets/people/patient-conversation.webp" alt="Clinician speaking with a patient" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-contain" /></div></Parallax>
-          </div>
+
         </div>
         <div className="container-x mt-6 sm:mt-14">
           <div className="relative overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-7 text-paper sm:px-14 sm:py-16">
@@ -232,13 +228,13 @@ export default function HomePage() {
               <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">Core training · The Blueprint</p>
               <h3 id="coaching-blueprint" className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
               <p className="mt-4 leading-relaxed text-muted">12 modules, from the first patient call to ongoing care.</p>
-              <div className="mt-5"><ArrowLink href="/academy#blueprint">See all 12 modules</ArrowLink></div>
+              <div className="mt-5"><ArrowLink href="/academy#blueprint">Explore the Academy</ArrowLink></div>
             </div>
-            <ol data-morph-shape="rect" className="grid gap-2 sm:grid-cols-3 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10">
-              {[0, 4, 7].map((moduleIndex, i) => (
-                <li key={moduleIndex} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:min-h-[7rem] sm:justify-between sm:gap-3 sm:p-5 sm:text-base sm:hover:bg-paper">
-                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(moduleIndex + 1).padStart(2, "0")}</span>
-                  <span className="font-medium leading-snug">{blueprintModules[moduleIndex]}</span>
+            <ol data-morph-shape="rect" className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10">
+              {blueprintModules.map((module, i) => (
+                <li key={module} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:justify-start sm:gap-2 sm:p-4 sm:text-base sm:hover:bg-paper">
+                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-medium leading-snug">{module}</span>
                 </li>
               ))}
             </ol>
@@ -334,14 +330,9 @@ export default function HomePage() {
               );
             })}
           </div>
-          <div className="mt-9 md:mt-16">
-            <div className="mb-5 md:mb-10">
-              <h3 data-aos="fade-up" className="t-h2">
-                Your growth path
-              </h3>
-              <p className="mt-3 max-w-2xl text-muted">Begin with core training, build experience with ongoing coaching, then progress through the provider tiers.</p>
-            </div>
-            <Ladder tiers={certificationTiers.home} compact />
+          <div data-aos="fade-up" className="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
+            <p className="text-sm text-muted">Keep building your skills through the Academy’s provider tiers.</p>
+            <ArrowLink href="/academy#certification">Explore certification</ArrowLink>
           </div>
         </div>
       </section>

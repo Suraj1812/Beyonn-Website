@@ -480,9 +480,11 @@ export function ContentSection({ section, index }: { section: PageSection; index
   if (section.faq) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-16">
-          <Header section={section} />
-          <Faq items={section.faq} name="page-questions" />
+        <div className="container-x">
+          <div className="mx-auto max-w-4xl">
+            <Header section={section} />
+            <div className="mt-6 sm:mt-8"><Faq items={section.faq} name="page-questions" /></div>
+          </div>
         </div>
       </section>
     );
