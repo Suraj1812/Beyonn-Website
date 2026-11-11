@@ -339,7 +339,7 @@ function Widget({ section }: { section: PageSection }) {
       return <AirwayModel />;
     case "discovery-booking":
       return (
-        <Panel className="max-w-3xl">
+        <Panel className="mx-auto w-full max-w-3xl">
           <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" />
         </Panel>
       );
@@ -367,7 +367,7 @@ function Widget({ section }: { section: PageSection }) {
       );
     case "register-form":
       return (
-        <Panel className="max-w-3xl">
+        <Panel className="mx-auto w-full max-w-3xl">
           <FormPreview fields={registerFields} submitLabel="Register Your Interest" />
         </Panel>
       );
@@ -451,7 +451,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
   if (section.faq) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid max-w-5xl gap-6">
+        <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-16">
           <Header section={section} />
           <Faq items={section.faq} name="page-questions" />
         </div>
@@ -535,15 +535,35 @@ export function ContentSection({ section, index }: { section: PageSection; index
     );
   }
 
-  // Copy only: a light statement panel.
-  const copyOnly = !section.list && !section.aside && !section.callout && !section.points && !section.cards && !section.columns && !section.steps && !section.table && !section.stats && !section.quote && !section.pull && !section.widget && !section.lines && !section.links;
+  const hasBlocks = Boolean(section.aside || section.callout || section.points || section.cards || section.columns || section.steps || section.table || section.stats || section.quote || section.pull || section.widget || section.lines || section.links);
+
+  // Text-and-list sections use the whole desktop row without adding filler.
+  if (section.list && !hasBlocks) {
+    return (
+      <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
+        <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+          <div>
+            <Header section={section} dark={dark} />
+            {!section.bodyAfter && <Body body={section.body} dark={dark} className="mt-6" />}
+            {section.tagline && <p className={cn("mt-6 font-semibold", dark ? "text-breath" : "text-dawn-deep")}>{section.tagline}</p>}
+          </div>
+          <div className={cn("lg:border-l lg:pl-10", dark ? "lg:border-paper/15" : "lg:border-dawn/20")}>
+            <CheckList items={section.list} tone={dark ? "breath" : "dawn"} className="gap-5" />
+            {section.bodyAfter && <Body body={section.body} dark={dark} className="mt-6" />}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const copyOnly = !section.list && !hasBlocks;
   if (copyOnly && !dark) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
-          <div data-morph-shape="rect" className={`relative isolate overflow-hidden rounded-[var(--radius-panel)] border border-ink/10 px-5 py-8 sm:px-14 sm:py-20 ${index % 2 === 0 ? "bg-paper-2" : "bg-white"}`}>
-            <div className="pointer-events-none absolute -bottom-24 -right-20 -z-10 aspect-[1600/1306] w-[30rem] bg-dawn/[0.08] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[40rem]" aria-hidden />
-            {intro}
+          <div className={cn("grid items-start gap-6", hasHeader && section.body ? "lg:grid-cols-2 lg:gap-16" : "mx-auto max-w-3xl")}>
+            {hasHeader && <div><Header section={section} />{section.tagline && <p className="mt-5 font-semibold text-dawn-deep">{section.tagline}</p>}</div>}
+            <Body body={section.body} className="max-w-none" />
           </div>
         </div>
       </section>
