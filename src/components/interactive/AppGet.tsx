@@ -35,12 +35,14 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
   const [open, setOpen] = useState(false);
   const [qr, setQr] = useState("");
   const live = Boolean(site.app.appStore || site.app.googlePlay);
-  const deepLink = `${site.url}/patient-app?open=${screen}`;
+  const downloadUrl = site.app.appStore && site.app.googlePlay
+    ? `${site.url}/patient-app#download`
+    : site.app.googlePlay || site.app.appStore;
 
   useEffect(() => {
     if (!open || !live) return;
-    QRCode.toDataURL(deepLink, { margin: 1, width: 360, color: { dark: "#1c395e", light: "#ffffff" } }).then(setQr).catch(() => setQr(""));
-  }, [open, live, deepLink]);
+    QRCode.toDataURL(downloadUrl, { margin: 1, width: 360, color: { dark: "#1c395e", light: "#ffffff" } }).then(setQr).catch(() => setQr(""));
+  }, [open, live, downloadUrl]);
 
   const onClick = () => {
     const p = platform();
@@ -64,9 +66,9 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
         <h2 className="mt-5 t-h3">Get the Beyonn Patient App</h2>
         {live ? (
           <>
-            <p className="mt-3 leading-relaxed text-muted">Scan with your phone&apos;s camera. The app opens on {screenLabel[screen]}.</p>
+            <p className="mt-3 leading-relaxed text-muted">Scan to download the app, then open {screenLabel[screen]}.</p>
             <div className="mt-6 grid place-items-center rounded-3xl bg-white/70 p-6">
-              {qr ? <Image src={qr} alt={`QR code to download the Beyonn Patient App, opening on ${screenLabel[screen]}`} width={224} height={224} unoptimized className="size-56" /> : <div className="size-56 animate-pulse rounded-2xl bg-ink/5" />}
+              {qr ? <Image src={qr} alt="QR code to download the Beyonn Patient App" width={224} height={224} unoptimized className="size-56" /> : <div className="size-56 animate-pulse rounded-2xl bg-ink/5" />}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               {site.app.appStore && (

@@ -421,8 +421,8 @@ function Widget({ section }: { section: PageSection }) {
       return (
         <div className="space-y-10">
           <div data-aos="fade-up" className="flex flex-wrap gap-3">
-            <AppGet label="App Store" variant="light" />
-            <AppGet label="Google Play" variant="ghost-light" />
+            {site.app.appStore && <Button href={site.app.appStore} variant="light" target="_blank" rel="noopener noreferrer">App Store</Button>}
+            {site.app.googlePlay && <Button href={site.app.googlePlay} variant="ghost-light" target="_blank" rel="noopener noreferrer">Google Play</Button>}
           </div>
           <div data-aos="fade-up" className="flex flex-wrap items-center gap-5 border-t border-paper/15 pt-8">
             <p className="t-lead text-paper/80">Want the app for your patients? Become a Beyonn Network Partner.</p>

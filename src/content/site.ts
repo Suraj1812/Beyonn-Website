@@ -15,10 +15,10 @@ export const site = {
     beyonn: "https://www.linkedin.com/company/beyonn",
     doctor: "https://www.linkedin.com/in/dr-rodney-willey-246a42381",
   },
-  /** Patient app store links. Leave empty until the app is live (CONFIRM launch date). */
+  /** Confirmed patient app destinations; iOS remains empty until supplied. */
   app: {
     appStore: process.env.NEXT_PUBLIC_APP_STORE_URL ?? "",
-    googlePlay: process.env.NEXT_PUBLIC_GOOGLE_PLAY_URL ?? "",
+    googlePlay: process.env.NEXT_PUBLIC_GOOGLE_PLAY_URL || "https://play.google.com/store/apps/details?id=com.beyonn.app",
   },
 } as const;
 
