@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { TeamHeroPortraits } from "@/components/sections/TeamHeroPortraits";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { ContentSection, ActionButton, discoveryFields } from "@/components/sections/ContentSection";
@@ -86,6 +87,7 @@ export default async function ContentRoute({ params }: Props) {
         />
       )}
       <PageHero
+        visual={key === "team" ? <TeamHeroPortraits /> : undefined}
         kicker={legacy ? undefined : page.eyebrow}
         title={page.title}
         headline={page.headline}

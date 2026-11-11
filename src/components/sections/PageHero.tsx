@@ -27,13 +27,14 @@ type Props = {
   below?: ReactNode;
   size?: "full" | "page";
   photo?: Photo;
+  visual?: ReactNode;
 };
 
 /**
  * Warm, light hero: copy on the left, a person (or a calm shape study) on the right.
  * Photos are always shown at their own aspect ratio, so nothing is cropped.
  */
-export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo }: Props) {
+export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo, visual }: Props) {
   const full = size === "full";
   return (
     <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
@@ -43,7 +44,7 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
       <div
         className={cn(
           "container-x grid items-center gap-6 pb-8 pt-32 sm:gap-10 sm:pb-12 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
-          photo?.mode === "cover" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_0.9fr]",
+          visual || photo?.mode === "cover" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_0.9fr]",
         )}
       >
         <ScrollExit y={70} fade className="max-w-[42rem]">
@@ -79,7 +80,7 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
 
         <div className="animate-fade-up" style={{ animationDelay: "200ms" }}>
           <ScrollExit y={-40} shrink={0.05}>
-            {photo ? photo.mode === "contain" ? <CutoutPortrait photo={photo} emblem="on-dark" emblem3d /> : <FramedPhoto photo={photo} /> : <EmblemStage />}
+            {visual ?? (photo ? photo.mode === "contain" ? <CutoutPortrait photo={photo} emblem="on-dark" emblem3d /> : <FramedPhoto photo={photo} /> : <EmblemStage />)}
           </ScrollExit>
         </div>
       </div>
