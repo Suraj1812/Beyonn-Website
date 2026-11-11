@@ -285,6 +285,7 @@ export default function HomePage() {
 
       {/* 7. The Beyonn Operating System */}
       <section id="platform" data-guide="platform" className="spotlight section-y max-sm:py-10 relative overflow-hidden bg-ink text-paper">
+        <div className="hero-glow absolute inset-0 opacity-30" aria-hidden />
         <div className="container-x relative">
           <SectionHeading
             tone="dark"
