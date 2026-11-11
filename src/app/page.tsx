@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, BadgeCheck, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, CalendarDays, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
 import { HomeHero } from "@/components/sections/HomeHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -93,11 +93,19 @@ export default function HomePage() {
         }
       />
 
-      <aside aria-label="Upcoming workshop" className="border-b border-dawn/20 bg-paper-2">
-        <Link href="/workshop#register" className="container-x flex flex-wrap items-center justify-between gap-2 py-4 text-sm font-semibold text-ink">
-          <span>Free live workshop · December 1 · 9 AM or 7 PM CST</span>
-          <span className="inline-flex items-center gap-1 text-dawn-deep">Join a Workshop <ArrowUpRight className="size-4" aria-hidden /></span>
-        </Link>
+      <aside aria-label="Upcoming workshop" className="relative overflow-hidden border-b border-breath/30 bg-[#e5f3ef]">
+        <div className="container-x grid items-center gap-4 py-5 sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:py-7">
+          <div className="hidden size-20 flex-col items-center justify-center rounded-2xl bg-ink text-paper shadow-sm sm:flex" aria-hidden>
+            <span className="text-xs font-semibold uppercase tracking-widest text-breath">Dec</span>
+            <span className="font-display text-4xl font-semibold leading-tight">01</span>
+          </div>
+          <div>
+            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-dawn-deep"><CalendarDays className="size-4" aria-hidden /> Featured event · Free live workshop</p>
+            <h2 className="mt-2 font-display text-xl font-semibold leading-tight tracking-tight text-ink sm:text-2xl">Build your next service line with Dr. Rodney Willey.</h2>
+            <p className="mt-2 text-sm text-ink/75"><time dateTime="2026-12-01">December 1, 2026</time><span className="mx-2 text-ink/30" aria-hidden>·</span>9 AM or 7 PM CST · Online</p>
+          </div>
+          <Button href="/workshop" className="justify-between sm:justify-center">Explore the workshop</Button>
+        </div>
       </aside>
 
       {/* 2. Visitor selector */}
@@ -232,9 +240,9 @@ export default function HomePage() {
           </div>
 
           <div className="mt-5"><Button href="/qualify">Book a Discovery Call</Button></div>
-          <section aria-labelledby="coaching-blueprint" className="mt-8 grid gap-5 max-sm:-mx-[var(--gutter)] max-sm:-mb-10 max-sm:border-t max-sm:border-dawn/20 max-sm:bg-white max-sm:px-[var(--gutter)] max-sm:py-8 sm:mt-14 sm:gap-10 lg:grid-cols-[3.5fr_8.5fr]">
+          <section id="blueprint" aria-labelledby="coaching-blueprint" className="mt-8 grid gap-6 rounded-[var(--radius-panel)] border border-dawn/20 border-t-4 border-t-dawn bg-white p-5 shadow-[0_20px_60px_-40px_rgb(19_37_62/0.35)] sm:mt-14 sm:gap-10 sm:p-8 lg:grid-cols-[3.5fr_8.5fr]">
             <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
-              <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">At the core</p>
+              <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">Core training · The Blueprint</p>
               <h3 id="coaching-blueprint" className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
               <p className="mt-4 leading-relaxed text-muted">Twelve training modules that take your team from the first new patient call to replacement appliances.</p>
               <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
@@ -273,7 +281,7 @@ export default function HomePage() {
       </div>
 
       {/* 6. The Beyonn Protocol */}
-      <section id="protocol" data-guide="protocol" className="section-y max-sm:py-10 bg-paper">
+      <section id="protocol" data-guide="protocol" className="section-y max-sm:py-10 border-y border-dawn/15 bg-[#f0f5fb]">
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <SectionHeading index="05" eyebrow="The Beyonn Protocol" title={<>One system. Four steps. <em>Run by your team.</em></>} />
@@ -284,7 +292,10 @@ export default function HomePage() {
           <div className="mt-6 lg:mt-12">
             <ProtocolRing />
           </div>
-          <div className="mt-5 flex justify-start"><Button href="/workshop#register">Join a Workshop</Button></div>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-dawn/15 bg-white px-5 py-4">
+            <div><p className="font-semibold text-ink">See the four steps in practice.</p><p className="mt-1 text-sm text-muted">Explore the approach in a free workshop with Dr. Rodney Willey.</p></div>
+            <Button href="/workshop">Explore the workshop</Button>
+          </div>
         </div>
       </section>
 
@@ -358,6 +369,7 @@ export default function HomePage() {
         <div className="container-x relative grid gap-6 lg:grid-cols-[6fr_6fr] lg:gap-14">
           {/* Both columns are sticky: whichever is shorter holds while the other scrolls. */}
           <div className="lg:sticky lg:top-28 lg:self-start">
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-breath/30 bg-breath/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-breath"><CalendarDays className="size-4" aria-hidden /> Free live workshop · December 1</p>
             <SectionHeading tone="dark" index="08" title={<>Build your next service line. <em className="text-breath">Join a free workshop</em> with Dr. Rodney Willey.</>} />
             <div data-aos="fade-up" className="mt-6 lg:mt-10">
               <h3 className="t-eyebrow text-paper/50">What you&apos;ll learn</h3>
@@ -378,8 +390,9 @@ export default function HomePage() {
           </div>
           <div data-morph-shape="rect" data-aos="fade-up" className="relative overflow-hidden rounded-[1.5rem] bg-[linear-gradient(160deg,rgb(255_255_255/0.09),rgb(255_255_255/0.025)_55%)] p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7),inset_0_1px_0_rgb(255_255_255/0.08)] ring-1 ring-paper/12 sm:p-9 lg:sticky lg:top-28 lg:self-start">
             <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-breath/15 blur-3xl" aria-hidden />
-            <div className="relative mb-5 aspect-[16/7] overflow-hidden rounded-xl"><Image src="/assets/site/never-lose-a-yes.jpg" alt="Dr. Rodney Willey welcoming a patient" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" /></div>
+            <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl"><Image src="/assets/site/staff-onboarding.jpg" alt="Dr. Rodney Willey reviewing a tablet with a team member in the clinic" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" /></div>
             <WorkshopSignup />
+            <div className="mt-4"><ArrowLink href="/workshop" className="text-paper">Explore the workshop agenda</ArrowLink></div>
           </div>
         </div>
       </section>
