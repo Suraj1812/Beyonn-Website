@@ -5,6 +5,8 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 type NarrationOptions = {
   step: number;
   text: string;
+  audioSrc?: string;
+  paused?: boolean;
   suspended: boolean;
   detailText?: string | null;
 };
@@ -26,7 +28,7 @@ function englishVoice(voices: SpeechSynthesisVoice[]) {
 
 /** Opt-in narration. Ref updates let the animation wait for speech without a render per word. */
 export function useAirwayNarration(options: NarrationOptions) {
-  const { step, text, suspended, detailText } = options;
+  const { step, text, suspended, detailText, audioSrc, paused = false } = options;
   const [supported, setSupported] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const speakingRef = useRef(false);
@@ -37,10 +39,23 @@ export function useAirwayNarration(options: NarrationOptions) {
   const synthesis = useRef<SpeechSynthesis | null>(null);
   const voices = useRef<SpeechSynthesisVoice[]>([]);
   const utterance = useRef<SpeechSynthesisUtterance | null>(null);
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const clearAudioEvents = useRef<(() => void) | null>(null);
+  const audioEpoch = useRef(0);
+  const recordedStep = useRef<number | null>(null);
   const lastKey = useRef<string | null>(null);
   const watchdog = useRef<number | null>(null);
 
   const stop = useCallback((resetKey = true) => {
+    const recording = audio.current;
+    audioEpoch.current += 1;
+    recordedStep.current = null;
+    clearAudioEvents.current?.();
+    clearAudioEvents.current = null;
+    if (recording) {
+      recording.pause();
+      recording.currentTime = 0;
+    }
     const previous = utterance.current;
     // Invalidate handlers before cancel(), which may synchronously emit an error.
     utterance.current = null;
@@ -62,7 +77,7 @@ export function useAirwayNarration(options: NarrationOptions) {
   const speakCurrent = useCallback(() => {
     const engine = synthesis.current;
     const current = latest.current;
-    if (!mounted.current || !enabledRef.current || !engine || current.suspended || document.hidden) return;
+    if (!mounted.current || !enabledRef.current || current.suspended || document.hidden) return;
     const detail = current.detailText?.trim();
     const content = detail || current.text.trim();
     if (!content) { stop(); return; }
@@ -71,6 +86,43 @@ export function useAirwayNarration(options: NarrationOptions) {
     if (lastKey.current === key) return;
     stop(false);
     lastKey.current = key;
+
+    if (!detail && current.audioSrc) {
+      // Reuse the user-activated element for later chapters on mobile browsers.
+      const recording = audio.current ?? new Audio();
+      audio.current = recording;
+      recording.setAttribute("src", current.audioSrc);
+      recordedStep.current = current.step;
+      const epoch = audioEpoch.current;
+      speakingRef.current = true;
+      speakingStepRef.current = current.step;
+      const finish = () => {
+        if (audioEpoch.current !== epoch) return;
+        clearAudioEvents.current?.();
+        clearAudioEvents.current = null;
+        speakingRef.current = false;
+        speakingStepRef.current = null;
+      };
+      const fail = () => {
+        if (audioEpoch.current !== epoch) return;
+        finish();
+        stop(false);
+        if (mounted.current) {
+          enabledRef.current = false;
+          setEnabled(false);
+        }
+      };
+      recording.addEventListener("ended", finish);
+      recording.addEventListener("error", fail);
+      clearAudioEvents.current = () => {
+        recording.removeEventListener("ended", finish);
+        recording.removeEventListener("error", fail);
+      };
+      if (!current.paused) void recording.play().catch(fail);
+      return;
+    }
+
+    if (!engine) return;
 
     try {
       const speech = new window.SpeechSynthesisUtterance(content);
@@ -120,16 +172,27 @@ export function useAirwayNarration(options: NarrationOptions) {
     }
   }, [stop]);
 
+  const getRecordedProgress = useCallback(() => {
+    const recording = audio.current;
+    if (!recording || recordedStep.current === null) return null;
+    const duration = recording.duration;
+    return {
+      step: recordedStep.current,
+      fraction: Number.isFinite(duration) && duration > 0 ? Math.min(1, recording.currentTime / duration) : 0,
+      ended: recording.ended,
+    };
+  }, []);
+
   useEffect(() => {
     mounted.current = true;
-    const available = "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance === "function";
+    const available = typeof window.Audio === "function";
     // eslint-disable-next-line react-hooks/set-state-in-effect -- browser capability is unavailable during server rendering.
     setSupported(available);
     if (!available) return () => { mounted.current = false; };
-    const engine = window.speechSynthesis;
+    const engine = "speechSynthesis" in window ? window.speechSynthesis : null;
     synthesis.current = engine;
     const refreshVoices = () => {
-      try { voices.current = engine.getVoices(); } catch { voices.current = []; }
+      try { voices.current = engine?.getVoices() ?? []; } catch { voices.current = []; }
       // Late voice discovery improves the next utterance without interrupting one already playing.
     };
     const onVisibility = () => {
@@ -140,20 +203,23 @@ export function useAirwayNarration(options: NarrationOptions) {
       }
     };
     refreshVoices();
-    engine.addEventListener("voiceschanged", refreshVoices);
+    engine?.addEventListener("voiceschanged", refreshVoices);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       mounted.current = false;
       enabledRef.current = false;
       stop();
+      audio.current?.removeAttribute("src");
+      audio.current?.load();
+      audio.current = null;
       synthesis.current = null;
-      engine.removeEventListener("voiceschanged", refreshVoices);
+      engine?.removeEventListener("voiceschanged", refreshVoices);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [speakCurrent, stop]);
 
   useLayoutEffect(() => {
-    latest.current = { step, text, suspended, detailText };
+    latest.current = { step, text, suspended, detailText, audioSrc, paused };
     if (suspended) {
       enabledRef.current = false;
       // eslint-disable-next-line react-hooks/set-state-in-effect -- mirror the external speech service stopping when its section leaves view.
@@ -161,10 +227,30 @@ export function useAirwayNarration(options: NarrationOptions) {
       stop();
     }
     else if (enabledRef.current) speakCurrent();
-  }, [step, text, suspended, detailText, enabled, speakCurrent, stop]);
+  }, [step, text, suspended, detailText, audioSrc, paused, enabled, speakCurrent, stop]);
+
+  useEffect(() => {
+    if (!enabled || suspended) return;
+    const recording = audio.current;
+    if (paused) {
+      recording?.pause();
+      synthesis.current?.pause();
+    } else {
+      if (recording && recordedStep.current !== null && recording.paused && !recording.ended) {
+        const epoch = audioEpoch.current;
+        void recording.play().catch(() => {
+          if (audioEpoch.current !== epoch) return;
+          stop();
+          enabledRef.current = false;
+          setEnabled(false);
+        });
+      }
+      if (synthesis.current?.paused) synthesis.current.resume();
+    }
+  }, [paused, enabled, suspended, stop]);
 
   const toggle = useCallback(() => {
-    if (!mounted.current || !synthesis.current) return;
+    if (!mounted.current) return;
     const next = !enabledRef.current;
     enabledRef.current = next;
     setEnabled(next);
@@ -172,5 +258,5 @@ export function useAirwayNarration(options: NarrationOptions) {
     else stop();
   }, [speakCurrent, stop]);
 
-  return { supported, enabled, toggle, speakingRef, speakingStepRef };
+  return { supported, enabled, toggle, speakingRef, speakingStepRef, getRecordedProgress };
 }

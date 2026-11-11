@@ -51,10 +51,12 @@ export function AirwayModel() {
   const narration = useAirwayNarration({
     step,
     text: steps[step].spoken,
+    audioSrc: `/assets/audio/kiara-airway-${step + 1}.m4a`,
+    paused: userPaused,
     suspended: !inView || !pageVisible || resetting || sceneState === "loading",
     detailText,
   });
-  const { speakingRef, speakingStepRef } = narration;
+  const { speakingRef, speakingStepRef, getRecordedProgress } = narration;
   // Autoplay waits for a meaningful first view. Scroll/tab interruptions and
   // an open anatomy bubble suspend the loop without losing its position.
   const playing = hasEntered && (!reducedMotion || narration.enabled)
@@ -84,6 +86,16 @@ export function AirwayModel() {
       // 4s at rest, 12s advancing, 6s open, then a quiet 2s reset. The middle
       // chapter stays visible long enough to read while its anatomy changes.
       let nextTime = (loopTime.current + delta / 1000) % 24;
+      // Stretch each chapter across its actual recording rather than finishing
+      // the visual early and holding a nearly full progress bar until speech ends.
+      const recording = getRecordedProgress();
+      if (recording) {
+        const start = BOUNDS[recording.step];
+        const end = BOUNDS[recording.step + 1];
+        nextTime = recording.ended
+          ? end + 0.001
+          : start + (end - start) * Math.min(recording.fraction, 0.9998);
+      }
       // Give the spoken explanation time to finish before the next chapter.
       const spokenStep = speakingStepRef.current;
       if (speakingRef.current && spokenStep !== null) {
@@ -106,10 +118,11 @@ export function AirwayModel() {
     };
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [playing, speakingRef, speakingStepRef]);
+  }, [playing, speakingRef, speakingStepRef, getRecordedProgress]);
 
   useEffect(() => {
-    const root = stage.current;
+    // Keep narration active while the model or its controls are visible on phones.
+    const root = viewer.current;
     if (!root) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onMotion = () => setReducedMotion(motion.matches);
@@ -177,7 +190,7 @@ export function AirwayModel() {
             {userPaused ? <Play size={15} aria-hidden /> : <Pause size={15} aria-hidden />}
           </button>
           {narration.supported && sceneState !== "loading" && (
-            <button type="button" className={styles.soundButton} onClick={narration.toggle} aria-pressed={narration.enabled} aria-label={narration.enabled ? "Turn off spoken explanation" : "Listen to the explanation"}>
+            <button type="button" className={styles.soundButton} onClick={() => { setHasEntered(true); narration.toggle(); }} aria-pressed={narration.enabled} aria-label={narration.enabled ? "Turn off spoken explanation" : "Listen to the explanation"}>
               <span className={styles.soundIcon}>{narration.enabled ? <Volume2 size={15} aria-hidden /> : <Headphones size={15} aria-hidden />}</span>
               <span className={styles.soundLabel}>{narration.enabled ? "Listening" : "Listen"}</span>
               <span className={styles.soundWaves} aria-hidden data-active={narration.enabled}><span /><span /><span /><span /></span>
