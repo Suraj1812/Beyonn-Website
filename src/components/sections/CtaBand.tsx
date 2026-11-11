@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Emblem3D } from "@/components/visual/Emblem3D";
 
 /** Closing call to action used at the end of every page. */
-export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, children }: { id?: string; eyebrow?: string; title: ReactNode; sub?: ReactNode; actions?: ReactNode; children?: ReactNode }) {
+export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, children, split = false }: { id?: string; eyebrow?: string; title: ReactNode; sub?: ReactNode; actions?: ReactNode; children?: ReactNode; split?: boolean }) {
   return (
     <section id={id} className="scroll-mt-24 bg-paper py-6 sm:py-10">
       <div className="container-x">
@@ -24,27 +24,29 @@ export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, childr
           <svg className="absolute bottom-10 right-8 -z-10 w-40 text-paper/70 animate-bob sm:w-56 md:hidden" viewBox="0 0 160 30" fill="none" aria-hidden>
             <path d="M3 20c12-14 24-14 36 0s24 14 36 0 24-14 36 0 24 14 36 0" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
           </svg>
-          <div className="relative max-w-3xl">
-            {eyebrow && (
-              <div data-aos="fade-up">
-                <Eyebrow tone="dark">{eyebrow}</Eyebrow>
-              </div>
-            )}
-            <h2 data-aos="fade-up" data-aos-delay="60" className={eyebrow ? "mt-6 t-h2" : "t-h2"}>
-              {title}
-            </h2>
-            {sub && (
-              <p data-aos="fade-up" data-aos-delay="120" className="mt-6 max-w-xl t-lead text-paper/75">
-                {sub}
-              </p>
-            )}
-            {actions && (
-              <div data-aos="fade-up" data-aos-delay="180" className="mt-10 flex flex-wrap gap-3">
-                {actions}
-              </div>
-            )}
+          <div className={split ? "relative grid items-start gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12" : "relative"}>
+            <div className="relative max-w-3xl">
+              {eyebrow && (
+                <div data-aos="fade-up">
+                  <Eyebrow tone="dark">{eyebrow}</Eyebrow>
+                </div>
+              )}
+              <h2 data-aos="fade-up" data-aos-delay="60" className={eyebrow ? "mt-6 t-h2" : "t-h2"}>
+                {title}
+              </h2>
+              {sub && (
+                <p data-aos="fade-up" data-aos-delay="120" className="mt-6 max-w-xl t-lead text-paper/75">
+                  {sub}
+                </p>
+              )}
+              {actions && (
+                <div data-aos="fade-up" data-aos-delay="180" className="mt-10 flex flex-wrap gap-3">
+                  {actions}
+                </div>
+              )}
+            </div>
+            {children && <div className={split ? "relative min-w-0" : "relative mt-12"}>{children}</div>}
           </div>
-          {children && <div className="relative mt-12">{children}</div>}
         </div>
       </div>
     </section>

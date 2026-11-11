@@ -172,13 +172,14 @@ export default async function ContentRoute({ params }: Props) {
       {page.closing && (
         <CtaBand
           id={page.closing.id}
+          split={page.closing.form === "partner"}
           eyebrow=""
           title={page.closing.title}
           sub={page.closing.sub}
           actions={page.closing.actions && page.closing.actions.map((a) => <ActionButton key={a.label} action={a} />)}
         >
           {page.closing.form === "partner" && (
-            <div data-morph-shape="rect" className="relative z-10 max-w-3xl rounded-[var(--radius-card)] border border-paper/10 bg-night/85 p-6 backdrop-blur-md sm:p-8">
+            <div data-morph-shape="rect" className="relative z-10 w-full rounded-[var(--radius-card)] border border-paper/10 bg-night/85 p-6 backdrop-blur-md sm:p-8">
               <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" tone="dark" />
             </div>
           )}

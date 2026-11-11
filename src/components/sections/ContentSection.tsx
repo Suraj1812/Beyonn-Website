@@ -20,7 +20,7 @@ import { FormPreview, type PreviewField } from "@/components/interactive/FormPre
 import { articles } from "@/content/articles";
 import { site } from "@/content/site";
 import Link from "next/link";
-import { PlayCircle } from "lucide-react";
+import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
 import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
@@ -324,9 +324,13 @@ function Widget({ section }: { section: PageSection }) {
     case "workshop-preview":
       return <div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>;
     case "founder-video":
+      return <DoctorIntroVideo />;
     case "patient-video":
-      return <div className="grid aspect-video max-h-[26rem] place-items-center rounded-2xl border border-ink/10 bg-paper-2 p-6 text-center">
-        <div><PlayCircle className="mx-auto size-12 text-dawn" aria-hidden /><p className="mt-3 font-semibold">{section.widget === "founder-video" ? "Dr. Willey’s vision for Beyonn" : "Understanding OSA and TMD"}</p><p className="mt-1 text-sm text-muted">Video coming soon</p></div>
+      return <div className="overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
+        <video className="aspect-video w-full" controls playsInline preload="none" poster="/assets/site/patient-conversations.jpg" aria-label="OSA and TMD Patient Consultation">
+          <source src="/assets/videos/osa-tmd-consultation.mp4" type="video/mp4" />
+          <a href="https://f.io/LWuewo_r" target="_blank" rel="noopener noreferrer">Watch OSA and TMD Patient Consultation</a>
+        </video>
       </div>;
     case "patient-stories":
       return <div className="rounded-2xl border border-dashed border-dawn/25 bg-paper-2 p-6"><p className="font-semibold">Patient stories coming soon</p><p className="mt-2 text-sm text-muted">Hear about care from the people who experience it.</p></div>;
@@ -339,7 +343,7 @@ function Widget({ section }: { section: PageSection }) {
       return <AirwayModel />;
     case "discovery-booking":
       return (
-        <Panel className="mx-auto w-full max-w-3xl">
+        <Panel className="w-full">
           <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" />
         </Panel>
       );
@@ -367,7 +371,7 @@ function Widget({ section }: { section: PageSection }) {
       );
     case "register-form":
       return (
-        <Panel className="mx-auto w-full max-w-3xl">
+        <Panel className="w-full">
           <FormPreview fields={registerFields} submitLabel="Register Your Interest" />
         </Panel>
       );
@@ -459,6 +463,20 @@ export function ContentSection({ section, index }: { section: PageSection; index
     );
   }
 
+  if (section.widget === "register-form" || section.widget === "discovery-booking") {
+    return (
+      <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
+        <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
+          <div>
+            <Header section={section} dark={dark} />
+            <Body body={section.body} dark={dark} className="mt-6" />
+          </div>
+          <Widget section={section} />
+        </div>
+      </section>
+    );
+  }
+
   const list = section.list && <CheckList items={section.list} tone={dark ? "breath" : "dawn"} className="max-w-3xl" />;
   const intro = (
     <>
@@ -474,6 +492,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
     </>
   );
 
+  const splitAside = Boolean(section.aside && section.list && !section.image);
   const blocks = (
     <>
       {section.points && <FeatureCards points={section.points} className={section.points.length > 3 ? "sm:grid-cols-2" : ""} />}
@@ -482,7 +501,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
       {section.steps && <Steps steps={section.steps} />}
       {section.table && <Table table={section.table} />}
       {section.stats && <Stats stats={section.stats} />}
-      {section.aside && <Aside aside={section.aside} />}
+      {section.aside && !splitAside && <Aside aside={section.aside} />}
       {section.callout && (
         <div data-morph-shape="rect" data-aos="fade-up" className="flex flex-col gap-5 rounded-[var(--radius-card)] bg-ink p-6 text-paper sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <p className="t-lead">{section.callout.text}</p>
@@ -531,6 +550,24 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </Parallax>
         </div>
         <div className="container-x mt-6 space-y-5 sm:mt-12 sm:space-y-8 empty:hidden">{blocks}</div>
+      </section>
+    );
+  }
+
+  // Pair supporting information with the introduction instead of stacking it
+  // beneath an otherwise half-empty desktop row.
+  if (section.aside && splitAside) {
+    return (
+      <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
+        <div className="container-x">
+          <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
+            <div>{intro}</div>
+            <Aside aside={section.aside} />
+          </div>
+          <div className="mt-7 space-y-5 sm:mt-10 sm:space-y-8">
+            {blocks}
+          </div>
+        </div>
       </section>
     );
   }
