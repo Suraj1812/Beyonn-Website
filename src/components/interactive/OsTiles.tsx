@@ -2,7 +2,8 @@
 
 import { useId, useRef, useState } from "react";
 import { BookOpen, Gauge, Stethoscope, Sprout, Check, FileText, Users, ClipboardList, MessageCircle, ScanHeart, CircleCheck, Megaphone, Network, GraduationCap, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/cn";
+import Link from "next/link";
+import styles from "./OsTiles.module.css";
 
 const areas = [
   { name: "Learn", icon: BookOpen, flow: [{ icon: BookOpen, label: "Training" }, { icon: FileText, label: "Resources" }, { icon: Users, label: "Your team" }], title: "A learning path for the whole team", items: ["Clinical Coaching Blueprint", "Clinical videos and case studies", "Forms and team progress"], detail: "Build confidence with step-by-step training and resources your team can return to." },
@@ -11,41 +12,55 @@ const areas = [
   { name: "Grow", icon: Sprout, flow: [{ icon: Megaphone, label: "Awareness" }, { icon: Network, label: "Referrals" }, { icon: GraduationCap, label: "Coaching" }], title: "Turn awareness into patient conversations", items: ["Patient App and provider directory", "Patient education resources", "Coaching and study club"], detail: "Help patients recognise their symptoms and find their next step with your practice." },
 ];
 
+const nextSteps = [
+  { href: "/academy", label: "Explore the Academy" },
+  { href: "/the-beyonn-system", label: "Explore the Beyonn System" },
+  { href: "/the-beyonn-system", label: "See the clinical workflow" },
+  { href: "/partner", label: "Explore network partnership" },
+];
+
 export function OsTiles() {
   const [active, setActive] = useState(0);
   const id = useId();
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const area = areas[active];
-  const Icon = area.icon;
+
+  function select(index: number) { setActive(index); }
+  function onKey(event: React.KeyboardEvent, index: number) {
+    const next = event.key === "Home" ? 0 : event.key === "End" ? areas.length - 1 : event.key === "ArrowRight" ? (index + 1) % areas.length : event.key === "ArrowLeft" ? (index + areas.length - 1) % areas.length : null;
+    if (next === null) return;
+    event.preventDefault(); select(next); buttons.current[next]?.focus();
+  }
+
   return (
-    <div className="mx-auto max-w-5xl">
-      <div role="tablist" aria-label="Beyonn platform" className="grid grid-cols-4 gap-1 rounded-xl bg-paper/10 p-1">
-        {areas.map((item, i) => (
-          <button key={item.name} ref={(el) => { buttons.current[i] = el; }} type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel`} aria-selected={i === active} tabIndex={i === active ? 0 : -1} onClick={() => setActive(i)} onKeyDown={(event) => {
-            const next = event.key === "Home" ? 0 : event.key === "End" ? areas.length - 1 : event.key === "ArrowRight" ? (i + 1) % areas.length : event.key === "ArrowLeft" ? (i + areas.length - 1) % areas.length : null;
-            if (next === null) return;
-            event.preventDefault(); setActive(next); buttons.current[next]?.focus();
-          }} className={cn("min-h-12 rounded-lg px-2 text-sm font-semibold transition-colors", active === i ? "bg-paper text-ink" : "text-paper/75 hover:bg-paper/10")}>{item.name}</button>
-        ))}
+    <div className={styles.root} data-os-explorer>
+      <div role="tablist" aria-label="Beyonn platform" className={styles.tabs}>
+        <span className={styles.indicator} style={{ transform: `translateX(${active * 100}%)` }} aria-hidden />
+        {areas.map((area, i) => <button key={area.name} ref={(el) => { buttons.current[i] = el; }} type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={active === i} tabIndex={active === i ? 0 : -1} onClick={() => select(i)} onKeyDown={(event) => onKey(event, i)} className={styles.tab}>
+          <area.icon className={styles.tabIcon} strokeWidth={1.7} aria-hidden /><span>{area.name}</span><span className={styles.tabNumber} aria-hidden>0{i + 1}</span>
+        </button>)}
       </div>
-      <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${active}`} tabIndex={0} className="mt-4 grid gap-5 rounded-2xl border border-paper/15 bg-paper/[0.05] p-5 sm:p-7 md:grid-cols-2">
-        <div key={area.name} className="animate-fade-up">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-breath"><Icon className="size-5" aria-hidden />{area.name}</span>
-          <h3 className="mt-3 t-h3">{area.title}</h3>
-          <p className="mt-3 text-paper/70">{area.detail}</p>
-          <ol aria-label={area.name + " workflow"} className="mt-5 flex items-start gap-2">
-            {area.flow.map((step, i) => <li key={step.label} className="relative flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
-              <span className="grid size-12 place-items-center rounded-xl border border-breath/20 bg-breath/10 text-breath"><step.icon className="size-5" aria-hidden /></span>
-              <span className="text-xs text-paper/80">{step.label}</span>
-              {i < area.flow.length - 1 && <ArrowRight className="absolute -right-3 top-4 size-4 text-paper/35" aria-hidden />}
-            </li>)}
-          </ol>
-        </div>
-        <div className="rounded-xl bg-paper/[0.04] p-4">
-          <p className="t-eyebrow text-paper/55">Included in {area.name}</p>
-          <ul className="mt-3 space-y-3">{area.items.map((item) => <li key={item} className="flex gap-2 text-sm leading-relaxed"><Check className="mt-0.5 size-4 flex-none text-breath" aria-hidden />{item}</li>)}</ul>
-        </div>
+      <div className={styles.panels}>
+        {areas.map((area, index) => <div key={area.name} id={`${id}-panel-${index}`} role="tabpanel" aria-labelledby={`${id}-tab-${index}`} aria-hidden={active !== index} inert={active !== index} tabIndex={0} data-active={active === index} className={styles.panel}>
+          <div className={styles.overview}>
+            <p className={styles.kicker}><span>0{index + 1} / {area.name}</span><span>One connected platform</span></p>
+            <h3 className={styles.heading}>{area.title}</h3>
+            <p className={styles.description}>{area.detail}</p>
+            <ol aria-label={`${area.name} workflow`} className={styles.workflow}>
+              {area.flow.map((step,i) => <li key={step.label} style={{ "--step": i } as React.CSSProperties}>
+                <span className={styles.flowIcon}><step.icon className="size-5" strokeWidth={1.6} aria-hidden /></span>
+                <span className={styles.flowLabel}>{step.label}</span>
+                {i < area.flow.length - 1 && <span className={styles.connector} aria-hidden><ArrowRight className="size-3.5" /></span>}
+              </li>)}
+            </ol>
+          </div>
+          <div className={styles.included}>
+            <p className={styles.includedTitle}>Included in {area.name}</p>
+            <ul>{area.items.map((item,i) => <li key={item} style={{ "--step": i } as React.CSSProperties}><Check className="size-4" strokeWidth={1.8} aria-hidden /><span>{item}</span></li>)}</ul>
+            <Link href={nextSteps[index].href} className={styles.nextLink}>{nextSteps[index].label}<ArrowRight className="size-4" aria-hidden /></Link>
+          </div>
+        </div>)}
       </div>
+      <p className={styles.hint}>Choose an area to explore how it supports your team.</p>
     </div>
   );
 }
