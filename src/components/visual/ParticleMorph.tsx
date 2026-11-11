@@ -371,12 +371,13 @@ function subscribeToParticleMedia(onChange: () => void) {
 }
 
 export function ParticleMorph() {
+  const pathname = usePathname();
   const enabled = useSyncExternalStore(
     subscribeToParticleMedia,
     () => window.matchMedia(particleMedia).matches,
     () => false,
   );
-  return enabled ? <ParticleCanvas /> : null;
+  return enabled && pathname === "/" ? <ParticleCanvas /> : null;
 }
 
 function ParticleCanvas() {
