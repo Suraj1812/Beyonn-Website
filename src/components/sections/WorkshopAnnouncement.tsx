@@ -11,7 +11,7 @@ export function WorkshopAnnouncement() {
   if (dismissed) return null;
   return (
     <aside aria-label="Upcoming workshop" className={styles.announcement}>
-      <div className="container-x">
+      <div className={styles.inner}>
         <div className={styles.panel}>
           <div className={styles.copy}>
             <p data-aos="fade-up" data-aos-duration="650" data-aos-delay="60" className={styles.eyebrow}><span aria-hidden />Free live workshop</p>
