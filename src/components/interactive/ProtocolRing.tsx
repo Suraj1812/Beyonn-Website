@@ -87,7 +87,7 @@ export function ProtocolRing() {
         </div>
 
         <div className="min-w-0 rounded-2xl border border-ink/10 bg-white shadow-[0_16px_48px_-36px_rgb(19_37_62/0.4)]">
-          <div className="grid">
+          <div data-protocol-card-viewport className="relative isolate grid overflow-hidden rounded-t-2xl">
             {protocolSteps.map((item, i) => (
               <div key={item.key} role="tabpanel" id={`${id}-panel-${i}`} aria-labelledby={`${id}-tab-${i}`} aria-hidden={active !== i} inert={active !== i} tabIndex={0} style={progress === null ? undefined : { visibility: "visible", opacity: 1, zIndex: i, position: "relative", background: "white", transform: `translateY(${Math.max(0, Math.min(1, i - progress)) * 110}%) scale(${1 - Math.min(1, Math.max(0, progress - i)) * 0.035})`, transformOrigin: "top center", pointerEvents: active === i ? "auto" : "none" }} className={cn("[grid-area:1/1] p-5 sm:p-7", active === i ? "visible opacity-100" : "invisible opacity-0")}>
                 <div className="flex items-center gap-3">
