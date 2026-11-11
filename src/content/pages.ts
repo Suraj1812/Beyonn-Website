@@ -323,8 +323,8 @@ export const pages: Record<string, ContentPage> = {
     eyebrow: "Beyonn Academy",
     title: "Learn it. Run it. Get certified for it.",
     description: "Beyonn Academy trains your whole team, not just the doctor, to treat Obstructive Sleep Apnea and Temporomandibular Joint Disorder. Clinical learning, step-by-step team training and live coaching from Dr. Rodney Willey, in one place.",
-    photo: "/assets/people/clinic-team.webp",
-    photoAlt: "A practice team learning together",
+    photo: "/assets/people/team-training.webp",
+    photoAlt: "Dr. Rodney Willey teaching a practice team during an in-person training session",
     seo: {
       title: "Beyonn Academy | OSA + TMD Training for Dentists and Their Teams",
       description: "Beyonn Academy trains your whole team to treat Obstructive Sleep Apnea and Temporomandibular Joint Disorder: on-demand learning, the Coaching Clinician Blueprint, certification and live coaching with Dr. Rodney Willey.",
@@ -388,8 +388,8 @@ export const pages: Record<string, ContentPage> = {
     eyebrow: "Beyonn Global",
     title: "The Beyonn program, now beyond the United States.",
     description: "Obstructive Sleep Apnea and Temporomandibular Joint Disorder go unrecognized in dental chairs everywhere. Beyonn Global brings Dr. Rodney Willey's protocols, training and technology to practitioners around the world.",
-    photo: "/assets/people/clinic-team.webp",
-    photoAlt: "A dental practice team",
+    photo: "/assets/people/front-desk-team.webp",
+    photoAlt: "Beyonn practice team coordinating patient calls at the front desk",
     seo: {
       title: "Beyonn Global | OSA + TMD Program for Practices Worldwide",
       description: "Beyonn Global brings Dr. Rodney Willey's OSA + TMD protocols, training and technology to dental practices outside the United States.",
@@ -434,8 +434,8 @@ export const pages: Record<string, ContentPage> = {
     title: "The Fastest Way to Launch a Medically Billable OSA + TMD Service Line",
     description: "Team training, connected workflows and ongoing clinical and operational support, so your practice grows from day one.",
     heroLine: "You run the practice. Beyonn powers the program.",
-    photo: "/assets/people/patient-handshake.webp",
-    photoAlt: "Clinician greeting a patient",
+    photo: "/assets/people/practice-support.webp",
+    photoAlt: "A Beyonn team member supporting patients by phone",
     seo: {
       title: "Sleep Apnea Training for Dentists and Their Teams | Become a Beyonn Partner",
       description: "More than sleep apnea and TMD training for dentists. Become a Beyonn Network Partner and get the team training, workflows, technology and coaching to run an OSA + TMD treatment program.",
@@ -555,7 +555,7 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Why they're connected",
         title: "Your airway and your jaw work as a team.",
         body: "Clenching and grinding at night can be the body's way of keeping the airway open. Treating only the jaw, or only the airway, can leave half the problem behind. Beyonn providers look at both.",
-        image: "/assets/people/clinic-team.webp",
+        image: "/assets/people/clinical-review.webp",
         imageAlt: "Dr. Rodney Willey and a clinician reviewing information together in the clinic",
       },
       {
