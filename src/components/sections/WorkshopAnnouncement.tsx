@@ -15,9 +15,9 @@ export function WorkshopAnnouncement() {
         <div className={styles.panel}>
           <div className={styles.copy}>
             <p data-aos="fade-up" data-aos-duration="650" data-aos-delay="60" className={styles.eyebrow}><span aria-hidden />Free live workshop</p>
-            <p data-aos="fade-up" data-aos-duration="700" data-aos-delay="120" className={styles.title}>OSA + TMD Workshop <span>with Dr. Rod Willey</span><span className={styles.schedule}><span className={styles.separator} aria-hidden> · </span>Tue 1 Dec · 9 AM or 7 PM CT</span></p>
-
+            <p data-aos="fade-up" data-aos-duration="700" data-aos-delay="120" className={styles.title}>OSA + TMD Workshop <span>with Dr. Rod Willey</span></p>
           </div>
+          <p data-aos="fade-up" data-aos-duration="700" data-aos-delay="180" className={styles.schedule}><time dateTime="2026-12-01">Tue 1 Dec</time><span>9 AM or 7 PM CT</span></p>
           <div data-aos="fade-up" data-aos-duration="700" data-aos-delay="240" className={styles.action}>
             <a href={registrationUrl} target="_blank" rel="noopener noreferrer" aria-label="Reserve my seat (opens in a new tab)" className={styles.button}>Reserve my seat<span className={styles.arrow}><ArrowUpRight className="size-4" aria-hidden /></span></a>
           </div>
