@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, Mail, Phone } from "lucide-react";
 import type { Action, Card, PageSection } from "@/content/pages";
 import { team } from "@/content/team";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -18,6 +18,7 @@ import { PatientCheck } from "@/components/interactive/PatientCheck";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
 import { FormPreview, type PreviewField } from "@/components/interactive/FormPreview";
 import { articles } from "@/content/articles";
+import { site } from "@/content/site";
 import Link from "next/link";
 import { PlayCircle } from "lucide-react";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
@@ -372,9 +373,26 @@ function Widget({ section }: { section: PageSection }) {
       );
     case "referral-form":
       return (
-        <Panel className="max-w-3xl">
-          <FormPreview fields={referralFields} submitLabel="Request a Referral" />
-        </Panel>
+        <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.8fr)] lg:gap-10">
+          <Panel>
+            <FormPreview fields={referralFields} submitLabel="Request a Referral" />
+          </Panel>
+          <aside aria-label="Help finding a provider" data-aos="fade-up" data-aos-delay="100" className="min-w-0 border-t border-ink/10 pt-5 lg:border-0 lg:pt-0">
+            <div className="relative hidden aspect-[16/10] overflow-hidden rounded-2xl lg:block">
+              <Image src="/assets/people/patient-handshake.webp" alt="Dr. Rodney Willey welcoming a patient during a clinic consultation" fill sizes="(min-width: 1024px) 34vw, 0px" className="object-cover object-[45%_center]" />
+            </div>
+            <h3 className="font-display text-xl font-semibold leading-tight tracking-tight text-ink lg:mt-6 lg:text-2xl">Let’s find your next step.</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">Contact the Beyonn team for help finding an OSA + TMD provider near you.</p>
+            <div className="mt-4 divide-y divide-ink/10 border-y border-ink/10">
+              <a href={site.phoneHref} className="group flex min-h-12 items-center gap-3 py-3 font-semibold text-ink transition-colors hover:text-dawn-deep">
+                <Phone className="size-4 shrink-0 text-dawn" aria-hidden /><span>{site.phone}</span><ArrowRight className="ml-auto size-4 transition-transform group-hover:translate-x-1" aria-hidden />
+              </a>
+              <a href={`mailto:${site.email}`} className="group flex min-h-12 items-center gap-3 py-3 text-sm font-medium text-ink transition-colors hover:text-dawn-deep">
+                <Mail className="size-4 shrink-0 text-dawn" aria-hidden /><span>{site.email}</span><ArrowRight className="ml-auto size-4 transition-transform group-hover:translate-x-1" aria-hidden />
+              </a>
+            </div>
+          </aside>
+        </div>
       );
     case "app-download":
       return (
