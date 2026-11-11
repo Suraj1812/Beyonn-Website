@@ -463,7 +463,23 @@ export function ContentSection({ section, index }: { section: PageSection; index
     );
   }
 
-  if (section.widget === "register-form" || section.widget === "discovery-booking") {
+  if (section.widget === "register-form") {
+    return (
+      <section id={section.id} className={cn("scroll-mt-24 py-10 sm:py-14", tone)}>
+        <div className="container-x">
+          <div className="mx-auto max-w-3xl border-t-2 border-dawn pt-6 sm:pt-8">
+            <Header section={section} dark={dark} />
+            {section.body && <Body body={section.body} dark={dark} className="mt-4" />}
+            <div className="mt-6 sm:mt-8">
+              <FormPreview fields={registerFields} submitLabel="Register Your Interest" />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (section.widget === "discovery-booking") {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
