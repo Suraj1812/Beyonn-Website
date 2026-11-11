@@ -554,8 +554,8 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Why they're connected",
         title: "Your airway and your jaw work as a team.",
         body: "Clenching and grinding at night can be the body's way of keeping the airway open. Treating only the jaw, or only the airway, can leave half the problem behind. Beyonn providers look at both.",
-        image: "/assets/people/patient-conversation.webp",
-        imageAlt: "Clinician discussing symptoms with a patient",
+        image: "/assets/people/clinic-team.webp",
+        imageAlt: "Dr. Rodney Willey and a clinician reviewing information together in the clinic",
       },
       {
         id: "treatment",
