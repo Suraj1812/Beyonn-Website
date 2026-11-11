@@ -66,8 +66,6 @@ export type ContentPage = {
   cta?: { label: string; href: string };
 };
 
-const quote = "Don't treat an airway without understanding the joint. Don't treat the joint without understanding the airway.";
-const cite = "Dr. Rodney Willey, DDS, D.ACSDD, D.ASBA";
 const book: Action = { label: "Book Your Discovery Call", href: "/qualify" };
 const workshop: Action = { label: "Join a Workshop", href: "/workshop#register", variant: "ghost-light" };
 
@@ -153,7 +151,6 @@ export const pages: Record<string, ContentPage> = {
         body: [
           "Beyonn protocols consider airway and jaw care together, from screening through follow-up.",
         ],
-        quote: { text: quote, cite },
       },
       {
         eyebrow: "What's included",
@@ -357,7 +354,6 @@ export const pages: Record<string, ContentPage> = {
       { eyebrow: "Get certified", title: "Your path from learning to leading.", widget: "ladder", dark: true },
       {
         eyebrow: "Learn from the clinician who built it",
-        quote: { text: quote, cite },
         lines: ["Every lesson comes from nearly 20 years treating only OSA + TMD, and more than 10,000 oral appliances delivered."],
         links: [{ label: "Meet Dr. Rodney Willey", href: "/dr-rodney-willey" }],
       },
@@ -563,10 +559,7 @@ export const pages: Record<string, ContentPage> = {
       },
       {
         id: "find-a-provider",
-        eyebrow: "Find a Beyonn provider",
-        title: "Find an OSA & TMD Specialist Near You",
-        body: "The Beyonn team connects you with the nearest OSA specialist or OSA clinic.",
-        widget: "referral-form",
+        callout: { text: "Ready to find care near you?", action: { label: "Find a Provider", href: "/patients/find-a-provider#referral" } },
       },
       { title: "OSA and TMD, explained", widget: "patient-video" },
       { title: "Patient experiences", widget: "patient-stories" },
@@ -600,8 +593,7 @@ export const pages: Record<string, ContentPage> = {
     },
     actions: [{ label: "See What It Does for Your Practice", href: "#practice", variant: "dawn" }, { label: "Download the App", href: "#download", variant: "ghost-light" }],
     sections: [
-      { title: "A closer look at the app", widget: "app-preview" },
-      { id: "quick-check", title: "Start with an awareness check", widget: "quick-check" },
+      { title: "A closer look at the app", widget: "app-preview", links: [{ label: "Take the awareness check", href: "/patients#quick-check" }] },
 
       {
         id: "practice",
