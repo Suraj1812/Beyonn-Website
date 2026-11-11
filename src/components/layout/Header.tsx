@@ -356,7 +356,7 @@ export function Header() {
             </nav>
             <div className="flex items-center gap-6 text-paper/60">
               <Link href="/workshop#register" className="group hidden items-center gap-2 transition-colors hover:text-paper lg:inline-flex">
-                Free live workshop with Dr. Willey
+                Join a Workshop
                 <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
               </Link>
 
@@ -451,6 +451,9 @@ export function Header() {
             </div>
           </div>
         </div>
+        <nav aria-label="Choose your audience" className="grid grid-cols-2 border-b border-ink/10 bg-paper md:hidden">
+          {audiences.map((audience) => <Link key={audience.label} href={audience.href} aria-current={audience.on ? "page" : undefined} className={cn("flex min-h-11 items-center justify-center border-t-2 px-2 text-xs font-semibold transition-colors", audience.on ? "border-dawn bg-paper-2 text-dawn-deep" : "border-transparent text-muted hover:bg-paper-2")}>For {audience.label === "Practitioner" ? "Practitioners" : "Patients"}</Link>)}
+        </nav>
       </header>
 
       {/* Tablet + mobile drawer */}

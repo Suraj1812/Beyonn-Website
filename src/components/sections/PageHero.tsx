@@ -42,7 +42,7 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
 
       <div
         className={cn(
-          "container-x grid items-center gap-6 pb-8 pt-24 sm:gap-10 sm:pb-12 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
+          "container-x grid items-center gap-6 pb-8 pt-32 sm:gap-10 sm:pb-12 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
           photo?.mode === "cover" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_0.9fr]",
         )}
       >

@@ -29,7 +29,7 @@ export function GuideBot() {
         <div className="flex items-center justify-between gap-3"><h2 className="font-semibold">We’re here to help.</h2><button type="button" aria-label="Close guide" className="grid size-11 place-items-center" onClick={() => { setOpen(false); button.current?.focus(); }}><X className="size-5" /></button></div>
         <p className="mt-1 text-sm text-muted">Choose your next step.</p>
         <nav aria-label="Beyonn guide shortcuts" className="mt-3 divide-y divide-ink/10">
-          {[["Explore the program", "/the-beyonn-system"], ["Find patient care", "/patients"], ["Join a Workshop", "/workshop"], ["Contact the team", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className="flex min-h-12 items-center justify-between gap-3 text-sm font-medium">{label}<ArrowUpRight className="size-4" aria-hidden /></Link>)}
+          {[["Explore the program", "/the-beyonn-system"], ["Find patient care", "/patients"], ["Join a Workshop", "/workshop#register"], ["Contact the team", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className="flex min-h-12 items-center justify-between gap-3 text-sm font-medium">{label}<ArrowUpRight className="size-4" aria-hidden /></Link>)}
         </nav>
       </section>}
       <button ref={button} type="button" aria-expanded={open} aria-controls={open ? id : undefined} aria-label={open ? "Close Beyonn guide" : "Open Beyonn guide"} onClick={() => setOpen(!open)} className="ml-auto flex min-h-12 items-center gap-2 rounded-full border border-paper/20 bg-ink px-4 text-sm font-medium text-white shadow-lg">

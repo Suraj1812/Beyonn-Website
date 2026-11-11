@@ -928,3 +928,7 @@
     display: none !important;
   }
 }
+
+@media (width < 48rem) {
+  :root { --header-h: 6.75rem; }
+}

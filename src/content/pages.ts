@@ -68,7 +68,7 @@ export type ContentPage = {
 const quote = "Don't treat an airway without understanding the joint. Don't treat the joint without understanding the airway.";
 const cite = "Dr. Rodney Willey, DDS, D.ACSDD, D.ASBA";
 const book: Action = { label: "Book Your Discovery Call", href: "/qualify" };
-const workshop: Action = { label: "Join a Workshop", href: "/workshop", variant: "ghost-light" };
+const workshop: Action = { label: "Join a Workshop", href: "/workshop#register", variant: "ghost-light" };
 
 const steps = {
   identify: ["Screens patients, takes new patient calls and books exams", "Screening tools, call scripts and checklists, the Patient App, Blueprint modules"],
@@ -195,7 +195,7 @@ export const pages: Record<string, ContentPage> = {
     closing: {
       title: "Your patients. Your practice. Your team. Our system.",
       sub: "See how the Beyonn System would run with your team, in one conversation.",
-      actions: [{ ...book, variant: "dawn" }, { label: "Join a Workshop", href: "/workshop", variant: "ghost-light" }],
+      actions: [{ ...book, variant: "dawn" }, { label: "Join a Workshop", href: "/workshop#register", variant: "ghost-light" }],
       signoff: "BEYONN™ · Beyond Training. Beyond Billing. Beyond the Appliance.",
     },
   },
@@ -279,7 +279,7 @@ export const pages: Record<string, ContentPage> = {
     ],
     closing: {
       title: "Learn from the clinician who's done it 10,000 times.",
-      actions: [{ label: "Join a Workshop", href: "/workshop", variant: "dawn" }, { ...book, variant: "ghost-light" }],
+      actions: [{ label: "Join a Workshop", href: "/workshop#register", variant: "dawn" }, { ...book, variant: "ghost-light" }],
     },
   },
 
@@ -393,7 +393,7 @@ export const pages: Record<string, ContentPage> = {
       description: "Beyonn Global brings Dr. Rodney Willey's OSA + TMD protocols, training and technology to dental practices outside the United States.",
       keywords: ["dental sleep medicine", "sleep apnea training for dentists", "TMD training for dentists"],
     },
-    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join an International Workshop", href: "/workshop", variant: "ghost-light" }],
+    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join an International Workshop", href: "/workshop#register", variant: "ghost-light" }],
     sections: [
       {
         eyebrow: "Why Beyonn Global",

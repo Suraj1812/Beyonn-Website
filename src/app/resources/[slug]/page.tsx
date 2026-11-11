@@ -37,7 +37,7 @@ export default async function ResourceArticle({ params }: Props) {
         image: `${site.url}${ogImageUrl(article.title)}`,
       }}
     />
-    <header className="relative overflow-hidden bg-[linear-gradient(135deg,var(--color-ink),var(--color-night))] px-5 pb-10 pt-24 text-paper sm:pb-24 sm:pt-48"><div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -right-24 top-1/2 aspect-[1600/1306] w-[34rem] -translate-y-1/2 bg-paper/[0.07] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[46rem]" aria-hidden /><ScrollExit y={60} fade className="relative mx-auto max-w-4xl">
+    <header className="relative overflow-hidden bg-[linear-gradient(135deg,var(--color-ink),var(--color-night))] px-5 pb-10 pt-32 text-paper sm:pb-24 sm:pt-48"><div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -right-24 top-1/2 aspect-[1600/1306] w-[34rem] -translate-y-1/2 bg-paper/[0.07] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] sm:w-[46rem]" aria-hidden /><ScrollExit y={60} fade className="relative mx-auto max-w-4xl">
       <Link href="/resources" data-aos="fade-up" className="t-eyebrow text-breath hover:underline">← All resources</Link>
       <p data-aos="fade-up" data-aos-delay="60" className="mt-10 t-eyebrow text-paper/60">{article.audience === "patients" ? "For patients" : "For practitioners"} · {article.minutes} min read</p>
       <h1 data-aos="fade-up" data-aos-delay="120" className="mt-5 t-h1">{article.title}</h1>

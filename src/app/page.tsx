@@ -239,6 +239,10 @@ export default function HomePage() {
               <p className="mt-4 leading-relaxed text-muted">Twelve training modules that take your team from the first new patient call to replacement appliances.</p>
               <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
               <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-dawn-deep">
+                <span className="rounded-full bg-dawn/10 px-3 py-2">12 modules</span><span className="rounded-full bg-dawn/10 px-3 py-2">4 workflow stages</span><span className="rounded-full bg-dawn/10 px-3 py-2">One team learning path</span>
+              </div>
+              <div className="mt-5"><ArrowLink href="/academy">Explore the training pathway</ArrowLink></div>
             </div>
             <ol data-morph-shape="rect" className="grid grid-cols-2 gap-2 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10 xl:grid-cols-4">
               {blueprintModules.map((m, i) => (
@@ -342,6 +346,7 @@ export default function HomePage() {
               <h3 data-aos="fade-up" className="t-h2">
                 Your growth path
               </h3>
+              <p className="mt-3 max-w-2xl text-muted">Begin with core training, build experience with ongoing coaching, then progress through the provider tiers.</p>
             </div>
             <Ladder tiers={certificationTiers.home} compact />
           </div>
@@ -373,6 +378,7 @@ export default function HomePage() {
           </div>
           <div data-morph-shape="rect" data-aos="fade-up" className="relative overflow-hidden rounded-[1.5rem] bg-[linear-gradient(160deg,rgb(255_255_255/0.09),rgb(255_255_255/0.025)_55%)] p-4 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.7),inset_0_1px_0_rgb(255_255_255/0.08)] ring-1 ring-paper/12 sm:p-9 lg:sticky lg:top-28 lg:self-start">
             <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-breath/15 blur-3xl" aria-hidden />
+            <div className="relative mb-5 aspect-[16/7] overflow-hidden rounded-xl"><Image src="/assets/site/never-lose-a-yes.jpg" alt="Dr. Rodney Willey welcoming a patient" fill sizes="(min-width: 1024px) 40vw, 90vw" className="object-cover" /></div>
             <WorkshopSignup />
           </div>
         </div>

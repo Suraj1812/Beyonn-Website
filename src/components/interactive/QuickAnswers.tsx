@@ -40,7 +40,7 @@ function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" 
       </div>
       {items.length > previewCount && (
         <button type="button" aria-expanded={showAll} aria-controls="qa-more" onClick={() => setShowAll(!showAll)} className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-paper-2 px-4 text-sm font-semibold text-dawn-deep">
-          {showAll ? "Show fewer questions" : `Show ${items.length - previewCount} more questions`}
+          {showAll ? "Show fewer questions" : `See more (${items.length - previewCount})`}
           <ChevronDown className={cn("size-4 motion-safe:transition-transform", showAll && "rotate-180")} aria-hidden />
         </button>
       )}

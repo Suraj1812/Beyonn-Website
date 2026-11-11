@@ -19,9 +19,9 @@ export const certificationTiers = {
 /** Growth path shown as an ascending ladder. */
 export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier[]; tone?: "light" | "dark"; compact?: boolean }) {
   return (
-    <ol data-morph-shape="rect" className="grid gap-4 md:grid-cols-3 md:items-end">
+    <ol data-morph-shape="rect" className="grid gap-4 md:grid-cols-3">
       {tiers.map((t, i) => (
-        <li key={t.name} data-aos="fade-up" data-aos-delay={i * 120} className={["md:min-h-[15rem]", "md:min-h-[18rem]", "md:min-h-[21rem]"][i]}>
+        <li key={t.name} data-aos="fade-up" data-aos-delay={i * 120} className="h-full">
           <Tilt className="h-full rounded-[var(--radius-card)]" max={5}>
             <div
               className={cn(
@@ -39,10 +39,10 @@ export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier
                 aria-hidden
               />
               <div className="relative flex items-center justify-between">
-                <span className="t-eyebrow opacity-60">Tier 0{i + 1}</span>
+                <span className="t-eyebrow opacity-60">Step 0{i + 1}</span>
                 <span className="rounded-full bg-dawn px-3 py-1 text-xs font-semibold text-white">{t.level}</span>
               </div>
-              <div className={cn("relative mt-12", compact && "max-md:mt-3")}>
+              <div className={cn("relative mt-6", compact && "max-md:mt-3")}>
                 <h3 className="t-h3">{t.name}</h3>
                 <p className={cn("mt-3 leading-relaxed opacity-70", compact && "max-md:mt-1 max-md:text-sm")}>{t.text}</p>
               </div>
