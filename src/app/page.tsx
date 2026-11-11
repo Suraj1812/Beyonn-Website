@@ -5,6 +5,7 @@ import { ArrowUpRight, BadgeCheck, CalendarDays, ChevronDown, CircleDollarSign, 
 import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
 import { HomeHero } from "@/components/sections/HomeHero";
+import { WorkshopReminder } from "@/components/sections/WorkshopReminder";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
@@ -94,6 +95,8 @@ export default function HomePage() {
           </dl>
         }
       />
+
+      <WorkshopReminder />
 
       {/* 2. Visitor selector */}
       <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome-title" id="welcome">

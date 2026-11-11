@@ -1,0 +1,17 @@
+.reminder { position:fixed; left:16px; bottom:16px; z-index:40; width:320px; max-width:calc(100vw - 32px); overflow:hidden; border:1px solid rgb(19 37 62 / .12); border-radius:16px; background:#fff; color:var(--color-ink); box-shadow:0 12px 40px rgb(19 37 62 / .2); animation:reminderIn 450ms var(--ease-out-expo) both; }
+.picture { aspect-ratio:2; overflow:hidden; background:var(--color-ink); }
+.image { display:block; width:100%; height:100%; object-fit:cover; }
+.badge { position:absolute; left:10px; top:10px; border-radius:999px; padding:6px 10px; background:var(--color-ink); color:#fff; font-size:10px; line-height:1.2; font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
+.close { position:absolute; top:0; right:0; display:grid; place-items:center; width:44px; height:44px; cursor:pointer; }
+.close span { display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:rgb(0 0 0 / .65); color:#fff; transition:background-color 180ms; }
+.close:hover span { background:#000; }
+.body { padding:16px; }
+.title { font-size:14px; line-height:1.4; font-weight:700; }
+.schedule { margin-top:9px; color:var(--color-muted); font-size:12px; line-height:1.5; }
+.button { display:flex; align-items:center; justify-content:center; min-height:44px; margin-top:13px; border-radius:7px; padding:10px 14px; background:var(--color-ink); color:#fff; font-size:13px; line-height:1.4; font-weight:600; transition:background-color 180ms; }
+.button:hover { background:var(--color-dawn-deep); }
+.button:focus-visible, .close:focus-visible { outline:3px solid var(--color-dawn); outline-offset:-3px; }
+@keyframes reminderIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@media(max-width:639px) { .reminder { width:280px; left:12px; bottom:calc(80px + env(safe-area-inset-bottom,0px)); } .body { padding:13px; } .title { font-size:13px; } }
+@media(max-height:520px) { .picture { display:none; } .body { padding-top:44px; } }
+@media(prefers-reduced-motion:reduce) { .reminder { animation:none; } .button, .close span { transition:none; } }
