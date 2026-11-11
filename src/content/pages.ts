@@ -91,6 +91,7 @@ export const pages: Record<string, ContentPage> = {
     },
     actions: [{ ...book, variant: "dawn" }],
     sections: [
+      { id: "walkthrough", eyebrow: "See the system in action", title: "A walkthrough with Dr. Rodney Willey", widget: "walkthrough-video" },
       {
         eyebrow: "Why most OSA + TMD programs stall",
         title: "Knowing how to treat isn't the hard part.",
@@ -214,7 +215,7 @@ export const pages: Record<string, ContentPage> = {
       keywords: ["Dr. Rodney Willey", "Dr. Rodney Willey sleep apnea", "Dr. Rodney Willey dental sleep medicine"],
     },
     sections: [
-      { eyebrow: "The founder’s story", title: "Why Dr. Willey started Beyonn", links: [{ label: "Watch the Beyonn introduction", href: "/team#about-beyonn" }] },
+      { eyebrow: "The founder’s story", title: "Why Dr. Willey started Beyonn", links: [{ label: "Watch the Beyonn introduction", href: "/#doctor" }] },
       { eyebrow: "Qualifications and experience", title: "The experience behind the approach", cards: [
         { title: "Clinical qualifications", text: "DDS, D.ACSDD, D.ASBA" },
         { title: "Dedicated practice", text: "Nearly 20 years focused on OSA and TMD care." },
@@ -296,7 +297,6 @@ export const pages: Record<string, ContentPage> = {
       keywords: ["Beyonn team", "dental sleep medicine support team", "dental sleep medicine training", "sleep apnea training for dentists"],
     },
     sections: [
-      { id: "about-beyonn", eyebrow: "About Beyonn", title: "Discover Beyonn", widget: "walkthrough-video" },
       {
         eyebrow: "Our mission",
         title: "We're here to define the future of OSA + TMD.",
