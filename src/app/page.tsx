@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import Image from "next/image";
 import { ArrowUpRight, BadgeCheck, CalendarDays, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
 import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
@@ -149,7 +150,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Meet Dr. Rodney Willey. <em>The clinician behind Beyonn.</em></>} />
-              <Link href="/team#about-beyonn" className="mt-6 inline-flex min-h-11 items-center gap-3 font-semibold text-breath underline underline-offset-4">Watch the Beyonn introduction <ArrowUpRight className="size-4" aria-hidden /></Link>
+              <div className="mt-6"><DoctorIntroVideo /></div>
               <p data-aos="fade-up" className="mt-4 text-paper/75">Founder Dr. Rodney Willey brings experience with complex sleep challenges, jaw pain and cases where previous treatment has fallen short.</p>
               <figure data-aos="fade-up" className="mt-5 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 sm:p-6">
                 <span className="block font-display text-5xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>

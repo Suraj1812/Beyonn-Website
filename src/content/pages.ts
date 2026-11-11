@@ -296,7 +296,7 @@ export const pages: Record<string, ContentPage> = {
       keywords: ["Beyonn team", "dental sleep medicine support team", "dental sleep medicine training", "sleep apnea training for dentists"],
     },
     sections: [
-      { id: "about-beyonn", eyebrow: "About Beyonn", title: "Discover Beyonn", widget: "founder-video" },
+      { id: "about-beyonn", eyebrow: "About Beyonn", title: "Discover Beyonn", links: [{ label: "Watch the Beyonn walkthrough", href: "https://next.frame.io/share/acca1aa2-1ce9-4d17-8f4d-e012dfc7f4ba/view/fbe45912-e622-4b35-8e5d-ca24ec347ff6" }] },
       {
         eyebrow: "Our mission",
         title: "We're here to define the future of OSA + TMD.",
