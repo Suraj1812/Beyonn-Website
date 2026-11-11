@@ -2,6 +2,7 @@ import Link from "next/link";
 import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import Image from "next/image";
 import { ArrowUpRight, BadgeCheck, CalendarDays, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
+import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
 import { HomeHero } from "@/components/sections/HomeHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -380,7 +381,7 @@ export default function HomePage() {
 
       <section className="section-y bg-paper-2">
         <div className="container-x grid items-center gap-6 md:grid-cols-2">
-          <div><SectionHeading eyebrow="For your patients" title={<>Care continues <em>between visits.</em></>} lead="The Beyonn Patient App helps patients recognise symptoms, prepare for appointments and follow their care journey." /><div className="mt-5"><Button href="/patient-app">Explore the Patient App</Button></div></div>
+          <div><SectionHeading eyebrow="For your patients" title={<>Care continues <em>between visits.</em></>} lead="The Beyonn Patient App helps patients recognise symptoms, prepare for appointments and follow their care journey." /><div className="mt-5"><AppStoreButtons /></div><div className="mt-4"><ArrowLink href="/patient-app">Explore the Patient App</ArrowLink></div></div>
           <PatientAppScreenshots compact />
         </div>
       </section>

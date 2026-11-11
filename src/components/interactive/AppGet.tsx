@@ -1,6 +1,7 @@
 "use client";
 
 import QRCode from "qrcode";
+import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -70,18 +71,7 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
             <div className="mt-6 grid place-items-center rounded-3xl bg-white/70 p-6">
               {qr ? <Image src={qr} alt="QR code to download the Beyonn Patient App" width={224} height={224} unoptimized className="size-56" /> : <div className="size-56 animate-pulse rounded-2xl bg-ink/5" />}
             </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {site.app.appStore && (
-                <a href={site.app.appStore} className="btn btn--sm" target="_blank" rel="noopener">
-                  <span>App Store</span>
-                </a>
-              )}
-              {site.app.googlePlay && (
-                <a href={site.app.googlePlay} className="btn btn--sm" target="_blank" rel="noopener">
-                  <span>Google Play</span>
-                </a>
-              )}
-            </div>
+            <div className="mt-6"><AppStoreButtons /></div>
           </>
         ) : (
           <>

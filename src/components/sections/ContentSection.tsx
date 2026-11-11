@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { CheckList } from "@/components/ui/Check";
 import { Faq } from "@/components/ui/Faq";
+import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
 import { FeatureCards } from "@/components/sections/FeatureCards";
 import { SplitTable } from "@/components/sections/SplitTable";
@@ -421,8 +422,7 @@ function Widget({ section }: { section: PageSection }) {
       return (
         <div className="space-y-10">
           <div data-aos="fade-up" className="flex flex-wrap gap-3">
-            {site.app.appStore && <Button href={site.app.appStore} variant="light" target="_blank" rel="noopener noreferrer">App Store</Button>}
-            {site.app.googlePlay && <Button href={site.app.googlePlay} variant="ghost-light" target="_blank" rel="noopener noreferrer">Google Play</Button>}
+            <AppStoreButtons dark />
           </div>
           <div data-aos="fade-up" className="flex flex-wrap items-center gap-5 border-t border-paper/15 pt-8">
             <p className="t-lead text-paper/80">Want the app for your patients? Become a Beyonn Network Partner.</p>
