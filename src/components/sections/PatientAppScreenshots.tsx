@@ -21,7 +21,6 @@ export function PatientAppScreenshots({ compact = false }: { compact?: boolean }
             <Image src="/assets/patient-app/progress.webp" alt={screens[2].alt} width={780} height={1560} sizes="(min-width: 768px) 165px, 29vw" className="h-auto w-full" />
           </div>
         </div>
-        <figcaption className="mt-4 text-center text-xs text-muted">Inside the Beyonn Patient App · Sample data</figcaption>
       </figure>
     );
   }
