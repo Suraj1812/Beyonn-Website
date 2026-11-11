@@ -16,6 +16,10 @@ import { AppGet } from "@/components/interactive/AppGet";
 import { PatientCheck } from "@/components/interactive/PatientCheck";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
 import { FormPreview, type PreviewField } from "@/components/interactive/FormPreview";
+import { articles } from "@/content/articles";
+import Link from "next/link";
+import { PlayCircle, Smartphone } from "lucide-react";
+import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
 import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
 import { Tilt } from "@/components/visual/Tilt";
@@ -278,15 +282,15 @@ function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
 
 function TeamGrid() {
   return (
-    <div data-morph-shape="rect" className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-5">
+    <div data-morph-shape="rect" className="grid gap-5 md:grid-cols-2">
       {team.map((person, i) => (
         <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 5) * 70}>
           <Tilt className="h-full rounded-[var(--radius-card)]">
-            <article className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]">
-              <div className="relative aspect-[4/5] bg-breath/40">
+            <article className="grid h-full grid-cols-[0.8fr_1.2fr] overflow-hidden rounded-2xl border border-ink/10 bg-white">
+              <div className="relative min-h-56 bg-paper-2">
                 <Image src={person.image} alt={person.name} fill sizes="(min-width: 1280px) 20vw, (min-width: 768px) 33vw, 50vw" className="object-contain object-bottom" />
               </div>
-              <div className="flex flex-1 flex-col p-3 sm:p-6">
+              <div className="flex flex-col justify-center p-4 sm:p-6">
                 <h3 className="text-base font-semibold leading-snug sm:text-lg">{person.name}</h3>
                 {person.role && <p className="mt-2 text-sm text-muted">{person.role}</p>}
                 {person.href && (
@@ -315,6 +319,20 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
 
 function Widget({ section }: { section: PageSection }) {
   switch (section.widget) {
+    case "workshop-preview":
+      return <div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>;
+    case "founder-video":
+    case "patient-video":
+      return <div className="grid aspect-video max-h-[26rem] place-items-center rounded-2xl border border-ink/10 bg-paper-2 p-6 text-center">
+        <div><PlayCircle className="mx-auto size-12 text-dawn" aria-hidden /><p className="mt-3 font-semibold">{section.widget === "founder-video" ? "Dr. Willey’s vision for Beyonn" : "Understanding OSA and TMD"}</p><p className="mt-1 text-sm text-muted">Video coming soon</p></div>
+      </div>;
+    case "patient-stories":
+      return <div className="rounded-2xl border border-dashed border-dawn/25 bg-paper-2 p-6"><p className="font-semibold">Patient stories coming soon</p><p className="mt-2 text-sm text-muted">Hear about care from the people who experience it.</p></div>;
+    case "app-preview":
+      return <div className="grid gap-4 sm:grid-cols-3">{["Check your symptoms", "Prepare for your visit", "Follow your progress"].map((title) => <div key={title} className="rounded-2xl border border-ink/10 bg-paper-2 p-6"><Smartphone className="size-8 text-dawn" aria-hidden /><h3 className="mt-4 font-semibold">{title}</h3><p className="mt-2 text-sm text-muted">App screenshots coming soon</p></div>)}</div>;
+    case "patient-blogs":
+      return <div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>;
+
     case "airway-model":
       return <AirwayModel />;
     case "discovery-booking":
@@ -414,11 +432,9 @@ export function ContentSection({ section, index }: { section: PageSection; index
   if (section.faq) {
     return (
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid gap-6 sm:gap-12 lg:grid-cols-[1fr_1.3fr]">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <Header section={section} />
-          </div>
-          <Faq items={section.faq} />
+        <div className="container-x grid max-w-5xl gap-6">
+          <Header section={section} />
+          <Faq items={section.faq} name="page-questions" />
         </div>
       </section>
     );

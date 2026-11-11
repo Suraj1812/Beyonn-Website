@@ -64,7 +64,9 @@ export function PatientCheck() {
             </fieldset>
           </form>
           {(sleepDone || jawDone) && (
-            <div role="status" className="mt-10 space-y-5 border-t border-paper/15 pt-8">
+            <div role="status" aria-label="Your awareness check results" className="mt-8 space-y-5 rounded-2xl border border-breath/30 bg-breath/10 p-5">
+              <h3 className="t-h3">What Your Answers Reveal</h3>
+              <p className="text-sm text-paper/75">These answers can help you prepare for a conversation with a qualified provider.</p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {sleepDone && (
                   <div className="rounded-2xl bg-paper/10 p-5">

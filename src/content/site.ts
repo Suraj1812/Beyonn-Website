@@ -40,14 +40,14 @@ export const primaryNav: (NavGroup | NavLink)[] = [
     links: [
       { label: "Partner With Us", href: "/partner" },
       { label: "Beyonn Global", href: "/global" },
-      { label: "Beyonn Patient App", href: "/patient-app" },
     ],
   },
   {
     label: "For Patients",
     links: [
       { label: "Sleep Apnea Symptoms", href: "/patients#symptoms" },
-      { label: "TMD Treatment", href: "/patients#treatment" },
+      { label: "TMD explained", href: "/patients#tmd" },
+      { label: "Beyonn Patient App", href: "/patient-app" },
       { label: "Find a Provider", href: "/patients/find-a-provider" },
     ],
   },
@@ -74,7 +74,8 @@ export const footerNav: { title: string; links: NavLink[] }[] = [
     title: "For Patients",
     links: [
       { label: "Sleep Apnea Symptoms", href: "/patients#symptoms" },
-      { label: "TMD Treatment", href: "/patients#treatment" },
+      { label: "TMD explained", href: "/patients#tmd" },
+      { label: "Beyonn Patient App", href: "/patient-app" },
       { label: "Find a Provider", href: "/patients/find-a-provider" },
       { label: "Patient Portal", href: "/portal" },
     ],

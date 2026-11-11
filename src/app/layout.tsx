@@ -4,7 +4,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { AosInit } from "@/components/providers/AosInit";
-import { ParticleMorph } from "@/components/visual/ParticleMorph";
 import { GuideBot } from "@/components/visual/GuideBot";
 import { VisitorProvider } from "@/components/providers/VisitorProvider";
 import { ScrollProgress } from "@/components/visual/ScrollProgress";
@@ -104,7 +103,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {children}
             </main>
             <Footer />
-            <ParticleMorph />
             <GuideBot />
             <AosInit />
             <PointerEffects />

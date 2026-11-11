@@ -38,7 +38,7 @@ const icons: Record<string, LucideIcon> = {
   "/global": Earth,
   "/dr-rodney-willey": Stethoscope,
   "/team": Users,
-  "/#workshop": CalendarDays,
+  "/workshop": CalendarDays,
   "/contact": Mail,
   "/patients": Activity,
   "/patients/find-a-provider": MapPin,
@@ -195,7 +195,7 @@ function DesktopMenu({ group, pathname, open, onOpen, onClose, onToggle, align =
                   </li>
                 ))}
               </ul>
-              <Link href="/#workshop" onClick={done} className="group/card flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-ink/[0.07] transition-shadow duration-300 hover:shadow-[0_18px_36px_-24px_rgb(19_37_62/0.45)]">
+              <Link href="/workshop#register" onClick={done} className="group/card flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-ink/[0.07] transition-shadow duration-300 hover:shadow-[0_18px_36px_-24px_rgb(19_37_62/0.45)]">
                 <span className="relative block aspect-video bg-breath/40">
                   <Image src="/assets/site/platform-coaching.png" alt="" fill sizes="20rem" className="object-contain" />
                 </span>
@@ -355,14 +355,11 @@ export function Header() {
               ))}
             </nav>
             <div className="flex items-center gap-6 text-paper/60">
-              <Link href="/#workshop" className="group hidden items-center gap-2 transition-colors hover:text-paper lg:inline-flex">
+              <Link href="/workshop#register" className="group hidden items-center gap-2 transition-colors hover:text-paper lg:inline-flex">
                 Free live workshop with Dr. Willey
                 <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
               </Link>
-              <a href={site.phoneHref} className="inline-flex items-center gap-1.5 transition-colors hover:text-paper">
-                <Phone className="size-3.5" aria-hidden />
-                {site.phone}
-              </a>
+
             </div>
           </div>
         </div>

@@ -28,8 +28,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/beyonn-protocol", destination: "/the-beyonn-system", permanent: true },
       { source: "/the-beyonn-protocol", destination: "/the-beyonn-system", permanent: true },
-      { source: "/workshop", destination: "/#workshop", permanent: false },
-      { source: "/workshops", destination: "/#workshop", permanent: false },
+      { source: "/workshops", destination: "/workshop", permanent: false },
       { source: "/find-a-provider", destination: "/patients/find-a-provider", permanent: true },
       { source: "/about", destination: "/team", permanent: true },
     ];

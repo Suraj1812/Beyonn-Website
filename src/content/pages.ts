@@ -8,7 +8,7 @@ export type Action = { label: string; href?: string; app?: AppScreen; variant?: 
 export type Card = { label?: string; title?: string; text?: string };
 
 /** Interactive or data-driven blocks rendered by the page route. */
-export type Widget = "airway-model" | "discovery-booking" | "quick-check" | "team" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
+export type Widget = "airway-model" | "discovery-booking" | "founder-video" | "patient-video" | "patient-stories" | "patient-blogs" | "app-preview" | "workshop-preview" | "quick-check" | "team" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
 
 export type PageSection = {
   id?: string;
@@ -68,7 +68,7 @@ export type ContentPage = {
 const quote = "Don't treat an airway without understanding the joint. Don't treat the joint without understanding the airway.";
 const cite = "Dr. Rodney Willey, DDS, D.ACSDD, D.ASBA";
 const book: Action = { label: "Book Your Discovery Call", href: "/qualify" };
-const workshop: Action = { label: "Join the Free Workshop", href: "/#workshop", variant: "ghost-light" };
+const workshop: Action = { label: "Join a Workshop", href: "/workshop", variant: "ghost-light" };
 
 const steps = {
   identify: ["Screens patients, takes new patient calls and books exams", "Screening tools, call scripts and checklists, the Patient App, Blueprint modules"],
@@ -195,7 +195,7 @@ export const pages: Record<string, ContentPage> = {
     closing: {
       title: "Your patients. Your practice. Your team. Our system.",
       sub: "See how the Beyonn System would run with your team, in one conversation.",
-      actions: [{ ...book, variant: "dawn" }, { label: "Join the Next Free Workshop", href: "/#workshop", variant: "ghost-light" }],
+      actions: [{ ...book, variant: "dawn" }, { label: "Join a Workshop", href: "/workshop", variant: "ghost-light" }],
       signoff: "BEYONN™ · Beyond Training. Beyond Billing. Beyond the Appliance.",
     },
   },
@@ -213,12 +213,19 @@ export const pages: Record<string, ContentPage> = {
       keywords: ["Dr. Rodney Willey", "Dr. Rodney Willey sleep apnea", "Dr. Rodney Willey dental sleep medicine"],
     },
     sections: [
+      { eyebrow: "The founder’s story", title: "Why Dr. Willey started Beyonn", widget: "founder-video" },
+      { eyebrow: "Qualifications and experience", title: "The experience behind the approach", cards: [
+        { title: "Clinical qualifications", text: "DDS, D.ACSDD, D.ASBA" },
+        { title: "Dedicated practice", text: "Nearly 20 years focused on OSA and TMD care." },
+        { title: "Experience in the chair", text: "More than 10,000 oral appliances delivered." },
+      ] },
+
       {
         stats: [
           { value: "10,000+", label: "Oral appliances delivered in the United States" },
           { value: "~20 years", label: "Of practice limited to OSA and TMD" },
-          { value: "2 conditions", label: "Treated together, never in isolation" },
-          { value: "Complex cases", label: "Including patients with physical and developmental disabilities" },
+          { value: "2 conditions", label: "Airway and jaw care considered together" },
+          { value: "Complex cases", label: "Complex sleep challenges and previous treatment difficulties" },
         ],
       },
       {
@@ -237,7 +244,7 @@ export const pages: Record<string, ContentPage> = {
           { title: "The patient who didn't respond as expected." },
           { title: "The patient whose jaw couldn't tolerate a conventional approach." },
           { title: "The patient with multiple diagnoses and a complicated medical history." },
-          { title: "The patient with disabilities who needed a different level of patience, communication and creativity." },
+          { title: "The patient who needed a different approach to communication, comfort and care." },
           { title: "The patient who had already been told, \"There is nothing more we can do.\"" },
         ],
         lines: ["For that last patient, experience can change the conversation."],
@@ -268,10 +275,11 @@ export const pages: Record<string, ContentPage> = {
         lines: ["Don't treat an airway without understanding the joint.", "Don't treat the joint without understanding the airway.", "And never allow a diagnosis to become more important than the person sitting in front of you."],
         body: "The measure of clinical knowledge isn't how well it's presented from a stage. It's how it changes a patient's life.",
       },
+      { title: "From fellow clinicians", widget: "testimonials" },
     ],
     closing: {
       title: "Learn from the clinician who's done it 10,000 times.",
-      actions: [{ label: "Join Dr. Rodney Willey's Next Free Workshop", href: "/#workshop", variant: "dawn" }, { ...book, variant: "ghost-light" }],
+      actions: [{ label: "Join a Workshop", href: "/workshop", variant: "dawn" }, { ...book, variant: "ghost-light" }],
     },
   },
 
@@ -385,7 +393,7 @@ export const pages: Record<string, ContentPage> = {
       description: "Beyonn Global brings Dr. Rodney Willey's OSA + TMD protocols, training and technology to dental practices outside the United States.",
       keywords: ["dental sleep medicine", "sleep apnea training for dentists", "TMD training for dentists"],
     },
-    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join an International Workshop", href: "/#workshop", variant: "ghost-light" }],
+    actions: [{ label: "Register Your Interest", href: "#register", variant: "dawn" }, { label: "Join an International Workshop", href: "/workshop", variant: "ghost-light" }],
     sections: [
       {
         eyebrow: "Why Beyonn Global",
@@ -421,8 +429,8 @@ export const pages: Record<string, ContentPage> = {
 
   partner: {
     eyebrow: "Become a Beyonn Network Partner",
-    title: "OSA and TMD training for dentists is the start. We build the rest with you.",
-    description: "Step-by-step training for your whole team, a proven workflow, the technology and coaching, so your team can run your OSA + TMD treatment program with confidence.",
+    title: "Build an OSA + TMD program your team can run.",
+    description: "Train your team. Connect your workflow. Grow with clinical and operational support.",
     heroLine: "You're the operator. Beyonn is the operating system.",
     photo: "/assets/people/patient-handshake.webp",
     photoAlt: "Clinician greeting a patient",
@@ -431,7 +439,7 @@ export const pages: Record<string, ContentPage> = {
       description: "More than sleep apnea and TMD training for dentists. Become a Beyonn Network Partner and get the team training, workflows, technology and coaching to run an OSA + TMD treatment program.",
       keywords: ["sleep apnea training for dentists", "TMD training for dentists", "oral appliance therapy training", "dental sleep medicine practice support"],
     },
-    actions: [{ label: "Book Your Discovery Call", href: "#book", variant: "dawn" }],
+    actions: [{ label: "Book Your Discovery Call", href: "#book", variant: "dawn" }, workshop],
     sections: [
       {
         eyebrow: "Is this you?",
@@ -446,10 +454,10 @@ export const pages: Record<string, ContentPage> = {
         title: "Everything your team needs to run the program.",
         cards: [
           { title: "Sleep apnea and TMD training for dentists and staff", text: "On-demand protocols, clinical video and case-study libraries, and oral appliance therapy training." },
-          { title: "The Coaching Clinician Blueprint", text: "12 step-by-step modules that train your team in every part of the program, from new patient calls and insurance prep to treatment presentation, billing and follow-up, plus the Forms Center of ready-made templates." },
+          { title: "The Coaching Clinician Blueprint", text: "Twelve modules covering patient calls, case preparation, treatment presentation and follow-up. Templates help your team put training into practice." },
           { title: "Ongoing support", text: "Monthly expert coaching, study club and treatment-planning support on complex cases." },
           { title: "Staff onboarding system", text: "Online, on-site or hybrid, built to survive turnover." },
-          { title: "Beyonn tech systems", text: "The Beyonn Patient App (patients check their sleep, book exams and stay on track with treatment), Beyonn Academy, including the Beyonn LMS (all training, the Blueprint and the Forms Center in one place), and the Admin Panel with a business dashboard, a CRM with automated email, SMS and WhatsApp follow-up, and the Golden Tracker." },
+          { title: "Beyonn tech systems", text: "Connect learning, patient communication and case tracking. The Patient App, Academy and Admin Panel support the workflow around care." },
           { title: "Beyonn AI assistant", text: "Answers your team's questions on protocols, billing and the platform around the clock, trained on Dr. Rodney Willey's content." },
           { title: "Coding and documentation kit", text: "CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and a payer rules library. Optional Billing Assist if you'd like a hand." },
           { title: "Sleep testing and the Beyonn appliance", text: "STOP-Bang screening, Beyonn home sleep tests interpreted by a physician, and the Beyonn appliance, ordered from the platform." },
@@ -556,7 +564,7 @@ export const pages: Record<string, ContentPage> = {
           { title: "Diagnosis first.", text: "Sleep apnea is diagnosed by a physician, usually after a sleep study. Many Beyonn providers can arrange a home sleep test, read by a physician, so you can sleep in your own bed." },
           { title: "Oral appliance therapy.", text: "A custom-fitted device worn at night that helps keep the airway open. It's a common OSA therapy for people who can't tolerate CPAP." },
           { title: "TMD relief.", text: "Temporomandibular dysfunction treatment may include appliances, muscle therapy and bite care, planned around your airway." },
-          { text: "Medical treatment for sleep apnea is often covered by medical insurance, not dental. Your provider's team checks your benefits for you." },
+          { title: "Understanding coverage.", text: "Medical treatment for sleep apnea is often covered by medical insurance, not dental. Your provider's team checks your benefits for you." },
         ],
       },
       { id: "how-it-works", eyebrow: "Oral appliance therapy", title: "How an oral appliance helps", widget: "airway-model" },
@@ -576,17 +584,20 @@ export const pages: Record<string, ContentPage> = {
       {
         id: "find-a-provider",
         eyebrow: "Find a Beyonn provider",
-        title: "Find a sleep apnea doctor or TMD dentist near you.",
+        title: "Find an OSA & TMD Specialist Near You",
         body: "The Beyonn team connects you with the nearest OSA specialist or OSA clinic.",
         widget: "referral-form",
       },
+      { title: "OSA and TMD, explained", widget: "patient-video" },
+      { title: "Patient experiences", widget: "patient-stories" },
+      { title: "Understand your sleep and jaw health", widget: "patient-blogs" },
       { id: "faq", title: "Patient FAQ", faq: patientFaq },
     ],
     disclaimer: "This page is for general education and is not medical advice. Always speak with a qualified provider about your symptoms.",
   },
 
   "patients/find-a-provider": {
-    title: "Find a sleep apnea doctor or TMD dentist near you.",
+    title: "Find an OSA & TMD Specialist Near You",
     description: "The Beyonn team connects you with the nearest OSA specialist or OSA clinic.",
     seo: {
       title: "Find a Sleep Apnea Doctor or TMD Dentist Near You | Beyonn",
@@ -609,6 +620,9 @@ export const pages: Record<string, ContentPage> = {
     },
     actions: [{ label: "See What It Does for Your Practice", href: "#practice", variant: "dawn" }, { label: "Download the App", href: "#download", variant: "ghost-light" }],
     sections: [
+      { title: "A closer look at the app", widget: "app-preview" },
+      { id: "quick-check", title: "Start with an awareness check", widget: "quick-check" },
+
       {
         id: "practice",
         eyebrow: "What it does for your practice",
@@ -646,7 +660,7 @@ export const pages: Record<string, ContentPage> = {
           title: "More paths",
           items: [
             "For TMD: a daily log and a weekly jaw check, without a sleep study when TMD is the only concern.",
-            "For the person who shares your room: a nightly tap through a text link, no app needed.",
+            "For the person who shares your room: a brief check-in about snoring. The check-in link will be available when the app launches.",
             "For family and friends: patients who are sleeping better can share the app in a tap, so the people they care about can check their own Snore Score.",
           ],
         },
@@ -677,6 +691,21 @@ export const pages: Record<string, ContentPage> = {
     description: "Access your training library, Golden Tracker and case updates.",
     seo: { title: "Partner Sign-In | Beyonn", description: "Access your training library, Golden Tracker and case updates." },
     sections: [{ id: "sign-in", widget: "partner-signin" }],
+  },
+
+  workshop: {
+    eyebrow: "Free live workshop",
+    title: "Make sleep and jaw care part of your practice.",
+    description: "Join Dr. Rodney Willey for practical clinical learning and a clearer path to building an OSA + TMD service line.",
+    actions: [{ label: "Join a Workshop", href: "#register", variant: "dawn" }],
+    sections: [
+      { title: "Built for your whole practice", body: "For dentists, ENTs, nurse practitioners and the teams who support them.", cards: [
+        { title: "Recognise the patients", text: "Explore the connection between sleep, the airway and jaw symptoms." },
+        { title: "Connect the workflow", text: "See how screening, testing, treatment and follow-up fit together." },
+        { title: "Understand practice growth", text: "Explore medical billing, patient education and the operational work behind a new service line." },
+      ] },
+      { id: "register", title: "Choose your session", widget: "workshop-preview" },
+    ],
   },
 
   qualify: {

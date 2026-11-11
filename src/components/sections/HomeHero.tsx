@@ -18,7 +18,7 @@ const slides: Slide[] = [
         <span className="hidden sm:inline">A complete OSA + TMD integration program.</span>
       </>
     ),
-    sub: "Beyonn helps dental practitioners add Obstructive Sleep Apnea and Temporomandibular Joint Disorder treatment to their practice. We train your team step by step, give you the tech ecosystem, and coach you alongside Dr. Rodney Willey, one of the pioneers of the field, until your program runs on its own.",
+    sub: "Bring OSA + TMD care into your practice with team training, practical tools and coaching from Dr. Rodney Willey. Build a program that runs with confidence.",
   },
 ];
 

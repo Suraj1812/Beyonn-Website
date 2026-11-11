@@ -51,8 +51,8 @@ export function ProtocolRing() {
 
   return (
     <div ref={root} className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-      <div className="hidden lg:sticky lg:top-28 lg:block lg:h-[28rem] lg:self-start">
-        <svg data-morph-shape="ring" data-aos="zoom-in" viewBox="-60 -40 440 400" className="mx-auto w-full max-w-[24rem]" role="img" aria-label={`The Beyonn Protocol: ${protocolSteps.map((s) => s.name).join(", ")}. Current step: ${protocolSteps[active].name}.`}>
+      <div className="hidden lg:sticky lg:top-28 lg:block lg:h-[24rem] lg:self-start">
+        <svg data-morph-shape="ring" data-aos="zoom-in" viewBox="-60 -40 440 400" className="mx-auto w-full max-w-[20rem]" role="img" aria-label={`The Beyonn Protocol: ${protocolSteps.map((s) => s.name).join(", ")}. Current step: ${protocolSteps[active].name}.`}>
           <defs>
             <linearGradient id="ringG" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0" stopColor="#72cfb7" />
@@ -100,6 +100,9 @@ export function ProtocolRing() {
             );
           })}
         </svg>
+        <nav aria-label="Explore protocol steps" className="mt-2 flex justify-center gap-2">
+          {protocolSteps.map((step, i) => <button key={step.key} type="button" aria-label={`Go to ${step.name}`} className="grid size-11 place-items-center rounded-full border border-ink/15 text-sm font-semibold transition-colors hover:bg-dawn hover:text-white" onClick={() => { setActive(i); root.current?.querySelector(`#protocol-step-${step.key}`)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "center" }); }}>{i + 1}</button>)}
+        </nav>
       </div>
       <fieldset className="min-w-0 lg:hidden">
         <legend className="mb-3 t-eyebrow text-muted">Explore the four steps</legend>

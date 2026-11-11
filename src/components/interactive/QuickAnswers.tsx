@@ -23,7 +23,7 @@ function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" 
       <p className="t-eyebrow text-dawn-deep">{audience === "patients" ? "For Patients" : "For Practitioners"}</p>
       <div id="qa-panel" className="mt-4 border-t hairline">
         {[items.slice(0, previewCount), items.slice(previewCount)].map((group, index) => (
-          <div key={index} id={index === 1 ? "qa-more" : undefined} className={cn(index === 1 && !showAll && "hidden sm:block")}>
+          <div key={index} id={index === 1 ? "qa-more" : undefined} className={cn(index === 1 && !showAll && "hidden")}>
             {group.map((item, i) => (
               <details key={item.q} className="acc animate-fade-up max-sm:[&>summary]:min-h-12 max-sm:[&>summary]:gap-2 max-sm:[&>summary]:py-2 max-sm:[&>summary]:text-sm" style={{ animationDelay: `${(i + index * previewCount) * 30}ms` }} name="qa">
                 <summary>
@@ -39,7 +39,7 @@ function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" 
         ))}
       </div>
       {items.length > previewCount && (
-        <button type="button" aria-expanded={showAll} aria-controls="qa-more" onClick={() => setShowAll(!showAll)} className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-paper-2 px-4 text-sm font-semibold text-dawn-deep sm:hidden">
+        <button type="button" aria-expanded={showAll} aria-controls="qa-more" onClick={() => setShowAll(!showAll)} className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-paper-2 px-4 text-sm font-semibold text-dawn-deep">
           {showAll ? "Show fewer questions" : `Show ${items.length - previewCount} more questions`}
           <ChevronDown className={cn("size-4 motion-safe:transition-transform", showAll && "rotate-180")} aria-hidden />
         </button>

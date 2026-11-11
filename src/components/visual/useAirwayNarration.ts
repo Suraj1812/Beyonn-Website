@@ -133,8 +133,11 @@ export function useAirwayNarration(options: NarrationOptions) {
       // Late voice discovery improves the next utterance without interrupting one already playing.
     };
     const onVisibility = () => {
-      if (document.hidden) stop();
-      else speakCurrent();
+      if (document.hidden) {
+        enabledRef.current = false;
+        setEnabled(false);
+        stop();
+      }
     };
     refreshVoices();
     engine.addEventListener("voiceschanged", refreshVoices);
@@ -151,7 +154,12 @@ export function useAirwayNarration(options: NarrationOptions) {
 
   useLayoutEffect(() => {
     latest.current = { step, text, suspended, detailText };
-    if (suspended) stop();
+    if (suspended) {
+      enabledRef.current = false;
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- mirror the external speech service stopping when its section leaves view.
+      setEnabled(false);
+      stop();
+    }
     else if (enabledRef.current) speakCurrent();
   }, [step, text, suspended, detailText, enabled, speakCurrent, stop]);
 
