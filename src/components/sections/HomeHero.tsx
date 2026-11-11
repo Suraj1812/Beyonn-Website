@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Pause, Play } from "lucide-react";
 import { CutoutPortrait } from "@/components/sections/PageHero";
+import { WorkshopAnnouncement } from "@/components/sections/WorkshopAnnouncement";
 import { Scribble } from "@/components/ui/Scribble";
 import { cn } from "@/lib/cn";
 
@@ -74,11 +75,13 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
   return (
+    <>
+    <div className="pt-[6.875rem] md:pt-[6.25rem] lg:pt-[6.75rem]"><WorkshopAnnouncement /></div>
     <section ref={section} data-guide="hero" className="spotlight relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--em-color:var(--color-breath)] [--scribble:var(--color-dawn-deep)]">
       <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
 
-      <div className="container-x grid items-center gap-6 pb-8 pt-32 sm:gap-12 sm:pb-12 sm:pt-36 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16 lg:pt-40">
+      <div className="container-x grid items-center gap-6 pb-8 pt-8 sm:gap-12 sm:pb-12 sm:pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16 lg:pt-16">
         <div ref={copy} className="max-w-[42rem] will-change-transform">
           <div
             className="grid"
@@ -182,5 +185,6 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
         </div>
       </div>
     </section>
+    </>
   );
 }

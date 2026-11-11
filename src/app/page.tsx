@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, BadgeCheck, CalendarDays, ChevronDown, CircleDollarSign, HandHeart, Megaphone, ShieldCheck } from "lucide-react";
+import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import { HomeHero } from "@/components/sections/HomeHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -93,21 +94,6 @@ export default function HomePage() {
         }
       />
 
-      <aside aria-label="Upcoming workshop" className="relative overflow-hidden border-b border-breath/30 bg-[#e5f3ef]">
-        <div className="container-x grid items-center gap-4 py-5 sm:grid-cols-[auto_1fr_auto] sm:gap-6 sm:py-7">
-          <div className="hidden size-20 flex-col items-center justify-center rounded-2xl bg-ink text-paper shadow-sm sm:flex" aria-hidden>
-            <span className="text-xs font-semibold uppercase tracking-widest text-breath">Dec</span>
-            <span className="font-display text-4xl font-semibold leading-tight">01</span>
-          </div>
-          <div>
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-dawn-deep"><CalendarDays className="size-4" aria-hidden /> Featured event · Free live workshop</p>
-            <h2 className="mt-2 font-display text-xl font-semibold leading-tight tracking-tight text-ink sm:text-2xl">Build your next service line with Dr. Rodney Willey.</h2>
-            <p className="mt-2 text-sm text-ink/75"><time dateTime="2026-12-01">December 1, 2026</time><span className="mx-2 text-ink/30" aria-hidden>·</span>9 AM or 7 PM CST · Online</p>
-          </div>
-          <Button href="/workshop" className="justify-between sm:justify-center">Explore the workshop</Button>
-        </div>
-      </aside>
-
       {/* 2. Visitor selector */}
       <section data-guide="welcome" className="relative isolate overflow-clip border-t border-ink/[0.08] bg-paper-2 py-12 sm:py-14 lg:py-16" aria-labelledby="welcome-title" id="welcome">
         <div data-morph-shape="emblem" data-morph-hide className="pointer-events-none absolute -left-40 top-10 -z-10 aspect-[1600/1306] w-[44rem] bg-dawn/[0.05] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" aria-hidden />
@@ -162,9 +148,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Meet Dr. Rodney Willey. <em>The clinician behind Beyonn.</em></>} />
-              <div data-aos="reveal" className="relative mt-6 aspect-[16/9] overflow-hidden rounded-2xl bg-paper/5">
-                <Image src="/assets/site/never-lose-a-yes.jpg" alt="Founder Dr. Rodney Willey greeting a patient" fill sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
-              </div>
+              <div className="mt-6"><DoctorIntroVideo /></div>
               <p data-aos="fade-up" className="mt-4 text-paper/75">Founder Dr. Rodney Willey brings experience with complex sleep challenges, jaw pain and cases where previous treatment has fallen short.</p>
               <figure data-aos="fade-up" className="mt-5 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 sm:p-6">
                 <span className="block font-display text-5xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>
