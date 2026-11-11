@@ -103,7 +103,7 @@ export default function HomePage() {
           <div>
             <SectionHeading eyebrow="Choose your path" title={<span id="welcome-title">Welcome to Beyonn. <em>Where should we start?</em></span>} />
             <p data-aos="fade-up" data-aos-delay="120" className="mt-5 max-w-sm text-muted">
-              Two quick taps and we&apos;ll point you to the right next step, whether you treat patients or you are one.
+              Find your next step in two taps.
             </p>
           </div>
           <VisitorSelector />
@@ -151,7 +151,7 @@ export default function HomePage() {
             <div className="order-1 lg:order-2">
               <SectionHeading tone="dark" eyebrow="The clinician behind Beyonn" title={<>Meet Dr. Rodney Willey. <em>The clinician behind Beyonn.</em></>} />
               <div className="mt-6"><DoctorIntroVideo /></div>
-              <p data-aos="fade-up" className="mt-4 text-paper/75">Founder Dr. Rodney Willey brings experience with complex sleep challenges, jaw pain and cases where previous treatment has fallen short.</p>
+              <p data-aos="fade-up" className="mt-4 text-paper/75">Clinical experience with complex sleep and jaw conditions.</p>
               <figure data-aos="fade-up" className="mt-5 rounded-[var(--radius-card)] bg-paper/[0.05] p-5 ring-1 ring-paper/10 sm:p-6">
                 <span className="block font-display text-5xl leading-[0.6] text-breath" aria-hidden>&ldquo;</span>
                 <blockquote className="mt-3 font-display text-[clamp(1.25rem,2vw,1.65rem)] font-medium leading-snug">
@@ -176,7 +176,7 @@ export default function HomePage() {
           <div>
             <SectionHeading index="03" eyebrow="The opportunity" title={<>The patients are <em>already in your chair.</em></>} />
             <p data-aos="fade-up" className="mt-4 max-w-2xl sm:mt-8 t-lead text-muted">
-              Snoring, clenching, morning headaches, scalloped tongues, worn-out night guards. These are often signs of OSA and TMD, and most go unrecognized in a dental office. Each one is a patient you could help and a case your practice isn&apos;t treating yet.
+              Snoring, clenching and morning headaches can point to OSA + TMD. Help the patients already in your chair.
             </p>
           </div>
           <div>
@@ -202,7 +202,7 @@ export default function HomePage() {
               index="04"
               eyebrow="What Beyonn gives your team"
               title={<>We don&apos;t do it for you. <em>We enable your team for it.</em></>}
-              lead="Outsourcing keeps you dependent. Beyonn builds the skills inside your practice, so the program, the patients and the know-how stay with you."
+              lead="Training, tools and coaching that stay with your practice."
             />
             <p data-aos="fade-up" className="border-l-2 border-dawn pl-4 text-sm font-semibold text-dawn-deep">More ownership. Not less support.</p>
           </div>
@@ -230,8 +230,8 @@ export default function HomePage() {
             <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
               <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">Core training · The Blueprint</p>
               <h3 id="coaching-blueprint" className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
-              <p className="mt-4 leading-relaxed text-muted">Twelve training modules that take your team from the first new patient call to replacement appliances.</p>
-              <p className="mt-4 leading-relaxed text-muted">Plus: the Forms Center, hands-on onboarding from the Beyonn team, and ongoing coaching.</p>
+              <p className="mt-4 leading-relaxed text-muted">12 modules, from the first patient call to ongoing care.</p>
+              <p className="mt-4 leading-relaxed text-muted">Ready-made forms, onboarding and ongoing coaching.</p>
               <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
               <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-dawn-deep">
                 <span className="rounded-full bg-dawn/10 px-3 py-2">12 modules</span><span className="rounded-full bg-dawn/10 px-3 py-2">4 workflow stages</span><span className="rounded-full bg-dawn/10 px-3 py-2">One team learning path</span>

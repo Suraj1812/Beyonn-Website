@@ -83,7 +83,7 @@ export const pages: Record<string, ContentPage> = {
   "the-beyonn-system": {
     eyebrow: "The Beyonn Protocol™",
     title: "One system. Your team. Every case, start to finish.",
-    description: "Most programs hand you knowledge and leave you to build the rest. Beyonn hands your team the rest: a defined workflow, step-by-step training, ready-made forms, the technology, and coaching that carry each OSA + TMD case from the first call to reimbursement.",
+    description: "Training, workflows, technology and coaching to run OSA + TMD care, from the first call to reimbursement.",
     seo: {
       title: "How the Beyonn System Works | OSA + TMD Program Your Team Runs",
       description: "See how Beyonn trains and equips your team to take every OSA + TMD case from the first call to reimbursement.",
@@ -96,8 +96,8 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Why most OSA + TMD programs stall",
         title: "Knowing how to treat isn't the hard part.",
         body: [
-          "Most practitioners who add OSA + TMD already have the clinical knowledge. What stops them is everything around the chair: medical documentation, insurance authorizations, billing codes, patient follow-up, and a front desk that was never trained for medical workflows.",
-          "So the course certificate goes on the wall, a few cases start, and the program quietly stalls.",
+          "Clinical knowledge needs trained staff, clear documentation, billing and follow-up.",
+          "Beyonn connects that work into one workflow.",
         ],
         cards: [
           { title: "The medical paperwork.", text: "Dental teams are rarely trained for medical documentation and authorizations." },
@@ -123,9 +123,7 @@ export const pages: Record<string, ContentPage> = {
         id: "identify",
         eyebrow: "Step 1 — Identify",
         title: "Discover the opportunity already inside your practice.",
-        body: "Patients who snore, clench, wake with headaches or have worn out their night guards are already on your schedule. Your team spots them with STOP-Bang screening and Beyonn's chair-side scripts, and the Beyonn Patient App lets patients check their Snore Score and book an exam. Beyonn's patient-awareness campaigns send more patients your way.",
-        tagline: "Beyonn provides the structure. Your team starts the conversation.",
-        table: { head: stepHead, rows: [steps.identify], variant: "compare" },
+        body: "Use STOP-Bang screening, chair-side scripts and the Patient App to identify patients and book exams.",
         image: "/assets/people/patient-conversation.webp",
         imageAlt: "Clinician speaking with a patient about their symptoms",
       },
@@ -133,17 +131,13 @@ export const pages: Record<string, ContentPage> = {
         id: "prepare",
         eyebrow: "Step 2 — Prepare",
         title: "Your team prepares every case, step by step.",
-        body: "Your team orders a Beyonn home sleep test (interpreted by a physician) or gathers existing sleep studies, coordinates with the patient's physician using the referral network kit, verifies insurance and prepares the medical documentation, exactly as the Coaching Clinician Blueprint teaches.",
-        tagline: "Ready-made forms. Clear steps. No guesswork.",
-        table: { head: stepHead, rows: [steps.prepare], variant: "compare" },
+        body: "Gather physician-interpreted sleep studies, coordinate referrals, verify insurance and prepare records with the Blueprint and ready-made forms.",
       },
       {
         id: "treat",
         eyebrow: "Step 3 — Treat",
         title: "Your doctor remains the doctor.",
-        body: "You perform the evaluation and deliver treatment. Your team presents the treatment plan using Beyonn's scripts. You don't need to know everything on day one: guidance on complex cases is part of your coaching.",
-        tagline: "You provide clinical expertise. Beyonn provides the system around it.",
-        table: { head: stepHead, rows: [steps.treat], variant: "compare" },
+        body: "You evaluate and treat. Your team presents the plan, with Beyonn scripts and coaching for complex cases.",
         image: "/assets/site/never-lose-a-yes.jpg",
         imageAlt: "Dr. Rodney Willey greeting a patient in a consultation room",
       },
@@ -151,23 +145,20 @@ export const pages: Record<string, ContentPage> = {
         id: "manage",
         eyebrow: "Step 4 — Manage",
         title: "Treatment isn't the end of the workflow.",
-        body: "Your team follows each case through billing, follow-up visits and replacement appliances. The Golden Tracker shows where every case stands, so nothing stalls between \"yes\" and treatment. Partners who update it daily see the strongest results: it's the single most predictive habit in the program.",
-        tagline: "From identification to reimbursement, the case stays connected.",
-        table: { head: stepHead, rows: [steps.manage], variant: "compare" },
+        body: "Track billing, follow-up visits and replacement appliances in the Golden Tracker.",
       },
       {
         eyebrow: "Why OSA and TMD are treated together",
         title: "OSA and TMD are married. The system treats them that way.",
         body: [
-          "The airway, the jaw, the muscles, the joint, the bite, sleep and pain don't work in isolation. Treat the airway without the joint, or the joint without the airway, and part of the patient's problem goes unseen. Treated separately, they relapse. Treated together, they resolve.",
-          "Every Beyonn protocol, script and workflow is built around both conditions from the first screening onward.",
+          "Beyonn protocols consider airway and jaw care together, from screening through follow-up.",
         ],
         quote: { text: quote, cite },
       },
       {
         eyebrow: "What's included",
         title: "People. Process. Technology. Marketing. In one system.",
-        body: "Software alone doesn't solve it. Training alone doesn't solve it. Marketing alone doesn't fill the chair. Beyonn brings all four together, so your team can run the program with confidence and patients can find you.",
+        body: "One connected program for your team and patients.",
         columns: [
           { title: "People", items: ["Dr. Rodney Willey: monthly coaching and study club", "Onboarding and support team to set you up and help you go live", "Guidance on complex cases, plus the Beyonn AI assistant around the clock", "Medical referral network kit"] },
           { title: "Process", items: ["The Beyonn Protocol: Identify, Prepare, Treat, Manage", "12 training modules", "Clinical protocols for OSA + TMD together", "The Forms Center, scripts and templates", "Coding and documentation kit"] },
@@ -205,8 +196,8 @@ export const pages: Record<string, ContentPage> = {
   "dr-rodney-willey": {
     eyebrow: "Clinician · Educator · OSA + TMD Pioneer",
     title: "Dr. Rodney Willey, DDS, D.ACSDD, D.ASBA",
-    headline: "He doesn't teach from what he's read. He teaches from what he's done.",
-    description: "For nearly two decades his practice has been devoted only to obstructive sleep apnea and temporomandibular disorders, one patient at a time.",
+    headline: "Clinical experience. Practical teaching.",
+    description: "Nearly 20 years focused on OSA and TMD care.",
     photo: "/assets/people/rodney-hero.webp",
     photoAlt: "Dr. Rodney Willey",
     seo: {
@@ -216,11 +207,7 @@ export const pages: Record<string, ContentPage> = {
     },
     sections: [
       { eyebrow: "The founder’s story", title: "Why Dr. Willey started Beyonn", links: [{ label: "Watch the Beyonn introduction", href: "/#doctor" }] },
-      { eyebrow: "Qualifications and experience", title: "The experience behind the approach", cards: [
-        { title: "Clinical qualifications", text: "DDS, D.ACSDD, D.ASBA" },
-        { title: "Dedicated practice", text: "Nearly 20 years focused on OSA and TMD care." },
-        { title: "Experience in the chair", text: "More than 10,000 oral appliances delivered." },
-      ] },
+
 
       {
         stats: [
@@ -234,14 +221,13 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Clinical philosophy",
         title: "OSA and TMD are married.",
         body: [
-          "At the centre of Dr. Rodney Willey's work is a principle earned in the chair: the airway, jaw, muscles, joints, bite, sleep, pain and function don't exist on their own. Treat the airway without understanding the temporomandibular system, or treat TMD without considering breathing and sleep, and a critical part of the patient's condition goes unrecognized.",
-          "That principle shapes every Beyonn protocol.",
+          "His approach considers breathing, sleep and jaw function together, with the patient at the centre.",
         ],
       },
       {
         eyebrow: "The cases textbooks skip",
-        title: "When the textbook case becomes the complicated case, experience matters.",
-        body: "Dr. Rodney Willey has treated patients whose histories go far beyond straightforward OSA or TMD. These are the patients who shaped his approach.",
+        title: "Experience for complex cases.",
+        body: "Complex cases shaped his approach to care.",
         cards: [
           { title: "The patient who didn't respond as expected." },
           { title: "The patient whose jaw couldn't tolerate a conventional approach." },
@@ -255,8 +241,7 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "The educator",
         title: "More than 10,000 opportunities to learn.",
         body: [
-          "Every appliance was a chance to observe, adjust, troubleshoot and learn: why patients respond differently, why similar cases end differently, and where treatment can break down. He learned from the successful cases, and even more from the difficult ones.",
-          "His teaching bridges the gap between clinical knowledge and clinical reality. It moves practitioners past \"What does the literature say?\" to the question that matters on Monday morning:",
+          "Lessons from more than 10,000 appliances inform his practical teaching.",
         ],
         pull: "“What happens when this patient is sitting in my chair?”",
       },
@@ -264,8 +249,8 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Why he built Beyonn",
         title: "Diplomas on the wall. No patients in the chair.",
         body: [
-          "Again and again, Dr. Rodney Willey met practitioners who had trained in OSA and TMD and held the diplomas to prove it, yet had no traction in their practices. The knowledge was there. The infrastructure wasn't.",
-          "Today he runs practices devoted only to OSA and TMD. Beyonn shares the systems, protocols and lessons from that high-volume care, and trains practice teams to run them in their own practices.",
+          "He built Beyonn to help trained clinicians put their knowledge into practice.",
+          "His clinical workflows now support practice teams through training, tools and coaching.",
         ],
         links: [{ label: "See how the Beyonn System works", href: "/the-beyonn-system" }],
         image: "/assets/site/never-lose-a-yes.jpg",
@@ -288,7 +273,7 @@ export const pages: Record<string, ContentPage> = {
   team: {
     eyebrow: "The Beyonn Team",
     title: "Meet the team behind your team.",
-    description: "Your team runs your OSA + TMD program. These are the people who train them, set them up and coach them until it runs with confidence.",
+    description: "Meet the people who train, onboard and support your practice.",
     photo: "/assets/people/clinic-team.webp",
     photoAlt: "The Beyonn team working together in a clinic",
     seo: {
@@ -300,18 +285,18 @@ export const pages: Record<string, ContentPage> = {
       {
         eyebrow: "Our mission",
         title: "We're here to define the future of OSA + TMD.",
-        body: "Beyonn equips medical professionals with the tools, training and support to create real impact, reclaim time and freedom for their families, and build sustainable profit.",
+        body: "Equip practices to deliver OSA + TMD care with confidence.",
       },
       {
         eyebrow: "Our values",
         title: "Our values",
         cards: [
-          { label: "B", title: "Bold Vision", text: "We think boldly and lead with purpose, bringing innovation and lasting impact to providers, their teams and the profession." },
-          { label: "E", title: "Excellence Always", text: "We pursue excellence in every detail, from clinical training to communication." },
-          { label: "Y", title: "Yes to Growth", text: "We welcome learning, feedback and change, and keep striving to improve." },
-          { label: "O", title: "Ownership Mindset", text: "We take full responsibility for our actions, outcomes and culture, with integrity and high standards." },
-          { label: "N", title: "Next-Level Compassion", text: "We care deeply about people, listen well, serve fully and treat everyone with dignity." },
-          { label: "N", title: "No One Does It Better", text: "We go beyond the standard to define the future of OSA + TMD." },
+          { label: "B", title: "Bold Vision", text: "Think boldly. Create lasting impact." },
+          { label: "E", title: "Excellence Always", text: "Care about every detail." },
+          { label: "Y", title: "Yes to Growth", text: "Keep learning and improving." },
+          { label: "O", title: "Ownership Mindset", text: "Take responsibility. Act with integrity." },
+          { label: "N", title: "Next-Level Compassion", text: "Listen well. Treat people with dignity." },
+          { label: "N", title: "No One Does It Better", text: "Keep raising the standard." },
         ],
       },
       { eyebrow: "Our team", title: "The people behind your team.", widget: "team" },
@@ -341,11 +326,11 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "What's inside",
         title: "What's inside",
         cards: [
-          { title: "Beyonn LMS", text: "One login for your whole team. On-demand clinical library, videos, case studies, short tests and proof of completion. Track each team member's progress." },
-          { title: "The Coaching Clinician Blueprint", text: "12 step-by-step modules that train your team to run every part of the program." },
+          { title: "Beyonn LMS", text: "Clinical videos, case studies, tests and team progress in one place." },
+          { title: "The Coaching Clinician Blueprint", text: "12 modules covering the complete practice workflow." },
           { title: "The Forms Center", text: "Ready-made forms, scripts and templates for every step, from the first call to the yearly visit." },
-          { title: "Live coaching", text: "Monthly study club and office hours with Dr. Rodney Willey, plus a peer community of Beyonn providers." },
-          { title: "Beyonn AI assistant", text: "Answers your team's questions on protocols, billing and the platform around the clock, trained on Dr. Rodney Willey's content." },
+          { title: "Live coaching", text: "Monthly coaching, study club and peer support." },
+          { title: "Beyonn AI assistant", text: "24/7 help with protocols, billing and the platform." },
         ],
       },
       {
@@ -379,7 +364,7 @@ export const pages: Record<string, ContentPage> = {
       { id: "faq", title: "FAQ", faq: academyFaq },
     ],
     closing: {
-      title: "Your team can run an OSA + TMD program. Beyonn Academy shows them how.",
+      title: "Put your team’s training to work.",
       actions: [{ ...book, variant: "dawn" }, workshop],
     },
   },
@@ -454,17 +439,12 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "What you get",
         title: "Everything your team needs to run the program.",
         cards: [
-          { title: "Sleep Apnea + TMD Training", text: "On-demand protocols, clinical videos, case studies and oral appliance therapy training for dentists and staff." },
-          { title: "The Coaching Clinician Blueprint", text: "Convert more consultations into treatment. 12 modules plus templates for patient calls, case prep, presentation and follow-up." },
-          { title: "Ongoing Support", text: "Never face a complex case alone. Monthly coaching, study club and treatment-planning help." },
-          { title: "Staff Onboarding System", text: "Train new hires fast. Online, on-site or hybrid, built to survive turnover." },
-          { title: "Beyonn Technology System", text: "Run your whole program in one place. Training, patient communication and case tracking via the Patient App, Academy and Admin Panel." },
-          { title: "Beyonn AI Assistant", text: "24/7 answers on protocols, billing and the platform, trained on Dr. Rodney Willey’s content." },
-          { title: "Coding + Documentation Kit", text: "Get paid for your care. CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and payer rules. Optional Billing Assist." },
-          { title: "Sleep Testing + the Beyonn Appliance", text: "Screen, test and treat in one platform. STOP-Bang, physician-read home sleep tests and the Beyonn appliance." },
-          { title: "Medical Referral Network Kit", text: "Build referral pipelines with sleep physicians, ENTs, cardiologists and primary care." },
-          { title: "Patients Sent Your Way", text: "Fill your schedule with national campaigns, co-branded local kits and a provider directory listing." },
-          { title: "Financing", text: "Make yes easier. Practice and patient financing, covered on your Discovery Call." },
+          { title: "Training + Blueprint", text: "12 modules, clinical videos, case studies and ready-made forms for your whole team." },
+          { title: "Coaching + onboarding", text: "Monthly coaching, study club, complex-case guidance and training for new hires." },
+          { title: "Connected technology", text: "Patient App, Academy, Admin Panel, case tracking and 24/7 AI assistance." },
+          { title: "Testing + treatment", text: "STOP-Bang screening, physician-read home sleep tests and the Beyonn appliance." },
+          { title: "Billing + referrals", text: "Coding tools, documentation, payer guidance, optional Billing Assist and medical referral resources." },
+          { title: "Practice growth", text: "Patient campaigns, co-branded marketing, directory listings and financing options." },
         ],
       },
       {
@@ -612,8 +592,8 @@ export const pages: Record<string, ContentPage> = {
 
   "patient-app": {
     eyebrow: "The Beyonn Patient App · The patient's companion for living well",
-    title: "From the first question to the yearly visit, in your patient's pocket.",
-    description: "The app helps patients check their Snore Score and Sleep Score, book an exam at a Beyonn practice, get ready for it, and keep wearing their appliance. It's built around two goals: every visitor books an exam, and every patient stays on treatment.",
+    title: "Your care journey, in one app.",
+    description: "Check sleep scores, prepare for an exam and follow your treatment progress.",
     seo: {
       title: "Beyonn Patient App | Snore Score, Sleep Score, Exam Booking & Treatment Tracking",
       description: "The Beyonn Patient App takes patients from a Snore Score to a booked exam, a fitted appliance and a yearly visit, with the practice's team and the Beyonn system behind every step.",
@@ -713,7 +693,7 @@ export const pages: Record<string, ContentPage> = {
   qualify: {
     eyebrow: "Discovery Call",
     title: "See if Beyonn fits your practice.",
-    description: "One conversation about your patients, team, goals and the support you need to run OSA + TMD care.",
+    description: "Discuss your practice, goals and the support you need.",
     actions: [{ label: "Book a Discovery Call", href: "#book", variant: "dawn" }],
     sections: [
       { eyebrow: "What to expect", title: "A useful conversation, not a sales maze.", points: ["Tell the Beyonn team about your practice and team.", "Discuss the OSA + TMD patients you already see.", "Review training, systems and operational support options.", "Leave with a clear answer about next steps and fit."] },
