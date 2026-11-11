@@ -1,4 +1,4 @@
-.reminder { position:fixed; left:16px; bottom:16px; z-index:40; width:320px; max-width:calc(100vw - 32px); overflow:hidden; border:1px solid rgb(19 37 62 / .12); border-radius:16px; background:#fff; color:var(--color-ink); box-shadow:0 12px 40px rgb(19 37 62 / .2); animation:reminderIn 450ms var(--ease-out-expo) both; }
+.reminder { position:fixed; left:16px; bottom:16px; z-index:40; width:320px; max-width:calc(100vw - 32px); overflow:hidden; border:1px solid rgb(19 37 62 / .12); border-radius:16px; background:#fff; color:var(--color-ink); box-shadow:0 12px 40px rgb(19 37 62 / .2); animation:reminderIn 800ms cubic-bezier(.16,1,.3,1) 60ms both; }
 .picture { aspect-ratio:2; overflow:hidden; background:var(--color-ink); }
 .image { display:block; width:100%; height:100%; object-fit:cover; }
 .badge { position:absolute; left:10px; top:10px; border-radius:999px; padding:6px 10px; background:var(--color-ink); color:#fff; font-size:10px; line-height:1.2; font-weight:700; text-transform:uppercase; letter-spacing:.03em; }
@@ -11,7 +11,11 @@
 .button { display:flex; align-items:center; justify-content:center; min-height:44px; margin-top:13px; border-radius:7px; padding:10px 14px; background:var(--color-ink); color:#fff; font-size:13px; line-height:1.4; font-weight:600; transition:background-color 180ms; }
 .button:hover { background:var(--color-dawn-deep); }
 .button:focus-visible, .close:focus-visible { outline:3px solid var(--color-dawn); outline-offset:-3px; }
-@keyframes reminderIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes reminderIn {
+  0% { opacity:0; transform:translate3d(calc(-100% - 24px),8px,0) scale(.97); }
+  25% { opacity:1; }
+  100% { opacity:1; transform:translate3d(0,0,0) scale(1); }
+}
 @media(max-width:639px) { .reminder { width:280px; left:12px; bottom:calc(80px + env(safe-area-inset-bottom,0px)); } .body { padding:13px; } .title { font-size:13px; } }
 @media(max-height:520px) { .picture { display:none; } .body { padding-top:44px; } }
 @media(prefers-reduced-motion:reduce) { .reminder { animation:none; } .button, .close span { transition:none; } }
