@@ -327,7 +327,7 @@ function Widget({ section }: { section: PageSection }) {
       return <DoctorIntroVideo />;
     case "patient-video":
       return <div className="overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
-        <video className="aspect-video w-full" controls playsInline preload="none" poster="/assets/site/patient-conversations.jpg" aria-label="OSA and TMD Patient Consultation">
+        <video className="aspect-video w-full" controls playsInline preload="none" poster="/assets/videos/osa-tmd-poster.jpg" aria-label="OSA and TMD Patient Consultation">
           <source src="/assets/videos/osa-tmd-consultation.mp4" type="video/mp4" />
           <a href="https://f.io/LWuewo_r" target="_blank" rel="noopener noreferrer">Watch OSA and TMD Patient Consultation</a>
         </video>
