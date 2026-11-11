@@ -3,6 +3,7 @@ import { Inter, Montserrat } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { ParticleMorph } from "@/components/visual/ParticleMorph";
 import { AosInit } from "@/components/providers/AosInit";
 import { GuideBot } from "@/components/visual/GuideBot";
 import { VisitorProvider } from "@/components/providers/VisitorProvider";
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {children}
             </main>
             <Footer />
+            <ParticleMorph />
             <GuideBot />
             <AosInit />
             <PointerEffects />

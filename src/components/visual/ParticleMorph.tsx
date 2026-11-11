@@ -425,7 +425,7 @@ function ParticleCanvas() {
       };
       const all: Target[] = Array.from(document.querySelectorAll<HTMLElement>("main [data-morph-shape]")).map((node, i) => {
         const kind = (node.dataset.morphShape as Kind) ?? "rect";
-        return { node, kind, hide: true, decor: node.hasAttribute("data-morph-hide"), dark: darkness(node), ...shapeFor(node, kind, i) };
+        return { node, kind, hide: node.hasAttribute("data-morph-hide"), decor: node.hasAttribute("data-morph-hide"), dark: darkness(node), ...shapeFor(node, kind, i) };
       });
       if (all.length < 2) return;
       // Shape the travelling swarm takes: the Beyonn emblem.
@@ -450,6 +450,52 @@ function ParticleCanvas() {
       renderer.domElement.style.cssText = "position:absolute;inset:0;width:100%;height:100%;background:transparent;";
       renderer.domElement.setAttribute("aria-hidden", "true");
       el.appendChild(renderer.domElement);
+      // Render once, then composite into each visible section's background.
+      // A global overlay can cross isolated sections and cover their copy.
+      renderer.domElement.style.display = "none";
+      const sections = Array.from(document.querySelectorAll<HTMLElement>("main section, main aside")).filter((section) => !section.parentElement?.closest("section, aside"));
+      const backgrounds = sections.map((section) => {
+        const original = { position: section.style.position, isolation: section.style.isolation };
+        if (getComputedStyle(section).position === "static") section.style.position = "relative";
+        section.style.isolation = "isolate";
+        const foreground = Array.from(section.children).filter((child): child is HTMLElement => child instanceof HTMLElement && !child.classList.contains("pointer-events-none"));
+        const styles = foreground.map((child) => ({ child, position: child.style.position, zIndex: child.style.zIndex }));
+        for (const { child } of styles) {
+          if (getComputedStyle(child).position === "static") child.style.position = "relative";
+          if (getComputedStyle(child).zIndex === "auto") child.style.zIndex = "1";
+        }
+        const layer = document.createElement("div");
+        layer.dataset.particleLayer = "";
+        layer.setAttribute("aria-hidden", "true");
+        layer.style.cssText = "position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;border-radius:inherit;";
+        section.prepend(layer);
+        return { section, original, styles, layer, canvas: null as HTMLCanvasElement | null };
+      });
+      const paintBackgrounds = (show: boolean) => {
+        for (const bg of backgrounds) {
+          const rect = bg.section.getBoundingClientRect();
+          if (!show || rect.bottom <= 0 || rect.top >= window.innerHeight) {
+            bg.canvas?.remove();
+            bg.canvas = null;
+            continue;
+          }
+          if (!bg.canvas) {
+            bg.canvas = document.createElement("canvas");
+            bg.canvas.style.cssText = "position:absolute;pointer-events:none;opacity:0.55;";
+            bg.layer.appendChild(bg.canvas);
+          }
+          const canvas = bg.canvas;
+          if (canvas.width !== renderer.domElement.width) canvas.width = renderer.domElement.width;
+          if (canvas.height !== renderer.domElement.height) canvas.height = renderer.domElement.height;
+          canvas.style.width = `${window.innerWidth}px`;
+          canvas.style.height = `${window.innerHeight}px`;
+          canvas.style.left = `${-rect.left}px`;
+          canvas.style.top = `${-rect.top}px`;
+          const ctx = canvas.getContext("2d");
+          ctx?.clearRect(0, 0, canvas.width, canvas.height);
+          ctx?.drawImage(renderer.domElement, 0, 0);
+        }
+      };
 
       // ---- Dots: head + two trail echoes + soft halo -----------------------
       const scene = new THREE.Scene();
@@ -682,6 +728,7 @@ function ParticleCanvas() {
             el.style.visibility = "hidden";
             visible = false;
           }
+          paintBackgrounds(false);
           warm = 0;
           return;
         }
@@ -794,6 +841,7 @@ function ParticleCanvas() {
         trail1Geo.attributes.position.needsUpdate = true;
         trail2Geo.attributes.position.needsUpdate = true;
         renderer.render(scene, camera);
+        paintBackgrounds(true);
       };
       raf = requestAnimationFrame(frame);
 
@@ -812,6 +860,11 @@ function ParticleCanvas() {
         el.style.visibility = "hidden";
         [headGeo, trail1Geo, trail2Geo].forEach((g) => g.dispose());
         [halo, head, t1, t2].forEach((m) => m.dispose());
+        for (const bg of backgrounds) {
+          bg.layer.remove();
+          Object.assign(bg.section.style, bg.original);
+          for (const { child, position, zIndex } of bg.styles) Object.assign(child.style, { position, zIndex });
+        }
         renderer.dispose();
         renderer.domElement.remove();
       };
@@ -823,5 +876,5 @@ function ParticleCanvas() {
     };
   }, [pathname]);
 
-  return <div ref={host} data-particle-morph className="pointer-events-none fixed inset-0 z-[35]" style={{ visibility: "hidden" }} aria-hidden />;
+  return <div ref={host} data-particle-morph className="pointer-events-none fixed inset-0 -z-10" style={{ visibility: "hidden" }} aria-hidden />;
 }
