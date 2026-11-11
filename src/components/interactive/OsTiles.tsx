@@ -1,8 +1,10 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { BookOpen, Gauge, Stethoscope, Sprout, Check, FileText, Users, ClipboardList, MessageCircle, ScanHeart, CircleCheck, Megaphone, Network, GraduationCap, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./OsTiles.module.css";
 
 const areas = [
@@ -19,48 +21,86 @@ const nextSteps = [
   { href: "/partner", label: "Explore network partnership" },
 ];
 
+gsap.registerPlugin(ScrollTrigger);
+
 export function OsTiles() {
   const [active, setActive] = useState(0);
-  const id = useId();
+  const [position, setPosition] = useState<number | null>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const trigger = useRef<ScrollTrigger | null>(null);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const id = useId();
 
-  function select(index: number) { setActive(index); }
+  useEffect(() => {
+    const media = gsap.matchMedia();
+    media.add("(min-width: 64rem) and (min-height: 46rem) and (prefers-reduced-motion: no-preference)", () => {
+      const update = (self: ScrollTrigger) => {
+        setPosition(self.progress * 3);
+        setActive(Math.min(3, Math.round(self.progress * 3)));
+      };
+      const story = ScrollTrigger.create({
+        trigger: root.current, start: "top 105px", end: () => `+=${window.innerHeight * 2.7}`,
+        pin: true, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: update, onRefresh: update,
+      });
+      trigger.current = story;
+      return () => { trigger.current = null; story.kill(); setPosition(null); };
+    });
+    media.add("(max-width: 63.99rem), (max-height: 45.99rem), (prefers-reduced-motion: reduce)", () => {
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.chapterIndex));
+        }
+      }, { rootMargin: "-15% 0px -50% 0px", threshold: 0 });
+      root.current?.querySelectorAll("[data-chapter-index]").forEach((chapter) => observer.observe(chapter));
+      return () => observer.disconnect();
+    });
+    return () => media.revert();
+  }, []);
+
+  function select(index: number) {
+    setActive(index);
+    const story = trigger.current;
+    if (story) window.scrollTo({ top: story.start + (story.end - story.start) * index / 3, behavior: "smooth" });
+    else document.getElementById(`${id}-chapter-${index}`)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+  }
   function onKey(event: React.KeyboardEvent, index: number) {
-    const next = event.key === "Home" ? 0 : event.key === "End" ? areas.length - 1 : event.key === "ArrowRight" ? (index + 1) % areas.length : event.key === "ArrowLeft" ? (index + areas.length - 1) % areas.length : null;
+    const next = event.key === "Home" ? 0 : event.key === "End" ? 3 : event.key === "ArrowRight" ? (index + 1) % 4 : event.key === "ArrowLeft" ? (index + 3) % 4 : null;
     if (next === null) return;
-    event.preventDefault(); select(next); buttons.current[next]?.focus();
+    event.preventDefault(); select(next); buttons.current[next]?.focus({ preventScroll: true });
   }
 
   return (
-    <div className={styles.root} data-os-explorer>
-      <div role="tablist" aria-label="Beyonn platform" className={styles.tabs}>
-        <span className={styles.indicator} style={{ transform: `translateX(${active * 100}%)` }} aria-hidden />
-        {areas.map((area, i) => <button key={area.name} ref={(el) => { buttons.current[i] = el; }} type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={active === i} tabIndex={active === i ? 0 : -1} onClick={() => select(i)} onKeyDown={(event) => onKey(event, i)} className={styles.tab}>
-          <area.icon className={styles.tabIcon} strokeWidth={1.7} aria-hidden /><span>{area.name}</span><span className={styles.tabNumber} aria-hidden>0{i + 1}</span>
+    <div ref={root} className={styles.root} data-os-story data-pinned={position !== null}>
+      <nav className={styles.navigation} aria-label="Operating System chapters">
+        {areas.map((area,index) => <button key={area.name} ref={(el) => { buttons.current[index] = el; }} type="button" onClick={() => select(index)} onKeyDown={(event) => onKey(event,index)} aria-current={active === index ? "step" : undefined} aria-controls={`${id}-chapter-${index}`} className={styles.chapterLink}>
+          <span className={styles.navNumber}>0{index+1}</span><span>{area.name}</span><span className={styles.track} aria-hidden><i style={{ transform: `scaleX(${position === null ? (active === index ? 1 : 0) : Math.max(0,Math.min(1,position-index+1))})` }} /></span>
         </button>)}
+      </nav>
+      <div className={styles.chapters}>
+        {areas.map((area,index) => {
+          const offset = position === null ? 0 : index - position;
+          const opacity = position === null ? 1 : Math.max(0,1-Math.abs(offset)*1.65);
+          return <section key={area.name} id={`${id}-chapter-${index}`} aria-labelledby={`${id}-heading-${index}`} aria-hidden={position !== null && active !== index} inert={position !== null && active !== index} className={styles.chapter} data-chapter-index={index} data-active={active === index} style={position === null ? undefined : { opacity, visibility: opacity < 0.01 ? "hidden" : "visible", transform: `translateY(${offset*60}px)`, pointerEvents: active === index ? "auto" : "none" }}>
+            <div className={styles.copy}>
+              <p className={styles.label}>0{index+1} / The Beyonn Operating System</p>
+              <h3 id={`${id}-heading-${index}`} className={styles.name}>{area.name}<span>.</span></h3>
+              <h4 className={styles.headline}>{area.title}</h4>
+              <p className={styles.description}>{area.detail}</p>
+              <Link href={nextSteps[index].href} className={styles.link}>{nextSteps[index].label}<ArrowRight className="size-4" aria-hidden /></Link>
+            </div>
+            <div className={styles.workspace}>
+              <div className={styles.visual}>
+                <div className={styles.visualHeader}><span>One connected workflow</span><area.icon className="size-5" strokeWidth={1.5} aria-hidden /></div>
+                <ol className={styles.workflow} aria-label={`${area.name} workflow`}>
+                  {area.flow.map((step,i) => <li key={step.label} style={{ "--step": i } as React.CSSProperties}><span className={styles.node}><step.icon strokeWidth={1.4} aria-hidden /></span><span>{step.label}</span>{i<2 && <span className={styles.connector} aria-hidden><i /><ArrowRight className="size-4" /></span>}</li>)}
+                </ol>
+              </div>
+              <div className={styles.included}><p>Included in {area.name}</p><ul>{area.items.map((item,i) => <li key={item} style={{ "--step": i } as React.CSSProperties}><Check className="size-4" aria-hidden /><span>{item}</span></li>)}</ul></div>
+            </div>
+          </section>;
+        })}
       </div>
-      <div className={styles.panels}>
-        {areas.map((area, index) => <div key={area.name} id={`${id}-panel-${index}`} role="tabpanel" aria-labelledby={`${id}-tab-${index}`} aria-hidden={active !== index} inert={active !== index} tabIndex={0} data-active={active === index} className={styles.panel}>
-          <div className={styles.overview}>
-            <p className={styles.kicker}><span>0{index + 1} / {area.name}</span><span>One connected platform</span></p>
-            <h3 className={styles.heading}>{area.title}</h3>
-            <p className={styles.description}>{area.detail}</p>
-            <ol aria-label={`${area.name} workflow`} className={styles.workflow}>
-              {area.flow.map((step,i) => <li key={step.label} style={{ "--step": i } as React.CSSProperties}>
-                <span className={styles.flowIcon}><step.icon className="size-5" strokeWidth={1.6} aria-hidden /></span>
-                <span className={styles.flowLabel}>{step.label}</span>
-                {i < area.flow.length - 1 && <span className={styles.connector} aria-hidden><ArrowRight className="size-3.5" /></span>}
-              </li>)}
-            </ol>
-          </div>
-          <div className={styles.included}>
-            <p className={styles.includedTitle}>Included in {area.name}</p>
-            <ul>{area.items.map((item,i) => <li key={item} style={{ "--step": i } as React.CSSProperties}><Check className="size-4" strokeWidth={1.8} aria-hidden /><span>{item}</span></li>)}</ul>
-            <Link href={nextSteps[index].href} className={styles.nextLink}>{nextSteps[index].label}<ArrowRight className="size-4" aria-hidden /></Link>
-          </div>
-        </div>)}
-      </div>
-      <p className={styles.hint}>Choose an area to explore how it supports your team.</p>
+      <div className={styles.footer}><span>Learn → Run → Treat → Grow</span><p>Scroll to explore <span aria-hidden>↓</span></p><span className={styles.counter}>0{active+1} / 04</span></div>
     </div>
   );
 }
