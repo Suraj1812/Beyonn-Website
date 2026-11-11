@@ -420,16 +420,11 @@ function Widget({ section }: { section: PageSection }) {
       );
     case "app-download":
       return (
-        <div className="space-y-10">
-          <div data-aos="fade-up" className="flex flex-wrap gap-3">
-            <AppStoreButtons dark />
-          </div>
-          <div data-aos="fade-up" className="flex flex-wrap items-center gap-5 border-t border-paper/15 pt-8">
-            <p className="t-lead text-paper/80">Want the app for your patients? Become a Beyonn Network Partner.</p>
-            <Button href="/qualify" variant="dawn">
-              Book Your Discovery Call
-            </Button>
-          </div>
+        <div className="space-y-5">
+          <div data-aos="fade-up"><AppStoreButtons /></div>
+          <p data-aos="fade-up" className="border-t border-ink/15 pt-4 text-sm text-muted">
+            For your practice? <Link href="/qualify" className="font-semibold text-dawn-deep underline underline-offset-4">Become a Beyonn Network Partner</Link>
+          </p>
         </div>
       );
     case "portal-signin":
@@ -447,6 +442,17 @@ function Widget({ section }: { section: PageSection }) {
 /** One content section, composed from whichever blocks the approved copy calls for. */
 export function ContentSection({ section, index }: { section: PageSection; index: number }) {
   if (section.widget === "quick-check") return <PatientCheck />;
+
+  if (section.widget === "app-download") {
+    return (
+      <section id={section.id} className="scroll-mt-24 border-t border-ink/10 bg-paper-2 py-10 text-ink sm:py-14">
+        <div className="container-x grid items-center gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
+          <Header section={section} />
+          <Widget section={section} />
+        </div>
+      </section>
+    );
+  }
 
   const dark = section.dark;
   const tone = dark ? "spotlight relative overflow-hidden bg-ink text-paper" : index % 2 === 0 ? "bg-paper" : "bg-paper-2";

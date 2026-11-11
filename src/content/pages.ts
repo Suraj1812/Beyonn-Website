@@ -656,7 +656,7 @@ export const pages: Record<string, ContentPage> = {
           "Help from Beyonn's clinical team, available in English and Spanish.",
         ],
       },
-      { id: "download", eyebrow: "Download", title: "Better sleep and an easier jaw, starting with an exam near you.", widget: "app-download", dark: true },
+      { id: "download", eyebrow: "Download", title: "Get the Beyonn Patient App.", widget: "app-download" },
     ],
   },
 
