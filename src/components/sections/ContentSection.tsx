@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ArrowLink } from "@/components/ui/ArrowLink";
 import { CheckList } from "@/components/ui/Check";
 import { Faq } from "@/components/ui/Faq";
+import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
 import { FeatureCards } from "@/components/sections/FeatureCards";
 import { SplitTable } from "@/components/sections/SplitTable";
 import { QuoteBlock } from "@/components/sections/QuoteBlock";
@@ -18,7 +19,7 @@ import { EndorsementCarousel } from "@/components/interactive/EndorsementCarouse
 import { FormPreview, type PreviewField } from "@/components/interactive/FormPreview";
 import { articles } from "@/content/articles";
 import Link from "next/link";
-import { PlayCircle, Smartphone } from "lucide-react";
+import { PlayCircle } from "lucide-react";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
 import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
@@ -329,7 +330,7 @@ function Widget({ section }: { section: PageSection }) {
     case "patient-stories":
       return <div className="rounded-2xl border border-dashed border-dawn/25 bg-paper-2 p-6"><p className="font-semibold">Patient stories coming soon</p><p className="mt-2 text-sm text-muted">Hear about care from the people who experience it.</p></div>;
     case "app-preview":
-      return <div className="grid gap-4 sm:grid-cols-3">{["Check your symptoms", "Prepare for your visit", "Follow your progress"].map((title) => <div key={title} className="rounded-2xl border border-ink/10 bg-paper-2 p-6"><Smartphone className="size-8 text-dawn" aria-hidden /><h3 className="mt-4 font-semibold">{title}</h3><p className="mt-2 text-sm text-muted">App screenshots coming soon</p></div>)}</div>;
+      return <PatientAppScreenshots />;
     case "patient-blogs":
       return <div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>;
 
