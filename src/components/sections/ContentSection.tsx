@@ -285,15 +285,15 @@ function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
 
 function TeamGrid() {
   return (
-    <div data-morph-shape="rect" className="grid gap-5 md:grid-cols-2">
+    <div data-morph-shape="rect" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {team.map((person, i) => (
-        <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 5) * 70}>
+        <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 3) * 70}>
           <Tilt className="h-full rounded-[var(--radius-card)]">
             <article className="grid h-full grid-cols-[0.8fr_1.2fr] overflow-hidden rounded-2xl border border-ink/10 bg-white">
-              <div className="relative min-h-56 bg-paper-2">
-                <Image src={person.image} alt={person.name} fill sizes="(min-width: 1280px) 20vw, (min-width: 768px) 33vw, 50vw" className="object-contain object-bottom" />
+              <div className="relative min-h-48 overflow-hidden bg-paper-2">
+                <Image src={person.image} alt={person.name} fill sizes="(min-width: 1024px) 12vw, (min-width: 640px) 18vw, 36vw" className={person.image.endsWith("/rod.webp") ? "object-contain object-bottom" : "object-cover object-[50%_35%]"} />
               </div>
-              <div className="flex flex-col justify-center p-4 sm:p-6">
+              <div className="flex flex-col justify-center p-4">
                 <h3 className="text-base font-semibold leading-snug sm:text-lg">{person.name}</h3>
                 {person.role && <p className="mt-2 text-sm text-muted">{person.role}</p>}
                 {person.href && (
