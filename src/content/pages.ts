@@ -252,7 +252,7 @@ export const pages: Record<string, ContentPage> = {
           "He built Beyonn to help trained clinicians put their knowledge into practice.",
           "His clinical workflows now support practice teams through training, tools and coaching.",
         ],
-        links: [{ label: "See how the Beyonn System works", href: "/the-beyonn-system" }],
+        links: [{ label: "See how the Beyonn System works", href: "/the-beyonn-system" }, { label: "Read clinician endorsements", href: "/#stories" }],
         image: "/assets/site/never-lose-a-yes.jpg",
         imageAlt: "Dr. Rodney Willey with a patient in his practice",
       },
@@ -262,7 +262,6 @@ export const pages: Record<string, ContentPage> = {
         lines: ["Don't treat an airway without understanding the joint.", "Don't treat the joint without understanding the airway.", "And never allow a diagnosis to become more important than the person sitting in front of you."],
         body: "The measure of clinical knowledge isn't how well it's presented from a stage. It's how it changes a patient's life.",
       },
-      { title: "From fellow clinicians", widget: "testimonials" },
     ],
     closing: {
       title: "Learn from the clinician who's done it 10,000 times.",
@@ -334,6 +333,7 @@ export const pages: Record<string, ContentPage> = {
         ],
       },
       {
+        id: "blueprint",
         eyebrow: "The Coaching Clinician Blueprint",
         title: "12 modules. Every step your team takes.",
         columns: [
@@ -425,7 +425,7 @@ export const pages: Record<string, ContentPage> = {
       description: "More than sleep apnea and TMD training for dentists. Become a Beyonn Network Partner and get the team training, workflows, technology and coaching to run an OSA + TMD treatment program.",
       keywords: ["sleep apnea training for dentists", "TMD training for dentists", "oral appliance therapy training", "dental sleep medicine practice support"],
     },
-    actions: [{ label: "Book Your Discovery Call", href: "#book", variant: "dawn" }, workshop],
+    actions: [{ label: "Book Your Discovery Call", href: "/qualify", variant: "dawn" }, workshop],
     sections: [
       {
         eyebrow: "Is this you?",
@@ -471,10 +471,9 @@ export const pages: Record<string, ContentPage> = {
           { title: "Grow to Advanced Provider, then Centre of Excellence, with higher placement in patient routing at each tier." },
         ],
       },
-      { eyebrow: "What partners say", title: "What partners say", widget: "testimonials" },
       { id: "faq", title: "FAQ", faq: partnerFaq },
     ],
-    closing: { id: "book", title: "One conversation. A clear answer on fit.", form: "partner" },
+    closing: { id: "book", title: "See if Beyonn fits your practice.", actions: [{ ...book, variant: "dawn" }, { label: "Read clinician endorsements", href: "/#stories", variant: "ghost-light" }] },
   },
 
   patients: {
@@ -697,7 +696,7 @@ export const pages: Record<string, ContentPage> = {
     actions: [{ label: "Book a Discovery Call", href: "#book", variant: "dawn" }],
     sections: [
       { eyebrow: "What to expect", title: "A useful conversation, not a sales maze.", points: ["Tell the Beyonn team about your practice and team.", "Discuss the OSA + TMD patients you already see.", "Review training, systems and operational support options.", "Leave with a clear answer about next steps and fit."] },
-      { id: "book", eyebrow: "Book now", title: "Schedule a Discovery Call", widget: "discovery-booking" },
+      { id: "book", title: "Schedule a Discovery Call", widget: "discovery-booking" },
     ],
   },
   contact: {

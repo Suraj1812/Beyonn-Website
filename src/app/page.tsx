@@ -232,18 +232,13 @@ export default function HomePage() {
               <p className="t-eyebrow text-muted max-sm:flex max-sm:items-center max-sm:gap-2 max-sm:text-dawn-deep max-sm:before:h-0.5 max-sm:before:w-5 max-sm:before:bg-dawn">Core training · The Blueprint</p>
               <h3 id="coaching-blueprint" className="mt-3 t-h2">The Coaching Clinician Blueprint</h3>
               <p className="mt-4 leading-relaxed text-muted">12 modules, from the first patient call to ongoing care.</p>
-              <p className="mt-4 leading-relaxed text-muted">Ready-made forms, onboarding and ongoing coaching.</p>
-              <p className="mt-6 font-display text-lg font-semibold tracking-tight text-ink">Built to last. When staff change, the system stays.</p>
-              <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold text-dawn-deep">
-                <span className="rounded-full bg-dawn/10 px-3 py-2">12 modules</span><span className="rounded-full bg-dawn/10 px-3 py-2">4 workflow stages</span><span className="rounded-full bg-dawn/10 px-3 py-2">One team learning path</span>
-              </div>
-              <div className="mt-5"><ArrowLink href="/academy">Explore the training pathway</ArrowLink></div>
+              <div className="mt-5"><ArrowLink href="/academy#blueprint">See all 12 modules</ArrowLink></div>
             </div>
-            <ol data-morph-shape="rect" className="grid grid-cols-2 gap-2 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10 xl:grid-cols-4">
-              {blueprintModules.map((m, i) => (
-                <li key={m} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:min-h-[7rem] sm:justify-between sm:gap-3 sm:p-5 sm:text-base sm:hover:bg-paper">
-                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="font-medium leading-snug">{m}</span>
+            <ol data-morph-shape="rect" className="grid gap-2 sm:grid-cols-3 sm:gap-px sm:overflow-hidden sm:rounded-[var(--radius-card)] sm:border sm:border-ink/10 sm:bg-ink/10">
+              {[0, 4, 7].map((moduleIndex, i) => (
+                <li key={moduleIndex} data-aos="fade-up" data-phone-reveal="card" data-aos-delay={(i % 4) * 60} className="flex flex-col gap-2 bg-paper-2 p-3 text-sm transition-colors duration-500 max-sm:rounded-xl max-sm:border max-sm:border-dawn/12 sm:min-h-[7rem] sm:justify-between sm:gap-3 sm:p-5 sm:text-base sm:hover:bg-paper">
+                  <span className="font-mono text-sm text-dawn-deep max-sm:grid max-sm:size-7 max-sm:place-items-center max-sm:rounded-md max-sm:bg-dawn/10 max-sm:text-xs">{String(moduleIndex + 1).padStart(2, "0")}</span>
+                  <span className="font-medium leading-snug">{blueprintModules[moduleIndex]}</span>
                 </li>
               ))}
             </ol>

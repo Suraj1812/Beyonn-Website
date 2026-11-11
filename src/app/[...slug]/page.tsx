@@ -2,8 +2,7 @@ import { notFound } from "next/navigation";
 import { TeamHeroPortraits } from "@/components/sections/TeamHeroPortraits";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { ContentSection, ActionButton, discoveryFields } from "@/components/sections/ContentSection";
-import { FormPreview } from "@/components/interactive/FormPreview";
+import { ContentSection, ActionButton } from "@/components/sections/ContentSection";
 import { SectionJumps } from "@/components/ui/SectionJumps";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -63,7 +62,7 @@ export default async function ContentRoute({ params }: Props) {
     id,
     label: id === "faq" || id === "tmd" ? id.toUpperCase() : id.charAt(0).toUpperCase() + id.slice(1).replaceAll("-", " "),
   }] : []);
-  if (page.closing?.id) jumpLinks.push({ id: page.closing.id, label: page.closing.form === "partner" ? "Discovery call" : "Next step" });
+  if (page.closing?.id) jumpLinks.push({ id: page.closing.id, label: page.closing.id === "book" ? "Discovery call" : "Next step" });
   const hero = page.photo
     ? { src: page.photo, alt: page.photoAlt ?? page.title, mode: key === "dr-rodney-willey" ? ("contain" as const) : ("cover" as const) }
     : undefined;
@@ -174,17 +173,12 @@ export default async function ContentRoute({ params }: Props) {
       {page.closing && (
         <CtaBand
           id={page.closing.id}
-          split={page.closing.form === "partner"}
           eyebrow=""
           title={page.closing.title}
           sub={page.closing.sub}
           actions={page.closing.actions && page.closing.actions.map((a) => <ActionButton key={a.label} action={a} />)}
         >
-          {page.closing.form === "partner" && (
-            <div data-morph-shape="rect" className="relative z-10 w-full rounded-[var(--radius-card)] border border-paper/10 bg-night/85 p-6 backdrop-blur-md sm:p-8">
-              <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" tone="dark" />
-            </div>
-          )}
+
           {page.closing.signoff && <p className="t-eyebrow text-paper/60">{page.closing.signoff}</p>}
         </CtaBand>
       )}

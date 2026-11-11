@@ -506,13 +506,18 @@ export function ContentSection({ section, index }: { section: PageSection; index
 
   if (section.widget === "discovery-booking") {
     return (
-      <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
-        <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
-          <div>
-            <Header section={section} dark={dark} />
-            <Body body={section.body} dark={dark} className="mt-6" />
+      <section id={section.id} className={cn("scroll-mt-24 py-10 sm:py-14", tone)}>
+        <div className="container-x">
+          <div className="mx-auto w-full max-w-3xl">
+            <div className="mb-6"><Header section={section} dark={dark} /></div>
+            <div className="rounded-xl border border-ink/10 border-t-2 border-t-dawn bg-white p-5 sm:p-8">
+              <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" compact />
+              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 border-t border-ink/10 pt-4 text-sm">
+                <a href={site.phoneHref} className="inline-flex min-h-11 items-center gap-2 font-semibold text-dawn-deep"><Phone className="size-4" aria-hidden />{site.phone}</a>
+                <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center gap-2 font-semibold text-dawn-deep"><Mail className="size-4" aria-hidden />{site.email}</a>
+              </div>
+            </div>
           </div>
-          <Widget section={section} />
         </div>
       </section>
     );
