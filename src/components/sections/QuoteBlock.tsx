@@ -1,10 +1,11 @@
+import { Localized } from "@/components/i18n/Localized";
 import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
 
 export const willeyQuote = "Don't treat an airway without understanding the joint. Don't treat the joint without understanding the airway.";
 
 export function QuoteBlock({ quote = willeyQuote, cite = "Dr. Rodney Willey, DDS, D.ACSDD, D.ASBA", footer, tone = "dark" }: { quote?: string; cite?: string; footer?: ReactNode; tone?: "dark" | "light" }) {
-  return (
+  return <Localized>{(
     <figure className="mx-auto max-w-4xl text-center">
       <div>
         <blockquote data-aos="fade-up" className="relative font-display text-[clamp(1.6rem,3vw,2.6rem)] font-medium leading-[1.2] tracking-[-0.015em]">
@@ -21,5 +22,5 @@ export function QuoteBlock({ quote = willeyQuote, cite = "Dr. Rodney Willey, DDS
         )}
       </div>
     </figure>
-  );
+  )}</Localized>;
 }

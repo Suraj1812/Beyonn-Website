@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Image from "next/image";
 import { useId, useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -25,7 +27,7 @@ export function PatientAppScreenshots({ compact = false }: { compact?: boolean }
   };
 
   if (compact) {
-    return (
+    return <Localized>{(
       <figure data-aos="fade-up" className="mx-auto w-full max-w-[32rem]">
         <div className="grid grid-cols-3 items-start gap-2 sm:gap-3">
           {[screens[0], screens[3], screens[2]].map((screen, i) => (
@@ -35,10 +37,10 @@ export function PatientAppScreenshots({ compact = false }: { compact?: boolean }
           ))}
         </div>
       </figure>
-    );
+    )}</Localized>;
   }
 
-  return (
+  return <Localized>{(
     <div>
       <div className="mb-4 flex items-center justify-between gap-4">
         <p className="text-sm text-muted">Swipe or browse all 6 screens</p>
@@ -58,5 +60,5 @@ export function PatientAppScreenshots({ compact = false }: { compact?: boolean }
         ))}
       </div>
     </div>
-  );
+  )}</Localized>;
 }

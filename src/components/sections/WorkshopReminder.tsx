@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
@@ -42,7 +44,7 @@ export function WorkshopReminder() {
 
   if (!pastHero || workshopVisible || footerVisible || dismissed) return null;
 
-  return (
+  return <Localized>{(
     <aside className={styles.reminder} aria-label="Free live workshop reminder">
       <div className={styles.picture}>
         <Image src="/assets/workshop/rod-invite.webp" alt="Dr. Rod Willey inviting you to the OSA and TMD workshop" width={640} height={320} sizes="(min-width: 640px) 320px, 280px" className={styles.image} />
@@ -55,5 +57,5 @@ export function WorkshopReminder() {
         <a href={registrationUrl} target="_blank" rel="noopener noreferrer" className={styles.button} aria-label="Reserve my seat (opens in a new tab)">Reserve my seat</a>
       </div>
     </aside>
-  );
+  )}</Localized>;
 }

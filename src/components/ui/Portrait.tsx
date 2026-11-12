@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
@@ -28,7 +29,7 @@ export function Portrait({ name, src, className, tone = "dawn", priority, sizes 
     .slice(0, 2)
     .map((w) => w[0])
     .join("");
-  return (
+  return <Localized>{(
     <div className={cn("relative overflow-hidden rounded-[var(--radius-panel)] bg-night", className)}>
       {src ? (
         <Image src={src} alt={`Portrait of ${name}`} fill priority={priority} sizes={sizes} className="object-contain object-bottom" />
@@ -52,5 +53,5 @@ export function Portrait({ name, src, className, tone = "dawn", priority, sizes 
         </div>
       )}
     </div>
-  );
+  )}</Localized>;
 }

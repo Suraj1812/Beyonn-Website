@@ -9,10 +9,10 @@
 .eyebrow > span { width:5px; height:5px; border-radius:50%; background:currentColor; box-shadow:0 0 0 3px #1c395e12; }
 .title { margin-top:4px; font-size:13px; font-weight:600; line-height:1.5; }
 .title > span { font-weight:400; color:var(--color-ink); }
-.schedule { display:flex; flex-direction:column; gap:3px; border-left:1px solid #1c395e26; padding-left:24px; white-space:nowrap; font-size:11px; line-height:1.4; }
+.schedule { display:flex; flex-direction:column; gap:3px; border-inline-start:1px solid #1c395e26; padding-inline-start:24px; min-width:0; white-space:normal; overflow-wrap:anywhere; font-size:11px; line-height:1.4; }
 .schedule time { font-size:12px; font-weight:600; }
 .schedule span { opacity:.8; }
-.button { display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:40px; padding:9px 13px; border-radius:6px; background:var(--color-ink); color:#fff; font-size:12px; font-weight:600; white-space:nowrap; transition:background-color 220ms ease,transform 300ms var(--ease-out-expo); }
+.button { display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:40px; padding:9px 13px; border-radius:6px; background:var(--color-ink); color:#fff; font-size:12px; font-weight:600; white-space:normal; transition:background-color 220ms ease,transform 300ms var(--ease-out-expo); }
 .arrow { display:grid; place-items:center; width:16px; height:16px; transition:background-color 220ms ease,color 220ms ease; }
 .arrow svg { transition:transform 300ms var(--ease-out-expo); }
 .button:hover { background:var(--color-night); transform:translateY(-1px); }
@@ -24,7 +24,7 @@
 @media(max-width:1023px) {
  .panel { gap:18px; }
  .title > span { display:block; }
- .schedule { padding-left:18px; }
+ .schedule { padding-inline-start:18px; }
 }
 @media(max-width:639px) {
  .panel { grid-template-columns:minmax(0,1fr) 128px; grid-template-areas:"copy schedule" "copy action"; gap:7px 16px; padding:12px calc(var(--gutter) + 20px) 12px var(--gutter); }
@@ -32,7 +32,7 @@
  .eyebrow { font-size:8px; letter-spacing:.06em; gap:5px; }
  .title { margin-top:6px; font-size:12px; line-height:1.5; }
  .title > span { display:block; font-size:11px; }
- .schedule { grid-area:schedule; padding-left:12px; font-size:10px; gap:2px; }
+ .schedule { grid-area:schedule; padding-inline-start:12px; font-size:10px; gap:2px; }
  .schedule time { font-size:11px; }
  .action { grid-area:action; }
  .button { min-height:40px; padding:7px 9px; font-size:11px; gap:6px; }

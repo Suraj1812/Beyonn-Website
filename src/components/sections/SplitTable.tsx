@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import { cn } from "@/lib/cn";
 
 /** Two-column comparison rows, e.g. "Your team's job" → "How Beyonn equips them". */
@@ -12,7 +13,7 @@ export function SplitTable({
   tone?: "light" | "dark";
   highlightRight?: boolean;
 }) {
-  return (
+  return <Localized>{(
     <div className={cn("overflow-hidden rounded-[var(--radius-card)] border", tone === "dark" ? "border-paper/12" : "border-ink/10 bg-white")}>
       <div className={cn("hidden grid-cols-[1fr_1.5fr] gap-8 px-6 py-3.5 t-eyebrow md:grid", tone === "dark" ? "bg-paper/[0.04] text-paper/55" : "bg-paper-2/60 text-muted")}>
         <span>{head[0]}</span>
@@ -36,5 +37,5 @@ export function SplitTable({
         </div>
       ))}
     </div>
-  );
+  )}</Localized>;
 }

@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, getArticle } from "@/content/articles";
@@ -22,7 +23,7 @@ export const instant = false;
 export default async function ResourceArticle({ params }: Props) {
   const article = getArticle((await params).slug);
   if (!article) notFound();
-  return <>
+  return <Localized>{<>
     <JsonLd
       data={{
         "@context": "https://schema.org",
@@ -52,5 +53,5 @@ export default async function ResourceArticle({ params }: Props) {
       {article.audience === "patients" && <p data-aos="fade-up" className="border-t border-ink/15 pt-6 text-sm text-muted">For general education only. This is not medical advice or a diagnosis. Discuss your symptoms with a qualified provider.</p>}
       <div data-aos="fade-up" className="mt-16 border-t border-ink/15 pt-8"><Link href={article.audience === "patients" ? "/patients" : "/the-beyonn-system"} className="btn btn--dawn"><span>{article.audience === "patients" ? "Explore patient care" : "Explore the Beyonn system"}</span></Link></div>
     </article>
-  </>;
+  </>}</Localized>;
 }

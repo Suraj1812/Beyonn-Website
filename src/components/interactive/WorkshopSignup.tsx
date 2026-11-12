@@ -1,9 +1,10 @@
+import { Localized } from "@/components/i18n/Localized";
 import { Button } from "@/components/ui/Button";
 import { workshopContent } from "@/content/workshop";
 import { CalendarDays, Clock } from "lucide-react";
 
 export function WorkshopSignup() {
-  return (
+  return <Localized>{(
     <div className="relative">
       <span className="inline-flex rounded-full bg-breath/12 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-breath ring-1 ring-breath/25">
         Free · Live online
@@ -27,5 +28,5 @@ export function WorkshopSignup() {
       <div className="mt-5"><Button href={workshopContent.registrationUrl} variant="dawn" className="w-full justify-between" target="_blank" rel="noopener noreferrer">{workshopContent.cta}</Button></div>
       <p className="mt-3 text-center text-xs leading-relaxed text-paper/60">{workshopContent.microcopy}</p>
     </div>
-  );
+  )}</Localized>;
 }

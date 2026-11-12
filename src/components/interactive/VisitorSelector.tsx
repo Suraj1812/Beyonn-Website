@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { ArrowRight, RotateCcw } from "lucide-react";
@@ -41,7 +43,7 @@ const options: Record<Path, Option[]> = { practitioner: practitionerOptions, pat
 /** Speech bubble. `from="beyonn"` sits left with the emblem avatar; `from="you"` sits right. */
 function Bubble({ from, children }: { from: "beyonn" | "you"; children: React.ReactNode }) {
   const you = from === "you";
-  return (
+  return <Localized>{(
     <div className={cn("flex animate-fade-up items-end gap-2.5", you && "justify-end")}>
       {!you && (
         <span className="grid size-8 flex-none place-items-center rounded-full bg-ink" aria-hidden>
@@ -50,11 +52,11 @@ function Bubble({ from, children }: { from: "beyonn" | "you"; children: React.Re
       )}
       <div className={cn("max-w-[85%] px-4 py-3 leading-relaxed", you ? "rounded-2xl rounded-br-md bg-dawn text-white" : "rounded-2xl rounded-bl-md bg-paper-2 text-text")}>{children}</div>
     </div>
-  );
+  )}</Localized>;
 }
 
 function Typing() {
-  return (
+  return <Localized>{(
     <div className="flex items-end gap-2.5" aria-hidden>
       <span className="size-8 flex-none" />
       <div className="flex gap-1 rounded-2xl rounded-bl-md bg-paper-2 px-4 py-3.5">
@@ -63,11 +65,11 @@ function Typing() {
         ))}
       </div>
     </div>
-  );
+  )}</Localized>;
 }
 
 function Chip({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
-  return (
+  return <Localized>{(
     <button
       type="button"
       onClick={onClick}
@@ -75,7 +77,7 @@ function Chip({ children, onClick }: { children: React.ReactNode; onClick: () =>
     >
       {children}
     </button>
-  );
+  )}</Localized>;
 }
 
 /**
@@ -121,7 +123,7 @@ export function VisitorSelector() {
   const chosen = pick !== null ? opts[pick] : null;
   const others = pick !== null ? opts.filter((_, i) => i !== pick).slice(0, 4) : [];
 
-  return (
+  return <Localized>{(
     <div data-visitor-selector>
       {/* The desktop conversation keeps its existing layout. */}
       <div data-aos="fade-up" data-aos-delay="100" className="rounded-[var(--radius-panel)] bg-white p-4 shadow-[0_30px_60px_-40px_rgb(19_37_62/0.55)] ring-1 ring-ink/10 sm:p-7">
@@ -225,5 +227,5 @@ export function VisitorSelector() {
         {path === "patient" && <p className="mt-5 border-t border-ink/[0.08] pt-3 text-xs text-muted">General information only, not medical advice or a diagnosis.</p>}
       </div>
     </div>
-  );
+  )}</Localized>;
 }

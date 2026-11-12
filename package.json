@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "i18n:extract": "node scripts/extract-translations.mjs",
+    "i18n:check": "node scripts/check-translations.mjs",
+    "test:i18n": "npm run build && playwright test tests/i18n.spec.ts",
+    "prebuild": "npm run i18n:extract && npm run i18n:check"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -21,6 +25,7 @@
     "three": "^0.180.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/turbopack": "^4",
     "@types/aos": "^3.0.8",
     "@types/node": "^20",

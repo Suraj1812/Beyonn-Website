@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useLenis } from "@/components/providers/SmoothScroll";
@@ -21,7 +23,7 @@ export function Dialog({ open, onClose, title, children, wide }: { open: boolean
     if (!open) lenis?.start();
   }, [open, lenis]);
 
-  return (
+  return <Localized>{(
     <dialog
       ref={ref}
       onClose={onClose}
@@ -36,5 +38,5 @@ export function Dialog({ open, onClose, title, children, wide }: { open: boolean
         {children}
       </div>
     </dialog>
-  );
+  )}</Localized>;
 }

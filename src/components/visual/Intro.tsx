@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 
 /**
@@ -18,7 +19,7 @@ export function Intro() {
   const cy = 731;
   const r = 368;
   const pen = 440;
-  return (
+  return <Localized>{(
     <div className="intro" aria-hidden>
       <div className="intro__inner">
         <div className="intro__emblem">
@@ -42,5 +43,5 @@ export function Intro() {
         </div>
       </div>
     </div>
-  );
+  )}</Localized>;
 }

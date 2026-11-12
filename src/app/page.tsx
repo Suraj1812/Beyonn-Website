@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import Image from "next/image";
@@ -69,7 +70,7 @@ const doctorReasons: [string, string][] = [
 export default function HomePage() {
   const practitionerArticles = articles.filter((a) => a.audience === "practitioners").slice(0, 3);
 
-  return (
+  return <Localized>{(
     <>
       {/* 1. Hero */}
       <HomeHero
@@ -427,5 +428,5 @@ export default function HomePage() {
         />
       </div>
     </>
-  );
+  )}</Localized>;
 }

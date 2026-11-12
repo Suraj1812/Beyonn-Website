@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { articles } from "@/content/articles";
@@ -9,7 +10,7 @@ import { cn } from "@/lib/cn";
 export const metadata = pageMeta({ title: "Resources | Beyonn", description: "Practical guides to OSA, TMD, oral appliance therapy, team training and medical billing.", path: "/resources", kicker: "Beyonn Resources" });
 
 export default function ResourcesPage() {
-  return <>
+  return <Localized>{<>
     <PageHero eyebrow="Beyonn Resources" title="Knowledge for the practice. Clarity for the patient." sub="Understand the clinical connection and the work around care, one useful guide at a time." />
     <section className="container-x section-y"><div data-morph-shape="rect" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {articles.map((article, index) => {
@@ -37,5 +38,5 @@ export default function ResourcesPage() {
         );
       })}
     </div></section>
-  </>;
+  </>}</Localized>;
 }

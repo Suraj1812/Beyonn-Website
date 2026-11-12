@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 
 // An editorial arrangement of supplied individual portraits, not a group photograph.
@@ -9,7 +10,7 @@ const portraits = [
 ];
 
 export function TeamHeroPortraits() {
-  return (
+  return <Localized>{(
     <figure aria-label="Portraits of the Beyonn team" className="relative mx-auto w-full max-w-[42rem]">
       <div className="relative aspect-[2/1] overflow-hidden rounded-[var(--radius-panel)] bg-[#a7dfd2]">
         {portraits.map(({ name, image, position, layer }) => (
@@ -25,5 +26,5 @@ export function TeamHeroPortraits() {
         Donna Willey · Cassie McIntosh · Dr. Rodney Willey · Jessica Mahrt · Karen Mahoney
       </figcaption>
     </figure>
-  );
+  )}</Localized>;
 }

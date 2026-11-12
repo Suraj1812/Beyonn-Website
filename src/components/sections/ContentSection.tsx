@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { ArrowRight, ChevronDown, Mail, Phone } from "lucide-react";
 import type { Action, Card, PageSection } from "@/content/pages";
@@ -67,12 +68,12 @@ const countries = [
 /** A page button: Patient App actions open the store / QR dialog, the rest are links. */
 export function ActionButton({ action, fallback = "dawn" }: { action: Action; fallback?: NonNullable<Action["variant"]> }) {
   const variant = action.variant ?? fallback;
-  if (action.app) return <AppGet label={action.label} screen={action.app} variant={variant} />;
-  return (
+  if (action.app) return <Localized>{<AppGet label={action.label} screen={action.app} variant={variant} />}</Localized>;
+  return <Localized>{(
     <Button href={action.href ?? "/"} variant={variant}>
       {action.label}
     </Button>
-  );
+  )}</Localized>;
 }
 
 const paragraphs = (body?: string | string[]) => (body ? (Array.isArray(body) ? body : [body]) : []);
@@ -80,7 +81,7 @@ const paragraphs = (body?: string | string[]) => (body ? (Array.isArray(body) ? 
 function Body({ body, dark, className }: { body?: string | string[]; dark?: boolean; className?: string }) {
   const items = paragraphs(body);
   if (!items.length) return null;
-  return (
+  return <Localized>{(
     <div className={cn("max-w-2xl space-y-5", className)}>
       {items.map((p) => (
         <p key={p} data-aos="fade-up" className={cn("t-lead", dark ? "text-paper/75" : "text-muted")}>
@@ -88,18 +89,18 @@ function Body({ body, dark, className }: { body?: string | string[]; dark?: bool
         </p>
       ))}
     </div>
-  );
+  )}</Localized>;
 }
 
 function Header({ section, dark }: { section: PageSection; dark?: boolean }) {
   const eyebrow = section.eyebrow && section.eyebrow !== section.title ? section.eyebrow : undefined;
-  if (section.title) return <SectionHeading eyebrow={eyebrow} title={section.title} tone={dark ? "dark" : "light"} />;
+  if (section.title) return <Localized>{<SectionHeading eyebrow={eyebrow} title={section.title} tone={dark ? "dark" : "light"} />}</Localized>;
   if (eyebrow)
-    return (
+    return <Localized>{(
       <div data-aos="fade-up">
         <Eyebrow tone={dark ? "dark" : "light"}>{eyebrow}</Eyebrow>
       </div>
-    );
+    )}</Localized>;
   return null;
 }
 
@@ -107,7 +108,7 @@ const colClass = (n: number) => (n >= 5 ? "sm:grid-cols-2 lg:grid-cols-3" : n ==
 
 function Cards({ cards }: { cards: Card[] }) {
   const letters = cards.every((c) => c.label && c.label.length === 1);
-  return (
+  return <Localized>{(
     <ul data-morph-shape="rect" className={cn("grid gap-4", colClass(cards.length))}>
       {cards.map((c, i) => (
         <li key={`${c.label ?? ""}${c.title ?? c.text}`} data-aos="fade-up" data-aos-delay={Math.min(i * 70, 280)}>
@@ -121,11 +122,11 @@ function Cards({ cards }: { cards: Card[] }) {
         </li>
       ))}
     </ul>
-  );
+  )}</Localized>;
 }
 
 function Columns({ columns }: { columns: NonNullable<PageSection["columns"]> }) {
-  return (
+  return <Localized>{(
     <div data-morph-shape="rect" className={cn("grid gap-4", colClass(columns.length))}>
       {columns.map((col, i) => (
         <div key={col.title} data-aos="fade-up" data-aos-delay={i * 80} className={cn("rounded-[var(--radius-card)] border border-ink/10 p-6 sm:p-7", col.negative ? "bg-paper-2" : "bg-white shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]")}>
@@ -134,12 +135,12 @@ function Columns({ columns }: { columns: NonNullable<PageSection["columns"]> }) 
         </div>
       ))}
     </div>
-  );
+  )}</Localized>;
 }
 
 function Steps({ steps }: { steps: Card[] }) {
   const cols = steps.length === 6 ? "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6" : steps.length === 5 ? "sm:grid-cols-2 lg:grid-cols-5" : "sm:grid-cols-2 lg:grid-cols-4";
-  return (
+  return <Localized>{(
     <ol data-morph-shape="rect" className={cn("relative grid gap-4 max-sm:gap-2 max-sm:before:absolute max-sm:before:inset-y-6 max-sm:before:left-[1.125rem] max-sm:before:w-px max-sm:before:bg-dawn/25", cols)}>
       {steps.map((s, i) => (
         <li key={s.title ?? s.text} data-aos="fade-up" data-aos-delay={Math.min(i * 80, 400)} className="relative flex flex-col gap-3 rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)] max-sm:ml-12 max-sm:gap-1.5 max-sm:p-4">
@@ -149,14 +150,14 @@ function Steps({ steps }: { steps: Card[] }) {
         </li>
       ))}
     </ol>
-  );
+  )}</Localized>;
 }
 
 function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
   const { head, rows, variant = "compare" } = table;
 
   if (variant === "arrow") {
-    return (
+    return <Localized>{(
       <div data-morph-shape="rect" className="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white">
         <div className="hidden grid-cols-[1fr_auto_1fr] gap-6 bg-paper-2/60 px-6 py-3.5 t-eyebrow text-muted md:grid">
           <span>{head[0]}</span>
@@ -171,12 +172,12 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
           </div>
         ))}
       </div>
-    );
+    )}</Localized>;
   }
 
   if (variant === "matrix") {
     const cols = head.length - 1;
-    return (
+    return <Localized>{(
       <div data-morph-shape="rect" className="overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white">
         {/* Wide screens: a real grid with a header row */}
         <div className="hidden md:block">
@@ -217,19 +218,19 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
           ))}
         </div>
       </div>
-    );
+    )}</Localized>;
   }
 
   if (rows.length > 1) {
-    return (
+    return <Localized>{(
       <div data-morph-shape="rect">
         <SplitTable head={[head[0], head[1]]} rows={rows.map(([a, b]) => [a, b] as [string, string])} />
       </div>
-    );
+    )}</Localized>;
   }
 
   const [a, b] = rows[0];
-  return (
+  return <Localized>{(
     <div data-morph-shape="rect" className="grid overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-white md:grid-cols-2">
       <div className="p-6">
         <p className="t-eyebrow text-muted">{head[0]}</p>
@@ -240,11 +241,11 @@ function Table({ table }: { table: NonNullable<PageSection["table"]> }) {
         <p className="mt-2 leading-relaxed">{b}</p>
       </div>
     </div>
-  );
+  )}</Localized>;
 }
 
 function Stats({ stats }: { stats: NonNullable<PageSection["stats"]> }) {
-  return (
+  return <Localized>{(
     <dl data-morph-shape="rect" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--radius-card)] border border-ink/10 bg-ink/10 lg:grid-cols-4">
       {stats.map((s, i) => (
         <div key={s.value} data-aos="fade-up" data-aos-delay={i * 80} className="flex flex-col gap-2 bg-white p-4 sm:p-7">
@@ -253,11 +254,11 @@ function Stats({ stats }: { stats: NonNullable<PageSection["stats"]> }) {
         </div>
       ))}
     </dl>
-  );
+  )}</Localized>;
 }
 
 function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
-  return (
+  return <Localized>{(
     <div data-aos="fade-up" className="rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 sm:p-8">
       <h3 className="t-h3">{aside.title}</h3>
       <ul className="mt-5 space-y-3.5">
@@ -280,11 +281,11 @@ function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
         ))}
       </ul>
     </div>
-  );
+  )}</Localized>;
 }
 
 function TeamGrid() {
-  return (
+  return <Localized>{(
     <div data-morph-shape="rect" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {team.map((person, i) => (
         <div key={person.name} data-aos="fade-up" data-aos-delay={(i % 3) * 70}>
@@ -309,25 +310,25 @@ function TeamGrid() {
         </div>
       ))}
     </div>
-  );
+  )}</Localized>;
 }
 
 function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
+  return <Localized>{(
     <div data-morph-shape="rect" data-aos="fade-up" className={cn("rounded-[var(--radius-panel)] border border-ink/10 bg-white p-6 shadow-[0_30px_60px_-40px_rgb(19_37_62/0.45)] sm:p-10", className)}>
       {children}
     </div>
-  );
+  )}</Localized>;
 }
 
 function Widget({ section }: { section: PageSection }) {
   switch (section.widget) {
     case "workshop-preview":
-      return <div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>;
+      return <Localized>{<div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>}</Localized>;
     case "founder-video":
-      return <DoctorIntroVideo />;
+      return <Localized>{<DoctorIntroVideo />}</Localized>;
     case "walkthrough-video":
-      return (
+      return <Localized>{(
         <div>
           <div className="relative aspect-video overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
             <iframe
@@ -344,16 +345,16 @@ function Widget({ section }: { section: PageSection }) {
             Open walkthrough in a new tab <ArrowRight className="size-4" aria-hidden />
           </a>
         </div>
-      );
+      )}</Localized>;
     case "patient-video":
-      return <div className="overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
+      return <Localized>{<div className="overflow-hidden rounded-2xl bg-night ring-1 ring-ink/10">
         <video className="aspect-video w-full" controls playsInline preload="none" poster="/assets/videos/osa-tmd-poster.jpg" aria-label="OSA and TMD Patient Consultation">
           <source src="/assets/videos/osa-tmd-consultation.mp4" type="video/mp4" />
           <a href="https://f.io/LWuewo_r" target="_blank" rel="noopener noreferrer">Watch OSA and TMD Patient Consultation</a>
         </video>
-      </div>;
+      </div>}</Localized>;
     case "patient-stories":
-      return (
+      return <Localized>{(
         <figure className="max-w-3xl border-l-2 border-dawn pl-5 sm:pl-8">
           <blockquote cite="https://www.beyonn.com/platforms/done-by-you" className="font-display text-xl leading-relaxed text-ink sm:text-2xl">
             <p>“help me medically, but also offer genuine kindness and support.”</p>
@@ -361,28 +362,28 @@ function Widget({ section }: { section: PageSection }) {
           <figcaption className="mt-4 text-sm text-muted">Dr. Fayeza Fayez · Personal experience</figcaption>
           <a href="https://www.beyonn.com/platforms/done-by-you" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-dawn-deep underline underline-offset-4">Read her published endorsement</a>
         </figure>
-      );
+      )}</Localized>;
     case "app-preview":
-      return <PatientAppScreenshots />;
+      return <Localized>{<PatientAppScreenshots />}</Localized>;
     case "patient-blogs":
-      return <div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>;
+      return <Localized>{<div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>}</Localized>;
 
     case "airway-model":
-      return <AirwayModel />;
+      return <Localized>{<AirwayModel />}</Localized>;
     case "discovery-booking":
-      return (
+      return <Localized>{(
         <Panel className="w-full">
           <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" />
         </Panel>
-      );
+      )}</Localized>;
     case "team":
-      return <TeamGrid />;
+      return <Localized>{<TeamGrid />}</Localized>;
     case "ladder":
-      return <Ladder tiers={certificationTiers.academy} tone="dark" compact />;
+      return <Localized>{<Ladder tiers={certificationTiers.academy} tone="dark" compact />}</Localized>;
     case "testimonials":
-      return <EndorsementCarousel />;
+      return <Localized>{<EndorsementCarousel />}</Localized>;
     case "countries":
-      return (
+      return <Localized>{(
         <div data-morph-shape="rect" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {countries.map((c, i) => (
             <div key={c.name} data-aos="fade-up" data-aos-delay={i * 60} className="flex items-center gap-4 rounded-[var(--radius-card)] border border-ink/10 bg-white px-5 py-4">
@@ -396,15 +397,15 @@ function Widget({ section }: { section: PageSection }) {
             Your country next? Register your interest.
           </a>
         </div>
-      );
+      )}</Localized>;
     case "register-form":
-      return (
+      return <Localized>{(
         <Panel className="w-full">
           <FormPreview fields={registerFields} submitLabel="Register Your Interest" />
         </Panel>
-      );
+      )}</Localized>;
     case "referral-form":
-      return (
+      return <Localized>{(
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,0.8fr)] lg:gap-10">
           <Panel>
             <FormPreview fields={referralFields} submitLabel="Request a Referral" />
@@ -425,23 +426,23 @@ function Widget({ section }: { section: PageSection }) {
             </div>
           </aside>
         </div>
-      );
+      )}</Localized>;
     case "app-download":
-      return (
+      return <Localized>{(
         <div className="space-y-5">
           <div data-aos="fade-up"><AppStoreButtons /></div>
           <p data-aos="fade-up" className="border-t border-ink/15 pt-4 text-sm text-muted">
             For your practice? <Link href="/qualify" className="font-semibold text-dawn-deep underline underline-offset-4">Become a Beyonn Network Partner</Link>
           </p>
         </div>
-      );
+      )}</Localized>;
     case "portal-signin":
     case "partner-signin":
-      return (
+      return <Localized>{(
         <Panel className="mx-auto max-w-xl text-center">
           <p className="font-semibold text-dawn-deep">Sign-in coming soon</p>
         </Panel>
-      );
+      )}</Localized>;
     default:
       return null;
   }
@@ -449,17 +450,17 @@ function Widget({ section }: { section: PageSection }) {
 
 /** One content section, composed from whichever blocks the approved copy calls for. */
 export function ContentSection({ section, index }: { section: PageSection; index: number }) {
-  if (section.widget === "quick-check") return <PatientCheck />;
+  if (section.widget === "quick-check") return <Localized>{<PatientCheck />}</Localized>;
 
   if (section.widget === "app-download") {
-    return (
+    return <Localized>{(
       <section id={section.id} className="scroll-mt-24 border-t border-ink/10 bg-paper-2 py-10 text-ink sm:py-14">
         <div className="container-x grid items-center gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
           <Header section={section} />
           <Widget section={section} />
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   const dark = section.dark;
@@ -468,7 +469,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
 
   // Statement band: large lines on navy, revealed one after another.
   if (dark && section.lines && !section.title) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
           <Header section={section} dark />
@@ -482,11 +483,11 @@ export function ContentSection({ section, index }: { section: PageSection; index
           <Body body={section.body} dark className="mt-10" />
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   if (section.faq) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
           <div className="mx-auto max-w-4xl">
@@ -495,11 +496,11 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   if (section.widget === "register-form") {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("scroll-mt-24 py-10 sm:py-14", tone)}>
         <div className="container-x">
           <div className="mx-auto max-w-3xl border-t-2 border-dawn pt-6 sm:pt-8">
@@ -511,11 +512,11 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   if (section.widget === "discovery-booking") {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("scroll-mt-24 py-10 sm:py-14", tone)}>
         <div className="container-x">
           <div className="mx-auto w-full max-w-3xl">
@@ -530,7 +531,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   const list = section.list && <CheckList items={section.list} tone={dark ? "breath" : "dawn"} className="max-w-3xl" />;
@@ -593,7 +594,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
   );
 
   if (section.image) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x grid items-center gap-6 sm:gap-12 lg:grid-cols-2 lg:gap-14">
           <div className={index % 2 === 1 ? "lg:order-2" : ""}>{intro}</div>
@@ -607,13 +608,13 @@ export function ContentSection({ section, index }: { section: PageSection; index
         </div>
         <div className="container-x mt-6 space-y-5 sm:mt-12 sm:space-y-8 empty:hidden">{blocks}</div>
       </section>
-    );
+    )}</Localized>;
   }
 
   // Pair supporting information with the introduction instead of stacking it
   // beneath an otherwise half-empty desktop row.
   if (section.aside && splitAside) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
           <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
@@ -625,14 +626,14 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   const hasBlocks = Boolean(section.aside || section.callout || section.points || section.cards || section.columns || section.steps || section.table || section.stats || section.quote || section.pull || section.widget || section.lines || section.links);
 
   // Text-and-list sections use the whole desktop row without adding filler.
   if (section.list && !hasBlocks) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
           <div>
@@ -646,12 +647,12 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
   const copyOnly = !section.list && !hasBlocks;
   if (copyOnly && !dark) {
-    return (
+    return <Localized>{(
       <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
         <div className="container-x">
           <div className={cn("grid items-start gap-6", hasHeader && section.body ? "lg:grid-cols-2 lg:gap-16" : "mx-auto max-w-3xl")}>
@@ -660,15 +661,15 @@ export function ContentSection({ section, index }: { section: PageSection; index
           </div>
         </div>
       </section>
-    );
+    )}</Localized>;
   }
 
-  return (
+  return <Localized>{(
     <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
       <div className="container-x">
         {hasHeader || section.body ? <div>{intro}</div> : list}
         <div className={cn("space-y-5 sm:space-y-8", (hasHeader || section.body) && "mt-6 sm:mt-12")}>{blocks}</div>
       </div>
     </section>
-  );
+  )}</Localized>;
 }

@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { endorsementSource, type Endorsement } from "@/content/endorsements";
 import { cn } from "@/lib/cn";
@@ -6,7 +7,7 @@ const tones = ["bg-breath", "bg-dawn", "bg-dawn-soft", "bg-[#b9c7d9]"];
 
 /** Quote on top, portrait rising out of a coloured semicircle below (as on beyonn.com). */
 export function EndorsementCard({ person, index, className }: { person: Endorsement; index: number; className?: string }) {
-  return (
+  return <Localized>{(
     <article className={cn("group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-panel)] bg-white ring-1 ring-ink/10 shadow-[0_20px_44px_-36px_rgb(19_37_62/0.55)] transition-shadow duration-500 hover:shadow-[0_30px_60px_-36px_rgb(19_37_62/0.6)]", className)}>
       <div className="flex flex-1 flex-col p-4 sm:p-7 sm:pb-4">
         <div className="flex items-start justify-between gap-3">
@@ -30,5 +31,5 @@ export function EndorsementCard({ person, index, className }: { person: Endorsem
         </div>
       </div>
     </article>
-  );
+  )}</Localized>;
 }

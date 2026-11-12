@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Pause, Play } from "lucide-react";
 import { CutoutPortrait } from "@/components/sections/PageHero";
@@ -69,7 +71,7 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
   const running = playing && !hold;
   const next = () => setIndex((i) => (i + 1) % slides.length);
 
-  return (
+  return <Localized>{(
     <>
     <div className="pt-[6.875rem] md:pt-[6.25rem] lg:pt-[6.75rem]"><WorkshopAnnouncement /></div>
     <section ref={section} data-guide="hero" className="spotlight relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--em-color:var(--color-breath)] [--scribble:var(--color-dawn-deep)]">
@@ -180,5 +182,5 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
       </div>
     </section>
     </>
-  );
+  )}</Localized>;
 }

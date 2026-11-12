@@ -1,9 +1,10 @@
+import { Localized } from "@/components/i18n/Localized";
 import { ArrowDown, MoveHorizontal } from "lucide-react";
 
 export function SectionJumps({ links }: { links: { id: string; label: string }[] }) {
   if (links.length < 2) return null;
 
-  return (
+  return <Localized>{(
     <nav aria-label="On this page" className="border-b border-ink/10 bg-paper-2 md:hidden">
       <div className="container-x flex items-center justify-between pt-4">
         <p className="t-eyebrow text-muted">On this page</p>
@@ -20,5 +21,5 @@ export function SectionJumps({ links }: { links: { id: string; label: string }[]
         ))}
       </ul>
     </nav>
-  );
+  )}</Localized>;
 }

@@ -1,7 +1,10 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { AppGet } from "@/components/interactive/AppGet";
 
 const questions = [
@@ -22,6 +25,7 @@ const questions = [
 const noSubscription = () => () => {};
 
 export function PatientCheck() {
+  const { t } = useLanguage();
   const [answers, setAnswers] = useState<(boolean | null)[]>(Array(12).fill(null));
   const [sharing, setSharing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -30,7 +34,7 @@ export function PatientCheck() {
   const jawDone = answers.slice(8).every((answer) => answer !== null);
   const sleep = answers.slice(0, 8).filter(Boolean).length;
   const jaw = answers.slice(8).filter(Boolean).length;
-  const message = `I care about how you sleep. This 2-minute check could tell us if it’s worth looking into. ${shareUrl}`;
+  const message = `${t("I care about how you sleep. This 2-minute check could tell us if it’s worth looking into.")} ${shareUrl}`;
 
   function update(index: number, value: boolean) {
     setAnswers((previous) => previous.map((answer, i) => (i === index ? value : answer)));
@@ -45,7 +49,7 @@ export function PatientCheck() {
     }
   }
 
-  return (
+  return <Localized>{(
     <section id="quick-check" className="spotlight section-y relative overflow-clip bg-ink text-paper">
       <div className="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
         <div data-aos="fade-up" className="lg:sticky lg:top-28 lg:self-start">
@@ -108,9 +112,9 @@ export function PatientCheck() {
         </div>
       </div>
     </section>
-  );
+  )}</Localized>;
 }
 
 function Question({ index, question, value, onChange }: { index: number; question: string; value: boolean | null; onChange: (index: number, value: boolean) => void }) {
-  return <div className="border-b border-paper/10 pb-5"><p id={`check-q-${index}`} className="leading-relaxed">{index + 1}. {question}</p><div className="mt-3 flex gap-2" role="radiogroup" aria-labelledby={`check-q-${index}`}>{[true, false].map((choice) => <label key={String(choice)} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors ${value === choice ? "border-dawn bg-dawn text-white" : "border-paper/20 text-paper/70 hover:border-paper/60"}`}><input type="radio" className="sr-only" name={`check-${index}`} checked={value === choice} onChange={() => onChange(index, choice)} />{choice ? "Yes" : "No"}</label>)}</div></div>;
+  return <Localized>{<div className="border-b border-paper/10 pb-5"><p id={`check-q-${index}`} className="leading-relaxed">{index + 1}. {question}</p><div className="mt-3 flex gap-2" role="radiogroup" aria-labelledby={`check-q-${index}`}>{[true, false].map((choice) => <label key={String(choice)} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors ${value === choice ? "border-dawn bg-dawn text-white" : "border-paper/20 text-paper/70 hover:border-paper/60"}`}><input type="radio" className="sr-only" name={`check-${index}`} checked={value === choice} onChange={() => onChange(index, choice)} />{choice ? "Yes" : "No"}</label>)}</div></div>}</Localized>;
 }

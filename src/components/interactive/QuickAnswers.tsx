@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useState } from "react";
 import { ChevronDown, Plus } from "lucide-react";
 import { useVisitor } from "@/components/providers/VisitorProvider";
@@ -11,14 +13,14 @@ import { cn } from "@/lib/cn";
 export function QuickAnswers() {
   const { visitor } = useVisitor();
   const audience = visitor === "patient" ? "patients" : "practitioners";
-  return <AudienceAnswers key={audience} audience={audience} />;
+  return <Localized>{<AudienceAnswers key={audience} audience={audience} />}</Localized>;
 }
 
 function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" }) {
   const [showAll, setShowAll] = useState(false);
   const previewCount = 4;
   const items = audience === "patients" ? patientQuickAnswers : practitionerQuickAnswers;
-  return (
+  return <Localized>{(
     <div data-aos="fade-up">
       <p className="t-eyebrow text-dawn-deep">{audience === "patients" ? "For Patients" : "For Practitioners"}</p>
       <div id="qa-panel" className="mt-4 border-t hairline">
@@ -48,5 +50,5 @@ function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" 
         {audience === "patients" ? <ArrowLink href="/patients#faq">More patient questions: For Patients</ArrowLink> : <ArrowLink href="/partner#faq">More practitioner questions: Partner With Us</ArrowLink>}
       </div>
     </div>
-  );
+  )}</Localized>;
 }

@@ -1,18 +1,19 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { ArrowUp, ArrowUpRight, ChevronDown, Mail, Phone } from "lucide-react";
 
 function Linkedin({ className }: { className?: string }) {
-  return (
+  return <Localized>{(
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
       <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4v11H3v-11Zm6.5 0h3.83v1.5h.06c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13v5.43h-4v-4.82c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.9h-4v-11Z" />
     </svg>
-  );
+  )}</Localized>;
 }
 import { footerNav, legalNav, site } from "@/content/site";
 import { Logo } from "./Logo";
 
 export function Footer() {
-  return (
+  return <Localized>{(
     <footer className="relative overflow-hidden bg-ink text-paper">
       <div className="container-x relative pb-5 pt-6 sm:pb-10 sm:pt-16">
         <div className="grid gap-4 sm:gap-14 lg:grid-cols-[1.2fr_2fr]">
@@ -97,5 +98,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )}</Localized>;
 }

@@ -1,5 +1,8 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import { Localized } from "@/components/i18n/Localized";
+
 import { particleViewport } from "@/lib/motion";
 
 import { useCallback, useEffect, useId, useRef, useState, type RefObject } from "react";
@@ -50,6 +53,9 @@ const ease = (a: number, b: number, value: number) => {
 
 /** An illustrative sagittal model. The anatomy is real geometry, not a texture. */
 export function AirwayScene({ progress, value, paused, labelsVisible, onReady, onError, onInspectChange }: Props) {
+  const { t } = useLanguage();
+  const translate = useRef(t);
+  useEffect(() => { translate.current = t; wake.current?.(); }, [t]);
   const host = useRef<HTMLDivElement>(null);
   const overlay = useRef<SVGSVGElement>(null);
   const bubble = useRef<HTMLDivElement>(null);
@@ -567,7 +573,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
             label.text.setAttribute("text-anchor", left ? "start" : "end");
             label.text.style.fontSize = mobile ? "9px" : "11px";
             if (label.id === "airway") {
-              label.text.textContent = phase === 2 ? "More airway space" : "Airway";
+              label.text.textContent = translate.current(phase === 2 ? "More airway space" : "Airway");
               label.group.style.color = phase === 2 ? "#246d66" : "#a36551";
             }
             if (label.button) {
@@ -830,7 +836,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
     };
   }, [progress, closeInspection]);
 
-  return (
+  return <Localized>{(
     <div ref={host} className="airway-scene" role="group" tabIndex={0} aria-label="Explore the 3D airway anatomy" aria-describedby={helpId} onKeyDown={(event) => {
       const onModel = event.target === event.currentTarget;
       const inBubble = event.target instanceof Node && bubble.current?.contains(event.target);
@@ -845,7 +851,7 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
       }
     }}>
       <span id={helpId} className="sr-only">Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.</span>
-      <svg ref={overlay} className="airway-scene-labels" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: labelsVisible ? 1 : 0, transition: "opacity 200ms" }}>
+      <svg direction="ltr" ref={overlay} className="airway-scene-labels" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: labelsVisible ? 1 : 0, transition: "opacity 200ms" }}>
         {labels.map((label) => (
           <g key={label.id} data-label={label.id} style={{ color: "#53636b", opacity: label.id === "palate" || label.id === "airway" ? 1 : 0 }}>
             <path data-leader={label.id} fill="none" stroke="currentColor" strokeOpacity="0.4" strokeWidth="0.8" />
@@ -855,12 +861,12 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
         ))}
       </svg>
       {labels.map((label) => <button key={label.id} data-hotspot={label.id} type="button" aria-label={`Learn about ${label.name.toLowerCase()}`} onClick={(event) => inspectPart.current?.(labelParts[label.id], event.detail === 0)} onFocus={(event) => { event.currentTarget.style.opacity = "1"; }} onBlur={(event) => { event.currentTarget.style.opacity = "0"; }} onPointerEnter={(event) => { event.currentTarget.style.opacity = "1"; }} onPointerLeave={(event) => { if (document.activeElement !== event.currentTarget) event.currentTarget.style.opacity = "0"; }} style={{ display: "none", position: "absolute", zIndex: 2, opacity: 0, background: "#fff", color: "#44565c", padding: "2px 6px", borderRadius: "5px", border: 0, font: "inherit", fontWeight: 500, lineHeight: "16px", whiteSpace: "nowrap", cursor: "pointer", transition: "opacity 140ms" }}>{label.name}</button>)}
-      {inspected && <div ref={bubble} role="dialog" aria-modal="false" aria-labelledby={bubbleId} style={{ position: "absolute", zIndex: 8, width: "230px", maxWidth: "calc(100% - 28px)", padding: "15px 34px 15px 16px", borderRadius: "16px", background: "#fff", color: "#33494f", boxShadow: "0 8px 35px #183b4925, 0 1px 4px #183b4914", border: "1px solid #dfe7e4", visibility: "hidden", fontSize: "12px", textAlign: "left", pointerEvents: "auto" }}>
+      {inspected && <div ref={bubble} role="dialog" aria-modal="false" aria-labelledby={bubbleId} style={{ position: "absolute", zIndex: 8, width: "230px", maxWidth: "calc(100% - 28px)", padding: "15px 34px 15px 16px", borderRadius: "16px", background: "#fff", color: "#33494f", boxShadow: "0 8px 35px #183b4925, 0 1px 4px #183b4914", border: "1px solid #dfe7e4", visibility: "hidden", fontSize: "12px", textAlign: "start", pointerEvents: "auto" }}>
         <span ref={bubbleArrow} aria-hidden="true" style={{ position: "absolute", width: "10px", height: "10px", background: "#fff", transform: "rotate(45deg)", borderRadius: "1px" }} />
         <button type="button" aria-label="Close anatomy detail" onClick={closeInspection} style={{ position: "absolute", right: "5px", top: "5px", display: "grid", placeItems: "center", width: "28px", height: "28px", background: "transparent", border: 0, borderRadius: "50%", color: "#7b8a8e", fontSize: "20px", lineHeight: 1, cursor: "pointer" }}>×</button>
         <p id={bubbleId} style={{ position: "relative", fontSize: "12px", fontWeight: 650, lineHeight: 1.4, margin: "0 0 5px" }}>{partDetails[inspected].name}</p>
         <p style={{ position: "relative", fontSize: "11px", lineHeight: 1.65, color: "#6c7b80", margin: 0 }}>{partDetails[inspected].role}</p>
       </div>}
     </div>
-  );
+  )}</Localized>;
 }

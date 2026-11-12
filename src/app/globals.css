@@ -932,3 +932,13 @@
 @media (width < 48rem) {
   :root { --header-h: 6.75rem; }
 }
+
+/* Let native fonts supply non-Latin glyphs and room for complex-script marks. */
+html:not([lang="en"]) :is(.t-display, .t-h1, .t-h2, .t-h3) {
+  letter-spacing: normal;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+html[dir="rtl"] .text-left { text-align: right; }
+html[dir="rtl"] .text-right { text-align: left; }
+html:not([lang="en"]) :is(input, textarea, select, button) { font-family: inherit; }

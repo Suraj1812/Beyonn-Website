@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useId, useRef, useState } from "react";
 import { BookOpen, Gauge, Stethoscope, Sprout, Check, FileText, Users, ClipboardList, MessageCircle, ScanHeart, CircleCheck, Megaphone, Network, GraduationCap, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
@@ -17,7 +19,7 @@ export function OsTiles() {
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const area = areas[active];
   const Icon = area.icon;
-  return (
+  return <Localized>{(
     <div className="mx-auto max-w-5xl">
       <div role="tablist" aria-label="Beyonn platform" className="grid grid-cols-4 gap-1 rounded-xl bg-paper/10 p-1">
         {areas.map((item, i) => (
@@ -33,7 +35,7 @@ export function OsTiles() {
           <span className="inline-flex items-center gap-2 text-sm font-semibold text-breath"><Icon className="size-5" aria-hidden />{area.name}</span>
           <h3 className="mt-3 t-h3">{area.title}</h3>
           <p className="mt-3 text-paper/70">{area.detail}</p>
-          <ol aria-label={area.name + " workflow"} className="mt-5 flex items-start gap-2">
+          <ol aria-label="Practice workflow" className="mt-5 flex items-start gap-2">
             {area.flow.map((step, i) => <li key={step.label} className="relative flex min-w-0 flex-1 flex-col items-center gap-2 text-center">
               <span className="grid size-12 place-items-center rounded-xl border border-breath/20 bg-breath/10 text-breath"><step.icon className="size-5" aria-hidden /></span>
               <span className="text-xs text-paper/80">{step.label}</span>
@@ -47,5 +49,5 @@ export function OsTiles() {
         </div>
       </div>
     </div>
-  );
+  )}</Localized>;
 }

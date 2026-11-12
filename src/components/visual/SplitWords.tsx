@@ -1,3 +1,4 @@
+import { LocalizedWords as Localized } from "@/components/i18n/Localized";
 import { Children, cloneElement, isValidElement, type ReactElement, type ReactNode } from "react";
 
 /**
@@ -31,5 +32,5 @@ export function SplitWords({ children }: { children: ReactNode }) {
       }
       return child;
     });
-  return <>{walk(children)}</>;
+  return <Localized>{<>{walk(children)}</>}</Localized>;
 }

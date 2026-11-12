@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useState } from "react";
 import { CalendarCheck2, X } from "lucide-react";
 import styles from "./WorkshopAnnouncement.module.css";
@@ -19,7 +21,7 @@ export function WorkshopAnnouncement() {
     return () => { disposed = true; };
   }, []);
   if (dismissed) return null;
-  return (
+  return <Localized>{(
     <aside aria-label="Upcoming workshop" className={styles.announcement} data-workshop-ready={ready}>
       <div className={styles.inner}>
         <div className={styles.panel}>
@@ -35,5 +37,5 @@ export function WorkshopAnnouncement() {
         </div>
       </div>
     </aside>
-  );
+  )}</Localized>;
 }

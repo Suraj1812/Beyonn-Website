@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
@@ -33,19 +34,19 @@ export function Button({ href, children, variant = "dark", size = "md", icon = t
     </>
   );
   if (external) {
-    return (
+    return <Localized>{(
       <a href={href} className={cls} {...magnetic} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})}>
         {inner}
       </a>
-    );
+    )}</Localized>;
   }
-  return (
+  return <Localized>{(
     <Link href={href} className={cls} {...magnetic} {...rest}>
       {inner}
     </Link>
-  );
+  )}</Localized>;
 }
 
 export function ButtonRow({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("flex flex-wrap items-center gap-3", className)}>{children}</div>;
+  return <Localized>{<div className={cn("flex flex-wrap items-center gap-3", className)}>{children}</div>}</Localized>;
 }

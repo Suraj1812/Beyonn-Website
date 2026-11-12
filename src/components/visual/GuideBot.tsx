@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { MessageCircle, X, ArrowUpRight } from "lucide-react";
@@ -23,7 +25,7 @@ export function GuideBot() {
       document.removeEventListener("pointerdown", outside);
     };
   }, []);
-  return (
+  return <Localized>{(
     <div ref={root} className="fixed bottom-4 right-4 z-40">
       {open && <section id={id} aria-label="Beyonn guide" className="mb-3 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-ink/10 bg-white p-5 text-ink shadow-xl">
         <div className="flex items-center justify-between gap-3"><h2 className="font-semibold">We’re here to help.</h2><button type="button" aria-label="Close guide" className="grid size-11 place-items-center" onClick={() => { setOpen(false); button.current?.focus(); }}><X className="size-5" /></button></div>
@@ -36,5 +38,5 @@ export function GuideBot() {
         <MessageCircle className="size-5 text-breath" aria-hidden /><span>{open ? "Close" : "We’re here to help."}</span>
       </button>
     </div>
-  );
+  )}</Localized>;
 }

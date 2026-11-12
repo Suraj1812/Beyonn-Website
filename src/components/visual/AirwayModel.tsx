@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Headphones, Pause, Play, Volume2 } from "lucide-react";
 import { AirwayScene } from "./AirwayScene";
@@ -147,7 +149,7 @@ export function AirwayModel() {
     setValue(Math.floor(progress.current * 100));
   };
 
-  return (
+  return <Localized>{(
     <div ref={viewer} className={styles.viewer} data-airway-state={step} data-autoplay="true" data-playback={playing ? "playing" : "paused"}>
       <div className={styles.figure}>
         <div ref={stage} className={styles.stage}>
@@ -195,13 +197,13 @@ export function AirwayModel() {
       </div>
       <p className="sr-only">The animation repeats while this section is visible. As the lower jaw and tongue move forward, the space behind the tongue increases. Click an anatomical part to learn its role, or use the focused part labels with your keyboard. Opening an explanation pauses the animation and recording while you read. Listen plays the recorded chapter explanations.</p>
     </div>
-  );
+  )}</Localized>;
 }
 
 /** Retains an understandable explanation when a device cannot create a WebGL context. */
 function AnatomyFallback({ open }: { open: boolean }) {
-  return (
-    <svg viewBox="0 0 520 440" role="img" aria-label="Simplified side view of the airway, tongue, and jaw" className={styles.fallbackImage}>
+  return <Localized>{(
+    <svg direction="ltr" viewBox="0 0 520 440" role="img" aria-label="Simplified side view of the airway, tongue, and jaw" className={styles.fallbackImage}>
       <defs><linearGradient id="airway-fallback-skin" x1="0" x2="1"><stop stopColor="#bc8f7c" /><stop offset="1" stopColor="#f2d8c7" /></linearGradient><linearGradient id="airway-fallback-tongue" x1="0" y1="0" x2="0.6" y2="1"><stop stopColor="#e3a593" /><stop offset="1" stopColor="#9d4d55" /></linearGradient></defs>
       <path d="M164 30C265-12 365 30 369 112L392 167 419 193Q426 204 410 210L392 216 401 236 391 250Q413 293 376 310C338 323 325 353 323 412H180Q180 358 151 286C111 192 111 91 164 30Z" fill="url(#airway-fallback-skin)" opacity=".9" />
       <path d="M167 69C223 17 345 41 348 115L358 161 276 177 235 222 235 410H205L207 222Q176 176 167 69" fill="#132e3b" />
@@ -210,5 +212,5 @@ function AnatomyFallback({ open }: { open: boolean }) {
       <path d="M280 207L386 208 389 231" stroke="#eee9d8" strokeWidth="12" fill="none" />
       {[0,1,2,3,4,5].map((i) => <rect key={i} x={171 + i * 2} y={220 + i * 30} width="28" height="22" rx="6" fill="#d5cfbb" />)}
     </svg>
-  );
+  )}</Localized>;
 }

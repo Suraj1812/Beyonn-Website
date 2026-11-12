@@ -1,0 +1,160 @@
+{
+  "purpose": "Source-fidelity regression checks, not independent medical certification. Update deliberately when clinical wording changes.",
+  "breathingQuestion": {
+    "source": "Has anyone seen you stop breathing, choke or gasp in your sleep?",
+    "concepts": {
+      "hi": {
+        "breathingPause": "साँस रुकते",
+        "choking": "दम घुटते",
+        "gasping": "हाँफते"
+      },
+      "bn": {
+        "breathingPause": "শ্বাস বন্ধ",
+        "choking": "দম আটকে",
+        "gasping": "হাঁসফাঁস"
+      },
+      "mr": {
+        "breathingPause": "श्वास थांबत",
+        "choking": "गुदमरत",
+        "gasping": "धापा"
+      },
+      "ta": {
+        "breathingPause": "சுவாசம் நின்று",
+        "choking": "மூச்சு அடை",
+        "gasping": "காற்றுக்காகத் திணற"
+      },
+      "ml": {
+        "breathingPause": "ശ്വാസം നിലയ്",
+        "choking": "ശ്വാസം മുട്ട",
+        "gasping": "കിതയ്"
+      },
+      "ur": {
+        "breathingPause": "سانس رکتے",
+        "choking": "گھٹن",
+        "gasping": "ہانپتے"
+      },
+      "ar": {
+        "breathingPause": "تتوقف عن التنفس",
+        "choking": "تختنق",
+        "gasping": "تلهث"
+      },
+      "es": {
+        "breathingPause": "deja de respirar",
+        "choking": "se atraganta",
+        "gasping": "jadea"
+      },
+      "fr": {
+        "breathingPause": "arrêter de respirer",
+        "choking": "vous étouffer",
+        "gasping": "haleter"
+      },
+      "de": {
+        "breathingPause": "Atemaussetzer",
+        "choking": "würgen",
+        "gasping": "nach Luft schnappen"
+      },
+      "pt": {
+        "breathingPause": "parar de respirar",
+        "choking": "engasgar",
+        "gasping": "ofegante"
+      },
+      "ru": {
+        "breathingPause": "останавливается дыхание",
+        "choking": "давитесь",
+        "gasping": "хватаете воздух"
+      },
+      "zh": {
+        "breathingPause": "停止呼吸",
+        "choking": "呛住",
+        "gasping": "大口喘气"
+      },
+      "ja": {
+        "breathingPause": "呼吸が止",
+        "choking": "喉が詰",
+        "gasping": "あえぐ"
+      },
+      "ko": {
+        "breathingPause": "호흡을 멈추",
+        "choking": "숨이 막히",
+        "gasping": "헐떡"
+      },
+      "id": {
+        "breathingPause": "berhenti bernapas",
+        "choking": "tersedak",
+        "gasping": "terengah"
+      },
+      "vi": {
+        "breathingPause": "ngừng thở",
+        "choking": "nghẹt thở",
+        "gasping": "thở hổn hển"
+      },
+      "tr": {
+        "breathingPause": "nefesinizin durdu",
+        "choking": "boğulur",
+        "gasping": "nefes almak için çabaladı"
+      },
+      "it": {
+        "breathingPause": "smettere di respirare",
+        "choking": "soffocare",
+        "gasping": "boccheggiare"
+      },
+      "nl": {
+        "breathingPause": "stopt met ademhalen",
+        "choking": "verslikt",
+        "gasping": "naar lucht hapt"
+      },
+      "pl": {
+        "breathingPause": "przestajesz oddychać",
+        "choking": "krztusisz",
+        "gasping": "łapiesz powietrze"
+      }
+    }
+  },
+  "neckMeasurement": {
+    "source": "Is your neck size over 16 inches (40 cm)?",
+    "requiredNumbers": [
+      "16",
+      "40"
+    ]
+  },
+  "nightGuardForbiddenPersonTerms": {
+    "es": "guardias? nocturn[oa]s?",
+    "fr": "gardiens? de nuit|gardes de nuit",
+    "de": "Nachtwächter",
+    "ru": "ночн[а-яё]* сторож",
+    "zh": "夜班守卫|夜间守卫|夜间警卫",
+    "ja": "夜間警備員",
+    "ko": "야간\\s?경비원",
+    "ta": "இரவு\\s?காவல",
+    "ml": "രാത്രി\\s?കാവൽക്കാര"
+  },
+  "timezoneForbiddenTerms": {
+    "pl": [
+      "czasu polskiego"
+    ]
+  },
+  "strictThresholds": {
+    "Are you over 50?": {
+      "ja": {
+        "required": "50歳を超え",
+        "forbidden": [
+          "50歳以上"
+        ]
+      },
+      "ko": {
+        "required": "50세를 넘",
+        "forbidden": [
+          "50세 이상"
+        ]
+      }
+    },
+    "Is your neck size over 16 inches (40 cm)?": {
+      "ja": {
+        "required": "を超え",
+        "forbidden": [
+          "以上"
+        ]
+      }
+    }
+  }
+}

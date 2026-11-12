@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { Emblem3D } from "@/components/visual/Emblem3D";
@@ -36,7 +37,7 @@ type Props = {
  */
 export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo, visual }: Props) {
   const full = size === "full";
-  return (
+  return <Localized>{(
     <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
       <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
@@ -85,16 +86,16 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
         </div>
       </div>
     </section>
-  );
+  )}</Localized>;
 }
 
 function NameCard({ caption, className }: { caption: NonNullable<Photo["caption"]>; className?: string }) {
-  return (
+  return <Localized>{(
     <div style={{ animationDelay: "950ms" }} className={cn("absolute z-10 animate-fade-up rounded-xl bg-white px-4 py-3 text-ink shadow-[0_18px_40px_-20px_rgb(19_37_62/0.45)] ring-1 ring-ink/[0.06]", className)}>
       <p className="font-display text-[0.98rem] font-semibold leading-tight">{caption.name}</p>
       <p className="mt-0.5 text-[0.8rem] text-muted">{caption.role}</p>
     </div>
-  );
+  )}</Localized>;
 }
 
 /**
@@ -103,7 +104,7 @@ function NameCard({ caption, className }: { caption: NonNullable<Photo["caption"
  * section edge, as on beyonn.com. The full image is always shown.
  */
 export function CutoutPortrait({ photo, emblem, emblem3d, compact = false }: { photo: Photo; emblem?: boolean | "on-dark"; emblem3d?: boolean; compact?: boolean }) {
-  return (
+  return <Localized>{(
     <div className={cn("relative mx-auto aspect-square w-full max-w-[24rem] sm:max-w-[30rem] lg:max-w-[36rem]", compact && "max-sm:aspect-[2.1] max-sm:rounded-2xl max-sm:border max-sm:border-paper/15 max-sm:bg-paper/[0.06]")}>
       {emblem ? (
         <div className={cn("pointer-events-none absolute left-1/2 top-[42%] aspect-[1600/1306] w-[150%] -translate-x-[40%] -translate-y-1/2 lg:w-[215%] lg:-translate-x-[36%]", compact && "max-sm:-right-[20%] max-sm:left-auto max-sm:top-[54%] max-sm:w-[106%] max-sm:translate-x-0 max-sm:opacity-45 max-sm:[mask-image:linear-gradient(to_right,transparent,black_43%)]")} data-morph-shape="emblem" data-morph-hide aria-hidden>
@@ -130,12 +131,12 @@ export function CutoutPortrait({ photo, emblem, emblem3d, compact = false }: { p
       <Image src={photo.src} alt={photo.alt} fill priority sizes="(min-width: 1024px) 36rem, 90vw" className={cn("object-contain [mask-image:linear-gradient(to_bottom,black_82%,transparent_99%)]", compact && "max-sm:rounded-2xl max-sm:object-right-bottom")} />
       {photo.caption && <NameCard caption={photo.caption} className={cn("bottom-[12%] left-0 sm:-left-4", compact && "max-sm:left-4 max-sm:w-[9rem] max-sm:bg-transparent max-sm:px-0 max-sm:text-paper max-sm:shadow-none max-sm:ring-0 max-sm:[&_p:last-child]:text-paper/70")} />}
     </div>
-  );
+  )}</Localized>;
 }
 
 /** Regular 3:2 photo in a soft frame with an accent block offset behind it. */
 function FramedPhoto({ photo }: { photo: Photo }) {
-  return (
+  return <Localized>{(
     <div className="relative mx-auto w-full max-w-[36rem] pb-4 pr-4 lg:max-w-none">
       <div className="absolute inset-0 left-6 top-6 rounded-[var(--radius-panel)] bg-breath/70" aria-hidden />
       <Tilt className="rounded-[var(--radius-panel)]" max={4}>
@@ -145,7 +146,7 @@ function FramedPhoto({ photo }: { photo: Photo }) {
       </Tilt>
       {photo.caption && <NameCard caption={photo.caption} className="-bottom-2 left-4" />}
     </div>
-  );
+  )}</Localized>;
 }
 
 /** Pages without photography get the Beyonn emblem as a 3D object (flat on mobile). */
@@ -153,9 +154,9 @@ function EmblemStage() {
   const flat = (
     <div className="size-full animate-emblem-in bg-paper/[0.12] [mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat] [-webkit-mask:url(/assets/site/beyonn-emblem.png)_center/contain_no-repeat]" />
   );
-  return (
+  return <Localized>{(
     <div data-morph-shape="emblem" data-morph-hide className="relative mx-auto aspect-[1600/1306] w-full max-w-[11rem] sm:max-w-[28rem] lg:max-w-[36rem]" aria-hidden>
       <Emblem3D className="size-full" distance={8.5} fallback={flat} />
     </div>
-  );
+  )}</Localized>;
 }

@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import { cn } from "@/lib/cn";
 
 export type PreviewField = {
@@ -21,7 +22,7 @@ export function FormPreview({ fields, submitLabel, tone = "light", compact = fal
     dark ? "border-paper/15 bg-paper/[0.06]" : "border-ink/15 bg-paper-2",
   );
 
-  return (
+  return <Localized>{(
     <fieldset disabled className={cn("grid min-w-0 sm:grid-cols-2", compact ? "gap-3" : "gap-4")}>
       <legend className={cn("mb-4 text-sm font-semibold", dark ? "text-breath" : "text-dawn-deep")}>Online submissions coming soon</legend>
       {fields.map(({ name, label, type, wide }) => (
@@ -34,5 +35,5 @@ export function FormPreview({ fields, submitLabel, tone = "light", compact = fal
         <button type="button" className={cn("btn btn--dawn cursor-not-allowed opacity-60", compact && "w-full justify-center")}>{submitLabel}</button>
       </div>
     </fieldset>
-  );
+  )}</Localized>;
 }

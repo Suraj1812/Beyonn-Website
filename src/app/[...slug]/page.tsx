@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import { notFound } from "next/navigation";
 import { TeamHeroPortraits } from "@/components/sections/TeamHeroPortraits";
 import { PageHero } from "@/components/sections/PageHero";
@@ -67,7 +68,7 @@ export default async function ContentRoute({ params }: Props) {
     ? { src: page.photo, alt: page.photoAlt ?? page.title, mode: key === "dr-rodney-willey" ? ("contain" as const) : ("cover" as const) }
     : undefined;
 
-  return (
+  return <Localized>{(
     <>
       <JsonLd
         data={{
@@ -184,5 +185,5 @@ export default async function ContentRoute({ params }: Props) {
       )}
       {legacy && page.cta && <CtaBand eyebrow="Next step" title={patient ? "Let's help you find the right care." : "Let's put the right system behind your team."} actions={<Button href={page.cta.href} variant="dawn">{page.cta.label}</Button>} />}
     </>
-  );
+  )}</Localized>;
 }

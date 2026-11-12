@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useId, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -59,7 +61,7 @@ export function ProtocolRing() {
     tabs.current[next]?.focus();
   }
 
-  return (
+  return <Localized>{(
     <div ref={root} data-protocol-stack className="overflow-hidden rounded-[1.5rem] border border-ink/10 bg-paper-2/65">
       <div className="grid items-center gap-4 p-4 sm:p-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8 lg:p-8">
         <div className={styles.navigator}>
@@ -118,5 +120,5 @@ export function ProtocolRing() {
         </div>
       </div>
     </div>
-  );
+  )}</Localized>;
 }

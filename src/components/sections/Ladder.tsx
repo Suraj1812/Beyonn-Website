@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import { Tilt } from "@/components/visual/Tilt";
 import { cn } from "@/lib/cn";
 
@@ -18,7 +19,7 @@ export const certificationTiers = {
 
 /** Growth path shown as an ascending ladder. */
 export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier[]; tone?: "light" | "dark"; compact?: boolean }) {
-  return (
+  return <Localized>{(
     <ol data-morph-shape="rect" className="grid gap-4 md:grid-cols-3">
       {tiers.map((t, i) => (
         <li key={t.name} data-aos="fade-up" data-aos-delay={i * 120} className="h-full">
@@ -51,5 +52,5 @@ export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier
         </li>
       ))}
     </ol>
-  );
+  )}</Localized>;
 }

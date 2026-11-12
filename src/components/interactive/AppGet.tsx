@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import QRCode from "qrcode";
 import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import Image from "next/image";
@@ -54,7 +56,7 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
 
   const v = { dawn: "btn--dawn", dark: "", light: "btn--light", ghost: "btn--ghost", "ghost-light": "btn--ghost-light" }[variant];
 
-  return (
+  return <Localized>{(
     <>
       <button type="button" onClick={onClick} className={cn("btn", v, size === "sm" && "btn--sm", className)}>
         <span>{label}</span>
@@ -86,5 +88,5 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
         )}
       </Dialog>
     </>
-  );
+  )}</Localized>;
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Link from "next/link";
 import { useEffect } from "react";
 import { site } from "@/content/site";
@@ -9,7 +11,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
     console.error(error);
   }, [error]);
 
-  return (
+  return <Localized>{(
     <section className="grid min-h-[100svh] place-items-center bg-paper px-6 pt-24 text-ink">
       <div data-aos="fade-up" className="max-w-xl text-center">
         <p className="t-eyebrow text-dawn-deep">Something went wrong</p>
@@ -29,5 +31,5 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
         </div>
       </div>
     </section>
-  );
+  )}</Localized>;
 }

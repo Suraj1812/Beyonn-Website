@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
@@ -12,7 +13,7 @@ const paths = [
 ];
 
 export default function NotFound() {
-  return (
+  return <Localized>{(
     <section className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-paper px-6 pt-24 text-ink">
       <div className="hero-glow absolute inset-0 opacity-60" aria-hidden />
       <div className="relative max-w-2xl text-center">
@@ -35,5 +36,5 @@ export default function NotFound() {
         </Link>
       </div>
     </section>
-  );
+  )}</Localized>;
 }

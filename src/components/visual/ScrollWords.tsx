@@ -1,6 +1,9 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useRef } from "react";
+import { useLanguage } from "@/components/i18n/LanguageProvider";
 import { cn } from "@/lib/cn";
 
 type Segment = { text: string; className?: string };
@@ -11,7 +14,8 @@ type Segment = { text: string; className?: string };
  */
 export function ScrollWords({ segments, className }: { segments: Segment[]; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const full = segments.map((s) => s.text).join(" ");
+  const { t } = useLanguage();
+  const full = segments.map((s) => t(s.text)).join(" ");
 
   useEffect(() => {
     const el = ref.current;
@@ -43,13 +47,13 @@ export function ScrollWords({ segments, className }: { segments: Segment[]; clas
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [full]);
 
-  return (
+  return <Localized>{(
     <p ref={ref} className={className} aria-label={full}>
       {segments.map((seg, si) => (
         <span key={si} className={seg.className} aria-hidden>
-          {seg.text.split(" ").map((w, wi) => (
+          {t(seg.text).split(" ").map((w, wi) => (
             <span key={wi} data-w className={cn("inline-block transition-opacity duration-200")} style={{ opacity: 0.18 }}>
               {w}
               {" "}
@@ -58,5 +62,5 @@ export function ScrollWords({ segments, className }: { segments: Segment[]; clas
         </span>
       ))}
     </p>
-  );
+  )}</Localized>;
 }

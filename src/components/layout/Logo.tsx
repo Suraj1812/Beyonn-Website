@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
@@ -20,6 +21,6 @@ export function Logo({ className, size = "md", tone = "badge", priority }: Props
       className={cn("h-auto", width[size], tone === "light" && "brightness-0 invert")}
     />
   );
-  if (tone !== "badge") return <span className={cn("inline-flex items-center", className)}>{img}</span>;
-  return <span className={cn("inline-flex items-center rounded-full bg-white px-3 py-1.5", className)}>{img}</span>;
+  if (tone !== "badge") return <Localized>{<span className={cn("inline-flex items-center", className)}>{img}</span>}</Localized>;
+  return <Localized>{<span className={cn("inline-flex items-center rounded-full bg-white px-3 py-1.5", className)}>{img}</span>}</Localized>;
 }

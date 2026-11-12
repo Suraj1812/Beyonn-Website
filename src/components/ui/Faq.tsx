@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import { Plus } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -5,7 +6,7 @@ export type FaqItem = { q: string; a: ReactNode };
 
 /** Accessible accordion built on native <details>; works without JavaScript. */
 export function Faq({ items, name }: { items: FaqItem[]; name?: string }) {
-  return (
+  return <Localized>{(
     <div className="border-t hairline">
       {items.map((item, i) => (
         <details key={item.q} className="acc" name={name} data-aos="fade-up" data-aos-delay={Math.min(i * 40, 240)}>
@@ -19,5 +20,5 @@ export function Faq({ items, name }: { items: FaqItem[]; name?: string }) {
         </details>
       ))}
     </div>
-  );
+  )}</Localized>;
 }

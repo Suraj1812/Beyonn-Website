@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,6 +30,7 @@ import {
 import { isGroup, isPatientRoute, primaryNav, signInNav, site, type NavGroup, type NavLink } from "@/content/site";
 import { useLenis } from "@/components/providers/SmoothScroll";
 import { Logo } from "./Logo";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { cn } from "@/lib/cn";
 
 const icons: Record<string, LucideIcon> = {
@@ -59,7 +62,7 @@ const groupActive = (pathname: string, group: NavGroup) =>
 function MenuLink({ link, pathname, onNavigate }: { link: NavLink; pathname: string; onNavigate?: () => void }) {
   const Icon = icons[link.href] ?? ArrowRight;
   const current = isCurrent(pathname, link.href);
-  return (
+  return <Localized>{(
     <Link
       href={link.href}
       onClick={onNavigate}
@@ -77,7 +80,7 @@ function MenuLink({ link, pathname, onNavigate }: { link: NavLink; pathname: str
         {link.description && <span className="mt-1 block text-[0.83rem] leading-snug text-muted">{link.description}</span>}
       </span>
     </Link>
-  );
+  )}</Localized>;
 }
 
 type MenuProps = {
@@ -101,7 +104,7 @@ const groupIntro: Record<string, string> = {
 function PanelLink({ link, pathname, onNavigate, compact }: { link: NavLink; pathname: string; onNavigate: () => void; compact?: boolean }) {
   const Icon = icons[link.href] ?? ArrowRight;
   const current = isCurrent(pathname, link.href);
-  return (
+  return <Localized>{(
     <Link
       href={link.href}
       onClick={onNavigate}
@@ -121,7 +124,7 @@ function PanelLink({ link, pathname, onNavigate, compact }: { link: NavLink; pat
         {link.description && <span className="mt-1 block text-[0.85rem] leading-snug text-muted">{link.description}</span>}
       </span>
     </Link>
-  );
+  )}</Localized>;
 }
 
 /**
@@ -136,7 +139,7 @@ function DesktopMenu({ group, pathname, open, onOpen, onClose, onToggle, align =
   const mega = !!group.footer;
   const done = () => onClose(true);
 
-  return (
+  return <Localized>{(
     <li
       className={mega ? "static" : "relative"}
       onPointerEnter={(e) => e.pointerType === "mouse" && onOpen()}
@@ -230,7 +233,7 @@ function DesktopMenu({ group, pathname, open, onOpen, onClose, onToggle, align =
         </div>
       )}
     </li>
-  );
+  )}</Localized>;
 }
 
 export function Header() {
@@ -272,13 +275,25 @@ export function Header() {
     setOpenMenu(null);
   }, [pathname]);
 
+  // A drawer hidden by the desktop breakpoint must also release its scroll lock.
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1280px)");
+    const closeOnDesktop = () => { if (desktop.matches) setMobileOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   // Lock page scroll while the drawer is open, and move focus in and out of it.
   useEffect(() => {
     if (mobileOpen) {
       lenis?.stop();
       document.documentElement.style.overflow = "hidden";
       const t = window.setTimeout(() => closeBtn.current?.focus(), 60);
-      return () => window.clearTimeout(t);
+      return () => {
+        window.clearTimeout(t);
+        document.documentElement.style.overflow = "";
+        lenis?.start();
+      };
     }
     lenis?.start();
     document.documentElement.style.overflow = "";
@@ -329,7 +344,7 @@ export function Header() {
     { label: "Patient", href: "/patients", on: patient },
   ];
 
-  return (
+  return <Localized>{(
     <>
       <header
         ref={headerRef}
@@ -376,7 +391,7 @@ export function Header() {
               <Logo tone="plain" size="nav" priority />
             </Link>
 
-            <nav aria-label="Primary" className="hidden flex-1 justify-center lg:flex">
+            <nav aria-label="Primary" className="hidden flex-1 justify-center xl:flex">
               <ul className="flex items-center gap-0.5">
                 {primaryNav.map((item) =>
                   isGroup(item) ? (
@@ -408,8 +423,9 @@ export function Header() {
               </ul>
             </nav>
 
-            <div className="ml-auto flex items-center gap-2 lg:ml-0">
-              <ul className="hidden lg:block">
+            <div className="ml-auto flex items-center gap-2 xl:ml-0">
+              <LanguageSwitcher />
+              <ul className="hidden xl:block">
                 <DesktopMenu
                   group={signInGroup}
                   pathname={pathname}
@@ -421,23 +437,23 @@ export function Header() {
                   triggerLabel="Sign in"
                   trigger={
                     <>
-                      <UserRound className="size-[1.05rem] xl:hidden" aria-hidden />
-                      <span className="hidden xl:inline">Sign in</span>
+                      <UserRound className="size-[1.05rem] 2xl:hidden" aria-hidden />
+                      <span className="hidden 2xl:inline">Sign in</span>
                     </>
                   }
                 />
               </ul>
-              <span className="hidden h-6 w-px bg-ink/15 lg:block" aria-hidden />
-              <Link href={cta.href} data-magnetic="" className="btn btn--dawn btn--sm !px-4 max-[359px]:hidden sm:!px-5">
-                <span className="xl:hidden">{cta.short}</span>
-                <span className="hidden xl:inline">{cta.label}</span>
+              <span className="hidden h-6 w-px bg-ink/15 xl:block" aria-hidden />
+              <Link href={cta.href} data-magnetic="" className="btn btn--dawn btn--sm !px-4 max-[479px]:hidden sm:!px-5">
+                <span className="2xl:hidden">{cta.short}</span>
+                <span className="hidden 2xl:inline">{cta.label}</span>
                 <ArrowUpRight className="hidden sm:block" aria-hidden />
               </Link>
               <button
                 ref={menuBtn}
                 type="button"
                 onClick={() => (mobileOpen ? closeDrawer() : openDrawer())}
-                className="flex h-11 items-center gap-2.5 rounded-full border border-ink/15 px-3 transition-colors hover:bg-ink/[0.06] sm:px-4 lg:hidden"
+                className="flex h-11 items-center gap-2.5 rounded-full border border-ink/15 px-3 transition-colors hover:bg-ink/[0.06] sm:px-4 xl:hidden"
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-menu"
@@ -457,7 +473,7 @@ export function Header() {
       </header>
 
       {/* Tablet + mobile drawer */}
-      <div className={cn("fixed inset-0 z-[60] lg:hidden", !mobileOpen && "pointer-events-none")} inert={!mobileOpen}>
+      <div className={cn("fixed inset-0 z-[60] xl:hidden", !mobileOpen && "pointer-events-none")} inert={!mobileOpen}>
         <div
           onClick={closeDrawer}
           className={cn("absolute inset-0 bg-ink/40 backdrop-blur-sm transition-opacity duration-500", mobileOpen ? "opacity-100" : "opacity-0")}
@@ -608,5 +624,5 @@ export function Header() {
         </div>
       </div>
     </>
-  );
+  )}</Localized>;
 }

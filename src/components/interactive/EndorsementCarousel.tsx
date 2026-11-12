@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { endorsements, endorsementSource } from "@/content/endorsements";
@@ -130,7 +132,7 @@ export function EndorsementCarousel() {
 
   const cards = Array.from({ length: 4 }, () => endorsements).flat();
 
-  return (
+  return <Localized>{(
     <>
       <div className="container-x mb-2 flex items-center justify-between gap-2 sm:hidden">
         <p className="t-eyebrow text-muted">Swipe to read more →</p>
@@ -157,5 +159,5 @@ export function EndorsementCarousel() {
         <a href={endorsementSource} className="text-sm font-semibold text-dawn-deep underline underline-offset-4">Read the full clinician endorsements</a>
       </div>
     </>
-  );
+  )}</Localized>;
 }

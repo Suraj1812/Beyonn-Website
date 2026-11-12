@@ -1,5 +1,7 @@
 "use client";
 
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -19,7 +21,7 @@ export function Scribble({ children, play = true }: { children: React.ReactNode;
     return () => io.disconnect();
   }, []);
 
-  return (
+  return <Localized>{(
     <em ref={ref} className="relative inline-block">
       {children}
       <svg className="pointer-events-none absolute -bottom-[0.14em] left-0 h-[0.3em] w-full overflow-visible" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden>
@@ -36,5 +38,5 @@ export function Scribble({ children, play = true }: { children: React.ReactNode;
         />
       </svg>
     </em>
-  );
+  )}</Localized>;
 }

@@ -13,6 +13,8 @@ import { Intro } from "@/components/visual/Intro";
 import { site } from "@/content/site";
 import { ogImageUrl } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { LanguageProvider } from "@/components/i18n/LanguageProvider";
+import { Localized } from "@/components/i18n/Localized";
 import "./globals.css";
 
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -92,24 +94,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`} data-scroll-behavior="smooth">
       <body>
-        <Intro />
-        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-dawn focus:px-5 focus:py-3 focus:font-semibold focus:text-ink">
-          Skip to content
-        </a>
-        <VisitorProvider>
-          <SmoothScroll>
-            <ScrollProgress />
-            <Header />
-            <main id="main" tabIndex={-1} className="outline-none">
-              {children}
-            </main>
-            <Footer />
-            <ParticleMorph />
-            <GuideBot />
-            <AosInit />
-            <PointerEffects />
-          </SmoothScroll>
-        </VisitorProvider>
+        <LanguageProvider>
+          <Intro />
+          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-dawn focus:px-5 focus:py-3 focus:font-semibold focus:text-ink">
+            <Localized>Skip to content</Localized>
+          </a>
+          <VisitorProvider>
+            <SmoothScroll>
+              <ScrollProgress />
+              <Header />
+              <main id="main" tabIndex={-1} className="outline-none">
+                {children}
+              </main>
+              <Footer />
+              <ParticleMorph />
+              <GuideBot />
+              <AosInit />
+              <PointerEffects />
+            </SmoothScroll>
+          </VisitorProvider>
+        </LanguageProvider>
         <JsonLd data={orgJsonLd} />
       </body>
     </html>

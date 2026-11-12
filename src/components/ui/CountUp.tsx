@@ -1,5 +1,8 @@
 "use client";
 
+import { useLanguage } from "@/components/i18n/LanguageProvider";
+import { Localized } from "@/components/i18n/Localized";
+
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -7,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
  * scrolls into view. Values without a number (e.g. "DDS") render as-is.
  */
 export function CountUp({ value, duration = 1600, className }: { value: string; duration?: number; className?: string }) {
+  const { t } = useLanguage();
   const match = value.match(/^(\D*)([\d,]+)(.*)$/);
   const target = match ? Number(match[2].replace(/,/g, "")) : 0;
   const ref = useRef<HTMLSpanElement>(null);
@@ -44,12 +48,15 @@ export function CountUp({ value, duration = 1600, className }: { value: string; 
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run once per value
   }, [value]);
 
-  if (!match) return <span className={className}>{value}</span>;
-  const shown = n === null ? value : `${match[1]}${n.toLocaleString("en-US")}${match[3]}`;
-  return (
+  if (!match) return <Localized>{<span className={className}>{value}</span>}</Localized>;
+  // Translate the complete stat once; animate only its digits so units retain
+  // their target-language position and never fall back to English mid-animation.
+  const translated = t(value);
+  const shown = n === null ? translated : translated.replace(/[\d,]+/, n.toLocaleString("en-US"));
+  return <Localized>{(
     <span ref={ref} className={className} style={{ fontVariantNumeric: "tabular-nums" }}>
       <span aria-hidden>{shown}</span>
-      <span className="sr-only">{value}</span>
+      <span className="sr-only">{translated}</span>
     </span>
-  );
+  )}</Localized>;
 }

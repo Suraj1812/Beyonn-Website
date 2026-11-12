@@ -1,3 +1,4 @@
+import { Localized } from "@/components/i18n/Localized";
 import type { ReactNode } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SplitWords } from "@/components/visual/SplitWords";
@@ -19,7 +20,7 @@ type Props = {
 export function SectionHeading({ eyebrow, title, lead, align = "left", className, as = "h2", tone = "light" }: Props) {
   const Tag = as;
   const muted = tone === "dark" ? "text-paper/70" : "text-muted";
-  return (
+  return <Localized>{(
     <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow && (
         <div data-aos="fade-up" className="mb-4">
@@ -35,5 +36,5 @@ export function SectionHeading({ eyebrow, title, lead, align = "left", className
         </div>
       )}
     </div>
-  );
+  )}</Localized>;
 }

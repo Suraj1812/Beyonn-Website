@@ -1,9 +1,10 @@
+import { Localized } from "@/components/i18n/Localized";
 import { Tilt } from "@/components/visual/Tilt";
 import { cn } from "@/lib/cn";
 
 /** Numbered point cards with a gentle 3D tilt, used across content pages. */
 export function FeatureCards({ points, className }: { points: string[]; className?: string }) {
-  return (
+  return <Localized>{(
     <ul data-morph-shape="rect" className={cn("grid gap-4", className)}>
       {points.map((point, i) => (
         <li key={point} data-aos="fade-up" data-aos-delay={Math.min(i * 70, 280)}>
@@ -16,5 +17,5 @@ export function FeatureCards({ points, className }: { points: string[]; classNam
         </li>
       ))}
     </ul>
-  );
+  )}</Localized>;
 }

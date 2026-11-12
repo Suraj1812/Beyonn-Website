@@ -1,10 +1,11 @@
+import { Localized } from "@/components/i18n/Localized";
 import type { ReactNode } from "react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Emblem3D } from "@/components/visual/Emblem3D";
 
 /** Closing call to action used at the end of every page. */
 export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, children, split = false }: { id?: string; eyebrow?: string; title: ReactNode; sub?: ReactNode; actions?: ReactNode; children?: ReactNode; split?: boolean }) {
-  return (
+  return <Localized>{(
     <section id={id} className="scroll-mt-24 bg-paper py-6 sm:py-10">
       <div className="container-x">
         <div className="spotlight relative isolate overflow-hidden rounded-[var(--radius-panel)] bg-ink px-6 py-12 text-paper sm:px-12 sm:py-16">
@@ -50,5 +51,5 @@ export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, childr
         </div>
       </div>
     </section>
-  );
+  )}</Localized>;
 }
