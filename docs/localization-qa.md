@@ -49,6 +49,8 @@ All content routes and the not-found page are checked for translated headings.
 Native-language visual checks were also performed for Hindi, Chinese, Arabic and
 German, including phone and tablet widths. Long translated labels wrap instead of
 clipping in the workshop banner; the header uses the drawer where needed.
+The language picker is clamped to the viewport and checked in both LTR and RTL
+at 360, 390, 640, 1024 and 1280 pixels.
 
 The normal-motion browser suite passed locally. Hosted CI uses reduced-motion
 mode and one worker to keep decorative WebGL animation from competing with the

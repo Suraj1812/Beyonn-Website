@@ -265,3 +265,24 @@ test("resizing an open tablet menu releases its page scroll lock", async ({ page
   await page.setViewportSize({ width: 1440, height: 900 });
   await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
 });
+
+
+for (const locale of ["hi-IN", "ar-SA"]) {
+  test(`language picker stays within the viewport: ${locale}`, async ({ browser }) => {
+    const context = await browser.newContext({ locale, viewport: { width: 360, height: 900 } });
+    const page = await context.newPage();
+    await page.goto("/");
+    await expect(page.locator("html")).toHaveAttribute("lang", locale.slice(0, 2));
+    for (const width of [360, 390, 640, 1024, 1280]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.locator("[data-language-trigger]").click();
+      const panel = page.locator("[data-language-switcher] section");
+      await expect(panel).toBeVisible();
+      const bounds = await panel.boundingBox();
+      expect(bounds!.x, `${locale} at ${width}px`).toBeGreaterThanOrEqual(15.5);
+      expect(bounds!.x + bounds!.width, `${locale} at ${width}px`).toBeLessThanOrEqual(width - 15.5);
+      await page.keyboard.press("Escape");
+    }
+    await context.close();
+  });
+}

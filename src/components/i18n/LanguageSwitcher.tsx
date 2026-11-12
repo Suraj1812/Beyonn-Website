@@ -1,7 +1,7 @@
 "use client";
 
 import { Languages, X } from "lucide-react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { languages, type Language } from "@/lib/i18n/languages";
 import { useLanguage } from "./LanguageProvider";
 
@@ -11,8 +11,27 @@ export function LanguageSwitcher() {
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const picker = useRef<HTMLSelectElement>(null);
+  const panel = useRef<HTMLElement>(null);
   const id = useId();
   const current = languages.find((item) => item.code === language)!;
+
+  // The trigger moves between LTR/RTL headers. Clamp the actual panel to the
+  // viewport instead of assuming an inline-end alignment always fits.
+  useLayoutEffect(() => {
+    if (!open) return;
+    const position = () => {
+      if (!panel.current || !root.current || !trigger.current) return;
+      const width = Math.min(320, Math.max(0, window.innerWidth - 32));
+      const desired = trigger.current.getBoundingClientRect().right - width;
+      const left = Math.max(16, Math.min(desired, window.innerWidth - width - 16));
+      panel.current.style.width = `${width}px`;
+      panel.current.style.left = `${left - root.current.getBoundingClientRect().left}px`;
+      panel.current.style.right = "auto";
+    };
+    position();
+    window.addEventListener("resize", position);
+    return () => window.removeEventListener("resize", position);
+  }, [open, language]);
 
   useEffect(() => {
     if (!open) return;
@@ -41,7 +60,7 @@ export function LanguageSwitcher() {
         <span className="uppercase 2xl:hidden">{language}</span>
       </button>
       {open && (
-        <section id={id} aria-label={t("Choose your language")} className="absolute end-0 top-full z-[80] mt-3 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-ink/15 bg-paper p-4 text-ink shadow-xl">
+        <section ref={panel} id={id} aria-label={t("Choose your language")} className="absolute top-full z-[80] mt-3 w-[min(20rem,calc(100vw-2rem))] rounded-2xl border border-ink/15 bg-paper p-4 text-ink shadow-xl">
           <div className="mb-3 flex items-center justify-between gap-2">
             <label htmlFor={`${id}-select`} className="font-semibold">{t("Choose your language")}</label>
             <button type="button" onClick={() => { setOpen(false); trigger.current?.focus(); }} aria-label={t("Close")} className="grid size-9 place-items-center rounded-full hover:bg-ink/5"><X className="size-4" aria-hidden /></button>
