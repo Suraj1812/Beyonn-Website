@@ -40,6 +40,9 @@ for (const language of languages) {
   }
   const personTerm = clinical.nightGuardForbiddenPersonTerms[language];
   for (const [key, value] of Object.entries(catalog)) {
+    if (/\bTMD\b/.test(key)) for (const term of clinical.medicalAcronymForbiddenTerms[language] ?? []) {
+      if (value.includes(term)) errors.push(`${language}: unrelated expansion of a medical acronym: ${key}`);
+    }
     if (/night guards?/i.test(key) && personTerm && new RegExp(personTerm, 'iu').test(value)) errors.push(`${language}: dental splint translated as a person: ${key}`);
     if (/\bC[DS]?T\b/.test(key)) for (const term of clinical.timezoneForbiddenTerms[language] ?? []) {
       if (value.includes(term)) errors.push(`${language}: US workshop timezone was changed: ${key}`);

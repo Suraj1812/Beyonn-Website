@@ -26,7 +26,7 @@ Corrections include:
   and preserving the neck measurement's strict comparison and both units.
 - Keeping US Central Time rather than relabeling workshop times as Polish time.
 
-797 source-key overrides preserve corrected wording, interface labels and protected
+798 source-key overrides preserve corrected wording, interface labels and protected
 names/abbreviations. This count includes ordinary interface wording, not just
 clinical corrections. `scripts/i18n-clinical-checks.json` adds independent concept,
 threshold, unit and terminology checks to the normal catalog validation. These
