@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
+import { pages } from "../src/content/pages";
+import { articles } from "../src/content/articles";
 import { languages, translateText, type Catalog, type Language } from "../src/lib/i18n/languages";
 
 const catalog = (language: Language): Catalog => language === "en" ? {} : JSON.parse(readFileSync(`public/locales/${language}.json`, "utf8"));
@@ -130,27 +132,28 @@ test("a failed catalog keeps readable English and offers a working retry", async
 });
 
 
-test("all content routes and the 404 page translate their main heading", async ({ browser }) => {
-  test.setTimeout(90_000);
-  const english = await browser.newContext({ locale: "en-US" });
-  const hindi = await browser.newContext({ locale: "hi-IN" });
-  const [original, translated] = await Promise.all([english.newPage(), hindi.newPage()]);
-  const response = await original.request.get("/sitemap.xml");
-  const xml = await response.text();
-  const routes = [...new Set([...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => new URL(match[1]).pathname)
-    .concat(["/privacy", "/terms", "/hipaa", "/portal", "/partner-login", "/invalid-i18n-test"]))];
-  const errors: string[] = [];
-  translated.on("pageerror", (error) => errors.push(error.message));
-  for (const route of routes) {
+const contentRoutes = [...new Set([
+  "/", "/resources", ...Object.keys(pages).map((slug) => `/${slug}`),
+  ...articles.map((article) => `/resources/${article.slug}`), "/invalid-i18n-test",
+])];
+
+for (const route of contentRoutes) {
+  test(`Hindi translation on content route: ${route}`, async ({ browser }) => {
+    const english = await browser.newContext({ locale: "en-US" });
+    const hindi = await browser.newContext({ locale: "hi-IN" });
+    const [original, translated] = await Promise.all([english.newPage(), hindi.newPage()]);
+    const errors: string[] = [];
+    translated.on("pageerror", (error) => errors.push(error.message));
     await Promise.all([original.goto(route), translated.goto(route)]);
     const heading = (await original.locator("h1").innerText()).replace(/\s+/g, " ").trim();
     expect(Object.prototype.hasOwnProperty.call(catalog("hi"), heading), route).toBe(true);
     await expect(translated.locator("html"), route).toHaveAttribute("lang", "hi");
     await expect(translated.locator("h1"), route).toHaveText(translateText(heading, catalog("hi")));
-  }
-  expect(errors).toEqual([]);
-  await Promise.all([english.close(), hindi.close()]);
-});
+    expect(errors).toEqual([]);
+    await Promise.all([english.close(), hindi.close()]);
+  });
+}
+
 
 test("browser title translates and returns to the English original", async ({ browser }) => {
   const context = await browser.newContext({ locale: "hi-IN" });
