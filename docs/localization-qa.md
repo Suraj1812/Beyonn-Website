@@ -50,6 +50,11 @@ Native-language visual checks were also performed for Hindi, Chinese, Arabic and
 German, including phone and tablet widths. Long translated labels wrap instead of
 clipping in the workshop banner; the header uses the drawer where needed.
 
+The normal-motion browser suite passed locally. Hosted CI uses reduced-motion
+mode and one worker to keep decorative WebGL animation from competing with the
+translation and interaction checks on software-rendered runners. All assertions
+remain enabled.
+
 CI runs lint, catalog validation, the production build and the browser suite for
 pull requests and pushes to main in either repository. Translation generation is
 not part of CI or deployment and needs no service account or subscription.
