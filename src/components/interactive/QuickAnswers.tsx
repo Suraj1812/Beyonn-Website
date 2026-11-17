@@ -1,13 +1,14 @@
 "use client";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { patientQuickAnswers as initial_patientQuickAnswers,practitionerQuickAnswers as initial_practitionerQuickAnswers } from "@/content/faqs";
 
 import { Localized } from "@/components/i18n/Localized";
 
-import { useState } from "react";
-import { ChevronDown, Plus } from "lucide-react";
 import { useVisitor } from "@/components/providers/VisitorProvider";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { practitionerQuickAnswers, patientQuickAnswers } from "@/content/faqs";
 import { cn } from "@/lib/cn";
+import { ChevronDown,Plus } from "lucide-react";
+import { useState } from "react";
 
 /** Home questions follow the selected audience; practitioners are the default. */
 export function QuickAnswers() {
@@ -17,6 +18,9 @@ export function QuickAnswers() {
 }
 
 function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" }) {
+  const practitionerQuickAnswers = useCmsData("practitionerQuickAnswers", initial_practitionerQuickAnswers);
+  const patientQuickAnswers = useCmsData("patientQuickAnswers", initial_patientQuickAnswers);
+
   const [showAll, setShowAll] = useState(false);
   const previewCount = 4;
   const items = audience === "patients" ? patientQuickAnswers : practitionerQuickAnswers;
@@ -52,3 +56,7 @@ function AudienceAnswers({ audience }: { audience: "patients" | "practitioners" 
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+QuickAnswers.cmsLocalizedBoundary = true;
+AudienceAnswers.cmsLocalizedBoundary = true;

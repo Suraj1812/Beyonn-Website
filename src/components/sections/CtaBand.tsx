@@ -53,3 +53,6 @@ export function CtaBand({ id, eyebrow = "Next step", title, sub, actions, childr
     </section>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+CtaBand.cmsLocalizedBoundary = true;

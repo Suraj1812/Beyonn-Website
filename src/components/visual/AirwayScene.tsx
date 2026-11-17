@@ -870,3 +870,6 @@ export function AirwayScene({ progress, value, paused, labelsVisible, onReady, o
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+AirwayScene.cmsLocalizedBoundary = true;

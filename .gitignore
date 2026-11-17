@@ -43,3 +43,10 @@ next-env.d.ts
 # browser tests
 /test-results/
 /playwright-report/
+
+# Private local Google credentials
+/.secrets/
+/firebase-debug.log
+
+# Safe configuration template
+!.env.example

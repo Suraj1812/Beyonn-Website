@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const root = path.resolve('src');
 const messages = new Set();
-const skipProps = /^(className|class|href|src|id|key|name|type|role|rel|target|style|variant|tone|size|screen|audioSrc|videoSrc|poster|slug|url|icon|image|photo|email|phone|phoneHref|date|datetime|dateTime|method|action|htmlFor|autoComplete|inputMode|pattern|viewBox|d|fill|stroke|xmlns|as|align|placement|position|direction|strategy|format|locale|lang|language|inLanguage|contentType|encoding|property|itemProp|itemType|content|charset|charSet|itemID|itemRef|fontFamily|fontWeight|fontStyle|display|animation|transition|ease|transform|filter|color|background|border|overflow|width|height|maxWidth|minHeight|margin|padding|gridTemplateColumns|pointerEvents|opacity)$/;
+const skipProps = /^(className|class|href|src|id|key|name|type|role|rel|target|style|variant|tone|size|sizes|screen|audioSrc|videoSrc|poster|slug|url|icon|image|photo|email|phone|phoneHref|date|datetime|dateTime|method|action|htmlFor|autoComplete|inputMode|pattern|viewBox|d|fill|stroke|xmlns|as|align|placement|position|direction|strategy|format|locale|lang|language|inLanguage|contentType|encoding|property|itemProp|itemType|content|charset|charSet|itemID|itemRef|fontFamily|fontWeight|fontStyle|display|animation|transition|ease|transform|filter|color|background|border|overflow|width|height|maxWidth|minHeight|margin|padding|gridTemplateColumns|pointerEvents|opacity)$/;
 const entities = {amp:'&',apos:"'",quot:'"',lt:'<',gt:'>',nbsp:' ',ldquo:'“',rdquo:'”',lsquo:'‘',rsquo:'’',mdash:'—',ndash:'–',bull:'•',middot:'·',rarr:'→',larr:'←',times:'×',copy:'©',trade:'™',reg:'®',thinsp:' '};
 const decode = s => s.replace(/&(#x[0-9a-f]+|#\d+|\w+);/gi, (all,k) => k[0] === '#' ? String.fromCodePoint(parseInt(k.slice(k[1]?.toLowerCase()==='x'?2:1), k[1]?.toLowerCase()==='x'?16:10)) : entities[k] ?? all);
 export const normalize = s => decode(s).replace(/\s+/g,' ').trim();
@@ -13,7 +13,7 @@ function add(s, visible = false) {
   if (!/[A-Za-z]/.test(s) || s.length > 3500) return;
   if (/^(https?:|mailto:|tel:|\/|#|data:|--|@|[Mm]\d)/.test(s) || /\.(mp4|png|jpg|svg|webp|pdf|mp3|woff2?)(\?|$)/i.test(s)) return;
   if (!visible && !/\s/.test(s) && (/^[a-z]/.test(s) || /[{}[\]@/:_]/.test(s))) return;
-  if (/[{}]|=>|\b(?:SELECT|var\(--)/.test(s) || /(?:^|\s)(?:bg-|text-|flex|grid|rounded-|border-|hover:|absolute|relative|hidden|block|inline-block)/.test(s)) return;
+  if (/[{}]|=>|\b(?:SELECT|var\(--)/.test(s) || /(?:^|\s)(?:bg-|text-|flex|grid|rounded-|border-|hover:|absolute|relative|hidden|block\b|inline-block\b)/.test(s)) return;
   if (/^(?:[-+]?\d+(?:\.\d+)?(?:px|ms|rem|em|vh|vw|s)|[a-z-]+:)/.test(s) || /(?:^|\s)(?:p[lrtbxy]?|m[lrtbxy]?|w|h|gap|grid-cols|col-span|row-span)-[\d[]/.test(s) || /\[(?:[&0-9]|mask)/.test(s)) return;
   messages.add(s);
 }
@@ -52,7 +52,7 @@ function scan(file) {
   }
   visit(source);
 }
-function walk(dir) {for(const f of fs.readdirSync(dir,{withFileTypes:true})) {const p=path.join(dir,f.name); if(f.isDirectory()) {if(!['i18n'].includes(f.name)) walk(p);} else if(/\.tsx?$/.test(f.name) && !/\b(og|sitemap|robots|manifest|seo|proxy)\b/.test(p)) scan(p);}}
+function walk(dir) {for(const f of fs.readdirSync(dir,{withFileTypes:true})) {const p=path.join(dir,f.name); if(f.isDirectory()) {if(!['i18n','cms','api','control'].includes(f.name)) walk(p); else if (f.name === 'control' && p.endsWith('components/control')) { for (const name of ['HomeContent.tsx', 'PageContent.tsx', 'ResourcesContent.tsx', 'ArticleContent.tsx']) scan(path.join(p, name)); }} else if(/\.tsx?$/.test(f.name) && !/\b(og|sitemap|robots|manifest|seo|proxy)\b/.test(p)) scan(p);}}
 walk(root);
 for (const text of ['Language','English','Use English','Use device language','Choose your language','Loading translation…','Translation could not be loaded. Please try again.','Retry','Website language','Audio is available in English.']) add(text);
 const overrides = JSON.parse(fs.readFileSync('scripts/i18n-ui-overrides.json', 'utf8'));

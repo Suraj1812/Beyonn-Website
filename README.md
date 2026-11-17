@@ -95,3 +95,7 @@ preferred translation authoring tool; the deployed website has no provider depen
 Browser tests use Playwright. Install its browser once with
 `npx playwright install chromium`, or use an installed Chrome via
 `PLAYWRIGHT_CHANNEL=chrome npm run test:i18n`.
+
+### Website control
+
+The private CMS lives at `/control`. It uses Firebase Authentication, shared Firestore drafts/publishing/history, and a dedicated private Cloud Storage bucket through Firebase Admin and authorized Next.js APIs. See [CMS setup, security, editing workflow and deployment costs](docs/cms.md). Run `npm run test:cms` for the CMS tests; authenticated write tests require an explicitly configured isolated test account. Local credentials and `.env.local` must stay outside version control.

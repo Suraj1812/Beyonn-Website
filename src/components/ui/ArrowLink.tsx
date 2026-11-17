@@ -11,3 +11,6 @@ export function ArrowLink({ href, children, className }: { href: string; childre
     </Link>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+ArrowLink.cmsLocalizedBoundary = true;

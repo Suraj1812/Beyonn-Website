@@ -29,41 +29,49 @@ type Props = {
   size?: "full" | "page";
   photo?: Photo;
   visual?: ReactNode;
+  compact?: boolean;
 };
+
+/** Compact team heroes reveal once; other pages retain their existing exit motion. */
+function HeroMotion({ children, reveal, visual = false }: { children: ReactNode; reveal: boolean; visual?: boolean }) {
+  if (reveal) return <div data-aos="fade-up" data-aos-wait-for-images="" data-aos-delay={visual ? "100" : "0"} className={visual ? undefined : "max-w-[42rem]"}>{children}</div>;
+  return <ScrollExit y={visual ? -40 : 70} fade={!visual} shrink={visual ? 0.05 : 0} className={visual ? undefined : "max-w-[42rem]"}>{children}</ScrollExit>;
+}
 
 /**
  * Warm, light hero: copy on the left, a person (or a calm shape study) on the right.
  * Photos are always shown at their own aspect ratio, so nothing is cropped.
  */
-export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo, visual }: Props) {
+export function PageHero({ kicker, title, headline, sub, actions, below, size = "page", photo, visual, compact = false }: Props) {
   const full = size === "full";
   return <Localized>{(
-    <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
+    <section data-cms-hero className="relative isolate overflow-hidden bg-[linear-gradient(135deg,var(--color-ink)_0%,var(--color-night)_100%)] text-paper [--scribble:var(--color-breath)]">
       <div className="pointer-events-none absolute -left-48 top-16 -z-10 size-[32rem] rounded-full bg-breath/10 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-32 -top-40 -z-10 size-[36rem] rounded-full bg-dawn/25 blur-3xl" aria-hidden />
 
       <div
         className={cn(
-          "container-x grid items-center gap-6 pb-8 pt-32 sm:gap-10 sm:pb-12 sm:pt-36 lg:gap-14 lg:pb-16 lg:pt-40",
+          "container-x grid items-center gap-6 sm:gap-10 lg:gap-14",
+          compact ? "pb-14 pt-32 sm:pb-20 sm:pt-40" : "pb-8 pt-32 sm:pb-12 sm:pt-36 lg:pb-16 lg:pt-40",
           visual || photo?.mode === "cover" ? "lg:grid-cols-[1fr_1fr]" : "lg:grid-cols-[1.1fr_0.9fr]",
         )}
       >
-        <ScrollExit y={70} fade className="max-w-[42rem]">
+        <HeroMotion reveal={compact}>
           {kicker && (
-            <p className="mb-5 t-eyebrow text-breath animate-fade-up" style={{ animationDelay: "60ms" }}>
+            <p className={cn("mb-5 t-eyebrow text-breath", !compact && "animate-fade-up")} style={{ animationDelay: "60ms" }}>
               {kicker}
             </p>
           )}
-          <h1 className={cn("animate-fade-up", full ? "t-display" : "t-h1")} style={{ animationDelay: "120ms" }}>
+          <h1 className={cn(!compact && "animate-fade-up", full ? "t-display" : "t-h1")} style={{ animationDelay: "120ms" }}>
             {title}
           </h1>
           {headline && (
-            <p className="mt-6 max-w-[38rem] font-display text-[clamp(1.35rem,2.4vw,2rem)] font-semibold leading-snug animate-fade-up" style={{ animationDelay: "170ms" }}>
+            <p className={cn("mt-6 max-w-[38rem] font-display text-[clamp(1.35rem,2.4vw,2rem)] font-semibold leading-snug", !compact && "animate-fade-up")} style={{ animationDelay: "170ms" }}>
               {headline}
             </p>
           )}
           {sub && (
-            <div className="mt-6 max-w-[35rem] t-lead text-paper/80 animate-fade-up" style={{ animationDelay: "220ms" }}>
+            <div className={cn("mt-6 max-w-[35rem] t-lead text-paper/80", !compact && "animate-fade-up")} style={{ animationDelay: "220ms" }}>
               {sub}
             </div>
           )}
@@ -77,12 +85,12 @@ export function PageHero({ kicker, title, headline, sub, actions, below, size = 
               {below}
             </div>
           )}
-        </ScrollExit>
+        </HeroMotion>
 
-        <div className="animate-fade-up" style={{ animationDelay: "200ms" }}>
-          <ScrollExit y={-40} shrink={0.05}>
+        <div className={compact ? undefined : "animate-fade-up"} style={{ animationDelay: "200ms" }}>
+          <HeroMotion reveal={compact} visual>
             {visual ?? (photo ? photo.mode === "contain" ? <CutoutPortrait photo={photo} emblem="on-dark" emblem3d /> : <FramedPhoto photo={photo} /> : <EmblemStage />)}
-          </ScrollExit>
+          </HeroMotion>
         </div>
       </div>
     </section>
@@ -160,3 +168,10 @@ function EmblemStage() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+PageHero.cmsLocalizedBoundary = true;
+NameCard.cmsLocalizedBoundary = true;
+CutoutPortrait.cmsLocalizedBoundary = true;
+FramedPhoto.cmsLocalizedBoundary = true;
+EmblemStage.cmsLocalizedBoundary = true;

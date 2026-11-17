@@ -60,3 +60,6 @@ export function CountUp({ value, duration = 1600, className }: { value: string; 
     </span>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+CountUp.cmsLocalizedBoundary = true;

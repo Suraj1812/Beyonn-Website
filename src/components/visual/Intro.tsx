@@ -45,3 +45,6 @@ export function Intro() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Intro.cmsLocalizedBoundary = true;

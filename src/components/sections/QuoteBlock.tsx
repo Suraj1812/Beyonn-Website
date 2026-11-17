@@ -24,3 +24,6 @@ export function QuoteBlock({ quote = willeyQuote, cite = "Dr. Rodney Willey, DDS
     </figure>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+QuoteBlock.cmsLocalizedBoundary = true;

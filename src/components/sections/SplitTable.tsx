@@ -39,3 +39,6 @@ export function SplitTable({
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+SplitTable.cmsLocalizedBoundary = true;

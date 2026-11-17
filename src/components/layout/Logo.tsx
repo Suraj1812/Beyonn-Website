@@ -24,3 +24,6 @@ export function Logo({ className, size = "md", tone = "badge", priority }: Props
   if (tone !== "badge") return <Localized>{<span className={cn("inline-flex items-center", className)}>{img}</span>}</Localized>;
   return <Localized>{<span className={cn("inline-flex items-center rounded-full bg-white px-3 py-1.5", className)}>{img}</span>}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Logo.cmsLocalizedBoundary = true;

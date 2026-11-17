@@ -55,3 +55,6 @@ export function Portrait({ name, src, className, tone = "dawn", priority, sizes 
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Portrait.cmsLocalizedBoundary = true;

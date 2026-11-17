@@ -54,3 +54,6 @@ export function Ladder({ tiers, tone = "light", compact = false }: { tiers: Tier
     </ol>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Ladder.cmsLocalizedBoundary = true;

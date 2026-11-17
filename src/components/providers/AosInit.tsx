@@ -25,12 +25,47 @@ export function AosInit() {
 
     const body = document.body;
     body.dataset.aosEasing = "ease-out-cubic";
-    body.dataset.aosDuration = "800";
+    body.dataset.aosDuration = pathname === "/team" ? "600" : "800";
+    let disposed = false;
+    const decoded = new WeakSet<HTMLElement>();
+    const decoding = new WeakSet<HTMLElement>();
 
     // Elements already revealed. React may rewrite a className on re-render and
     // drop "aos-animate"; we put it straight back so nothing vanishes.
     const revealed = new WeakSet<HTMLElement>();
+    const awaitingCurtain = new Set<HTMLElement>();
+    const watchedCurtains = new WeakSet<HTMLElement>();
+    const navigationObservers = new Set<MutationObserver>();
     const show = (el: HTMLElement) => {
+      const curtain = Array.from(document.querySelectorAll<HTMLElement>('.route-curtain')).find(node => getComputedStyle(node).display !== 'none' && node.getClientRects().length > 0);
+      if (curtain) {
+        awaitingCurtain.add(el);
+        if (!watchedCurtains.has(curtain)) {
+          watchedCurtains.add(curtain);
+          const observer = new MutationObserver(() => {
+            if (getComputedStyle(curtain).display !== 'none') return;
+            observer.disconnect(); navigationObservers.delete(observer);
+            awaitingCurtain.forEach(node => { if (node.isConnected) show(node); else awaitingCurtain.delete(node); });
+          });
+          observer.observe(curtain, { attributes: true, attributeFilter: ['style'] });
+          navigationObservers.add(observer);
+        }
+        return;
+      }
+      awaitingCurtain.delete(el);
+      // Hero copy and artwork share an image-readiness gate, so neither plays
+      // while the illustration is still downloading or decoding.
+      if (el.hasAttribute("data-aos-wait-for-images") && !decoded.has(el)) {
+        if (decoding.has(el)) return;
+        decoding.add(el);
+        const images = Array.from((el.closest("section") ?? el).querySelectorAll<HTMLImageElement>("img"));
+        void Promise.all(images.map((image) => image.decode().catch(() => undefined))).then(() => {
+          if (disposed || !el.isConnected) return;
+          decoded.add(el);
+          show(el);
+        });
+        return;
+      }
       revealed.add(el);
       const delay = el.dataset.aosDelay;
       if (delay) {
@@ -90,8 +125,7 @@ export function AosInit() {
         }
       });
     };
-    // Let the phone intro finish before revealing the first visible sections.
-    // Desktop keeps its load-time reveal schedule.
+    // Reveal only after the intro and any client-navigation curtain have left.
     let started = false;
     let timer = 0;
     const start = () => {
@@ -109,32 +143,48 @@ export function AosInit() {
     };
     let readyTimer = 0;
     const schedule = () => {
+      if (disposed || started) return;
+      window.clearTimeout(readyTimer);
       readyTimer = window.setTimeout(start, 60);
     };
-    let disposed = false;
-    if (mobile) {
-      motionPreference.addEventListener("change", start);
-      const intro = document.querySelector(".intro")?.getAnimations().find((animation) => animation.pending || animation.playState === "running");
-      if (intro) {
-        const afterIntro = () => { if (!disposed) start(); };
-        void intro.finished.then(afterIntro, afterIntro);
-      } else {
+    let preparing = false;
+    let curtainObserver: MutationObserver | undefined;
+    const afterCurtains = () => {
+      if (disposed || started) return;
+      const curtains = Array.from(document.querySelectorAll<HTMLElement>(".route-curtain"));
+      const check = () => {
+        if (disposed || curtains.some((curtain) => getComputedStyle(curtain).display !== "none" && curtain.getClientRects().length > 0)) return;
+        curtainObserver?.disconnect();
         schedule();
-      }
-    } else if (document.readyState === "complete") {
-      schedule();
+      };
+      curtainObserver = new MutationObserver(check);
+      curtains.forEach((curtain) => curtainObserver!.observe(curtain, { attributes: true, attributeFilter: ["style"] }));
+      check();
+    };
+    const prepare = () => {
+      if (disposed || started || preparing) return;
+      preparing = true;
+      const animations = document.querySelector(".intro")?.getAnimations().filter((animation) => animation.pending || animation.playState === "running") ?? [];
+      void Promise.allSettled(animations.map((animation) => animation.finished)).then(afterCurtains);
+    };
+    if (mobile) motionPreference.addEventListener("change", start);
+    if (document.readyState === "complete") {
+      prepare();
     } else {
-      window.addEventListener("load", schedule, { once: true });
+      window.addEventListener("load", prepare, { once: true });
     }
     // Never wait forever (e.g. a slow third-party asset holding "load").
-    const failSafe = window.setTimeout(start, 2500);
+    const failSafe = window.setTimeout(prepare, 2500);
 
     return () => {
       disposed = true;
+      navigationObservers.forEach(observer => observer.disconnect());
+      awaitingCurtain.clear();
       io.disconnect();
       mo.disconnect();
+      curtainObserver?.disconnect();
       motionPreference.removeEventListener("change", start);
-      window.removeEventListener("load", schedule);
+      window.removeEventListener("load", prepare);
       window.removeEventListener("scroll", sweep);
       window.removeEventListener("resize", sweep);
       window.clearTimeout(timer);

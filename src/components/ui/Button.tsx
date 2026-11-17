@@ -50,3 +50,7 @@ export function Button({ href, children, variant = "dark", size = "md", icon = t
 export function ButtonRow({ children, className }: { children: ReactNode; className?: string }) {
   return <Localized>{<div className={cn("flex flex-wrap items-center gap-3", className)}>{children}</div>}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Button.cmsLocalizedBoundary = true;
+ButtonRow.cmsLocalizedBoundary = true;

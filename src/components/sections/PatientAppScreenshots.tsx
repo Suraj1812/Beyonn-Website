@@ -62,3 +62,6 @@ export function PatientAppScreenshots({ compact = false }: { compact?: boolean }
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+PatientAppScreenshots.cmsLocalizedBoundary = true;

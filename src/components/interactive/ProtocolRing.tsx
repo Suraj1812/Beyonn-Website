@@ -1,18 +1,21 @@
 "use client";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { protocolSteps as initial_protocolSteps } from "@/content/protocol";
 
 import { Localized } from "@/components/i18n/Localized";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { cn } from "@/lib/cn";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowLeft, ArrowRight, Check, Users, Layers } from "lucide-react";
-import { protocolSteps } from "@/content/protocol";
-import { cn } from "@/lib/cn";
+import { ArrowLeft,ArrowRight,Check,Layers,Users } from "lucide-react";
+import { useEffect,useId,useRef,useState } from "react";
 import styles from "./ProtocolRing.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function ProtocolRing() {
+  const protocolSteps = useCmsData("protocolSteps", initial_protocolSteps);
+
   const root = useRef<HTMLDivElement>(null);
   const scroll = useRef<ScrollTrigger | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
@@ -122,3 +125,6 @@ export function ProtocolRing() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+ProtocolRing.cmsLocalizedBoundary = true;

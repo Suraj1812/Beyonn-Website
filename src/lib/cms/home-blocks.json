@@ -1,0 +1,82 @@
+[
+  {
+    "id": "home-hero-0",
+    "label": "Home Hero",
+    "enabled": true
+  },
+  {
+    "id": "workshop-reminder-1",
+    "label": "Workshop Reminder",
+    "enabled": true
+  },
+  {
+    "id": "welcome",
+    "label": "welcome",
+    "enabled": true
+  },
+  {
+    "id": "stories",
+    "label": "stories",
+    "enabled": true
+  },
+  {
+    "id": "doctor",
+    "label": "doctor",
+    "enabled": true
+  },
+  {
+    "id": "opportunity",
+    "label": "opportunity",
+    "enabled": true
+  },
+  {
+    "id": "gives",
+    "label": "gives",
+    "enabled": true
+  },
+  {
+    "id": "div-7",
+    "label": "Content section 8",
+    "enabled": true
+  },
+  {
+    "id": "protocol",
+    "label": "protocol",
+    "enabled": true
+  },
+  {
+    "id": "platform",
+    "label": "platform",
+    "enabled": true
+  },
+  {
+    "id": "gain",
+    "label": "gain",
+    "enabled": true
+  },
+  {
+    "id": "workshop",
+    "label": "workshop",
+    "enabled": true
+  },
+  {
+    "id": "section-12",
+    "label": "Content section 13",
+    "enabled": true
+  },
+  {
+    "id": "section-13",
+    "label": "Content section 14",
+    "enabled": true
+  },
+  {
+    "id": "section-14",
+    "label": "Content section 15",
+    "enabled": true
+  },
+  {
+    "id": "div-15",
+    "label": "Content section 16",
+    "enabled": true
+  }
+]

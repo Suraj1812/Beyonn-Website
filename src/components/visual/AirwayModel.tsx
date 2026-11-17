@@ -214,3 +214,7 @@ function AnatomyFallback({ open }: { open: boolean }) {
     </svg>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+AirwayModel.cmsLocalizedBoundary = true;
+AnatomyFallback.cmsLocalizedBoundary = true;

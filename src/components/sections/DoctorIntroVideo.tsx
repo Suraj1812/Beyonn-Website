@@ -15,3 +15,6 @@ export function DoctorIntroVideo() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+DoctorIntroVideo.cmsLocalizedBoundary = true;

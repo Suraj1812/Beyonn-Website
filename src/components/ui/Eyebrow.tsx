@@ -5,3 +5,6 @@ import { cn } from "@/lib/cn";
 export function Eyebrow({ children, className, tone = "light" }: { children: React.ReactNode; className?: string; tone?: "light" | "dark" }) {
   return <Localized>{<span className={cn("inline-block t-eyebrow", tone === "dark" ? "text-breath" : "text-dawn", className)}>{children}</span>}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Eyebrow.cmsLocalizedBoundary = true;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useCms } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
 
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import styles from "./WorkshopAnnouncement.module.css";
 const registrationUrl = "https://go.beyonn.com/dental-sleep-medicine-webinar?utm_source=website&utm_medium=homepage&utm_campaign=ws-1dec&utm_content=top-bar";
 
 export function WorkshopAnnouncement() {
+  const { document: cmsDocument } = useCms();
   const [dismissed, setDismissed] = useState(false);
   const [ready, setReady] = useState(false);
   useEffect(() => {
@@ -20,7 +22,7 @@ export function WorkshopAnnouncement() {
     });
     return () => { disposed = true; };
   }, []);
-  if (dismissed) return null;
+  if (dismissed || cmsDocument.components.announcement === false) return null;
   return <Localized>{(
     <aside aria-label="Upcoming workshop" className={styles.announcement} data-workshop-ready={ready}>
       <div className={styles.inner}>
@@ -39,3 +41,6 @@ export function WorkshopAnnouncement() {
     </aside>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+WorkshopAnnouncement.cmsLocalizedBoundary = true;

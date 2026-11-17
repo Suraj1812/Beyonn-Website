@@ -7,7 +7,7 @@ import { BookOpen, Gauge, Stethoscope, Sprout, Check, FileText, Users, Clipboard
 import { cn } from "@/lib/cn";
 
 const areas = [
-  { name: "Learn", icon: BookOpen, flow: [{ icon: BookOpen, label: "Training" }, { icon: FileText, label: "Resources" }, { icon: Users, label: "Your team" }], title: "A learning path for the whole team", items: ["Clinical Coaching Blueprint", "Clinical videos and case studies", "Forms and team progress"], detail: "Build confidence with step-by-step training and resources your team can return to." },
+  { name: "Learn", icon: BookOpen, flow: [{ icon: BookOpen, label: "Training" }, { icon: FileText, label: "Resources" }, { icon: Users, label: "Your team" }], title: "A learning path for the whole team", items: ["Beyonn Academy", "Clinical videos and case studies", "Forms and team progress"], detail: "Build confidence with step-by-step training and resources your team can return to." },
   { name: "Run", icon: Gauge, flow: [{ icon: Users, label: "Patients" }, { icon: ClipboardList, label: "Cases" }, { icon: MessageCircle, label: "Follow-up" }], title: "Keep the practice moving", items: ["Golden Tracker and case workflow", "Billing and documentation tools", "Patient communication"], detail: "Keep cases, follow-up and the work around care organised in one place." },
   { name: "Treat", icon: Stethoscope, flow: [{ icon: ScanHeart, label: "Screening" }, { icon: Stethoscope, label: "Treatment" }, { icon: CircleCheck, label: "Review" }], title: "Support from screening to treatment", items: ["Sleep testing and screening", "Appliance ordering", "Clinical case guidance"], detail: "Give your clinical team a connected workflow, with guidance for complex cases." },
   { name: "Grow", icon: Sprout, flow: [{ icon: Megaphone, label: "Awareness" }, { icon: Network, label: "Referrals" }, { icon: GraduationCap, label: "Coaching" }], title: "Turn awareness into patient conversations", items: ["Patient App and provider directory", "Patient education resources", "Coaching and study club"], detail: "Help patients recognise their symptoms and find their next step with your practice." },
@@ -51,3 +51,6 @@ export function OsTiles() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+OsTiles.cmsLocalizedBoundary = true;

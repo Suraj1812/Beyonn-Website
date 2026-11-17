@@ -40,3 +40,6 @@ export function Dialog({ open, onClose, title, children, wide }: { open: boolean
     </dialog>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Dialog.cmsLocalizedBoundary = true;

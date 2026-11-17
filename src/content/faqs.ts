@@ -31,24 +31,24 @@ export const patientQuickAnswers: FaqItem[] = [
 
 export const systemFaq: FaqItem[] = [
   { q: "Do I need sleep medicine experience to start?", a: "No. Training covers doctor and staff, and guidance on complex cases is part of your coaching." },
-  { q: "Who handles insurance and billing?", a: "Your team does, trained step by step through the Blueprint's billing and medical necessity modules and backed by the coding and documentation kit. Optional Billing Assist is there as a safety net." },
+  { q: "Who handles insurance and billing?", a: "Your team does, trained step by step through Beyonn Academy training in billing and medical necessity and backed by the coding and documentation kit. Optional Billing Assist is there as a safety net." },
   { q: "Does my team need to learn medical workflows?", a: "Yes, and Beyonn teaches them one step at a time, with a form or script for each." },
   { q: "Do I stay in control of clinical decisions?", a: "Yes. You evaluate, diagnose within your scope and treat." },
-  { q: "What happens if a key staff member leaves?", a: "New hires learn through the same Blueprint and Beyonn LMS, so the program keeps running." },
+  { q: "What happens if a key staff member leaves?", a: "New hires learn through the same Beyonn Academy curriculum and LMS, so the program keeps running." },
 ];
 
 export const academyFaq: FaqItem[] = [
   { q: "Is Beyonn Academy only for doctors?", a: "No. It trains the whole team: doctor, front desk, clinical team and billing." },
   { q: "Do I need sleep medicine experience?", a: "No. The Academy starts from the basics and builds up." },
-  { q: "Is it online?", a: "Yes. The LMS and Blueprint are on demand, and coaching is live online." },
-  { q: "What happens when a team member leaves?", a: "New hires learn through the same LMS and Blueprint, so the program keeps running." },
+  { q: "Is it online?", a: "Yes. The LMS and Beyonn Academy are on demand, and coaching is live online." },
+  { q: "What happens when a team member leaves?", a: "New hires learn through the same LMS and Beyonn Academy curriculum, so the program keeps running." },
   { q: "Is the Academy available on its own?", a: "It's part of becoming a Beyonn Network Partner. Your Discovery Call covers the details." },
 ];
 
 export const globalFaq: FaqItem[] = [
   { q: "Is Beyonn available in my country?", a: "See the list above, or register your interest and we'll tell you." },
-  { q: "Is the training online?", a: "Yes. The Beyonn LMS, the Blueprint and coaching are all online." },
-  { q: "Can my team be trained remotely?", a: "Yes. Onboarding, the Blueprint, the Beyonn LMS and coaching all work online." },
+  { q: "Is the training online?", a: "Yes. The Beyonn LMS, Beyonn Academy and coaching are all online." },
+  { q: "Can my team be trained remotely?", a: "Yes. Onboarding, Beyonn Academy, the Beyonn LMS and coaching all work online." },
 ];
 
 export const partnerFaq: FaqItem[] = [
@@ -56,7 +56,7 @@ export const partnerFaq: FaqItem[] = [
   { q: "Will my team actually adopt it?", a: "Scripts, training and on-demand onboarding are built for real teams and real turnover." },
   {
     q: "How does medical billing work?",
-    a: "OSA + TMD care is billed to medical insurance. The Blueprint trains your team in pre-service billing prep, medical necessity and claims, step by step, and the coding and documentation kit gives them the codes, letters and appeal templates. Optional Billing Assist is there if you want extra help.",
+    a: "OSA + TMD care is billed to medical insurance. Beyonn Academy trains your team in pre-service billing prep, medical necessity and claims, step by step, and the coding and documentation kit gives them the codes, letters and appeal templates. Optional Billing Assist is there if you want extra help.",
   },
   { q: "Is financing available?", a: "Yes. Practice and patient financing options are available; your Discovery Call covers them." },
   { q: "What are the certification tiers?", a: "Certified Provider, Advanced Provider and Centre of Excellence. Each tier unlocks more advanced cases and higher placement when patients search for a provider." },

@@ -1,7 +1,9 @@
+"use client";
+import { useCmsData } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
-import Image from "next/image";
-import { site } from "@/content/site";
+import { site as initial_site } from "@/content/site";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 function AppleBadge() {
   return <Localized>{<Image src="/assets/store-badges/app-store.svg" alt="Download on the App Store" width={120} height={40} unoptimized className="h-11 w-[132px] sm:h-13 sm:w-[156px]" />}</Localized>;
@@ -16,6 +18,8 @@ function PlayBadge() {
 }
 
 export function AppStoreButtons({ dark = false }: { dark?: boolean }) {
+  const site = useCmsData("site", initial_site);
+
   const focus = "inline-flex rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-dawn";
   return <Localized>{(
     <div className="flex flex-wrap items-start gap-3 sm:gap-4">
@@ -31,3 +35,8 @@ export function AppStoreButtons({ dark = false }: { dark?: boolean }) {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+AppleBadge.cmsLocalizedBoundary = true;
+PlayBadge.cmsLocalizedBoundary = true;
+AppStoreButtons.cmsLocalizedBoundary = true;

@@ -33,3 +33,6 @@ export function EndorsementCard({ person, index, className }: { person: Endorsem
     </article>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+EndorsementCard.cmsLocalizedBoundary = true;

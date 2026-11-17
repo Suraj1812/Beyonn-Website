@@ -64,3 +64,6 @@ export function ScrollWords({ segments, className }: { segments: Segment[]; clas
     </p>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+ScrollWords.cmsLocalizedBoundary = true;

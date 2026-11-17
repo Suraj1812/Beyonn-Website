@@ -19,3 +19,6 @@ export function FeatureCards({ points, className }: { points: string[]; classNam
     </ul>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+FeatureCards.cmsLocalizedBoundary = true;

@@ -1,37 +1,29 @@
 "use client";
 
 import Lenis from "lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePathname } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 const LenisContext = createContext<Lenis | null>(null);
 export const useLenis = () => useContext(LenisContext);
-
-gsap.registerPlugin(ScrollTrigger);
 
 function anchorOffset() {
   // On phones the target's CSS scroll margin already clears the fixed header.
   return window.matchMedia("(width < 48rem)").matches ? 0 : -96;
 }
 
-/** Lenis smooth scrolling driven by the GSAP ticker, so ScrollTrigger and AOS stay in sync. */
+/** Let the browser handle wheel/touch inertia; retain anchor navigation and modal locks. */
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const pathname = usePathname();
+  const previousPath = useRef(pathname);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const instance = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.2, anchors: { offset: anchorOffset() } });
-    const raf = (time: number) => instance.raf(time * 1000);
-    instance.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add(raf);
-    gsap.ticker.lagSmoothing(0);
+    const instance = new Lenis({ autoRaf: true, smoothWheel: false, syncTouch: false, anchors: { offset: anchorOffset(), duration: 0.65 } });
     // eslint-disable-next-line react-hooks/set-state-in-effect -- expose the instance once it exists
     setLenis(instance);
     return () => {
-      gsap.ticker.remove(raf);
       instance.destroy();
       setLenis(null);
     };
@@ -40,17 +32,21 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   // On route change: move to the hash target, or return to the top.
   useEffect(() => {
     const hash = window.location.hash;
+    const navigated = previousPath.current !== pathname;
+    previousPath.current = pathname;
+    // Initial hydration must not reset native scrolling after the visitor has already moved.
+    if (!hash && !navigated) return;
     const go = () => {
       if (hash) {
         const el = document.getElementById(decodeURIComponent(hash.slice(1)));
         if (el) {
-          if (lenis) lenis.scrollTo(el, { offset: anchorOffset(), immediate: false, duration: 1.2 });
-          else el.scrollIntoView({ behavior: "smooth" });
+          if (lenis) lenis.scrollTo(el, { offset: anchorOffset(), duration: 0.65 });
+          else el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
           return;
         }
       }
       if (lenis) lenis.scrollTo(0, { immediate: true });
-      else window.scrollTo(0, 0);
+      else window.scrollTo({ top: 0, behavior: "instant" });
     };
     const t = window.setTimeout(() => {
       go();

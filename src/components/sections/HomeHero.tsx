@@ -184,3 +184,6 @@ export function HomeHero({ actions, below }: { actions: ReactNode; below: ReactN
     </>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+HomeHero.cmsLocalizedBoundary = true;

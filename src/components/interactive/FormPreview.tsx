@@ -37,3 +37,6 @@ export function FormPreview({ fields, submitLabel, tone = "light", compact = fal
     </fieldset>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+FormPreview.cmsLocalizedBoundary = true;

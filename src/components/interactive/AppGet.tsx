@@ -1,16 +1,17 @@
 "use client";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { site as initial_site } from "@/content/site";
 
 import { Localized } from "@/components/i18n/Localized";
 
-import QRCode from "qrcode";
 import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { ArrowUpRight, Smartphone } from "lucide-react";
-import { site } from "@/content/site";
 import { Dialog } from "@/components/ui/Dialog";
 import { cn } from "@/lib/cn";
+import { ArrowUpRight,Smartphone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import QRCode from "qrcode";
+import { useEffect,useState } from "react";
 
 export type AppScreen = "snore-score" | "sleep-score" | "book-exam" | "find-doctor" | "home";
 
@@ -35,6 +36,8 @@ function platform(): "ios" | "android" | "desktop" {
  * Until store links are configured, it offers a direct contact route.
  */
 export function AppGet({ label, screen = "home", variant = "dawn", className, size = "md" }: { label: string; screen?: AppScreen; variant?: "dawn" | "dark" | "light" | "ghost" | "ghost-light"; className?: string; size?: "md" | "sm" }) {
+  const site = useCmsData("site", initial_site);
+
   const [open, setOpen] = useState(false);
   const [qr, setQr] = useState("");
   const live = Boolean(site.app.appStore || site.app.googlePlay);
@@ -90,3 +93,6 @@ export function AppGet({ label, screen = "home", variant = "dawn", className, si
     </>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+AppGet.cmsLocalizedBoundary = true;

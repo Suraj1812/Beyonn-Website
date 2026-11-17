@@ -34,3 +34,6 @@ export function SplitWords({ children }: { children: ReactNode }) {
     });
   return <Localized>{<>{walk(children)}</>}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+SplitWords.cmsLocalizedBoundary = true;

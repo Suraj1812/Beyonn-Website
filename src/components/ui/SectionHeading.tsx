@@ -38,3 +38,6 @@ export function SectionHeading({ eyebrow, title, lead, align = "left", className
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+SectionHeading.cmsLocalizedBoundary = true;

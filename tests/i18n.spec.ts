@@ -278,6 +278,14 @@ for (const locale of ["hi-IN", "ar-SA"]) {
       await page.locator("[data-language-trigger]").click();
       const panel = page.locator("[data-language-switcher] section");
       await expect(panel).toBeVisible();
+      const picker = panel.getByRole("combobox");
+      expect(await picker.locator("option").evaluateAll((options) => options.map((option) => (option as HTMLOptionElement).value))).toEqual([...languages].sort((a, b) => a.english.localeCompare(b.english, "en")).map(({ code }) => code));
+      const arrowGap = await picker.evaluate((select) => {
+        const field = select.getBoundingClientRect();
+        const arrow = select.parentElement!.querySelector("svg")!.getBoundingClientRect();
+        return getComputedStyle(select).direction === "rtl" ? arrow.left - field.left : field.right - arrow.right;
+      });
+      expect(arrowGap, `${locale} arrow inset at ${width}px`).toBeGreaterThanOrEqual(11.5);
       const bounds = await panel.boundingBox();
       expect(bounds!.x, `${locale} at ${width}px`).toBeGreaterThanOrEqual(15.5);
       expect(bounds!.x + bounds!.width, `${locale} at ${width}px`).toBeLessThanOrEqual(width - 15.5);

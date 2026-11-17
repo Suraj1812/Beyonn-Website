@@ -1,36 +1,46 @@
+import { getPublished } from "@/lib/cms/server/content";
+import { connection } from "next/server";
+import { Suspense } from "react";
+import { PublishedShell } from "@/components/control/PublishedShell";
 import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { SmoothScroll } from "@/components/providers/SmoothScroll";
-import { ParticleMorph } from "@/components/visual/ParticleMorph";
-import { AosInit } from "@/components/providers/AosInit";
-import { GuideBot } from "@/components/visual/GuideBot";
-import { VisitorProvider } from "@/components/providers/VisitorProvider";
-import { ScrollProgress } from "@/components/visual/ScrollProgress";
-import { PointerEffects } from "@/components/visual/PointerEffects";
-import { Intro } from "@/components/visual/Intro";
 import { site } from "@/content/site";
 import { ogImageUrl } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { LanguageProvider } from "@/components/i18n/LanguageProvider";
-import { Localized } from "@/components/i18n/Localized";
 import "./globals.css";
 
-const sans = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const display = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+const display = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
-const defaultTitle = "Dental Sleep Medicine Program for Your Team | OSA + TMD | Beyonn";
+const defaultTitle =
+  "Dental Sleep Medicine Program for Your Team | OSA + TMD | Beyonn";
 const defaultDescription =
   "Add Obstructive Sleep Apnea and Temporomandibular Joint Disorder treatment to your practice. Beyonn trains your team, gives you the systems and coaches you until it runs.";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: defaultTitle, template: "%s | Beyonn" },
   description: defaultDescription,
   applicationName: "Beyonn",
   referrer: "origin-when-cross-origin",
-  keywords: ["Beyonn", "dental sleep medicine", "obstructive sleep apnea", "TMD", "TMJ", "oral appliance therapy", "sleep apnea training for dentists", "Dr. Rodney Willey"],
+  keywords: [
+    "Beyonn",
+    "dental sleep medicine",
+    "obstructive sleep apnea",
+    "TMD",
+    "TMJ",
+    "oral appliance therapy",
+    "sleep apnea training for dentists",
+    "Dr. Rodney Willey",
+  ],
   authors: [{ name: "Beyonn", url: site.url }],
   creator: "Beyonn",
   publisher: "Beyonn",
@@ -44,17 +54,51 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: defaultTitle,
     description: defaultDescription,
-    images: [{ url: ogImageUrl(defaultTitle, "The OSA + TMD program your team can run"), width: 1200, height: 630, alt: "Beyonn: the OSA + TMD program your team can run" }],
+    images: [
+      {
+        url: ogImageUrl(
+          defaultTitle,
+          "The OSA + TMD program your team can run",
+        ),
+        width: 1200,
+        height: 630,
+        alt: "Beyonn: the OSA + TMD program your team can run",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: defaultTitle,
     description: defaultDescription,
-    images: [ogImageUrl(defaultTitle, "The OSA + TMD program your team can run")],
+    images: [
+      ogImageUrl(defaultTitle, "The OSA + TMD program your team can run"),
+    ],
   },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   appleWebApp: { title: "Beyonn", statusBarStyle: "default" },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  await connection();
+  const document = await getPublished();
+  const current = document.data.site as unknown as typeof site;
+  return {
+    ...baseMetadata,
+    metadataBase: new URL(current.url),
+    applicationName: current.name,
+    openGraph: { ...baseMetadata.openGraph, siteName: current.name },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#ffffff",
@@ -76,8 +120,22 @@ const orgJsonLd = [
     slogan: site.line,
     description: defaultDescription,
     sameAs: [site.linkedin.beyonn],
-    contactPoint: [{ "@type": "ContactPoint", telephone: "+1-888-264-1981", email: site.email, contactType: "customer service", areaServed: "US", availableLanguage: "English" }],
-    founder: { "@type": "Person", name: "Dr. Rodney Willey", honorificSuffix: "DDS, D.ACSDD, D.ASBA", jobTitle: "Founder & Clinical Lead" },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+1-888-264-1981",
+        email: site.email,
+        contactType: "customer service",
+        areaServed: "US",
+        availableLanguage: "English",
+      },
+    ],
+    founder: {
+      "@type": "Person",
+      name: "Dr. Rodney Willey",
+      honorificSuffix: "DDS, D.ACSDD, D.ASBA",
+      jobTitle: "Founder & Clinical Lead",
+    },
   },
   {
     "@context": "https://schema.org",
@@ -92,28 +150,17 @@ const orgJsonLd = [
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`} data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className={`${sans.variable} ${display.variable}`}
+      data-scroll-behavior="smooth"
+    >
       <body>
-        <LanguageProvider>
-          <Intro />
-          <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-dawn focus:px-5 focus:py-3 focus:font-semibold focus:text-ink">
-            <Localized>Skip to content</Localized>
-          </a>
-          <VisitorProvider>
-            <SmoothScroll>
-              <ScrollProgress />
-              <Header />
-              <main id="main" tabIndex={-1} className="outline-none">
-                {children}
-              </main>
-              <Footer />
-              <ParticleMorph />
-              <GuideBot />
-              <AosInit />
-              <PointerEffects />
-            </SmoothScroll>
-          </VisitorProvider>
-        </LanguageProvider>
+        <Suspense
+          fallback={<div className="min-h-screen bg-white" aria-busy="true" />}
+        >
+          <PublishedShell>{children}</PublishedShell>
+        </Suspense>
         <JsonLd data={orgJsonLd} />
       </body>
     </html>

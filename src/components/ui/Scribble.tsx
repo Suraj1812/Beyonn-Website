@@ -40,3 +40,6 @@ export function Scribble({ children, play = true }: { children: React.ReactNode;
     </em>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Scribble.cmsLocalizedBoundary = true;

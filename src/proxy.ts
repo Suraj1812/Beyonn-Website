@@ -18,9 +18,19 @@ const known = new Set<string>([
   ...articles.map((a) => `/resources/${a.slug}`),
 ]);
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname.replace(/\/+$/, "") || "/";
+  if (path === "/control" || path.startsWith("/control/")) return NextResponse.next();
   if (known.has(path)) return NextResponse.next();
+  if (/^\/[a-z0-9]+(?:[-/][a-z0-9]+)*$/.test(path)) {
+    try {
+      const preview = request.nextUrl.searchParams.get("cms-preview") === "1" && request.cookies.has("__session");
+      const url = new URL(preview ? "/api/control/resolve" : "/api/control/public", request.url);
+      url.searchParams.set("path", path.slice(1));
+      const response = await fetch(url, { headers: preview ? { cookie: request.headers.get("cookie") ?? "" } : {}, cache: "no-store", signal: AbortSignal.timeout(5000) });
+      if (response.ok && (await response.json()).exists) return NextResponse.next();
+    } catch { /* Unknown paths still receive a real 404 if the resolver is unavailable. */ }
+  }
   return NextResponse.rewrite(new URL("/_not-found", request.url), { status: 404 });
 }
 

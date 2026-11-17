@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
@@ -13,11 +14,13 @@ let hydrated = false;
  * (the intro handles that) and for reduced motion.
  */
 export function RouteTransition({ children }: { children: React.ReactNode }) {
+  const isControl = usePathname().startsWith("/control");
   const ref = useRef<HTMLDivElement>(null);
   const curtain = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      if (isControl) return;
       if (!hydrated) {
         hydrated = true;
         return;
@@ -46,6 +49,7 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
     { scope: ref },
   );
 
+  if (isControl) return <>{children}</>;
   return (
     <>
       <div ref={curtain} className="route-curtain" aria-hidden>

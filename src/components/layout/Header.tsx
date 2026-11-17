@@ -1,37 +1,39 @@
 "use client";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { primaryNav as initial_primaryNav,signInNav as initial_signInNav,site as initial_site } from "@/content/site";
 
 import { Localized } from "@/components/i18n/Localized";
 
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { useLenis } from "@/components/providers/SmoothScroll";
+import { isGroup,isPatientRoute,type NavGroup,type NavLink } from "@/content/site";
+import { cn } from "@/lib/cn";
+import type { LucideIcon } from "lucide-react";
+import {
+Activity,
+ArrowRight,
+ArrowUpRight,
+CalendarDays,
+ChevronDown,
+Earth,
+GraduationCap,
+HeartPulse,
+KeyRound,
+Mail,
+MapPin,
+Phone,
+Smartphone,
+Stethoscope,
+UserRound,
+Users,
+Workflow,
+X,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import type { LucideIcon } from "lucide-react";
-import {
-  Activity,
-  ArrowRight,
-  ArrowUpRight,
-  CalendarDays,
-  ChevronDown,
-  Earth,
-  GraduationCap,
-  HeartPulse,
-  KeyRound,
-  Mail,
-  MapPin,
-  Phone,
-  Smartphone,
-  Stethoscope,
-  UserRound,
-  Users,
-  Workflow,
-  X,
-} from "lucide-react";
-import { isGroup, isPatientRoute, primaryNav, signInNav, site, type NavGroup, type NavLink } from "@/content/site";
-import { useLenis } from "@/components/providers/SmoothScroll";
+import { useEffect,useRef,useState } from "react";
 import { Logo } from "./Logo";
-import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
-import { cn } from "@/lib/cn";
 
 const icons: Record<string, LucideIcon> = {
   "/the-beyonn-system": Workflow,
@@ -48,8 +50,6 @@ const icons: Record<string, LucideIcon> = {
   "/portal": HeartPulse,
   "/partner-login": KeyRound,
 };
-
-const signInGroup: NavGroup = { label: "Sign in", links: signInNav };
 
 /** Exact page match for a link (hash links never count as the current page). */
 const isCurrent = (pathname: string, href: string) => !href.includes("#") && pathname === href;
@@ -133,6 +133,7 @@ function PanelLink({ link, pathname, onNavigate, compact }: { link: NavLink; pat
  * the rest open as a compact list under their trigger.
  */
 function DesktopMenu({ group, pathname, open, onOpen, onClose, onToggle, align = "center", trigger, triggerLabel }: MenuProps) {
+
   const pointer = useRef("");
   const id = `menu-${group.label.toLowerCase().replace(/\s+/g, "-")}`;
   const active = groupActive(pathname, group);
@@ -237,6 +238,11 @@ function DesktopMenu({ group, pathname, open, onOpen, onClose, onToggle, align =
 }
 
 export function Header() {
+  const primaryNav = useCmsData("primaryNav", initial_primaryNav);
+  const signInNav = useCmsData("signInNav", initial_signInNav);
+  const signInGroup: NavGroup = { label: "Sign in", links: signInNav };
+  const site = useCmsData("site", initial_site);
+
   const pathname = usePathname();
   const lenis = useLenis();
   const [scrolled, setScrolled] = useState(false);
@@ -626,3 +632,9 @@ export function Header() {
     </>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+MenuLink.cmsLocalizedBoundary = true;
+PanelLink.cmsLocalizedBoundary = true;
+DesktopMenu.cmsLocalizedBoundary = true;
+Header.cmsLocalizedBoundary = true;

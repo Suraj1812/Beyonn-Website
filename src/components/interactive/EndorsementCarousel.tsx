@@ -1,11 +1,13 @@
 "use client";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { endorsements as initial_endorsements } from "@/content/endorsements";
 
 import { Localized } from "@/components/i18n/Localized";
 
-import { useEffect, useRef, useState } from "react";
-import { Pause, Play } from "lucide-react";
-import { endorsements, endorsementSource } from "@/content/endorsements";
 import { EndorsementCard } from "@/components/sections/EndorsementCard";
+import { endorsementSource } from "@/content/endorsements";
+import { Pause,Play } from "lucide-react";
+import { useEffect,useRef,useState } from "react";
 
 const SPEED = 38; // px per second
 const MOBILE_INTERVAL = 4500;
@@ -17,6 +19,8 @@ const MOBILE_INTERVAL = 4500;
  * Phones advance one card at a time and support swipe and pause.
  */
 export function EndorsementCarousel() {
+  const endorsements = useCmsData("endorsements", initial_endorsements);
+
   const viewport = useRef<HTMLDivElement>(null);
   const strip = useRef<HTMLUListElement>(null);
   const [paused, setPaused] = useState(false);
@@ -79,7 +83,7 @@ export function EndorsementCarousel() {
       stop?.();
       media.removeEventListener("change", sync);
     };
-  }, []);
+  }, [endorsements.length]);
 
   useEffect(() => {
     const vp = viewport.current;
@@ -161,3 +165,6 @@ export function EndorsementCarousel() {
     </>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+EndorsementCarousel.cmsLocalizedBoundary = true;

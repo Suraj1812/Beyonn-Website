@@ -1,33 +1,37 @@
+"use client";
+import { useCmsData } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
-import Image from "next/image";
-import { ArrowRight, ChevronDown, Mail, Phone } from "lucide-react";
-import type { Action, Card, PageSection } from "@/content/pages";
-import { team } from "@/content/team";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Button } from "@/components/ui/Button";
-import { ArrowLink } from "@/components/ui/ArrowLink";
-import { CheckList } from "@/components/ui/Check";
-import { Faq } from "@/components/ui/Faq";
-import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
-import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
-import { FeatureCards } from "@/components/sections/FeatureCards";
-import { SplitTable } from "@/components/sections/SplitTable";
-import { QuoteBlock } from "@/components/sections/QuoteBlock";
-import { Ladder, certificationTiers } from "@/components/sections/Ladder";
 import { AppGet } from "@/components/interactive/AppGet";
-import { PatientCheck } from "@/components/interactive/PatientCheck";
 import { EndorsementCarousel } from "@/components/interactive/EndorsementCarousel";
-import { FormPreview, type PreviewField } from "@/components/interactive/FormPreview";
-import { articles } from "@/content/articles";
-import { site } from "@/content/site";
-import Link from "next/link";
-import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
+import { FormPreview,type PreviewField } from "@/components/interactive/FormPreview";
+import { PatientCheck } from "@/components/interactive/PatientCheck";
 import { WorkshopSignup } from "@/components/interactive/WorkshopSignup";
+import { AcademyCurriculum } from "@/components/sections/AcademyCurriculum";
+import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
+import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
+import { FeatureCards } from "@/components/sections/FeatureCards";
+import { Ladder,certificationTiers } from "@/components/sections/Ladder";
+import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
+import { QuoteBlock } from "@/components/sections/QuoteBlock";
+import { SplitTable } from "@/components/sections/SplitTable";
+import { TeamMission } from "@/components/sections/TeamMission";
+import { ArrowLink } from "@/components/ui/ArrowLink";
+import { Button } from "@/components/ui/Button";
+import { CheckList } from "@/components/ui/Check";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Faq } from "@/components/ui/Faq";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
 import { Tilt } from "@/components/visual/Tilt";
+import { articles as initial_articles } from "@/content/articles";
+import type { Action,Card,PageSection } from "@/content/pages";
+import { site as initial_site } from "@/content/site";
+import { team as initial_team } from "@/content/team";
 import { cn } from "@/lib/cn";
+import { ArrowRight,ChevronDown,Mail,Phone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 const registerFields: PreviewField[] = [
   { name: "name", label: "Name" },
@@ -113,11 +117,13 @@ function Cards({ cards }: { cards: Card[] }) {
       {cards.map((c, i) => (
         <li key={`${c.label ?? ""}${c.title ?? c.text}`} data-aos="fade-up" data-aos-delay={Math.min(i * 70, 280)}>
           <Tilt className="h-full rounded-[var(--radius-card)]" max={5}>
-            <div className="flex h-full flex-col gap-3 rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]">
-              {letters && <span className="font-display text-5xl font-bold leading-none text-dawn">{c.label}</span>}
-              {c.title && <h3 className="text-lg font-semibold leading-snug">{c.title}</h3>}
-              {c.text && <p className="leading-relaxed text-text/80">{c.text}</p>}
-            </div>
+            <Localized>
+              <div className="flex h-full flex-col gap-3 rounded-[var(--radius-card)] border border-ink/10 bg-white p-6 shadow-[0_18px_40px_-34px_rgb(19_37_62/0.5)]">
+                {letters && <span className="font-display text-5xl font-bold leading-none text-dawn">{c.label}</span>}
+                {c.title && <h3 className="text-lg font-semibold leading-snug">{c.title}</h3>}
+                {c.text && <p className="leading-relaxed text-text/80">{c.text}</p>}
+              </div>
+            </Localized>
           </Tilt>
         </li>
       ))}
@@ -285,6 +291,8 @@ function Aside({ aside }: { aside: NonNullable<PageSection["aside"]> }) {
 }
 
 function TeamGrid() {
+  const team = useCmsData("team", initial_team);
+
   return <Localized>{(
     <div data-morph-shape="rect" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {team.map((person, i) => (
@@ -322,6 +330,9 @@ function Panel({ children, className }: { children: React.ReactNode; className?:
 }
 
 function Widget({ section }: { section: PageSection }) {
+  const articles = useCmsData("articles", initial_articles);
+  const site = useCmsData("site", initial_site);
+
   switch (section.widget) {
     case "workshop-preview":
       return <Localized>{<div className="max-w-xl rounded-2xl bg-ink p-6 text-paper"><WorkshopSignup /></div>}</Localized>;
@@ -376,6 +387,8 @@ function Widget({ section }: { section: PageSection }) {
           <FormPreview fields={discoveryFields} submitLabel="Book Your Discovery Call" />
         </Panel>
       )}</Localized>;
+    case "academy-curriculum":
+      return <AcademyCurriculum />;
     case "team":
       return <Localized>{<TeamGrid />}</Localized>;
     case "ladder":
@@ -450,6 +463,9 @@ function Widget({ section }: { section: PageSection }) {
 
 /** One content section, composed from whichever blocks the approved copy calls for. */
 export function ContentSection({ section, index }: { section: PageSection; index: number }) {
+  const site = useCmsData("site", initial_site);
+
+  if (section.widget === "team-mission") return <TeamMission section={section} />;
   if (section.widget === "quick-check") return <Localized>{<PatientCheck />}</Localized>;
 
   if (section.widget === "app-download") {
@@ -673,3 +689,18 @@ export function ContentSection({ section, index }: { section: PageSection; index
     </section>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+ActionButton.cmsLocalizedBoundary = true;
+Body.cmsLocalizedBoundary = true;
+Header.cmsLocalizedBoundary = true;
+Cards.cmsLocalizedBoundary = true;
+Columns.cmsLocalizedBoundary = true;
+Steps.cmsLocalizedBoundary = true;
+Table.cmsLocalizedBoundary = true;
+Stats.cmsLocalizedBoundary = true;
+Aside.cmsLocalizedBoundary = true;
+TeamGrid.cmsLocalizedBoundary = true;
+Panel.cmsLocalizedBoundary = true;
+Widget.cmsLocalizedBoundary = true;
+ContentSection.cmsLocalizedBoundary = true;

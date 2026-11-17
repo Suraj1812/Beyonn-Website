@@ -5,14 +5,17 @@ import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import { workshopContent } from "@/content/workshop";
+import { useCmsData } from "@/components/control/CmsProvider";
+import { workshopContent as initialWorkshop } from "@/content/workshop";
 import styles from "./WorkshopReminder.module.css";
 
 const dismissalKey = "beyonn-workshop-reminder:ws-1dec";
-const registrationUrl = workshopContent.registrationUrl.replace("workshop-section", "floating-card");
+
 
 /** A quiet reminder once the home hero has passed, outside the main workshop section. */
 export function WorkshopReminder() {
+  const workshopContent = useCmsData("workshopContent", initialWorkshop);
+  const registrationUrl = workshopContent.registrationUrl;
   const [pastHero, setPastHero] = useState(false);
   const [workshopVisible, setWorkshopVisible] = useState(false);
   const [footerVisible, setFooterVisible] = useState(false);
@@ -59,3 +62,6 @@ export function WorkshopReminder() {
     </aside>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+WorkshopReminder.cmsLocalizedBoundary = true;

@@ -118,3 +118,7 @@ export function PatientCheck() {
 function Question({ index, question, value, onChange }: { index: number; question: string; value: boolean | null; onChange: (index: number, value: boolean) => void }) {
   return <Localized>{<div className="border-b border-paper/10 pb-5"><p id={`check-q-${index}`} className="leading-relaxed">{index + 1}. {question}</p><div className="mt-3 flex gap-2" role="radiogroup" aria-labelledby={`check-q-${index}`}>{[true, false].map((choice) => <label key={String(choice)} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors ${value === choice ? "border-dawn bg-dawn text-white" : "border-paper/20 text-paper/70 hover:border-paper/60"}`}><input type="radio" className="sr-only" name={`check-${index}`} checked={value === choice} onChange={() => onChange(index, choice)} />{choice ? "Yes" : "No"}</label>)}</div></div>}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+PatientCheck.cmsLocalizedBoundary = true;
+Question.cmsLocalizedBoundary = true;

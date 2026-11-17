@@ -22,3 +22,6 @@ export function Faq({ items, name }: { items: FaqItem[]; name?: string }) {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Faq.cmsLocalizedBoundary = true;

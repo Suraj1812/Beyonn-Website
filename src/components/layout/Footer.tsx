@@ -1,6 +1,10 @@
+"use client";
+import { useCmsData } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
+import { footerNav as initial_footerNav,legalNav as initial_legalNav,site as initial_site } from "@/content/site";
+import { ArrowUp,ArrowUpRight,ChevronDown,Mail,Phone } from "lucide-react";
 import Link from "next/link";
-import { ArrowUp, ArrowUpRight, ChevronDown, Mail, Phone } from "lucide-react";
+import { Logo } from "./Logo";
 
 function Linkedin({ className }: { className?: string }) {
   return <Localized>{(
@@ -9,10 +13,12 @@ function Linkedin({ className }: { className?: string }) {
     </svg>
   )}</Localized>;
 }
-import { footerNav, legalNav, site } from "@/content/site";
-import { Logo } from "./Logo";
 
 export function Footer() {
+  const footerNav = useCmsData("footerNav", initial_footerNav);
+  const legalNav = useCmsData("legalNav", initial_legalNav);
+  const site = useCmsData("site", initial_site);
+
   return <Localized>{(
     <footer className="relative overflow-hidden bg-ink text-paper">
       <div className="container-x relative pb-5 pt-6 sm:pb-10 sm:pt-16">
@@ -100,3 +106,7 @@ export function Footer() {
     </footer>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Linkedin.cmsLocalizedBoundary = true;
+Footer.cmsLocalizedBoundary = true;

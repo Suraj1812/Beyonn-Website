@@ -1,0 +1,17 @@
+# Low-traffic starting configuration. Instance limits reduce scaling exposure,
+# but do not provide a hard monthly spending cap.
+runConfig:
+  minInstances: 0
+  maxInstances: 2
+  concurrency: 40
+  cpu: 1
+  memoryMiB: 512
+env:
+  - variable: FIREBASE_PROJECT_ID
+    value: beyonn-website-cms
+    availability: [BUILD, RUNTIME]
+  - variable: FIREBASE_STORAGE_BUCKET
+    value: beyonn-cms-media-347549647510
+    availability: [RUNTIME]
+# App Hosting supplies FIREBASE_WEBAPP_CONFIG when associated with the Beyonn web app.
+# The server reads its API key for Firebase Authentication; do not upload local credentials.

@@ -1,0 +1,7 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    { "collectionGroup": "cms_content", "fieldPath": "json", "indexes": [] },
+    { "collectionGroup": "cms_history", "fieldPath": "json", "indexes": [] }
+  ]
+}

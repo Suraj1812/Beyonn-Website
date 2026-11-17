@@ -89,7 +89,7 @@ export const articles: Article[] = [
         h: "Information versus capability",
         p: [
           "A course gives you knowledge and a certificate. A program gives your team the step-by-step training, ready-made forms and coaching to run every case from the first call to reimbursement.",
-          "That difference is why Beyonn trains your whole team through the twelve modules of the Coaching Clinician Blueprint, and keeps coaching until the program runs on its own.",
+          "That difference is why Beyonn trains your whole team through the three tiers of Beyonn Academy, and keeps coaching until the program runs on its own.",
         ],
       },
     ],
@@ -128,7 +128,7 @@ export const articles: Article[] = [
       {
         h: "How Beyonn equips your team",
         p: [
-          "The Blueprint trains your team in pre-service billing prep, medical necessity and claims, step by step. The coding and documentation kit provides CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and a payer rules library. The claim dashboard shows where every claim stands, and optional Billing Assist is there if you'd like a hand.",
+          "Beyonn Academy trains your team in pre-service billing prep, medical necessity and claims, step by step. The coding and documentation kit provides CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates and a payer rules library. The claim dashboard shows where every claim stands, and optional Billing Assist is there if you'd like a hand.",
           "This article is general information, not billing or legal advice. Payer rules vary; always confirm requirements with each payer.",
         ],
       },

@@ -40,3 +40,6 @@ export function GuideBot() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+GuideBot.cmsLocalizedBoundary = true;

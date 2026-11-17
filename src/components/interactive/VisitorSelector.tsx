@@ -229,3 +229,9 @@ export function VisitorSelector() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+Bubble.cmsLocalizedBoundary = true;
+Typing.cmsLocalizedBoundary = true;
+Chip.cmsLocalizedBoundary = true;
+VisitorSelector.cmsLocalizedBoundary = true;

@@ -1,9 +1,11 @@
 "use client";
 
-import { Languages, X } from "lucide-react";
+import { ChevronDown, Languages, X } from "lucide-react";
 import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { languages, type Language } from "@/lib/i18n/languages";
 import { useLanguage } from "./LanguageProvider";
+
+const sortedLanguages = [...languages].sort((a, b) => a.english.localeCompare(b.english, "en"));
 
 export function LanguageSwitcher() {
   const { language, deviceLanguage, selectLanguage, useDeviceLanguage, loading, error, retry, t } = useLanguage();
@@ -65,9 +67,12 @@ export function LanguageSwitcher() {
             <label htmlFor={`${id}-select`} className="font-semibold">{t("Choose your language")}</label>
             <button type="button" onClick={() => { setOpen(false); trigger.current?.focus(); }} aria-label={t("Close")} className="grid size-9 place-items-center rounded-full hover:bg-ink/5"><X className="size-4" aria-hidden /></button>
           </div>
-          <select ref={picker} id={`${id}-select`} value={language} onChange={(event) => selectLanguage(event.target.value as Language)} className="min-h-11 w-full rounded-lg border border-ink/25 bg-white px-3 text-base text-ink">
-            {languages.map((item) => <option key={item.code} value={item.code} lang={item.code}>{item.name} · {item.english}</option>)}
-          </select>
+          <div className="relative">
+            <select ref={picker} id={`${id}-select`} value={language} onChange={(event) => selectLanguage(event.target.value as Language)} className="min-h-11 w-full appearance-none rounded-lg border border-ink/25 bg-white py-2 ps-3 pe-10 text-base text-ink">
+              {sortedLanguages.map((item) => <option key={item.code} value={item.code} lang={item.code}>{item.name} · {item.english}</option>)}
+            </select>
+            <ChevronDown aria-hidden className="pointer-events-none absolute end-3 top-1/2 size-4 -translate-y-1/2" />
+          </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {language !== "en" && <button type="button" onClick={() => selectLanguage("en")} className="min-h-11 rounded-full bg-ink px-4 text-sm font-medium text-white">English</button>}
             {deviceLanguage !== "en" && language !== deviceLanguage && <button type="button" onClick={() => selectLanguage(deviceLanguage)} className="min-h-11 rounded-full border border-ink/20 px-4 text-sm font-medium" lang={deviceLanguage}>{languages.find((item) => item.code === deviceLanguage)?.name}</button>}

@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
   },
   // The share-image route reads these brand files from disk; make sure they ship with it.
   outputFileTracingIncludes: {
-    "/og": ["./public/assets/beyonn-logo.png", "./public/assets/site/beyonn-emblem.png"],
+    "/og": [
+      "./public/assets/beyonn-logo.png",
+      "./public/assets/site/beyonn-emblem.png",
+    ],
   },
   turbopack: {
     rules: {
@@ -24,12 +27,47 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors 'self'; object-src 'none'; base-uri 'self'",
+          },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+        ],
+      },
+      {
+        source: "/control/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+          { key: "Cache-Control", value: "private, no-store" },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
-      { source: "/beyonn-protocol", destination: "/the-beyonn-system", permanent: true },
-      { source: "/the-beyonn-protocol", destination: "/the-beyonn-system", permanent: true },
+      {
+        source: "/beyonn-protocol",
+        destination: "/the-beyonn-system",
+        permanent: true,
+      },
+      {
+        source: "/the-beyonn-protocol",
+        destination: "/the-beyonn-system",
+        permanent: true,
+      },
       { source: "/workshops", destination: "/workshop", permanent: false },
-      { source: "/find-a-provider", destination: "/patients/find-a-provider", permanent: true },
+      {
+        source: "/find-a-provider",
+        destination: "/patients/find-a-provider",
+        permanent: true,
+      },
       { source: "/about", destination: "/team", permanent: true },
     ];
   },

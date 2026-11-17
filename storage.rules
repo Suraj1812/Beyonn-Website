@@ -1,0 +1,7 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Raw bucket access is closed; only authorized server uploads and published asset reads are allowed.
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

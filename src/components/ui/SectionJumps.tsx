@@ -23,3 +23,6 @@ export function SectionJumps({ links }: { links: { id: string; label: string }[]
     </nav>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+SectionJumps.cmsLocalizedBoundary = true;

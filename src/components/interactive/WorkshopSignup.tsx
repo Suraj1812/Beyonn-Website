@@ -1,9 +1,13 @@
+"use client";
+import { useCmsData } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
 import { Button } from "@/components/ui/Button";
-import { workshopContent } from "@/content/workshop";
-import { CalendarDays, Clock } from "lucide-react";
+import { workshopContent as initial_workshopContent } from "@/content/workshop";
+import { CalendarDays,Clock } from "lucide-react";
 
 export function WorkshopSignup() {
+  const workshopContent = useCmsData("workshopContent", initial_workshopContent);
+
   return <Localized>{(
     <div className="relative">
       <span className="inline-flex rounded-full bg-breath/12 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-breath ring-1 ring-breath/25">
@@ -30,3 +34,6 @@ export function WorkshopSignup() {
     </div>
   )}</Localized>;
 }
+
+// Prevent parent boundaries from translating this component before it renders.
+WorkshopSignup.cmsLocalizedBoundary = true;

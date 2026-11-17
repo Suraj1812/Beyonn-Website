@@ -1,4 +1,3 @@
-import { blueprintByStep } from "@/content/protocol";
 import { workshopContent } from "@/content/workshop";
 import type { FaqItem } from "@/components/ui/Faq";
 import type { AppScreen } from "@/components/interactive/AppGet";
@@ -10,9 +9,10 @@ export type Action = { label: string; href?: string; app?: AppScreen; variant?: 
 export type Card = { label?: string; title?: string; text?: string };
 
 /** Interactive or data-driven blocks rendered by the page route. */
-export type Widget = "airway-model" | "discovery-booking" | "founder-video" | "walkthrough-video" | "patient-video" | "patient-stories" | "patient-blogs" | "app-preview" | "workshop-preview" | "quick-check" | "team" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
+export type Widget = "airway-model" | "discovery-booking" | "founder-video" | "walkthrough-video" | "patient-video" | "patient-stories" | "patient-blogs" | "app-preview" | "workshop-preview" | "quick-check" | "team" | "team-mission" | "academy-curriculum" | "ladder" | "testimonials" | "register-form" | "referral-form" | "app-download" | "countries" | "portal-signin" | "partner-signin";
 
 export type PageSection = {
+  enabled?: boolean;
   id?: string;
   eyebrow?: string;
   title?: string;
@@ -71,10 +71,10 @@ const book: Action = { label: "Book Your Discovery Call", href: "/qualify" };
 const workshop: Action = { label: "Join a Workshop", href: "/workshop#register", variant: "ghost-light" };
 
 const steps = {
-  identify: ["Screens patients, takes new patient calls and books exams", "Screening tools, call scripts and checklists, the Patient App, Blueprint modules"],
-  prepare: ["Registration, sleep study records, insurance verification and pre-service billing prep", "The Forms Center, Beyonn home sleep testing, the coding and documentation kit, the medical referral network kit, Blueprint modules"],
-  treat: ["Exam, documentation, treatment plan presentation, ordering and delivering the Beyonn appliance", "Dr. Rodney Willey's protocols, presentation scripts, consent forms, case guidance, Blueprint modules"],
-  manage: ["Claims, follow-up visits, no-shows, replacement appliances", "The Golden Tracker, a CRM with automated email, SMS and WhatsApp follow-up, the business dashboard, optional Billing Assist, Blueprint modules 3 and 10 to 12, ongoing coaching"],
+  identify: ["Screens patients, takes new patient calls and books exams", "Screening tools, call scripts and checklists, the Patient App, Beyonn Academy training"],
+  prepare: ["Registration, sleep study records, insurance verification and pre-service billing prep", "The Forms Center, the coding and documentation kit, the medical referral network kit, Beyonn Academy training"],
+  treat: ["Exam, documentation, treatment plan presentation, ordering and delivering the Beyonn appliance", "Dr. Rodney Willey's protocols, presentation scripts, consent forms, case guidance, Beyonn Academy training"],
+  manage: ["Claims, follow-up visits, no-shows, replacement appliances", "The Golden Tracker, a CRM with automated email, SMS and WhatsApp follow-up, the business dashboard, optional Billing Assist, Beyonn Academy training, ongoing coaching"],
 };
 
 export const pages: Record<string, ContentPage> = {
@@ -122,7 +122,7 @@ export const pages: Record<string, ContentPage> = {
         id: "treat",
         eyebrow: "Step 3 — Treat",
         title: "Your doctor remains the doctor.",
-        body: "You evaluate and treat. Your team presents the plan, with Beyonn scripts and coaching for complex cases.",
+        body: ["As your extended team, Dr. Willey provides the patient presentation, in simple terms for understanding and the language of your choice.", "You evaluate and treat, with Dr. Rodney Willey’s protocols and case support behind you."],
         list: [steps.treat[1]],
       },
       {
@@ -214,8 +214,6 @@ export const pages: Record<string, ContentPage> = {
     eyebrow: "The Beyonn Team",
     title: "Meet the team behind your team.",
     description: "Meet the people who train, onboard and support your practice.",
-    photo: "/assets/people/clinic-team.webp",
-    photoAlt: "The Beyonn team working together in a clinic",
     seo: {
       title: "Meet the Beyonn Team | Dental Sleep Medicine Support Team",
       description: "Meet the Beyonn team: the clinicians, trainers and onboarding specialists who equip partner practices to run their own OSA + TMD programs.",
@@ -226,6 +224,7 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "Our mission",
         title: "We're here to define the future of OSA + TMD.",
         body: "Equip practices to deliver OSA + TMD care with confidence.",
+        widget: "team-mission",
       },
       {
         eyebrow: "Our values",
@@ -252,7 +251,7 @@ export const pages: Record<string, ContentPage> = {
     photoAlt: "Dr. Rodney Willey teaching a practice team during an in-person training session",
     seo: {
       title: "Beyonn Academy | OSA + TMD Training for Dentists and Their Teams",
-      description: "Beyonn Academy trains your whole team to treat Obstructive Sleep Apnea and Temporomandibular Joint Disorder: on-demand learning, the Coaching Clinician Blueprint, certification and live coaching with Dr. Rodney Willey.",
+      description: "Beyonn Academy trains your whole team to treat Obstructive Sleep Apnea and Temporomandibular Joint Disorder: on-demand clinical learning, certification and live coaching with Dr. Rodney Willey.",
       keywords: ["sleep apnea training for dentists", "TMD training for dentists", "oral appliance therapy training", "dental sleep medicine training", "dental sleep medicine courses"],
     },
     actions: [{ ...book, variant: "dawn" }, workshop],
@@ -267,7 +266,7 @@ export const pages: Record<string, ContentPage> = {
         title: "What's inside",
         cards: [
           { title: "Beyonn LMS", text: "Clinical videos, case studies, tests and team progress in one place." },
-          { title: "The Coaching Clinician Blueprint", text: "12 modules covering the complete practice workflow." },
+          { title: "Beyonn Academy", text: "3 tiers, 14 learning units and 52 clinical videos, from foundations to advanced mastery." },
           { title: "The Forms Center", text: "Ready-made forms, scripts and templates for every step, from the first call to the yearly visit." },
           { title: "Live coaching", text: "Monthly coaching, study club and peer support." },
           { title: "Beyonn AI assistant", text: "24/7 help with protocols, billing and the platform." },
@@ -275,13 +274,31 @@ export const pages: Record<string, ContentPage> = {
       },
       {
         id: "blueprint",
-        eyebrow: "The Coaching Clinician Blueprint",
-        title: "12 modules. Every step your team takes.",
-        columns: blueprintByStep.map(({ step, modules }) => ({
-          title: step,
-          items: modules.map(([number, name]) => `${number} ${name}`),
-        })),
+        eyebrow: "Beyonn Academy",
+        title: "Three tiers. From foundations to advanced mastery.",
+        body: "52 existing videos across 14 learning units. Start with clinical foundations, build treatment skills and progress to complex case management.",
+        widget: "academy-curriculum",
         lines: ["Built so a new hire can learn the system in the same way as the team member they replace."],
+      },
+      {
+        id: "master-success",
+        eyebrow: "Master Success Tier",
+        title: "Breathing is King. Pain Free is Queen.",
+        body: ["Built around one non-negotiable principle: BREATHING IS KING.", "Once airway compromise is recognized, it cannot become something we address “later.” Every member of the team understands the urgency, every handoff moves the patient forward, and every step is designed to prevent delay."],
+        cards: [
+          { title: "Doctor ready", text: "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it." },
+          { title: "Make room for priority care", text: "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week." },
+          { title: "The doctor's voice sets the standard", text: "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols." },
+        ],
+        aside: {
+          title: "A clear clinical hierarchy",
+          items: [
+            "Airway concerns are addressed before elective implant treatment.",
+            "Airway concerns are addressed before elective crown and bridge treatment.",
+            "Airway patients receive priority scheduling.",
+            "An identified airway patient does not leave the practice without a clear next step with the Medical Team.",
+          ],
+        },
       },
       {
         eyebrow: "Who it's for",
@@ -367,10 +384,10 @@ export const pages: Record<string, ContentPage> = {
         eyebrow: "What you get",
         title: "Everything your team needs to run the program.",
         cards: [
-          { title: "Training + Blueprint", text: "12 modules, clinical videos, case studies and ready-made forms for your whole team." },
+          { title: "Beyonn Academy training", text: "3 tiers, 52 clinical videos, case studies and ready-made forms for your whole team." },
           { title: "Coaching + onboarding", text: "Monthly coaching, study club, complex-case guidance and training for new hires." },
           { title: "Connected technology", text: "Patient App, Academy, Admin Panel, case tracking and 24/7 AI assistance." },
-          { title: "Testing + treatment", text: "STOP-Bang screening, physician-read home sleep tests and the Beyonn appliance." },
+          { title: "Testing + treatment", text: "STOP-Bang screening, physician-interpreted sleep study records and the Beyonn appliance." },
           { title: "Billing + referrals", text: "Coding tools, documentation, payer guidance, optional Billing Assist and medical referral resources." },
           { title: "Practice growth", text: "Patient campaigns, co-branded marketing, directory listings and financing options." },
         ],
@@ -382,7 +399,7 @@ export const pages: Record<string, ContentPage> = {
           head: ["", "OSA + TMD Done By You", "PR & Marketing Suite"],
           rows: [
             ["What it is", "Your own team runs the program, trained and coached by Beyonn", "Patient education and practice growth resources"],
-            ["Includes", "The Coaching Clinician Blueprint (12 modules), Forms Center, onboarding, coaching, Beyonn tech systems", "Patient education workbook, yearly marketing kit"],
+            ["Includes", "Beyonn Academy (3 tiers, 52 clinical videos), Forms Center, onboarding, coaching, Beyonn tech systems", "Patient education workbook, yearly marketing kit"],
             ["Best for", "Practices ready to build an OSA + TMD treatment program their team owns", "Practices ready to grow patient demand"],
           ],
           variant: "matrix",
