@@ -1,11 +1,6 @@
 "use client";
-import {
-  ArrowRight,
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 export function Login({ onLogin }: { onLogin: () => void }) {
@@ -37,100 +32,64 @@ export function Login({ onLogin }: { onLogin: () => void }) {
     }
   }
   return (
-    <div className="ctl-login">
-      <section className="ctl-login-story">
-        <Link href="/" className="ctl-brand">
-          <span className="ctl-brand-mark">b.</span>
-          <span>
-            beyonn<span className="ctl-brand-sub">WEBSITE CONTROL</span>
-          </span>
-        </Link>
-        <div>
-          <span className="ctl-eyebrow">YOUR WEBSITE. YOUR CONTROL.</span>
-          <h1>
-            A thoughtful space
-            <br />
-            to make things
-            <br />
-            <em>happen.</em>
-          </h1>
-          <p>
-            One place for your content, your brand, and everything that comes
-            next.
-          </p>
-          <div className="ctl-login-trust">
-            <ShieldCheck size={19} />
-            Private access. Purposeful control.
-          </div>
-        </div>
-        <small>Beyond training. Beyond expectations.</small>
-        <div className="ctl-orbit ctl-orbit-one" />
-        <div className="ctl-orbit ctl-orbit-two" />
-      </section>
-      <section className="ctl-login-form">
-        <div className="ctl-login-card">
-          <div className="ctl-login-icon">
-            <LockKeyhole size={25} />
-          </div>
-          <span className="ctl-eyebrow">BEYONN CONTROL</span>
-          <h2>Welcome back.</h2>
-          <p>Sign in to manage your website.</p>
-          <form onSubmit={submit}>
-            <label className="ctl-field">
-              <span>Admin ID</span>
+    <main className="ctl-login" aria-labelledby="control-sign-in">
+      <div className="ctl-login-card">
+        <Image
+          className="ctl-login-logo"
+          src="/assets/site/beyonn-control-logo.png"
+          alt="Beyonn"
+          width={220}
+          height={45}
+          loading="eager"
+        />
+        <h1 id="control-sign-in">Admin sign-in</h1>
+        <form onSubmit={submit}>
+          <label className="ctl-field">
+            <span>Admin ID</span>
+            <input
+              name="email"
+              type="email"
+              autoComplete="username"
+              required
+              maxLength={254}
+            />
+          </label>
+          <label className="ctl-field">
+            <span>Password</span>
+            <div className="ctl-password">
               <input
-                name="email"
-                type="email"
-                autoComplete="username"
-                placeholder="you@beyonn.co"
+                name="password"
+                type={visible ? "text" : "password"}
+                autoComplete="current-password"
                 required
-                maxLength={254}
+                maxLength={256}
               />
-            </label>
-            <label className="ctl-field">
-              <span>Password</span>
-              <div className="ctl-password">
-                <input
-                  name="password"
-                  type={visible ? "text" : "password"}
-                  autoComplete="current-password"
-                  placeholder="Enter your password"
-                  required
-                  maxLength={256}
-                />
-                <button
-                  type="button"
-                  aria-label={visible ? "Hide password" : "Show password"}
-                  onClick={() => setVisible(!visible)}
-                >
-                  {visible ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </label>
-            {error && (
-              <p className="ctl-error" role="alert">
-                {error}
-              </p>
-            )}
-            <button
-              className="ctl-button ctl-primary ctl-login-submit"
-              disabled={busy}
-            >
-              {busy ? "Signing in…" : "Sign in to Control"}
-              <ArrowRight size={17} />
-            </button>
-          </form>
-          <p className="ctl-login-note">
-            <ShieldCheck size={15} />
-            Authorized administrators only.
-            <br />
-            Your session closes after 15 minutes of inactivity.
-          </p>
-          <Link className="ctl-back" href="/">
-            ← Back to the website
-          </Link>
-        </div>
-      </section>
-    </div>
+              <button
+                type="button"
+                aria-label={visible ? "Hide password" : "Show password"}
+                onClick={() => setVisible(!visible)}
+              >
+                {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </label>
+          {error && (
+            <p className="ctl-error" role="alert">
+              {error}
+            </p>
+          )}
+          <button
+            className="ctl-button ctl-primary ctl-login-submit"
+            disabled={busy}
+          >
+            {busy ? "Signing in…" : "Sign in"}
+            <ArrowRight size={17} />
+          </button>
+        </form>
+        <Link className="ctl-back" href="/">
+          Back to website
+        </Link>
+      </div>
+    </main>
   );
 }

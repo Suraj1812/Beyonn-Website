@@ -17,7 +17,7 @@ test("control is isolated and private APIs reject anonymous access", async ({
 }) => {
   await page.goto("/control");
   await expect(
-    page.getByRole("heading", { name: "Welcome back." }),
+    page.getByRole("heading", { name: "Admin sign-in" }),
   ).toBeVisible();
   await expect(page.getByLabel("Admin ID")).toBeVisible();
   await expect(page.getByLabel("Password", { exact: true })).toHaveAttribute(
@@ -56,7 +56,7 @@ test("admin login page fits mobile without horizontal overflow", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/control");
   await expect(
-    page.getByRole("button", { name: "Sign in to Control" }),
+    page.getByRole("button", { name: "Sign in", exact: true }),
   ).toBeVisible();
   expect(
     await page.evaluate(

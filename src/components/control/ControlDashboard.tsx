@@ -37,6 +37,7 @@ import {
   Undo2,
   X,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./control.css";
@@ -362,8 +363,13 @@ export default function ControlDashboard() {
 
   if (checking)
     return (
-      <div className="ctl-loading">
-        <span className="ctl-brand-mark">b.</span>
+      <div className="ctl-loading" role="status">
+        <Image
+          src="/assets/site/beyonn-control-logo.png"
+          alt="Beyonn"
+          width={165}
+          height={34}
+        />
         <p>Opening your workspace…</p>
       </div>
     );
@@ -396,23 +402,14 @@ export default function ControlDashboard() {
         />
       )}
       <aside className={`ctl-sidebar ${mobileMenu ? "is-open" : ""}`}>
-        <Link className="ctl-brand" href="/control">
-          <span className="ctl-brand-mark">b.</span>
-          <span>
-            beyonn<span className="ctl-brand-sub">WEBSITE CONTROL</span>
-          </span>
+        <Link className="ctl-brand" href="/control" aria-label="Beyonn Control">
+          <Image
+            src="/assets/site/beyonn-control-logo.png"
+            alt=""
+            width={165}
+            height={34}
+          />
         </Link>
-        <div className="ctl-workspace">
-          <span className="ctl-workspace-icon">
-            <Globe2 size={19} />
-          </span>
-          <span>
-            <strong>Beyonn website</strong>
-            <small>Content workspace</small>
-          </span>
-          <span className="ctl-online" />
-        </div>
-        <span className="ctl-nav-heading">WORKSPACE</span>
         <nav aria-label="Control navigation">
           {sections.map(({ id, label, icon: Icon }, i) => (
             <button
