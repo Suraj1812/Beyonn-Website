@@ -246,6 +246,7 @@ export const pages: Record<string, ContentPage> = {
   academy: {
     eyebrow: "Beyonn Academy",
     title: "Learn it. Run it. Get certified for it.",
+    headline: "The Clinicians’ Blueprint.",
     description: "Clinical training, practical workflows and live coaching for your whole OSA + TMD team.",
     photo: "/assets/people/team-training.webp",
     photoAlt: "Dr. Rodney Willey teaching a practice team during an in-person training session",

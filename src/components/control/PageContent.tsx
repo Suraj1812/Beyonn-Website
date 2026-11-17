@@ -129,7 +129,7 @@ export default function PageContent({
             visual={key === "team" ? <TeamSupportVisual /> : undefined}
             kicker={legacy ? undefined : page.eyebrow}
             title={page.title}
-            headline={page.headline}
+            headline={page.headline ?? (key === "academy" ? pages.academy.headline : undefined)}
             sub={
               page.heroLine ? (
                 <>
