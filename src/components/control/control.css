@@ -377,13 +377,7 @@
   margin: 0;
   width: min(100%, 340px);
 }
-.ctl-visual-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, 295px);
-  gap: 16px;
-  align-items: start;
-}
-.ctl-visual-grid iframe {
+.ctl-visual-preview {
   display: block;
   width: 100%;
   height: clamp(430px, 69vh, 940px);
@@ -430,17 +424,40 @@
   box-shadow: 0 1px 3px #24395120;
   font-weight: 650;
 }
-.ctl-visual-hint,
 .ctl-visual-form > p {
   color: #516985;
   margin: 0;
 }
-.ctl-visual-hint {
+.ctl-visual-selection {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
 }
-.ctl-visual-hint svg {
-  flex: none;
+.ctl-visual-selection h2 {
+  color: var(--ctl-navy);
+  font-size: 16px;
+  font-weight: 650;
+}
+.ctl-visual-close {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  min-height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: #edf4fb;
+  color: #375674;
+}
+.ctl-visual-close:hover {
+  background: #dfeaf7;
+}
+.ctl-visual-target {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #516985;
+  margin: 6px 0 16px;
 }
 .ctl-visual-format,
 .ctl-visual-actions {
@@ -465,12 +482,43 @@
 .ctl-visual-form > p {
   margin-top: 12px;
 }
-@media (max-width: 900px) {
-  .ctl-visual-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .ctl-visual-grid iframe {
+@media (max-width: 1024px) {
+  .ctl-visual-preview {
     height: min(460px, 53vh);
     min-height: 275px;
+  }
+}
+@media (min-width: 1025px) {
+  .ctl-editor-header {
+    padding: 12px 24px;
+  }
+  .ctl-editor-main {
+    width: 100%;
+    padding: 18px 24px 24px;
+  }
+  .ctl-editor-heading {
+    margin-bottom: 14px;
+  }
+  .ctl-visual {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 285px);
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "preview tools" "preview inspector";
+    gap: 12px;
+    align-items: start;
+  }
+  .ctl-visual-bar {
+    grid-area: tools;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .ctl-visual-bar .ctl-field {
+    width: 100%;
+  }
+  .ctl-visual-preview {
+    grid-area: preview;
+    height: clamp(430px, calc(100dvh - 155px), 1040px);
+  }
+  .ctl-visual-inspector {
+    grid-area: inspector;
   }
 }

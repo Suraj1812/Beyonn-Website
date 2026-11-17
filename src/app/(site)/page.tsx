@@ -1,3 +1,4 @@
+import { PublishedMetadataBoundary } from "@/components/control/PublishedShell";
 import { getPublished } from "@/lib/cms/server/content";
 import { connection } from "next/server";
 import HomeContent from "@/components/control/HomeContent";
@@ -19,7 +20,12 @@ const originalMetadata = pageMeta({
 });
 
 export default function HomePage() {
-  return <HomeContent />;
+  return (
+    <>
+      <HomeContent />
+      <PublishedMetadataBoundary />
+    </>
+  );
 }
 
 export async function generateMetadata() {

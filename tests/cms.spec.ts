@@ -198,7 +198,11 @@ test.describe("authenticated CMS publishing", () => {
       const pageSelect = page.getByLabel("Page", { exact: true });
       await pageSelect.selectOption("/cms-integration-check");
       const editor = page.frameLocator('iframe[title="Editable website preview"]');
+      const panel = page.getByRole("complementary", { name: "Edit selected content" });
+      await expect(panel).toHaveCount(0);
       await editor.locator('h1[data-cms-edit-text]').click();
+      await expect(panel.getByRole("heading", { name: "Edit text" })).toBeVisible();
+      await expect(panel.getByLabel("Link destination")).toHaveCount(0);
       await page.getByLabel("Content", { exact: true }).fill("Visual editor check");
       await page.getByLabel("Text color").fill("#3177bf");
       await page.getByLabel("Text size (px)").fill("36");

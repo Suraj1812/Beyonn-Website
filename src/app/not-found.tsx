@@ -1,7 +1,9 @@
 import { Localized } from "@/components/i18n/Localized";
+import { PublishedShell } from "@/components/control/PublishedShell";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { Suspense } from "react";
 
 export const metadata: Metadata = { title: { absolute: "Page not found | Beyonn" }, robots: { index: false } };
 
@@ -13,6 +15,14 @@ const paths = [
 ];
 
 export default function NotFound() {
+  return (
+    <Suspense>
+      <PublishedShell><NotFoundContent /></PublishedShell>
+    </Suspense>
+  );
+}
+
+function NotFoundContent() {
   return <Localized>{(
     <section className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-paper px-6 pt-24 text-ink">
       <div className="hero-glow absolute inset-0 opacity-60" aria-hidden />

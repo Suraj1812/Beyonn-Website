@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, MousePointer2, Upload } from "lucide-react";
+import { ExternalLink, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { safeUrl, type CmsDocument, type MediaAsset } from "@/lib/cms/model";
 import { repository } from "@/lib/cms/storage";
@@ -15,6 +15,7 @@ import {
 
 type Target = {
   kind: VisualKind;
+  element: Element;
   source: string;
   label: string;
   color: string;
@@ -22,11 +23,9 @@ type Target = {
   video: boolean;
 };
 
-const kinds = ["text", "media", "link"] as const;
 const labels = { text: "Text", media: "Media", link: "Link" };
 const marker = (kind: VisualKind) => `data-cms-edit-${kind}`;
 const targetKey = (target: Target) => `${target.kind}:${target.source}`;
-const selector = kinds.map((kind) => `[${marker(kind)}]`).join(",");
 const textBlock = `:is(h1,h2,h3,h4,h5,h6,p,blockquote)[${marker("text")}]`;
 
 function pick(element: Element, kind: VisualKind): Target {
@@ -34,7 +33,7 @@ function pick(element: Element, kind: VisualKind): Target {
   const style = element.ownerDocument.defaultView?.getComputedStyle(element);
   const rgb = /^rgba?\(/.test(style?.color ?? "") ? style?.color.match(/\d+/g)?.slice(0, 3) : undefined;
   return {
-    kind, source,
+    kind, source, element,
     label: (kind === "media"
       ? element.getAttribute("alt") || element.getAttribute("title") || source.split("/").at(-1)
       : element.textContent?.trim()) || source,
@@ -58,9 +57,8 @@ export function VisualEditor({
   const inspector = useRef<HTMLElement>(null);
   const [frameDocument, setFrameDocument] = useState<Document | null>(null);
   const [ready, setReady] = useState(false);
-  const [targets, setTargets] = useState<Target[]>([]);
-  const [selected, setSelected] = useState<Target>();
-  const [kind, setKind] = useState<VisualKind>("text");
+  const [selection, setSelection] = useState<{ targets: Target[]; active: VisualKind }>();
+  const selected = selection?.targets.find(({ kind }) => kind === selection.active);
 
   useEffect(() => {
     const receive = (event: MessageEvent<{ type: string }>) => {
@@ -77,67 +75,63 @@ export function VisualEditor({
 
   useEffect(() => {
     if (!frameDocument) return;
-    function choose(event: MouseEvent) {
+    function choose(event: MouseEvent | KeyboardEvent) {
+      if ("button" in event && event.button !== 0) return;
+      if ("key" in event && event.key === "Escape") {
+        setSelection(undefined);
+        return;
+      }
+      if ("key" in event && event.key !== "Enter") return;
       const target = event.target as Element | null;
       if (target?.nodeType !== 1) return;
       onInteraction();
-      const matches = [kind, ...kinds.filter((item) => item !== kind)];
-      for (const item of matches) {
-        const element =
-          (item === "text" && target.closest(textBlock)) ||
-          target.closest(`[${marker(item)}]`);
-        if (!element) continue;
+
+      const media = target.closest(`[${marker("media")}]`) ??
+        target.querySelector(`:scope > iframe[${marker("media")}]`);
+      const link = target.closest(`[${marker("link")}]`);
+      const text = target.closest(textBlock) ?? target.closest(`[${marker("text")}]`);
+      const first = media ?? text ?? link;
+      if (first) {
         event.preventDefault();
         event.stopPropagation();
-        setKind(item);
-        setSelected(pick(element, item));
-        if (matchMedia("(max-width: 900px)").matches)
-          inspector.current?.scrollIntoView({ block: "nearest" });
+        const targets: Target[] = [];
+        if (media) targets.push(pick(media, "media"));
+        if (text && !media) targets.push(pick(text, "text"));
+        if (link) targets.push(pick(link, "link"));
+        setSelection({ targets, active: targets[0].kind });
         return;
       }
-      // The editor should not follow links or submit live forms.
+      setSelection(undefined);
+      // The editing preview never follows a live link or submits a form.
       if (target.closest("a, button, form")) {
         event.preventDefault();
         event.stopPropagation();
       }
     }
     frameDocument.addEventListener("click", choose, true);
-    return () => frameDocument.removeEventListener("click", choose, true);
-  }, [frameDocument, kind, onInteraction]);
-
-  useEffect(() => {
-    if (!frameDocument) return;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const refresh = () => {
-      if (timer !== undefined) return;
-      timer = setTimeout(() => {
-        timer = undefined;
-        const next = new Map<string, Target>();
-        for (const el of frameDocument.querySelectorAll(selector)) {
-          for (const item of kinds) {
-            if (!el.hasAttribute(marker(item))) continue;
-            if (item !== "media" && (!el.getClientRects().length || el.closest('[aria-hidden="true"]'))) continue;
-            const selected = pick(el, item);
-            if (!next.has(targetKey(selected))) next.set(targetKey(selected), selected);
-          }
-        }
-        setTargets([...next.values()]);
-      }, 120);
+    frameDocument.addEventListener("keydown", choose, true);
+    return () => {
+      frameDocument.removeEventListener("click", choose, true);
+      frameDocument.removeEventListener("keydown", choose, true);
     };
-    const observer = new MutationObserver(refresh);
-    observer.observe(frameDocument, { childList: true, subtree: true, attributes: true, attributeFilter: kinds.map(marker) });
-    refresh();
-    return () => { clearTimeout(timer); observer.disconnect(); };
-  }, [frameDocument]);
+  }, [frameDocument, onInteraction]);
 
   useEffect(() => {
-    const selectedElement = selected && Array.from(
-      frameDocument?.querySelectorAll(`[${marker(selected.kind)}]`) ?? [],
-    ).find((element) => element.getAttribute(marker(selected.kind)) === selected.source && element.getClientRects().length);
-    if (!selectedElement) return;
-    selectedElement.setAttribute("data-cms-editor-selected", "");
-    return () => selectedElement.removeAttribute("data-cms-editor-selected");
-  }, [frameDocument, selected, targets]);
+    if (!selected) return;
+    const attr = marker(selected.kind);
+    const direct = selected.element;
+    const element = direct?.isConnected && direct.getAttribute(attr) === selected.source
+      ? direct
+      : Array.from(frameDocument?.querySelectorAll(`[${attr}]`) ?? [])
+        .find((item) => item.getAttribute(attr) === selected.source && item.getClientRects().length);
+    element?.setAttribute("data-cms-editor-selected", "");
+    return () => element?.removeAttribute("data-cms-editor-selected");
+  }, [draft, frameDocument, selected]);
+
+  useEffect(() => {
+    if (selection && matchMedia("(max-width: 1024px)").matches)
+      inspector.current?.scrollIntoView({ block: "nearest" });
+  }, [selection]);
 
   return (
     <div className="ctl-visual">
@@ -152,48 +146,33 @@ export function VisualEditor({
           Open live page <ExternalLink size={14} />
         </a>
       </div>
-      <div className="ctl-visual-grid">
-        <iframe
-          ref={frame}
-          title="Editable website preview"
-          src={`${path}?cms-preview=1&cms-edit=1`}
-          onLoad={(event) => setFrameDocument(event.currentTarget.contentDocument)}
-        />
-        <aside ref={inspector} className="ctl-visual-inspector" aria-label="Edit selected content">
-          <div className="ctl-visual-kinds" role="group" aria-label="What to edit">
-            {kinds.map((item) => (
-              <button key={item} type="button" aria-pressed={kind === item}
-                onClick={() => { setKind(item); setSelected(undefined); }}>
-                {item === "link" ? "Links" : labels[item]}
-              </button>
-            ))}
+      <iframe
+        ref={frame}
+        className="ctl-visual-preview"
+        title="Editable website preview"
+        src={`${path}?cms-preview=1&cms-edit=1`}
+        onLoad={(event) => setFrameDocument(event.currentTarget.contentDocument)}
+      />
+      {selection && selected && (
+        <aside ref={inspector} className="ctl-visual-inspector" aria-label="Edit selected content"
+          onKeyDown={(event) => { if (event.key === "Escape") setSelection(undefined); }}>
+          <div className="ctl-visual-selection">
+            <h2>{selected.kind === "media" ? (selected.video ? "Edit video" : "Edit image") : `Edit ${selected.kind}`}</h2>
+            <button type="button" className="ctl-visual-close" aria-label="Close editor"
+              onClick={() => setSelection(undefined)}><X size={18} aria-hidden="true" /></button>
           </div>
-          <label className="ctl-field">
-            <span>{labels[kind]}</span>
-            <select aria-label={labels[kind]} value={selected ? targetKey(selected) : ""} onChange={(event) => {
-              const next = targets.find((item) => targetKey(item) === event.target.value);
-              setSelected(next);
-              if (next && frameDocument) {
-                Array.from(frameDocument.querySelectorAll(`[${marker(kind)}]`))
-                  .find((el) => el.getAttribute(marker(kind)) === next.source && el.getClientRects().length)
-                  ?.scrollIntoView({ block: "center" });
-              }
-            }}>
-              <option value="">{ready ? `Select ${labels[kind].toLowerCase()}…` : "Loading page…"}</option>
-              {selected && !targets.some((item) => targetKey(item) === targetKey(selected)) &&
-                <option value={targetKey(selected)}>{selected.label.slice(0, 95)}</option>}
-              {targets.filter((item) => item.kind === kind).map((item) => (
-                <option key={targetKey(item)} value={targetKey(item)}>{item.label.slice(0, 95)}</option>
+          <p className="ctl-visual-target" title={selected.label}>{selected.label}</p>
+          {selection.targets.length > 1 && (
+            <div className="ctl-visual-kinds" role="group" aria-label="Options for selected item">
+              {selection.targets.map(({ kind }) => (
+                <button key={kind} type="button" aria-pressed={kind === selection.active}
+                  onClick={() => setSelection({ ...selection, active: kind })}>{labels[kind]}</button>
               ))}
-            </select>
-          </label>
-          {selected ? (
-            <EditTarget key={targetKey(selected)} target={selected} path={path} draft={draft} update={update} />
-          ) : (
-            <p className="ctl-visual-hint"><MousePointer2 size={17} /> Click the part of the page you want to edit.</p>
+            </div>
           )}
+          <EditTarget key={targetKey(selected)} target={selected} path={path} draft={draft} update={update} />
         </aside>
-      </div>
+      )}
     </div>
   );
 }

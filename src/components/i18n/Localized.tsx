@@ -157,8 +157,11 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
     const value = node.props[key];
     if (typeof value !== "string") continue;
     const kind = key === "href" ? "link" : "media";
-    if (editing && key !== "poster" && safeUrl(value, kind === "media"))
+    if (editing && key !== "poster" && safeUrl(value, kind === "media")) {
       updates[`data-cms-edit-${kind}`] = normalize(value);
+      if (kind === "media" && node.type !== "iframe" && node.type !== "source")
+        updates.tabIndex = node.props.tabIndex ?? 0;
+    }
     const next = resolve(value, kind);
     if (key === "src") {
       const original = `media-alt:${value}`;
@@ -231,7 +234,11 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
       (phraseTags.has(node.type) || typeof node.props.children === "string");
     const replacement = editableText ? resolve(phrase) : phrase;
     if (editableText) {
-      if (editing) updates["data-cms-edit-text"] = phrase;
+      if (editing) {
+        updates["data-cms-edit-text"] = phrase;
+        if (typeof node.type === "string" && phraseTags.has(node.type))
+          updates.tabIndex = node.props.tabIndex ?? 0;
+      }
       const format = formats?.[pageOverrideKey(pathname, "text", phrase)];
       if (format?.color || format?.size) {
         updates.style = {

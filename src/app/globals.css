@@ -960,3 +960,7 @@ html:not([lang="en"]) :is(input, textarea, select, button) { font-family: inheri
   outline: 2px solid #307fdf !important;
   outline-offset: 3px;
 }
+
+iframe[data-cms-edit-media] {
+  pointer-events: none;
+}

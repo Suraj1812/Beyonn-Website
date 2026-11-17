@@ -1,3 +1,4 @@
+import { PublishedMetadataBoundary } from "@/components/control/PublishedShell";
 import ResourcesContent from "@/components/control/ResourcesContent";
 import { getPublished } from "@/lib/cms/server/content";
 import { pageMeta } from "@/lib/seo";
@@ -12,7 +13,12 @@ const originalMetadata = pageMeta({
 });
 
 export default function ResourcesPage() {
-  return <ResourcesContent />;
+  return (
+    <>
+      <ResourcesContent />
+      <PublishedMetadataBoundary />
+    </>
+  );
 }
 
 export async function generateMetadata() {

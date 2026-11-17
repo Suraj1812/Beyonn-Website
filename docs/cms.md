@@ -2,7 +2,7 @@
 
 The private workspace is `/control`. It is absent from public navigation and excluded from indexing. The existing navy, blue and mint brand is used throughout.
 
-Choose a page, then click the item in its preview or select it from **Text**, **Media**, or **Links**. Change copy, text color or size, replace an image or video, set alt text, or update a link destination. Click **Apply** to see the edit, **Save draft** to keep it private, or **Publish** to update the live website.
+Choose a page, then click the item you want to edit in its preview. The editor opens with controls for that item. Change copy, text color or size, replace an image or video, set alt text, or update a link destination. Click **Apply** to see the edit, **Save draft** to keep it private, or **Publish** to update the live website.
 
 If the same source text, media URL, or link destination appears multiple times on one page, its matching occurrences are updated together. New copy is edited in English. Website layouts and shared configuration are maintained in source.
 
