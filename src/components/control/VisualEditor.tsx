@@ -62,8 +62,12 @@ export function VisualEditor({
 
   useEffect(() => {
     const receive = (event: MessageEvent<{ type: string }>) => {
-      if (event.origin === location.origin && event.source === frame.current?.contentWindow && event.data?.type === EDITOR_READY)
+      if (event.origin === location.origin && event.source === frame.current?.contentWindow && event.data?.type === EDITOR_READY) {
+        // The editor is usable as soon as it hydrates, even while images or
+        // embedded media keep the frame's load event pending.
+        setFrameDocument(frame.current?.contentDocument ?? null);
         setReady(true);
+      }
     };
     window.addEventListener("message", receive);
     return () => window.removeEventListener("message", receive);
