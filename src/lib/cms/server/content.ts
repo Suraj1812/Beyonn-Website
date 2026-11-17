@@ -6,7 +6,6 @@ import {
   createDefaultDocument,
   validateDocument,
   type CmsDocument,
-  type Revision,
 } from "../model";
 import { database } from "./firebase";
 import { HttpError } from "./http";
@@ -103,17 +102,4 @@ export async function saveContent(
     } catch { console.error('CMS history retention will retry after the next save.'); }
   });
   return version;
-}
-export async function getRevisions(): Promise<Revision[]> {
-  const result = await database()
-    .collection("cms_history")
-    .orderBy("at", "desc")
-    .limit(20)
-    .get();
-  return result.docs.map((d) => ({
-    id: d.id,
-    at: d.get("at"),
-    label: d.get("label"),
-    document: JSON.parse(d.get("json")),
-  }));
 }

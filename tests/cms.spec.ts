@@ -31,7 +31,6 @@ test("control is isolated and private APIs reject anonymous access", async ({
   );
   await expect(page.locator("header nav")).toHaveCount(0);
   expect((await request.get("/api/control/content")).status()).toBe(401);
-  expect((await request.get("/api/control/history")).status()).toBe(401);
   expect(
     (
       await request.put("/api/control/content", {
@@ -189,73 +188,38 @@ test.describe("authenticated CMS publishing", () => {
       ).status(),
     ).toBe(400);
   });
-  test("dashboard loads and saved content survives a page reload", async ({
-    browser,
-  }) => {
-    const ctx = await browser.newContext({
-      storageState: await admin.storageState(),
-    });
-    const page = await ctx.newPage();
-    await page.goto("/control");
-    await expect(
-      page.getByRole("heading", { name: "Edit website" }),
-    ).toBeVisible();
-    await page.getByText("More tools", { exact: true }).click();
-    await page
-      .getByRole("button", { name: "Pages", exact: false })
-      .first()
-      .click();
-    await expect(
-      page.getByRole("heading", { name: "Homepage sections" }),
-    ).toBeVisible();
-    await page.getByRole('button', { name: 'CMS integration check', exact: true }).click();
-    await page.getByLabel('Title', { exact: true }).fill('Draft preview only');
-    await page.getByRole('button', { name: 'Preview', exact: true }).click();
-    await expect(page.frameLocator('iframe[title="Website draft preview"]').getByRole('heading', { name: 'Draft preview only', exact: true })).toBeVisible({ timeout: 15_000 });
-    const live = await (await admin.get('/api/control/public')).json();
-    expect(live.document.data.pages['cms-integration-check'].title).toBe('CMS integration check');
-    await page.getByRole('button', { name: 'Close preview' }).click();
-    const loaded = page.waitForResponse(response => response.url().includes('/api/control/history') && response.ok());
-    await page.reload();
-    await loaded;
-    await expect(
-      page.getByRole("heading", { name: "Edit website" }),
-    ).toBeVisible();
-    await page.getByLabel("Page", { exact: true }).selectOption("/cms-integration-check");
-    const editor = page.frameLocator('iframe[title="Editable website preview"]');
-    await editor.getByRole("heading", { name: "Draft preview only" }).click();
-    await page.getByLabel("Content", { exact: true }).fill("Visual editor check");
-    await page.getByLabel("Text color").fill("#3177bf");
-    await page.getByLabel("Text size (px)").fill("36");
-    await page.getByRole("button", { name: "Apply", exact: true }).click();
-    const edited = editor.getByRole("heading", { name: "Visual editor check" });
-    await expect(edited).toHaveCSS("font-size", "36px");
-    await expect(edited).toHaveCSS("color", "rgb(49, 119, 191)");
-    expect((await (await admin.get("/api/control/public")).json()).document.data.pages["cms-integration-check"].title)
-      .toBe("CMS integration check");
-    await page.screenshot({
-      path: "test-results/cms-overview-desktop.png",
-      fullPage: true,
-    });
-    await page.setViewportSize({ width: 390, height: 844 });
-    await expect(
-      page.getByRole("button", { name: "Open navigation" }),
-    ).toBeVisible();
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= window.innerWidth,
-      ),
-    ).toBe(true);
-    await expect(page.locator(".ctl-sidebar")).toHaveCSS(
-      "transform",
-      "matrix(1, 0, 0, 1, -246, 0)",
-    );
-    await page.screenshot({
-      path: "test-results/cms-overview-mobile.png",
-      fullPage: true,
-      animations: "disabled",
-    });
-    await ctx.close();
+  test("visual edits stay private, survive saving a draft and fit mobile", async ({ browser }) => {
+    const context = await browser.newContext({ storageState: await admin.storageState() });
+    try {
+      const page = await context.newPage();
+      await page.goto("/control");
+      await expect(page.getByRole("heading", { name: "Edit website" })).toBeVisible();
+      await expect(page.getByText("More tools", { exact: true })).toHaveCount(0);
+      const pageSelect = page.getByLabel("Page", { exact: true });
+      await pageSelect.selectOption("/cms-integration-check");
+      const editor = page.frameLocator('iframe[title="Editable website preview"]');
+      await editor.locator('h1[data-cms-edit-text]').click();
+      await page.getByLabel("Content", { exact: true }).fill("Visual editor check");
+      await page.getByLabel("Text color").fill("#3177bf");
+      await page.getByLabel("Text size (px)").fill("36");
+      await page.getByRole("button", { name: "Apply", exact: true }).click();
+      const edited = editor.getByRole("heading", { name: "Visual editor check" });
+      await expect(edited).toHaveCSS("font-size", "36px");
+      await expect(edited).toHaveCSS("color", "rgb(49, 119, 191)");
+      const publicPage = await context.request.get("/cms-integration-check");
+      expect(await publicPage.text()).not.toContain("Visual editor check");
+      await page.getByRole("button", { name: "Save draft", exact: true }).click();
+      await expect(page.getByText("Draft saved securely.", { exact: true })).toBeVisible();
+      await page.reload();
+      await pageSelect.selectOption("/cms-integration-check");
+      await expect(edited).toBeVisible();
+      await expect(edited).toHaveCSS("font-size", "36px");
+      await page.setViewportSize({ width: 390, height: 844 });
+      await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    } finally {
+      await context.close();
+    }
   });
   test("uploaded files require authorization and a valid signature", async ({
     request,

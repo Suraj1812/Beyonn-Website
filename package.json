@@ -12,8 +12,7 @@
     "test:i18n": "npm run build && playwright test tests/i18n.spec.ts",
     "prebuild": "npm run i18n:extract && npm run i18n:check",
     "test:cms": "playwright test tests/cms.spec.ts --workers=1",
-    "cms:admin": "node scripts/cms-admin.mjs",
-    "cms:catalog": "node scripts/cms-catalog.mjs"
+    "cms:admin": "node scripts/cms-admin.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -2,21 +2,9 @@
 
 The private workspace is `/control`. It is absent from public navigation and excluded from indexing. The existing navy, blue and mint brand is used throughout.
 
-In **Edit website**, choose a page and click the text, image, video, or link you want to change. The Text, Media, and Links tabs also let you choose an item from a list. Apply the change to see it in the preview, then save a draft or publish. Use **More tools** for page creation, navigation, global theme, SEO, and settings.
+Choose a page, then click the item in its preview or select it from **Text**, **Media**, or **Links**. Change copy, text color or size, replace an image or video, set alt text, or update a link destination. Click **Apply** to see the edit, **Save draft** to keep it private, or **Publish** to update the live website.
 
-Visual edits are scoped to the selected page. If the same source text, media URL, or link destination appears multiple times on that page, its matching occurrences are updated together.
-
-## What is managed
-
-- Homepage section order, visibility, duplication and new content blocks.
-- Every content page, its hero, actions, sections, cards, lists, tables, FAQs, widgets, media and closing content. New pages receive real website paths after publishing.
-- Resources and articles, team, endorsements, Academy curriculum, protocol, workshop and FAQ collections.
-- Main navigation, sign-in menu, footer columns, legal links, contact and app-store destinations.
-- Existing copy and media through an indexed source catalog, including custom interactive components.
-- Colors, type, safe spacing ranges, corners, buttons, shadows and global surfaces; desktop, tablet and mobile previews.
-- Page search titles and descriptions, including server-rendered metadata for content pages and resources.
-
-Content remains plain structured data. No HTML or JavaScript can be entered as executable content. Component types are the existing supported website widgets, not arbitrary code.
+If the same source text, media URL, or link destination appears multiple times on one page, its matching occurrences are updated together. New copy is edited in English. Website layouts and shared configuration are maintained in source.
 
 ## Backend
 
@@ -45,15 +33,9 @@ Published content is cached for up to 15 seconds per server instance. A publicat
 
 The one-time password supplied in chat is not part of the repository. Firebase Authentication and the requested admin account have been provisioned. Rotate it through Firebase Authentication before a public launch.
 
-## Editing workflow
+## Drafts and publishing
 
-Edits remain in memory until **Save draft**. Unsaved edits trigger a navigation warning. **Preview** first saves the draft, then opens the actual website in a same-origin authenticated frame. The published website does not read drafts. **Publish** validates and atomically writes the draft, published version and revision. A stale editor gets a conflict instead of overwriting another admin's newer draft.
-
-Undo/redo applies to the current editor session. Restoring a revision changes the editor first; it never silently publishes. Discard draft restores the currently published content. Destructive UI actions require confirmation.
-
-Content export/import handles JSON configuration; binary media stays in Storage and backups reference immutable asset IDs. Files referenced by a restored backup must exist in the same backend. Removed files are removed from the draft library but retained in Storage so published pages and older revisions keep working. Storage cleanup should be a separate audited operation that checks published, draft and retained-history references.
-
-The source catalog supports shared exact-text replacements: changing a repeated phrase changes all its occurrences. Structured content editors give page-specific control. Existing animated phrase styling is retained until the phrase is replaced; a replacement is rendered as plain text. CMS copy is English; existing translations are preserved, and newly written copy needs a translation review. Normal layout options are bounded; adding entirely new interactive component implementations still requires code.
+The editable preview uses in-memory changes in a same-origin frame. Saving writes a shared private draft. Publishing validates and atomically updates the draft and public version. A stale editor receives a conflict instead of overwriting a newer draft. Firestore retains a bounded backup history and media objects stay immutable so existing references can be recovered.
 
 ## Deployment and costs
 
@@ -70,7 +52,7 @@ The current deployment reuses existing Vercel hosting and Marian-AI billing for 
 - Media storage, operations and transfer depend on bucket region and usage. Streaming large videos can dominate costs; existing external video providers avoid transferring that video through this backend.
 - A small website with one admin and low traffic can use a **$0–$10/month planning range**, but this is an estimate, not a quotation or maximum. Traffic spikes, large videos and abuse can raise it.
 
-Set budget alerts before launch. Alerts do not stop charges. Do not link billing, create a paid App Hosting backend or deploy until the account owner has reviewed the intended setup and cost exposure.
+Budget alerts notify owners about spending. They do not stop charges.
 
 Official references: https://firebase.google.com/pricing, https://firebase.google.com/docs/app-hosting/costs, https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024.
 

@@ -64,12 +64,6 @@ export type CmsDocument = {
   seo: Record<string, { title: string; description: string }>;
   components: Record<string, boolean>;
 };
-export type Revision = {
-  id: string;
-  at: string;
-  label: string;
-  document: CmsDocument;
-};
 export const defaultTheme: Theme = {
   primary: "#3177bf",
   secondary: "#1c395e",

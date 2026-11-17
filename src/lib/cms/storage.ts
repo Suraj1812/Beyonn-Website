@@ -1,10 +1,8 @@
-import { validateDocument, type CmsDocument, type Revision } from "./model";
+import { validateDocument, type CmsDocument } from "./model";
 export interface ContentRepository {
   read(slot: "draft" | "published"): Promise<CmsDocument | undefined>;
   write(slot: "draft" | "published", document: CmsDocument): Promise<void>;
-  revisions(): Promise<Revision[]>;
   putMedia(id: string, blob: Blob): Promise<void>;
-  getMedia(id: string): Promise<Blob | undefined>;
 }
 let draftVersion = "";
 async function result(response: Response) {
@@ -38,9 +36,6 @@ export const repository: ContentRepository = {
     );
     draftVersion = data.version;
   },
-  async revisions() {
-    return result(await fetch("/api/control/history", { cache: "no-store" }));
-  },
   async putMedia(id, blob) {
     const policy = await result(await fetch(`/api/control/media/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'prepare', type: blob.type, size: blob.size }) }));
     const form = new FormData();
@@ -49,14 +44,6 @@ export const repository: ContentRepository = {
     const upload = await fetch(policy.url, { method: 'POST', body: form });
     if (!upload.ok) throw new Error('The media upload failed. Please try again.');
     await result(await fetch(`/api/control/media/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'complete' }) }));
-  },
-  async getMedia(id) {
-    const response = await fetch(`/api/control/media/${id}`, {
-      cache: "no-store",
-    });
-    if (response.status === 404) return undefined;
-    if (!response.ok) await result(response);
-    return response.blob();
   },
 };
 export const CMS_CHANNEL = "beyonn-control";

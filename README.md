@@ -98,4 +98,4 @@ Browser tests use Playwright. Install its browser once with
 
 ### Website control
 
-The private CMS lives at `/control`. It uses Firebase Authentication, shared Firestore drafts/publishing/history, and a dedicated private Cloud Storage bucket through Firebase Admin and authorized Next.js APIs. See [CMS setup, security, editing workflow and deployment costs](docs/cms.md). Run `npm run test:cms` for the CMS tests; authenticated write tests require an explicitly configured isolated test account. Local credentials and `.env.local` must stay outside version control.
+The private CMS at `/control` edits page text, text color and size, media, and links from a website preview. It uses Firebase Authentication, Firestore for shared drafts and publishing, and a private Cloud Storage bucket for uploads. See [CMS setup and editing workflow](docs/cms.md). Run `npm run test:cms` for the CMS tests. Authenticated write tests require an isolated test account. Keep local credentials and `.env.local` outside version control.
