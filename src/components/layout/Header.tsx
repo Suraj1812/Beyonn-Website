@@ -31,6 +31,7 @@ X,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { NavigationButtonLabel } from "@/components/ui/NavigationButtonLabel";
 import { usePathname } from "next/navigation";
 import { useEffect,useRef,useState } from "react";
 import { Logo } from "./Logo";
@@ -451,8 +452,8 @@ export function Header() {
               </ul>
               <span className="hidden h-6 w-px bg-ink/15 xl:block" aria-hidden />
               <Link href={cta.href} data-magnetic="" className="btn btn--dawn btn--sm !px-4 max-[479px]:hidden sm:!px-5">
-                <span className="2xl:hidden">{cta.short}</span>
-                <span className="hidden 2xl:inline">{cta.label}</span>
+                <NavigationButtonLabel className="2xl:hidden">{cta.short}</NavigationButtonLabel>
+                <NavigationButtonLabel className="hidden 2xl:inline">{cta.label}</NavigationButtonLabel>
                 <ArrowUpRight className="hidden sm:block" aria-hidden />
               </Link>
               <button

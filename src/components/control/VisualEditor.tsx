@@ -2,14 +2,16 @@
 
 import { ChevronDown, ExternalLink, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { safeUrl, type CmsDocument, type MediaAsset } from "@/lib/cms/model";
+import { normalize, safeUrl, type CmsDocument, type MediaAsset } from "@/lib/cms/model";
 import { repository } from "@/lib/cms/storage";
 import {
   EDITOR_DOCUMENT,
   EDITOR_READY,
   pageOverrideKey,
+  loadingTextSource,
   textSize,
   type TextFormat,
+  type TextRange,
   type VisualKind,
 } from "@/lib/cms/visual";
 
@@ -21,11 +23,13 @@ type Target = {
   color: string;
   size: number;
   video: boolean;
+  range?: TextRange;
 };
 
 const labels = { text: "Text", media: "Media", link: "Link" };
 const marker = (kind: VisualKind) => `data-cms-edit-${kind}`;
 const targetKey = (target: Target) => `${target.kind}:${target.source}`;
+const selectionKey = (target: Target) => `${targetKey(target)}:${target.range?.start ?? ""}:${target.range?.end ?? ""}`;
 const textBlock = `:is(h1,h2,h3,h4,h5,h6,p,blockquote)[${marker("text")}]`;
 
 function pick(element: Element, kind: VisualKind): Target {
@@ -41,6 +45,25 @@ function pick(element: Element, kind: VisualKind): Target {
     size: Math.min(textSize.max, Math.max(textSize.min, Math.round(parseFloat(style?.fontSize || "16")))),
     video: ["VIDEO", "IFRAME", "SOURCE"].includes(element.tagName) || /\.(mp4|webm)(\?|$)/i.test(source),
   };
+}
+
+function highlightedText(frame: Document): Target | undefined {
+  const selection = frame.getSelection();
+  if (!selection || selection.isCollapsed || !selection.rangeCount) return;
+  const range = selection.getRangeAt(0);
+  const common = range.commonAncestorContainer;
+  const host = (common.nodeType === 1 ? common as Element : common.parentElement)
+    ?.closest(`[${marker("text")}]`);
+  const original = normalize(range.toString());
+  if (!host || !original) return;
+  const before = frame.createRange();
+  before.selectNodeContents(host);
+  before.setEnd(range.startContainer, range.startOffset);
+  const leading = /^\s*/.exec(range.toString())?.[0] ?? "";
+  const prefix = before.toString() + leading;
+  const start = normalize(prefix).length + (normalize(prefix) && /\s$/.test(prefix) ? 1 : 0);
+  if (normalize(host.textContent ?? "").slice(start, start + original.length) !== original) return;
+  return { ...pick(host, "text"), label: original, range: { start, end: start + original.length, original } };
 }
 
 export function VisualEditor({
@@ -79,9 +102,25 @@ export function VisualEditor({
 
   useEffect(() => {
     if (!frameDocument) return;
+    const frame = frameDocument;
+    function handleHighlight(endpoint?: Element) {
+      const selected = highlightedText(frame);
+      if (!selected || (endpoint && !selected.element.contains(endpoint))) return false;
+      onInteraction();
+      setSelection({ targets: [selected], active: "text" });
+      return true;
+    }
+    function clearHighlight() {
+      frame.getSelection()?.removeAllRanges();
+    }
+    function finishHighlight(event: MouseEvent | KeyboardEvent) {
+      if ("key" in event && !event.shiftKey) return;
+      handleHighlight();
+    }
     function choose(event: MouseEvent | KeyboardEvent) {
       if ("button" in event && event.button !== 0) return;
       if ("key" in event && event.key === "Escape") {
+        clearHighlight();
         setSelection(undefined);
         return;
       }
@@ -89,15 +128,38 @@ export function VisualEditor({
       const target = event.target as Element | null;
       if (target?.nodeType !== 1) return;
       onInteraction();
+      if ("button" in event && handleHighlight(target)) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+      clearHighlight();
+
+      const savedRange = target.closest("[data-cms-selected-range]");
+      const host = savedRange?.closest(`[${marker("text")}]`);
+      if (savedRange && host) {
+        const range = JSON.parse(savedRange.getAttribute("data-cms-selected-range") ?? "null") as TextRange | null;
+        if (range) {
+          event.preventDefault();
+          event.stopPropagation();
+          setSelection({ targets: [{ ...pick(host, "text"), label: range.text ?? range.original, range }], active: "text" });
+          return;
+        }
+      }
 
       const media = target.closest(`[${marker("media")}]`) ??
         target.querySelector(`:scope > iframe[${marker("media")}]`);
       const link = target.closest(`[${marker("link")}]`);
-      const linkLabels = link?.querySelectorAll(`[${marker("text")}]`);
+      const linkLabels = Array.from(link?.querySelectorAll(`[${marker("text")}]`) ?? [])
+        .filter((element) => element.getClientRects().length);
       const nearbyText = target.closest(`[${marker("text")}]`);
+      const block = target.closest(textBlock);
+      const part = target.closest("[data-cms-edit-part]");
+      const differentlyColored = nearbyText && block && nearbyText !== block &&
+        frameDocument?.defaultView?.getComputedStyle(nearbyText).color !== frameDocument?.defaultView?.getComputedStyle(block).color;
       const text = link
-        ? nearbyText && link.contains(nearbyText) ? nearbyText : linkLabels?.length === 1 ? linkLabels[0] : null
-        : target.closest(textBlock) ?? nearbyText;
+        ? nearbyText && link.contains(nearbyText) ? nearbyText : linkLabels.length === 1 ? linkLabels[0] : null
+        : part ?? (differentlyColored ? nearbyText : block ?? nearbyText);
       const first = media ?? text ?? link;
       if (first) {
         event.preventDefault();
@@ -118,9 +180,15 @@ export function VisualEditor({
     }
     frameDocument.addEventListener("click", choose, true);
     frameDocument.addEventListener("keydown", choose, true);
+    frameDocument.addEventListener("pointerdown", clearHighlight, true);
+    frameDocument.addEventListener("mouseup", finishHighlight);
+    frameDocument.addEventListener("keyup", finishHighlight);
     return () => {
       frameDocument.removeEventListener("click", choose, true);
       frameDocument.removeEventListener("keydown", choose, true);
+      frameDocument.removeEventListener("pointerdown", clearHighlight, true);
+      frameDocument.removeEventListener("mouseup", finishHighlight);
+      frameDocument.removeEventListener("keyup", finishHighlight);
     };
   }, [frameDocument, onInteraction]);
 
@@ -160,7 +228,7 @@ export function VisualEditor({
         <aside ref={inspector} className="ctl-visual-inspector" aria-label="Edit selected content"
           onKeyDown={(event) => { if (event.key === "Escape") setSelection(undefined); }}>
           <div className="ctl-visual-selection">
-            <h2>{selected.kind === "media" ? (selected.video ? "Edit video" : "Edit image") : `Edit ${selected.kind}`}</h2>
+            <h2>{selected.range ? "Edit selected words" : selected.kind === "media" ? (selected.video ? "Edit video" : "Edit image") : `Edit ${selected.kind}`}</h2>
             <button type="button" className="ctl-visual-close" aria-label="Close editor"
               onClick={() => setSelection(undefined)}><X size={18} aria-hidden="true" /></button>
           </div>
@@ -173,7 +241,7 @@ export function VisualEditor({
               ))}
             </div>
           )}
-          <EditTarget key={targetKey(selected)} target={selected} path={path} draft={draft} update={update}
+          <EditTarget key={selectionKey(selected)} target={selected} path={path} draft={draft} update={update}
             linkedText={selected.kind === "link" ? selection.targets.find(({ kind }) => kind === "text") : undefined} />
         </aside>
       )}
@@ -224,13 +292,23 @@ function EditTarget({ target, path, draft, update, linkedText }: {
   const key = pageOverrideKey(path, target.kind, target.source);
   const altKey = pageOverrideKey(path, "text", `media-alt:${target.source}`);
   const inherited = draft.overrides[targetKey(target)] ?? target.source;
-  const [value, setValue] = useState(draft.overrides[key] ?? inherited);
+  const range = target.range;
+  const rangeMatch = (item: TextRange) => item.start === range?.start && item.end === range?.end && item.original === range.original;
+  const pageRange = range && draft.textRanges?.[key]?.find(rangeMatch);
+  const sharedRange = range && draft.textRanges?.[targetKey(target)]?.find(rangeMatch);
+  const [globalScope, setGlobalScope] = useState(Boolean(sharedRange && !pageRange));
+  const rangeKey = globalScope ? targetKey(target) : key;
+  const savedRange = globalScope ? sharedRange : pageRange;
+  const [value, setValue] = useState(range ? (pageRange ?? sharedRange)?.text ?? range.original : draft.overrides[key] ?? inherited);
   const [alt, setAlt] = useState(draft.overrides[altKey] ?? "");
   const textTarget = target.kind === "text" ? target : linkedText;
   const formatKey = textTarget ? pageOverrideKey(path, "text", textTarget.source) : key;
+  const loadingSource = textTarget?.element.getAttribute("data-cms-loading-label");
+  const loadingKey = loadingSource ? pageOverrideKey(path, "text", loadingTextSource(loadingSource)) : undefined;
+  const [loadingText, setLoadingText] = useState(loadingKey ? draft.overrides[loadingKey] ?? "" : "");
   const inheritedLabel = linkedText ? draft.overrides[targetKey(linkedText)] ?? linkedText.source : "";
   const [label, setLabel] = useState(draft.overrides[formatKey] ?? inheritedLabel);
-  const [format, setFormat] = useState<TextFormat>(draft.textFormats?.[formatKey] ?? {});
+  const [format, setFormat] = useState<TextFormat>((range ? pageRange ?? sharedRange : draft.textFormats?.[formatKey]) ?? {});
   const [asset, setAsset] = useState<MediaAsset>();
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
@@ -257,8 +335,30 @@ function EditTarget({ target, path, draft, update, linkedText }: {
     }
   }
 
+  function saveRange(item?: TextRange) {
+    const textRanges = { ...draft.textRanges };
+    const previous = textRanges[rangeKey] ?? [];
+    const next = item
+      ? [...previous.filter((entry) => entry.end <= item.start || entry.start >= item.end), item]
+        .sort((a, b) => a.start - b.start)
+      : previous.filter((entry) => !rangeMatch(entry));
+    if (next.length) textRanges[rangeKey] = next;
+    else delete textRanges[rangeKey];
+    update({ ...draft, textRanges });
+    target.element.ownerDocument.getSelection()?.removeAllRanges();
+  }
+
   function apply(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (range) {
+      const { color, hoverColor, size } = format;
+      const text = value === range.original ? undefined : value;
+      saveRange(color || hoverColor || size || text !== undefined
+        ? { start: range.start, end: range.end, original: range.original, text, color, hoverColor, size }
+        : undefined);
+      setMessage("Applied to the preview.");
+      return;
+    }
     const next = target.kind === "text" ? value : value.trim();
     if (target.kind !== "text" && !safeUrl(next, target.kind === "media")) {
       setMessage("Enter a valid HTTPS URL or website path.");
@@ -272,8 +372,12 @@ function EditTarget({ target, path, draft, update, linkedText }: {
       if (label === inheritedLabel) delete overrides[formatKey];
       else overrides[formatKey] = label;
     }
+    if (loadingKey) {
+      if (loadingText.trim()) overrides[loadingKey] = loadingText.trim();
+      else delete overrides[loadingKey];
+    }
     if (textTarget) {
-      if (format.color || format.size) textFormats[formatKey] = format;
+      if (format.color || format.hoverColor || format.size) textFormats[formatKey] = format;
       else delete textFormats[formatKey];
     }
     if (target.kind === "media") {
@@ -288,12 +392,21 @@ function EditTarget({ target, path, draft, update, linkedText }: {
   }
 
   function reset() {
+    if (range) {
+      saveRange();
+      setValue(range.original);
+      setFormat({});
+      setMessage("Selected words reset.");
+      return;
+    }
     const overrides = { ...draft.overrides };
     const textFormats = { ...draft.textFormats };
     delete overrides[key];
     delete overrides[altKey];
     delete overrides[formatKey];
     delete textFormats[formatKey];
+    if (loadingKey) delete overrides[loadingKey];
+    setLoadingText("");
     setLabel(inheritedLabel);
     setValue(inherited);
     setAlt("");
@@ -311,6 +424,16 @@ function EditTarget({ target, path, draft, update, linkedText }: {
             aria-label={target.element.matches("button") ? "Button text" : "Content"} />
         </label>
       )}
+      {range && (
+        <label className="ctl-field">
+          <span>Apply selected text to</span>
+          <select aria-label="Apply selected text to" value={globalScope ? "global" : "page"}
+            onChange={(event) => setGlobalScope(event.target.value === "global")}>
+            <option value="page">This page</option>
+            <option value="global">All pages with the same text</option>
+          </select>
+        </label>
+      )}
       {linkedText && (
         <label className="ctl-field">
           <span>{target.element.matches("a.btn, a[class*='button']") ? "Button text" : "Link text"}</span>
@@ -322,6 +445,13 @@ function EditTarget({ target, path, draft, update, linkedText }: {
           <span>{target.kind === "link" ? "Link destination" : "Image or video URL"}</span>
           <input value={value.startsWith("cms-media:") ? "" : value} placeholder={value.startsWith("cms-media:") ? "Uploaded file selected" : undefined}
             onChange={(event) => setValue(event.target.value)} />
+        </label>
+      )}
+      {loadingKey && (
+        <label className="ctl-field">
+          <span>Loading text</span>
+          <input value={loadingText} onChange={(event) => setLoadingText(event.target.value)}
+            placeholder="Optional, e.g. Opening…" maxLength={120} />
         </label>
       )}
       {textTarget && (
@@ -336,6 +466,17 @@ function EditTarget({ target, path, draft, update, linkedText }: {
             <input type="number" min={textSize.min} max={textSize.max} value={format.size ?? textTarget.size}
               onChange={(event) => setFormat({ ...format, size: event.target.value ? Number(event.target.value) : undefined })} />
           </label>
+          <div className="ctl-hover-field">
+            <label className="ctl-field">
+              <span>Hover color</span>
+              <input type="color" value={format.hoverColor ?? format.color ?? textTarget.color}
+                onChange={(event) => setFormat({ ...format, hoverColor: event.target.value })} />
+            </label>
+            {format.hoverColor && (
+              <button type="button" className="ctl-button" aria-label="Restore default hover color"
+                onClick={() => setFormat({ ...format, hoverColor: undefined })}>Default</button>
+            )}
+          </div>
         </div>
       )}
       {target.kind === "media" && (
@@ -366,7 +507,9 @@ function EditTarget({ target, path, draft, update, linkedText }: {
       )}
       <div className="ctl-visual-actions">
         <button className="ctl-button ctl-primary" disabled={uploading}>Apply</button>
-        {(key in draft.overrides || formatKey in draft.overrides || formatKey in (draft.textFormats ?? {}) || altKey in draft.overrides) &&
+        {(range ? savedRange :
+          key in draft.overrides || formatKey in draft.overrides || formatKey in (draft.textFormats ?? {}) ||
+          altKey in draft.overrides || (loadingKey && loadingKey in draft.overrides)) &&
           <button className="ctl-button" type="button" onClick={reset}>Reset</button>}
       </div>
       {message && <p role="status">{message}</p>}

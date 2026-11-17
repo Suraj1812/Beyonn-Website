@@ -5,6 +5,7 @@ import {
   cloneElement,
   Fragment,
   isValidElement,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
 } from "react";
@@ -12,7 +13,8 @@ import { translateText, type Catalog } from "@/lib/i18n/languages";
 import { useCms, useCmsText } from "@/components/control/CmsProvider";
 import { safeUrl, normalize } from "@/lib/cms/model";
 import { useLanguage } from "./LanguageProvider";
-import { pageOverrideKey, type TextFormat } from "@/lib/cms/visual";
+import { renderTextRanges, replaceSelectedWords, textRangesFor } from "@/lib/cms/text-ranges";
+import { pageOverrideKey, textFormatProps, type TextRange, type TextFormat } from "@/lib/cms/visual";
 
 type ElementProps = {
   children?: ReactNode;
@@ -95,6 +97,7 @@ function localize(node: ReactNode, catalog: Catalog): ReactNode {
           isValidElement<ElementProps>(child) &&
           (["time", "br", "svg", "img", "div"].includes(String(child.type)) ||
             Boolean(child.props["aria-hidden"]) ||
+            child.props["data-cms-inline-range"] !== undefined ||
             structural(child.props.children)),
       );
     updates.children =
@@ -121,10 +124,11 @@ type ManagedOptions = {
   editing: boolean;
   pathname: string;
   formats?: Record<string, TextFormat>;
+  ranges?: Record<string, TextRange[]>;
 };
 
 function managed(node: ReactNode, options: ManagedOptions): ReactNode {
-  const { resolve, editing, pathname, formats } = options;
+  const { resolve, editing, pathname, formats, ranges } = options;
   if (typeof node === "string") return resolve(node);
   if (Array.isArray(node)) return Children.map(node, (child) => managed(child, options));
   if (!isValidElement<ElementProps>(node)) return node;
@@ -246,15 +250,10 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
           updates.tabIndex = node.props.tabIndex ?? 0;
       }
       const format = formats?.[pageOverrideKey(pathname, "text", phrase)];
-      if (format?.color || format?.size) {
-        updates.style = {
-          ...((node.props.style as Record<string, unknown>) ?? {}),
-          ...((updates.style as Record<string, unknown>) ?? {}),
-          ...(format.color ? { color: format.color } : {}),
-          ...(format.size ? { "--cms-edit-size": `${format.size / 16}rem` } : {}),
-        };
-        if (format.size) updates["data-cms-size"] = "";
-      }
+      Object.assign(updates, textFormatProps(format, {
+        ...(node.props.style as CSSProperties | undefined),
+        ...(updates.style as CSSProperties | undefined),
+      }));
     }
     if (actionLabel && replacement !== phrase) {
       let first = true;
@@ -269,6 +268,14 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
         updates["aria-label"] = replacement + aria.slice(phrase.length);
     } else {
       updates.children = replacement !== phrase ? replacement : managed(node.props.children, options);
+    }
+    if (editableText && ranges) {
+      const selected = textRangesFor(ranges, pathname, phrase);
+      updates.children = renderTextRanges(updates.children as ReactNode, selected, editing);
+      const aria = updates["aria-label"] ?? node.props["aria-label"];
+      if (selected.length && typeof aria === "string" && (aria === replacement || aria.startsWith(`${replacement} (`))) {
+        updates["aria-label"] = replaceSelectedWords(replacement, selected) + aria.slice(replacement.length);
+      }
     }
   }
   if (
@@ -302,7 +309,7 @@ export function Localized({
   const { catalog } = useLanguage();
   const resolve = useCmsText();
   const { document, editing, pathname } = useCms();
-  const content = managed(children, { resolve, editing, pathname, formats: document.textFormats });
+  const content = managed(children, { resolve, editing, pathname, formats: document.textFormats, ranges: document.textRanges });
   if (text && resolve(normalize(text)) !== normalize(text))
     return <>{translateText(resolve(normalize(text)), catalog)}</>;
   // Word-by-word animation spans must be translated as a sentence, preserving word order.

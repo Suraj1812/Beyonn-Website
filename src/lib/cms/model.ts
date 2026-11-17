@@ -8,7 +8,7 @@ import { protocolSteps } from "@/content/protocol";
 import { endorsements } from "@/content/endorsements";
 import { workshopContent } from "@/content/workshop";
 import homeBlocks from "./home-blocks.json";
-import { textColorPattern, textSize, type TextFormat } from "./visual";
+import { textColorPattern, textSize, type TextFormat, type TextRange } from "./visual";
 
 export type Json =
   | string
@@ -58,6 +58,7 @@ export type CmsDocument = {
   data: Record<string, Json>;
   overrides: Record<string, string>;
   textFormats?: Record<string, TextFormat>;
+  textRanges?: Record<string, TextRange[]>;
   theme: Theme;
   media: MediaAsset[];
   home: HomeBlock[];
@@ -330,16 +331,29 @@ export function validateDocument(value: unknown): asserts value is CmsDocument {
     )
       throw new Error("Invalid replacement URL.");
   }
-  if (d.textFormats !== undefined) {
-    if (!d.textFormats || typeof d.textFormats !== "object" || Array.isArray(d.textFormats))
-      throw new Error("Invalid text styles.");
-    for (const format of Object.values(d.textFormats)) {
-      if (
-        !format || typeof format !== "object" || Array.isArray(format) ||
-        (format.color !== undefined && (typeof format.color !== "string" || !textColorPattern.test(format.color))) ||
-        (format.size !== undefined && (!Number.isFinite(format.size) || format.size < textSize.min || format.size > textSize.max))
-      )
-        throw new Error("Invalid text color or size.");
+  function validFormat(format: TextFormat) {
+    return Boolean(format && typeof format === "object" && !Array.isArray(format) &&
+      [format.color, format.hoverColor].every((color) =>
+        color === undefined || (typeof color === "string" && textColorPattern.test(color))) &&
+      (format.size === undefined || (Number.isFinite(format.size) && format.size >= textSize.min && format.size <= textSize.max)));
+  }
+  if (d.textFormats !== undefined && (!d.textFormats || typeof d.textFormats !== "object" ||
+    Array.isArray(d.textFormats) || !Object.values(d.textFormats).every(validFormat)))
+    throw new Error("Invalid text color or size.");
+  if (d.textRanges !== undefined) {
+    if (!d.textRanges || typeof d.textRanges !== "object" || Array.isArray(d.textRanges))
+      throw new Error("Invalid text selections.");
+    for (const ranges of Object.values(d.textRanges)) {
+      if (!Array.isArray(ranges) || ranges.length > 100) throw new Error("Invalid text selections.");
+      let end = 0;
+      for (const range of ranges) {
+        if (!validFormat(range) || !Number.isInteger(range.start) || !Number.isInteger(range.end) ||
+          range.start < end || range.end <= range.start || range.end > 100_000 ||
+          typeof range.original !== "string" || range.original.length !== range.end - range.start ||
+          (range.text !== undefined && typeof range.text !== "string"))
+          throw new Error("Invalid text selection.");
+        end = range.end;
+      }
     }
   }
 }

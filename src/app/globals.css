@@ -948,6 +948,10 @@ html:not([lang="en"]) :is(input, textarea, select, button) { font-family: inheri
   [data-cms-size] {
     font-size: var(--cms-edit-size) !important;
   }
+  [data-cms-hover-color]:is(:hover, :focus-visible),
+  :is(a, button):is(:hover, :focus-visible) [data-cms-hover-color] {
+    color: var(--cms-edit-hover-color) !important;
+  }
 }
 
 

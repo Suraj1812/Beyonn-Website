@@ -586,3 +586,20 @@
   background: #edf4fb;
   color: #185798;
 }
+
+.ctl-visual-format {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+}
+.ctl-hover-field {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 17px;
+}
+.ctl-hover-field .ctl-field {
+  flex: 1;
+  margin: 0;
+}

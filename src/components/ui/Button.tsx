@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { NavigationButtonLabel } from "./NavigationButtonLabel";
 
 type Variant = "dark" | "dawn" | "light" | "ghost" | "ghost-light";
 
@@ -42,7 +43,8 @@ export function Button({ href, children, variant = "dark", size = "md", icon = t
   }
   return <Localized>{(
     <Link href={href} className={cls} {...magnetic} {...rest}>
-      {inner}
+      <NavigationButtonLabel>{children}</NavigationButtonLabel>
+      {icon && <ArrowUpRight aria-hidden />}
     </Link>
   )}</Localized>;
 }

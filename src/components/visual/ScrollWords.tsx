@@ -1,6 +1,9 @@
 "use client";
 
-import { Localized } from "@/components/i18n/Localized";
+import { useCms, useCmsText } from "@/components/control/CmsProvider";
+import { normalize } from "@/lib/cms/model";
+import { renderTextRanges, replaceSelectedWords, textRangesFor } from "@/lib/cms/text-ranges";
+import { pageOverrideKey, textFormatProps } from "@/lib/cms/visual";
 
 import { useEffect, useRef } from "react";
 import { useLanguage } from "@/components/i18n/LanguageProvider";
@@ -15,7 +18,18 @@ type Segment = { text: string; className?: string };
 export function ScrollWords({ segments, className }: { segments: Segment[]; className?: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const { t } = useLanguage();
-  const full = segments.map((s) => t(s.text)).join(" ");
+  const { document, editing, pathname } = useCms();
+  const resolve = useCmsText();
+  const source = normalize(segments.map(({ text }) => text).join(" "));
+  const whole = resolve(source);
+  const parts = whole === source
+    ? segments.map((segment) => ({ ...segment, display: t(resolve(segment.text)) }))
+    : [{ text: source, className: undefined, display: t(whole) }];
+  const renderedParts = parts.map((part) => ({
+    ...part,
+    ranges: textRangesFor(document.textRanges, pathname, normalize(part.text)),
+  }));
+  const full = renderedParts.map(({ display, ranges }) => replaceSelectedWords(normalize(display), ranges)).join(" ");
 
   useEffect(() => {
     const el = ref.current;
@@ -49,21 +63,27 @@ export function ScrollWords({ segments, className }: { segments: Segment[]; clas
     };
   }, [full]);
 
-  return <Localized>{(
-    <p ref={ref} className={className} aria-label={full}>
-      {segments.map((seg, si) => (
-        <span key={si} className={seg.className} aria-hidden>
-          {t(seg.text).split(" ").map((w, wi) => (
-            <span key={wi} data-w className={cn("inline-block transition-opacity duration-200")} style={{ opacity: 0.18 }}>
-              {w}
+  return (
+    <p ref={ref} className={className} aria-label={full}
+      {...textFormatProps(document.textFormats?.[pageOverrideKey(pathname, "text", source)])}>
+      {renderedParts.map((part, index) => (
+        <span key={index} className={part.className}
+          aria-hidden={editing ? undefined : true}
+          tabIndex={editing ? 0 : undefined}
+          data-cms-edit-text={editing ? normalize(part.text) : undefined}
+          data-cms-edit-part={editing ? "" : undefined}
+          {...(whole === source ? textFormatProps(document.textFormats?.[pageOverrideKey(pathname, "text", normalize(part.text))]) : {})}>
+          {renderTextRanges(part.display.split(" ").map((word, wordIndex) => (
+            <span key={wordIndex} data-w className={cn("inline-block transition-opacity duration-200")} style={{ opacity: 0.18 }}>
+              {word}
               {" "}
             </span>
-          ))}
+          )), part.ranges, editing)}
         </span>
       ))}
     </p>
-  )}</Localized>;
+  );
 }
 
-// Prevent parent boundaries from translating this component before it renders.
+// Keep the original segment phrases available for localization and CMS editing.
 ScrollWords.cmsLocalizedBoundary = true;
