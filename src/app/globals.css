@@ -942,3 +942,21 @@ html:not([lang="en"]) :is(.t-display, .t-h1, .t-h2, .t-h3) {
 html[dir="rtl"] .text-left { text-align: right; }
 html[dir="rtl"] .text-right { text-align: left; }
 html:not([lang="en"]) :is(input, textarea, select, button) { font-family: inherit; }
+
+
+@layer theme {
+  [data-cms-size] {
+    font-size: var(--cms-edit-size) !important;
+  }
+}
+
+
+:is([data-cms-edit-text], [data-cms-edit-link], [data-cms-edit-media]):hover {
+  cursor: crosshair;
+  outline: 2px dashed #59abff;
+  outline-offset: 2px;
+}
+[data-cms-editor-selected] {
+  outline: 2px solid #307fdf !important;
+  outline-offset: 3px;
+}

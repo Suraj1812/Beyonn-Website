@@ -8,6 +8,7 @@ import { protocolSteps } from "@/content/protocol";
 import { endorsements } from "@/content/endorsements";
 import { workshopContent } from "@/content/workshop";
 import homeBlocks from "./home-blocks.json";
+import { textColorPattern, textSize, type TextFormat } from "./visual";
 
 export type Json =
   | string
@@ -56,6 +57,7 @@ export type CmsDocument = {
   version: 1;
   data: Record<string, Json>;
   overrides: Record<string, string>;
+  textFormats?: Record<string, TextFormat>;
   theme: Theme;
   media: MediaAsset[];
   home: HomeBlock[];
@@ -326,10 +328,24 @@ export function validateDocument(value: unknown): asserts value is CmsDocument {
       typeof block.enabled !== "boolean"
     )
       throw new Error("Invalid home section.");
-  for (const [key, v] of Object.entries(d.overrides))
+  for (const [key, value] of Object.entries(d.overrides)) {
+    const kind = /^(?:page:\/[^:]*:)?(media|link):/.exec(key)?.[1];
     if (
-      typeof v !== "string" ||
-      (/^(media|link):/.test(key) && v && !safeUrl(v, key.startsWith("media:")))
+      typeof value !== "string" ||
+      (kind && value && !safeUrl(value, kind === "media"))
     )
       throw new Error("Invalid replacement URL.");
+  }
+  if (d.textFormats !== undefined) {
+    if (!d.textFormats || typeof d.textFormats !== "object" || Array.isArray(d.textFormats))
+      throw new Error("Invalid text styles.");
+    for (const format of Object.values(d.textFormats)) {
+      if (
+        !format || typeof format !== "object" || Array.isArray(format) ||
+        (format.color !== undefined && (typeof format.color !== "string" || !textColorPattern.test(format.color))) ||
+        (format.size !== undefined && (!Number.isFinite(format.size) || format.size < textSize.min || format.size > textSize.max))
+      )
+        throw new Error("Invalid text color or size.");
+    }
+  }
 }

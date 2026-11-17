@@ -198,8 +198,9 @@ test.describe("authenticated CMS publishing", () => {
     const page = await ctx.newPage();
     await page.goto("/control");
     await expect(
-      page.getByRole("heading", { name: "Make a little progress today." }),
+      page.getByRole("heading", { name: "Edit website" }),
     ).toBeVisible();
+    await page.getByText("More tools", { exact: true }).click();
     await page
       .getByRole("button", { name: "Pages", exact: false })
       .first()
@@ -218,8 +219,20 @@ test.describe("authenticated CMS publishing", () => {
     await page.reload();
     await loaded;
     await expect(
-      page.getByRole("heading", { name: "Make a little progress today." }),
+      page.getByRole("heading", { name: "Edit website" }),
     ).toBeVisible();
+    await page.getByLabel("Page", { exact: true }).selectOption("/cms-integration-check");
+    const editor = page.frameLocator('iframe[title="Editable website preview"]');
+    await editor.getByRole("heading", { name: "Draft preview only" }).click();
+    await page.getByLabel("Content", { exact: true }).fill("Visual editor check");
+    await page.getByLabel("Text color").fill("#3177bf");
+    await page.getByLabel("Text size (px)").fill("36");
+    await page.getByRole("button", { name: "Apply", exact: true }).click();
+    const edited = editor.getByRole("heading", { name: "Visual editor check" });
+    await expect(edited).toHaveCSS("font-size", "36px");
+    await expect(edited).toHaveCSS("color", "rgb(49, 119, 191)");
+    expect((await (await admin.get("/api/control/public")).json()).document.data.pages["cms-integration-check"].title)
+      .toBe("CMS integration check");
     await page.screenshot({
       path: "test-results/cms-overview-desktop.png",
       fullPage: true,

@@ -20,6 +20,7 @@ import {
   ImageIcon,
   Layers3,
   LayoutDashboard,
+  Pencil,
   LogOut,
   Menu,
   Monitor,
@@ -31,7 +32,6 @@ import {
   Save,
   Search,
   Settings2,
-  ShieldCheck,
   Smartphone,
   Tablet,
   Undo2,
@@ -48,8 +48,10 @@ import { MediaLibrary } from "./MediaLibrary";
 import { Overview } from "./Overview";
 import { PageManager } from "./PageManager";
 import { ThemeSettings } from "./ThemeSettings";
+import { VisualEditor } from "./VisualEditor";
 
 const sections = [
+  { id: "edit", label: "Edit website", icon: Pencil },
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "pages", label: "Pages", icon: FileText },
   { id: "content", label: "Content", icon: FolderOpen },
@@ -62,6 +64,7 @@ const sections = [
   { id: "history", label: "Change history", icon: History },
   { id: "settings", label: "General settings", icon: Settings2 },
 ];
+const quickSections = new Set(["edit", "media", "history"]);
 const descriptions: Record<string, string> = {
   overview: "A little clarity. A lot of possibility. Your website at a glance.",
   pages: "Every page, every section. Make your story yours.",
@@ -98,7 +101,7 @@ export default function ControlDashboard() {
   const [published, setPublished] = useState(createDefaultDocument);
   const [saved, setSaved] = useState("");
   const [revisions, setRevisions] = useState<Revision[]>([]);
-  const [section, setSection] = useState("overview");
+  const [section, setSection] = useState("edit");
   const [pageKey, setPageKey] = useState("home");
   const [collection, setCollection] = useState(contentCollections[0]);
   const [search, setSearch] = useState("");
@@ -123,6 +126,16 @@ export default function ControlDashboard() {
   const report = useCallback((message: string) => setNotice(message), []);
   const pageMap = document.data.pages as Record<string, Json>;
   const currentPath = pageKey === "home" ? "/" : `/${pageKey}`;
+  const editingPages = [
+    { path: "/", label: "Homepage" },
+    ...Object.keys(pageMap).map((slug) => ({
+      path: `/${slug}`,
+      label: slug.split("/").map((segment) => human(segment.replaceAll("-", " "))).join(" / "),
+    })),
+    { path: "/resources", label: "Resources" },
+    ...(document.data.articles as { slug: string; title: string }[]).map(({ slug, title }) => ({ path: `/resources/${slug}`, label: title })),
+  ];
+  const touch = useCallback(() => { activity.current = Date.now(); }, []);
 
   const load = useCallback(async () => {
     try {
@@ -166,9 +179,6 @@ export default function ControlDashboard() {
   useEffect(() => {
     if (!authenticated) return;
     activity.current = Date.now();
-    const touch = () => {
-      activity.current = Date.now();
-    };
     const events = ["pointerdown", "keydown", "scroll", "touchstart"] as const;
     events.forEach((event) =>
       window.addEventListener(event, touch, { passive: true }),
@@ -190,7 +200,7 @@ export default function ControlDashboard() {
       clearInterval(timer);
       events.forEach((event) => window.removeEventListener(event, touch));
     };
-  }, [authenticated, report]);
+  }, [authenticated, report, touch]);
   useEffect(() => {
     const warn = (e: BeforeUnloadEvent) => {
       if (dirty) e.preventDefault();
@@ -361,6 +371,17 @@ export default function ControlDashboard() {
     URL.revokeObjectURL(url);
   }
 
+  function navButton({ id, label, icon: Icon }: (typeof sections)[number]) {
+    return (
+      <button key={id} className={section === id ? "is-active" : ""}
+        onClick={() => go(id)} aria-current={section === id ? "page" : undefined}>
+        <Icon size={18} strokeWidth={1.7} />
+        <span>{label}</span>
+        {section === id && <span className="ctl-active-dot" />}
+      </button>
+    );
+  }
+
   if (checking)
     return (
       <div className="ctl-loading" role="status">
@@ -411,30 +432,13 @@ export default function ControlDashboard() {
           />
         </Link>
         <nav aria-label="Control navigation">
-          {sections.map(({ id, label, icon: Icon }, i) => (
-            <button
-              key={id}
-              className={`${section === id ? "is-active" : ""} ${i === 6 ? "ctl-nav-divider" : ""}`}
-              onClick={() => go(id)}
-              aria-current={section === id ? "page" : undefined}
-            >
-              <Icon size={18} strokeWidth={1.7} />
-              <span>{label}</span>
-              {id === "pages" && (
-                <small>{Object.keys(pageMap).length + 1}</small>
-              )}
-              {section === id && <span className="ctl-active-dot" />}
-            </button>
-          ))}
+          {sections.filter(({ id }) => quickSections.has(id)).map(navButton)}
+          <details className="ctl-more-tools">
+            <summary>More tools</summary>
+            {sections.filter(({ id }) => !quickSections.has(id)).map(navButton)}
+          </details>
         </nav>
         <div className="ctl-sidebar-bottom">
-          <div className="ctl-secure-note">
-            <ShieldCheck size={17} />
-            <div>
-              <strong>A space you can trust</strong>
-              <small>Protected admin workspace</small>
-            </div>
-          </div>
           <button className="ctl-user" onClick={requestSignOut}>
             <span className="ctl-avatar">B</span>
             <span>
@@ -483,17 +487,12 @@ export default function ControlDashboard() {
         <main id="control-main" className="ctl-content">
           <div className="ctl-heading">
             <div>
-              <span className="ctl-eyebrow">
-                {section === "overview"
-                  ? "YOUR DIGITAL HOME, IN GOOD HANDS"
-                  : "BEYONN WEBSITE CONTROL"}
-              </span>
               <h1>
                 {section === "overview"
                   ? "Make a little progress today."
                   : sections.find((s) => s.id === section)?.label}
               </h1>
-              <p>{descriptions[section]}</p>
+              {descriptions[section] && <p>{descriptions[section]}</p>}
             </div>
             <div className="ctl-heading-actions">
               <div className="ctl-undo">
@@ -546,6 +545,19 @@ export default function ControlDashboard() {
               </button>
             </div>
           </div>
+          {section === "edit" && (
+            saved ? (
+              <VisualEditor
+                key={currentPath}
+                draft={document}
+                path={currentPath}
+                pages={editingPages}
+                selectPage={(path) => setPageKey(path === "/" ? "home" : path.slice(1))}
+                update={update}
+                onInteraction={touch}
+              />
+            ) : <p role="status">Loading website content…</p>
+          )}
           {section === "overview" && (
             <Overview
               document={document}
@@ -964,13 +976,6 @@ export default function ControlDashboard() {
               </Panel>
             </div>
           )}
-          <footer className="ctl-workspace-footer">
-            <span>Made for the way Beyonn works.</span>
-            <span>
-              <ShieldCheck size={13} />
-              Private workspace · Firebase backend
-            </span>
-          </footer>
         </main>
       </div>
       {notice && (

@@ -2,6 +2,10 @@
 
 The private workspace is `/control`. It is absent from public navigation and excluded from indexing. The existing navy, blue and mint brand is used throughout.
 
+In **Edit website**, choose a page and click the text, image, video, or link you want to change. The Text, Media, and Links tabs also let you choose an item from a list. Apply the change to see it in the preview, then save a draft or publish. Use **More tools** for page creation, navigation, global theme, SEO, and settings.
+
+Visual edits are scoped to the selected page. If the same source text, media URL, or link destination appears multiple times on that page, its matching occurrences are updated together.
+
 ## What is managed
 
 - Homepage section order, visibility, duplication and new content blocks.

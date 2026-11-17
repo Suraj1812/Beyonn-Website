@@ -9,9 +9,10 @@ import {
   type ReactNode,
 } from "react";
 import { translateText, type Catalog } from "@/lib/i18n/languages";
-import { useCmsText } from "@/components/control/CmsProvider";
+import { useCms, useCmsText } from "@/components/control/CmsProvider";
 import { safeUrl, normalize } from "@/lib/cms/model";
 import { useLanguage } from "./LanguageProvider";
+import { pageOverrideKey, type TextFormat } from "@/lib/cms/visual";
 
 type ElementProps = {
   children?: ReactNode;
@@ -115,12 +116,17 @@ function localize(node: ReactNode, catalog: Catalog): ReactNode {
 }
 
 /** Apply CMS values to React trees before translation, preserving handlers and component state. */
-function managed(
-  node: ReactNode,
-  resolve: (value: string, kind?: "text" | "link" | "media") => string,
-): ReactNode {
+type ManagedOptions = {
+  resolve: ReturnType<typeof useCmsText>;
+  editing: boolean;
+  pathname: string;
+  formats?: Record<string, TextFormat>;
+};
+
+function managed(node: ReactNode, options: ManagedOptions): ReactNode {
+  const { resolve, editing, pathname, formats } = options;
   if (typeof node === "string") return resolve(node);
-  if (Array.isArray(node)) return Children.map(node, (child) => managed(child, resolve));
+  if (Array.isArray(node)) return Children.map(node, (child) => managed(child, options));
   if (!isValidElement<ElementProps>(node)) return node;
   if (
     node.type === Localized ||
@@ -145,12 +151,23 @@ function managed(
     if (typeof node.props[key] === "string")
       updates[key] = resolve(node.props[key] as string);
     else if (isValidElement(node.props[key]))
-      updates[key] = managed(node.props[key] as ReactNode, resolve);
+      updates[key] = managed(node.props[key] as ReactNode, options);
   }
   for (const key of ["href", "src", "poster"]) {
     const value = node.props[key];
     if (typeof value !== "string") continue;
-    const next = resolve(value, key === "href" ? "link" : "media");
+    const kind = key === "href" ? "link" : "media";
+    if (editing && key !== "poster" && safeUrl(value, kind === "media"))
+      updates[`data-cms-edit-${kind}`] = normalize(value);
+    const next = resolve(value, kind);
+    if (key === "src") {
+      const original = `media-alt:${value}`;
+      const alt = resolve(original);
+      if (alt !== original) {
+        if (node.type === "iframe" || node.type === "video") updates.title = alt;
+        else updates.alt = alt;
+      }
+    }
     if (
       key === "src" &&
       typeof node.type !== "string" &&
@@ -182,14 +199,6 @@ function managed(
         }
       }
       updates[key] = next;
-      if (key === "src") {
-        const sourceAlt = `media-alt:${value}`;
-        const alt = resolve(sourceAlt);
-        if (alt !== sourceAlt) {
-          updates.alt = alt;
-          if (node.type === "iframe") updates.title = alt;
-        }
-      }
       if (key === "src" && typeof node.type !== "string")
         updates.unoptimized = true;
     }
@@ -198,6 +207,7 @@ function managed(
     for (const match of node.props.className.matchAll(
       /(mask|background(?:-image)?):url\(([^)]+)\)/g,
     )) {
+      if (editing) updates["data-cms-edit-media"] ??= match[2];
       const next = resolve(match[2], "media");
       if (
         next !== match[2] &&
@@ -217,13 +227,25 @@ function managed(
   }
   if (node.props.children !== undefined && node.type !== "textarea") {
     const phrase = normalize(plainText(node.props.children));
-    const replacement = resolve(phrase);
-    updates.children =
-      typeof node.type === "string" &&
-      phraseTags.has(node.type) &&
-      replacement !== phrase
-        ? replacement
-        : managed(node.props.children, resolve);
+    const editableText = typeof node.type === "string" && phrase &&
+      (phraseTags.has(node.type) || typeof node.props.children === "string");
+    const replacement = editableText ? resolve(phrase) : phrase;
+    if (editableText) {
+      if (editing) updates["data-cms-edit-text"] = phrase;
+      const format = formats?.[pageOverrideKey(pathname, "text", phrase)];
+      if (format?.color || format?.size) {
+        updates.style = {
+          ...((node.props.style as Record<string, unknown>) ?? {}),
+          ...((updates.style as Record<string, unknown>) ?? {}),
+          ...(format.color ? { color: format.color } : {}),
+          ...(format.size ? { "--cms-edit-size": `${format.size / 16}rem` } : {}),
+        };
+        if (format.size) updates["data-cms-size"] = "";
+      }
+    }
+    updates.children = replacement !== phrase
+      ? replacement
+      : managed(node.props.children, options);
   }
   if (
     node.type === "iframe" &&
@@ -236,6 +258,7 @@ function managed(
         key={node.key}
         src={updates.src}
         title={String(updates.title ?? node.props.title ?? "Video")}
+        data-cms-edit-media={updates["data-cms-edit-media"] as string | undefined}
         controls
         preload="metadata"
         className={String(node.props.className ?? "")}
@@ -254,7 +277,8 @@ export function Localized({
 }) {
   const { catalog } = useLanguage();
   const resolve = useCmsText();
-  const content = managed(children, resolve);
+  const { document, editing, pathname } = useCms();
+  const content = managed(children, { resolve, editing, pathname, formats: document.textFormats });
   if (text && resolve(normalize(text)) !== normalize(text))
     return <>{translateText(resolve(normalize(text)), catalog)}</>;
   // Word-by-word animation spans must be translated as a sentence, preserving word order.
