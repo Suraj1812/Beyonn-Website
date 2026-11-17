@@ -44,5 +44,12 @@
   },
   "engines": {
     "node": ">=22 <27"
+  },
+  "overrides": {
+    "firebase-admin": {
+      "jwks-rsa": {
+        "jose": "5.10.0"
+      }
+    }
   }
 }
