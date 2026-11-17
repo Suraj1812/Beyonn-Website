@@ -27,4 +27,7 @@ The publishing tests restore the starting published and draft documents. Test ac
 - Scoped runtime Storage write/read verified.
 - Production Firebase configuration and encrypted runtime credential configured in the existing Vercel project.
 
-Production URL, actual signed media upload and HTTPS publishing checks are performed after the Git push/deployment. The $0–$10/month low-traffic planning range remains an estimate, not a spending cap.
+- All six CMS browser tests passed against the live Vercel deployment with real Firebase Authentication. The temporary published page was removed and the starting draft and public content were restored.
+- Production HTTPS sessions set Secure, HttpOnly and SameSite=Strict cookies. A real signed upload reached Cloud Storage with the production CORS origin, completed through the authenticated API, and could only be read by the administrator while unpublished.
+
+The $0–$10/month low-traffic planning range depends on usage and available free quotas.

@@ -252,15 +252,15 @@ export function Localized({
   children: ReactNode;
   text?: string;
 }) {
-  const { catalog, language } = useLanguage();
+  const { catalog } = useLanguage();
   const resolve = useCmsText();
   const content = managed(children, resolve);
   if (text && resolve(normalize(text)) !== normalize(text))
     return <>{translateText(resolve(normalize(text)), catalog)}</>;
-  if (language === "en") return <>{content}</>;
   // Word-by-word animation spans must be translated as a sentence, preserving word order.
   if (text && catalog[text.replace(/\s+/g, " ").trim()])
     return <>{translateText(text, catalog)}</>;
+  // Traverse both the source language and translations so React child keys stay stable.
   return <>{localize(content, catalog)}</>;
 }
 
