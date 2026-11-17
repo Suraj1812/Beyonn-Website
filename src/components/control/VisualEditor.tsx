@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Upload, X } from "lucide-react";
+import { ChevronDown, ExternalLink, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { safeUrl, type CmsDocument, type MediaAsset } from "@/lib/cms/model";
 import { repository } from "@/lib/cms/storage";
@@ -89,7 +89,11 @@ export function VisualEditor({
       const media = target.closest(`[${marker("media")}]`) ??
         target.querySelector(`:scope > iframe[${marker("media")}]`);
       const link = target.closest(`[${marker("link")}]`);
-      const text = target.closest(textBlock) ?? target.closest(`[${marker("text")}]`);
+      const linkLabels = link?.querySelectorAll(`[${marker("text")}]`);
+      const nearbyText = target.closest(`[${marker("text")}]`);
+      const text = link
+        ? nearbyText && link.contains(nearbyText) ? nearbyText : linkLabels?.length === 1 ? linkLabels[0] : null
+        : target.closest(textBlock) ?? nearbyText;
       const first = media ?? text ?? link;
       if (first) {
         event.preventDefault();
@@ -98,7 +102,7 @@ export function VisualEditor({
         if (media) targets.push(pick(media, "media"));
         if (text && !media) targets.push(pick(text, "text"));
         if (link) targets.push(pick(link, "link"));
-        setSelection({ targets, active: targets[0].kind });
+        setSelection({ targets, active: media ? "media" : link ? "link" : "text" });
         return;
       }
       setSelection(undefined);
@@ -136,12 +140,7 @@ export function VisualEditor({
   return (
     <div className="ctl-visual">
       <div className="ctl-visual-bar">
-        <label className="ctl-field">
-          <span>Page</span>
-          <select aria-label="Page" value={path} onChange={(event) => selectPage(event.target.value)}>
-            {pages.map((page) => <option key={page.path} value={page.path}>{page.label}</option>)}
-          </select>
-        </label>
+        <PagePicker pages={pages} path={path} selectPage={selectPage} />
         <a className="ctl-button ctl-small" href={path} target="_blank" rel="noopener noreferrer">
           Open live page <ExternalLink size={14} />
         </a>
@@ -162,7 +161,7 @@ export function VisualEditor({
               onClick={() => setSelection(undefined)}><X size={18} aria-hidden="true" /></button>
           </div>
           <p className="ctl-visual-target" title={selected.label}>{selected.label}</p>
-          {selection.targets.length > 1 && (
+          {selection.targets.some(({ kind }) => kind === "media") && selection.targets.length > 1 && (
             <div className="ctl-visual-kinds" role="group" aria-label="Options for selected item">
               {selection.targets.map(({ kind }) => (
                 <button key={kind} type="button" aria-pressed={kind === selection.active}
@@ -170,15 +169,50 @@ export function VisualEditor({
               ))}
             </div>
           )}
-          <EditTarget key={targetKey(selected)} target={selected} path={path} draft={draft} update={update} />
+          <EditTarget key={targetKey(selected)} target={selected} path={path} draft={draft} update={update}
+            linkedText={selected.kind === "link" ? selection.targets.find(({ kind }) => kind === "text") : undefined} />
         </aside>
       )}
     </div>
   );
 }
 
-function EditTarget({ target, path, draft, update }: {
+function PagePicker({ pages, path, selectPage }: {
+  pages: { path: string; label: string }[];
+  path: string;
+  selectPage: (path: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const current = pages.find((page) => page.path === path)?.label ?? path;
+  return (
+    <div className="ctl-page-picker" onBlur={(event) => {
+      if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+    }} onKeyDown={(event) => {
+      if (event.key === "Escape" && open) {
+        event.preventDefault();
+        trigger.current?.focus();
+        setOpen(false);
+      }
+    }}>
+      <span className="ctl-picker-label">Page</span>
+      <button ref={trigger} type="button" className="ctl-picker-trigger" aria-label={`Page: ${current}`}
+        aria-expanded={open} aria-controls="ctl-page-options" onClick={() => setOpen(!open)}>
+        <span>{current}</span><ChevronDown size={16} aria-hidden="true" />
+      </button>
+      <div id="ctl-page-options" className="ctl-page-options" role="group" aria-label="Website pages" hidden={!open}>
+        {pages.map((page) => (
+          <button key={page.path} type="button" aria-current={page.path === path ? "page" : undefined}
+            onClick={() => { trigger.current?.focus(); setOpen(false); selectPage(page.path); }}>{page.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EditTarget({ target, path, draft, update, linkedText }: {
   target: Target;
+  linkedText?: Target;
   path: string;
   draft: CmsDocument;
   update: (draft: CmsDocument) => void;
@@ -188,7 +222,11 @@ function EditTarget({ target, path, draft, update }: {
   const inherited = draft.overrides[targetKey(target)] ?? target.source;
   const [value, setValue] = useState(draft.overrides[key] ?? inherited);
   const [alt, setAlt] = useState(draft.overrides[altKey] ?? "");
-  const [format, setFormat] = useState<TextFormat>(draft.textFormats?.[key] ?? {});
+  const textTarget = target.kind === "text" ? target : linkedText;
+  const formatKey = textTarget ? pageOverrideKey(path, "text", textTarget.source) : key;
+  const inheritedLabel = linkedText ? draft.overrides[targetKey(linkedText)] ?? linkedText.source : "";
+  const [label, setLabel] = useState(draft.overrides[formatKey] ?? inheritedLabel);
+  const [format, setFormat] = useState<TextFormat>(draft.textFormats?.[formatKey] ?? {});
   const [asset, setAsset] = useState<MediaAsset>();
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
@@ -226,9 +264,13 @@ function EditTarget({ target, path, draft, update }: {
     const textFormats = { ...draft.textFormats };
     if (next === inherited) delete overrides[key];
     else overrides[key] = next;
-    if (target.kind === "text") {
-      if (format.color || format.size) textFormats[key] = format;
-      else delete textFormats[key];
+    if (linkedText) {
+      if (label === inheritedLabel) delete overrides[formatKey];
+      else overrides[formatKey] = label;
+    }
+    if (textTarget) {
+      if (format.color || format.size) textFormats[formatKey] = format;
+      else delete textFormats[formatKey];
     }
     if (target.kind === "media") {
       if (alt.trim()) overrides[altKey] = alt.trim();
@@ -246,7 +288,9 @@ function EditTarget({ target, path, draft, update }: {
     const textFormats = { ...draft.textFormats };
     delete overrides[key];
     delete overrides[altKey];
-    delete textFormats[key];
+    delete overrides[formatKey];
+    delete textFormats[formatKey];
+    setLabel(inheritedLabel);
     setValue(inherited);
     setAlt("");
     setFormat({});
@@ -256,31 +300,39 @@ function EditTarget({ target, path, draft, update }: {
 
   return (
     <form className="ctl-visual-form" onSubmit={apply}>
-      {target.kind === "text" ? (
-        <>
-          <label className="ctl-field">
-            <span>Content</span>
-            <textarea aria-label="Content" rows={4} value={value} onChange={(event) => setValue(event.target.value)} />
-          </label>
-          <div className="ctl-visual-format">
-            <label className="ctl-field">
-              <span>Text color</span>
-              <input type="color" value={format.color ?? target.color}
-                onChange={(event) => setFormat({ ...format, color: event.target.value })} />
-            </label>
-            <label className="ctl-field">
-              <span>Text size (px)</span>
-              <input type="number" min={textSize.min} max={textSize.max} value={format.size ?? target.size}
-                onChange={(event) => setFormat({ ...format, size: event.target.value ? Number(event.target.value) : undefined })} />
-            </label>
-          </div>
-        </>
-      ) : (
+      {target.kind === "text" && (
+        <label className="ctl-field">
+          <span>{target.element.matches("button") ? "Button text" : "Content"}</span>
+          <textarea rows={target.element.matches("button") ? 2 : 4} value={value} onChange={(event) => setValue(event.target.value)}
+            aria-label={target.element.matches("button") ? "Button text" : "Content"} />
+        </label>
+      )}
+      {linkedText && (
+        <label className="ctl-field">
+          <span>{target.element.matches("a.btn, a[class*='button']") ? "Button text" : "Link text"}</span>
+          <input value={label} onChange={(event) => setLabel(event.target.value)} required />
+        </label>
+      )}
+      {target.kind !== "text" && (
         <label className="ctl-field">
           <span>{target.kind === "link" ? "Link destination" : "Image or video URL"}</span>
           <input value={value.startsWith("cms-media:") ? "" : value} placeholder={value.startsWith("cms-media:") ? "Uploaded file selected" : undefined}
             onChange={(event) => setValue(event.target.value)} />
         </label>
+      )}
+      {textTarget && (
+        <div className="ctl-visual-format">
+          <label className="ctl-field">
+            <span>Text color</span>
+            <input type="color" value={format.color ?? textTarget.color}
+              onChange={(event) => setFormat({ ...format, color: event.target.value })} />
+          </label>
+          <label className="ctl-field">
+            <span>Text size (px)</span>
+            <input type="number" min={textSize.min} max={textSize.max} value={format.size ?? textTarget.size}
+              onChange={(event) => setFormat({ ...format, size: event.target.value ? Number(event.target.value) : undefined })} />
+          </label>
+        </div>
       )}
       {target.kind === "media" && (
         <>
@@ -310,7 +362,7 @@ function EditTarget({ target, path, draft, update }: {
       )}
       <div className="ctl-visual-actions">
         <button className="ctl-button ctl-primary" disabled={uploading}>Apply</button>
-        {(key in draft.overrides || key in (draft.textFormats ?? {}) || altKey in draft.overrides) &&
+        {(key in draft.overrides || formatKey in draft.overrides || formatKey in (draft.textFormats ?? {}) || altKey in draft.overrides) &&
           <button className="ctl-button" type="button" onClick={reset}>Reset</button>}
       </div>
       {message && <p role="status">{message}</p>}

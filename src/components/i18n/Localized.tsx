@@ -230,8 +230,14 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
   }
   if (node.props.children !== undefined && node.type !== "textarea") {
     const phrase = normalize(plainText(node.props.children));
-    const editableText = typeof node.type === "string" && phrase &&
-      (phraseTags.has(node.type) || typeof node.props.children === "string");
+    const children = Children.toArray(node.props.children);
+    const directText = normalize(children.filter((child) => typeof child === "string").join(""));
+    // Some actions render raw text beside an icon. Give the text a CMS target
+    // while keeping the icon and the action's original layout.
+    const actionLabel = Boolean(directText && directText === phrase &&
+      (node.type === "button" || typeof node.props.href === "string"));
+    const editableText = phrase && (actionLabel || (typeof node.type === "string" &&
+      (phraseTags.has(node.type) || typeof node.props.children === "string")));
     const replacement = editableText ? resolve(phrase) : phrase;
     if (editableText) {
       if (editing) {
@@ -250,9 +256,20 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
         if (format.size) updates["data-cms-size"] = "";
       }
     }
-    updates.children = replacement !== phrase
-      ? replacement
-      : managed(node.props.children, options);
+    if (actionLabel && replacement !== phrase) {
+      let first = true;
+      updates.children = Children.map(node.props.children, (child) => {
+        if (typeof child !== "string" || !child.trim()) return managed(child, options);
+        if (!first) return null;
+        first = false;
+        return replacement;
+      });
+      const aria = node.props["aria-label"];
+      if (typeof aria === "string" && (aria === phrase || aria.startsWith(`${phrase} (`)))
+        updates["aria-label"] = replacement + aria.slice(phrase.length);
+    } else {
+      updates.children = replacement !== phrase ? replacement : managed(node.props.children, options);
+    }
   }
   if (
     node.type === "iframe" &&

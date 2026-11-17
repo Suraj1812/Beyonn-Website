@@ -522,3 +522,67 @@
     grid-area: inspector;
   }
 }
+
+.ctl-page-picker {
+  position: relative;
+  width: min(100%, 340px);
+  min-width: 0;
+}
+.ctl-picker-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #4a6480;
+  font-weight: 600;
+}
+.ctl-app .ctl-picker-trigger,
+.ctl-app .ctl-page-options button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  gap: 10px;
+  color: #243951;
+  text-align: left;
+}
+.ctl-app .ctl-picker-trigger {
+  justify-content: space-between;
+  border: 1px solid #d7e1ee;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+}
+.ctl-picker-trigger span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ctl-picker-trigger svg {
+  flex: 0 0 16px;
+}
+.ctl-picker-trigger[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.ctl-page-options {
+  position: absolute;
+  z-index: 5;
+  inset: calc(100% + 5px) 0 auto;
+  max-height: min(55dvh, 340px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
+  border: 1px solid #d7e1ee;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 10px 25px #1c395e22;
+}
+.ctl-app .ctl-page-options button {
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+}
+.ctl-app .ctl-page-options button:is(:hover, [aria-current="page"]) {
+  background: #edf4fb;
+  color: #185798;
+}

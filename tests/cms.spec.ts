@@ -195,8 +195,12 @@ test.describe("authenticated CMS publishing", () => {
       await page.goto("/control");
       await expect(page.getByRole("heading", { name: "Edit website" })).toBeVisible();
       await expect(page.getByText("More tools", { exact: true })).toHaveCount(0);
-      const pageSelect = page.getByLabel("Page", { exact: true });
-      await pageSelect.selectOption("/cms-integration-check");
+      async function openTestPage() {
+        await page.getByRole("button", { name: /^Page:/ }).click();
+        await page.getByRole("group", { name: "Website pages" })
+          .getByRole("button", { name: "Cms integration check", exact: true }).click();
+      }
+      await openTestPage();
       const editor = page.frameLocator('iframe[title="Editable website preview"]');
       const panel = page.getByRole("complementary", { name: "Edit selected content" });
       await expect(panel).toHaveCount(0);
@@ -215,7 +219,7 @@ test.describe("authenticated CMS publishing", () => {
       await page.getByRole("button", { name: "Save draft", exact: true }).click();
       await expect(page.getByText("Draft saved securely.", { exact: true })).toBeVisible();
       await page.reload();
-      await pageSelect.selectOption("/cms-integration-check");
+      await openTestPage();
       await expect(edited).toBeVisible();
       await expect(edited).toHaveCSS("font-size", "36px");
       await page.setViewportSize({ width: 390, height: 844 });

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { LogOut, Save, Upload } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createDefaultDocument, validateDocument, type CmsDocument } from "@/lib/cms/model";
+import { isGroup, type NavGroup, type NavLink } from "@/content/site";
 import { announce, repository } from "@/lib/cms/storage";
 import { Login } from "./Login";
 import { VisualEditor } from "./VisualEditor";
@@ -153,15 +154,7 @@ function Editor({ onSignOut, onInteraction }: {
   }
 
   if (!draft && !error) return <Loading label="Loading website content…" />;
-  const pages = draft ? [
-    { path: "/", label: "Homepage" },
-    ...Object.keys(draft.data.pages as Record<string, unknown>).map((slug) => ({
-      path: `/${slug}`,
-      label: slug.split("/").map((part) => part.charAt(0).toUpperCase() + part.slice(1).replaceAll("-", " ")).join(" / "),
-    })),
-    { path: "/resources", label: "Resources" },
-    ...(draft.data.articles as { slug: string; title: string }[]).map(({ slug, title }) => ({ path: `/resources/${slug}`, label: title })),
-  ] : [];
+  const pages = draft ? getPageOptions(draft) : [];
 
   return (
     <div className="ctl-app">
@@ -208,4 +201,30 @@ function Editor({ onSignOut, onInteraction }: {
       </dialog>
     </div>
   );
+}
+
+
+function getPageOptions(draft: CmsDocument) {
+  const articles = draft.data.articles as { slug: string; title: string }[];
+  const pages = new Map<string, string>([
+    ["/", "Homepage"],
+    ...Object.keys(draft.data.pages as Record<string, unknown>).map((slug): [string, string] => [
+      `/${slug}`,
+      slug.split("/").map((part) => part.charAt(0).toUpperCase() + part.slice(1).replaceAll("-", " ")).join(" / "),
+    ]),
+    ["/resources", "Resources"],
+    ...articles.map(({ slug, title }): [string, string] => [`/resources/${slug}`, title]),
+  ]);
+  const navbar = (draft.data.primaryNav as (NavGroup | NavLink)[])
+    .flatMap((item) => isGroup(item) ? [...item.links, ...(item.footer ? [item.footer] : [])] : [item]);
+  const footer = (draft.data.footerNav as { links: NavLink[] }[]).flatMap(({ links }) => links);
+  const named = new Set<string>();
+  for (const link of [...navbar, ...(draft.data.signInNav as NavLink[]), ...footer, ...(draft.data.legalNav as NavLink[])]) {
+    const path = link.href.split(/[?#]/, 1)[0].replace(/\/$/, "") || "/";
+    if (path !== "/" && pages.has(path) && !named.has(path)) {
+      pages.set(path, link.label);
+      named.add(path);
+    }
+  }
+  return Array.from(pages, ([path, label]) => ({ path, label }));
 }
