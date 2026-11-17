@@ -17,7 +17,7 @@ test("control is isolated and private APIs reject anonymous access", async ({
 }) => {
   await page.goto("/control");
   await expect(
-    page.getByRole("heading", { name: "Admin sign-in" }),
+    page.getByRole("heading", { name: "Sign in to your account" }),
   ).toBeVisible();
   await expect(page.getByLabel("Admin ID")).toBeVisible();
   await expect(page.getByLabel("Password", { exact: true })).toHaveAttribute(

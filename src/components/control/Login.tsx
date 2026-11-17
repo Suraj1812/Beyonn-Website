@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
@@ -38,41 +38,45 @@ export function Login({ onLogin }: { onLogin: () => void }) {
           className="ctl-login-logo"
           src="/assets/site/beyonn-control-logo.png"
           alt="Beyonn"
-          width={220}
-          height={45}
+          width={190}
+          height={39}
           loading="eager"
         />
-        <h1 id="control-sign-in">Admin sign-in</h1>
+        <h1 id="control-sign-in">Sign in to your account</h1>
+        <p className="ctl-login-caption">Access the Beyonn control panel</p>
         <form onSubmit={submit}>
-          <label className="ctl-field">
-            <span>Admin ID</span>
+          <label className="ctl-field ctl-login-input">
+            <span className="ctl-sr-only">Admin ID</span>
+            <UserRound size={21} aria-hidden="true" />
             <input
               name="email"
               type="email"
               autoComplete="username"
+              placeholder="Admin ID"
               required
               maxLength={254}
             />
           </label>
-          <label className="ctl-field">
-            <span>Password</span>
-            <div className="ctl-password">
-              <input
-                name="password"
-                type={visible ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                maxLength={256}
-              />
-              <button
-                type="button"
-                aria-label={visible ? "Hide password" : "Show password"}
-                onClick={() => setVisible(!visible)}
-              >
-                {visible ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-          </label>
+          <div className="ctl-field ctl-login-input ctl-password">
+            <label className="ctl-sr-only" htmlFor="control-password">Password</label>
+            <LockKeyhole size={20} aria-hidden="true" />
+            <input
+              id="control-password"
+              name="password"
+              type={visible ? "text" : "password"}
+              autoComplete="current-password"
+              placeholder="Password"
+              required
+              maxLength={256}
+            />
+            <button
+              type="button"
+              aria-label={visible ? "Hide password" : "Show password"}
+              onClick={() => setVisible(!visible)}
+            >
+              {visible ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {error && (
             <p className="ctl-error" role="alert">
               {error}
@@ -87,6 +91,7 @@ export function Login({ onLogin }: { onLogin: () => void }) {
           </button>
         </form>
         <Link className="ctl-back" href="/">
+          <ArrowLeft size={17} aria-hidden="true" />
           Back to website
         </Link>
       </div>
