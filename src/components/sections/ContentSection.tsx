@@ -379,8 +379,6 @@ function Widget({ section }: { section: PageSection }) {
     case "patient-blogs":
       return <Localized>{<div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>}</Localized>;
 
-    case "airway-model":
-      return <OralApplianceVideo />;
     case "discovery-booking":
       return <Localized>{(
         <Panel className="w-full">
@@ -479,7 +477,8 @@ export function ContentSection({ section, index }: { section: PageSection; index
     )}</Localized>;
   }
 
-  const dark = section.dark;
+  const isAirwayVideo = section.widget === "airway-model";
+  const dark = isAirwayVideo || section.dark;
   const tone = dark ? "spotlight relative overflow-hidden bg-ink text-paper" : index % 2 === 0 ? "bg-paper" : "bg-paper-2";
   const hasHeader = Boolean(section.title || section.eyebrow);
 
@@ -551,9 +550,12 @@ export function ContentSection({ section, index }: { section: PageSection; index
   }
 
   const list = section.list && <CheckList items={section.list} tone={dark ? "breath" : "dawn"} className="max-w-3xl" />;
+  const headingSection = isAirwayVideo && section.title === "How an oral appliance helps"
+    ? { ...section, title: "What happens to your breathing when you fall asleep?" }
+    : section;
   const intro = (
     <>
-      <Header section={section} dark={dark} />
+      <Header section={headingSection} dark={dark} />
       {!section.bodyAfter && <Body body={section.body} dark={dark} className={hasHeader ? "mt-7" : ""} />}
       {section.tagline && (
         <p data-aos="fade-up" className={cn("mt-6 font-display text-lg font-semibold", dark ? "text-breath" : "text-dawn-deep")}>
@@ -591,7 +593,7 @@ export function ContentSection({ section, index }: { section: PageSection; index
           {section.pull}
         </p>
       )}
-      {section.widget && <Widget section={section} />}
+      {section.widget && !isAirwayVideo && <Widget section={section} />}
       {section.lines?.map((line) => (
         <p key={line} data-aos="fade-up" className={cn("max-w-3xl font-display text-[clamp(1.15rem,1.8vw,1.45rem)] font-semibold leading-snug", dark ? "text-paper" : "text-ink")}>
           {line}
@@ -608,6 +610,17 @@ export function ContentSection({ section, index }: { section: PageSection; index
       )}
     </>
   );
+
+  if (isAirwayVideo) {
+    return <Localized>{(
+      <section id={section.id} className={cn("section-y scroll-mt-24", tone)}>
+        <div className="container-x">
+          <OralApplianceVideo intro={intro} />
+          <div className="space-y-6 [&:not(:empty)]:mt-8">{blocks}</div>
+        </div>
+      </section>
+    )}</Localized>;
+  }
 
   if (section.image) {
     return <Localized>{(
