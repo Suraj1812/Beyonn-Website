@@ -11,6 +11,7 @@ import { AppStoreButtons } from "@/components/sections/AppStoreButtons";
 import { DoctorIntroVideo } from "@/components/sections/DoctorIntroVideo";
 import { FeatureCards } from "@/components/sections/FeatureCards";
 import { Ladder,certificationTiers } from "@/components/sections/Ladder";
+import { OralApplianceVideo } from "@/components/sections/OralApplianceVideo";
 import { PatientAppScreenshots } from "@/components/sections/PatientAppScreenshots";
 import { QuoteBlock } from "@/components/sections/QuoteBlock";
 import { SplitTable } from "@/components/sections/SplitTable";
@@ -21,7 +22,6 @@ import { CheckList } from "@/components/ui/Check";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Faq } from "@/components/ui/Faq";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { AirwayModel } from "@/components/visual/AirwayModel";
 import { Parallax } from "@/components/visual/Parallax";
 import { Tilt } from "@/components/visual/Tilt";
 import { articles as initial_articles } from "@/content/articles";
@@ -380,7 +380,7 @@ function Widget({ section }: { section: PageSection }) {
       return <Localized>{<div className="grid gap-4 md:grid-cols-3">{articles.filter((article) => article.audience === "patients").slice(0, 3).map((article) => <Link key={article.slug} href={`/resources/${article.slug}`} className="rounded-2xl border border-ink/10 bg-white p-5 transition-colors hover:border-dawn"><p className="text-xs text-dawn">{article.minutes} min read</p><h3 className="mt-3 text-lg font-semibold">{article.title}</h3><p className="mt-3 text-sm text-muted">{article.excerpt}</p><span className="mt-4 inline-block text-sm font-semibold text-dawn">Read the guide →</span></Link>)}</div>}</Localized>;
 
     case "airway-model":
-      return <Localized>{<AirwayModel />}</Localized>;
+      return <OralApplianceVideo />;
     case "discovery-booking":
       return <Localized>{(
         <Panel className="w-full">
