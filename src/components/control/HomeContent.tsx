@@ -61,7 +61,7 @@ const teamRows: [string, string][] = [
   ],
   [
     "Insurance and medical billing",
-    "A coding and documentation kit (CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates, payer rules), plus optional billing assist if you want a hand.",
+    "A coding and documentation kit (CPT/ICD-10 crosswalks, medical-necessity letters, appeal templates, payer rules).",
   ],
   [
     "Treatment plan presentation",

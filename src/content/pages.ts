@@ -212,7 +212,7 @@ export const pages: Record<string, ContentPage> = {
 
   team: {
     eyebrow: "The Beyonn Team",
-    title: "Meet the team behind your team.",
+    title: "Meet the Executive Team behind your team",
     description: "Meet the people who train, onboard and support your practice.",
     seo: {
       title: "Meet the Beyonn Team | Dental Sleep Medicine Support Team",
