@@ -53,6 +53,18 @@ The editable preview uses in-memory changes in a same-origin frame. Saving write
 
 ## Deployment and costs
 
+### Cloud media library
+
+All shipped photographs, logos, icons, posters, videos, audio and captions now live in the same private `beyonn-cms-media-347549647510` bucket. `src/lib/media/assets.json` is the public allowlist; it contains object references and metadata, never credentials or file contents. Content-addressed objects are uploaded with create-only preconditions. The original oral-appliance video keeps its existing object name.
+
+Existing `/assets/...`, `/icon.png` and `/apple-icon.png` URLs are rewritten to the cloud asset handler. Images remain same-origin and compatible with Next.js image optimization, CSS masks, canvas and existing CMS keys. Image responses have browser and shared-cache headers. Video and audio requests redirect to one-hour signed Storage URLs, with the redirect cached for five minutes, so playback and range/seek bytes bypass the application server. Only registered site assets are accessible through this handler; private CMS uploads retain their existing authenticated/publication checks.
+
+The original Mux introduction and Frame.io walkthrough now resolve to cloud-hosted MP4 copies and posters. The introduction uses the existing 1080p rendition and the walkthrough uses Frame.io's 1080p delivery rendition rather than its much larger editing original. Original CMS source keys are preserved through aliases, so previously saved video overrides still take precedence. New cloud players use controls, inline playback and `preload="none"`. These MP4 files do not provide automatic adaptive-bitrate switching.
+
+To add or update a developer-managed asset, put it under `public/assets`, then run `npm run media:migrate` with the existing private Firebase server configuration. The script verifies the cloud object's size and SHA-256 metadata before updating the registry. After verification, archive the local original outside shipped source. An optional directory argument can recheck archived sources: `npm run media:migrate -- .secrets/media-source/assets`. Local migration backups are ignored and are not deployed. CMS uploads continue to use the CMS, with its existing 20 MB per-file limit; this one-time server-side migration is separate from that limit.
+
+Read-only cloud delivery checks: `CMS_MEDIA_E2E=1 PLAYWRIGHT_CHANNEL=chrome npx playwright test tests/media.spec.ts --workers=1`. These require real bucket read credentials and a signing-capable runtime identity. They check registry URLs, privacy boundaries, optimized images, share cards, direct video/audio range requests and rendered cloud players.
+
 The live frontend uses the existing Vercel project `beyonn-website`. Production Firebase configuration and the dedicated runtime service-account credential are stored in Vercel environment variables; the credential is an encrypted production Secret, never a public variable. On non-Google hosting, `FIREBASE_ADMIN_CREDENTIALS` supplies that server-only JSON. Local files stay ignored. The runtime identity can read Firebase Auth users, read/write CMS Firestore data and create/read objects only in the dedicated media bucket.
 
 Browser uploads use ten-minute signed POST policies with an exact file size and MIME type. Files first land in private `incoming/` objects. The authenticated completion endpoint rechecks ownership, expiry, size, MIME type and binary signature before copying to immutable `cms/` objects. This avoids Vercel request-body limits for 20 MB videos. Abandoned or invalid staging objects are deleted by the bucket lifecycle after one day.

@@ -1,22 +1,18 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
+import { cloudImageData } from "@/lib/media/server";
 
 /**
  * Share image for every page (Open Graph + Twitter), 1200 x 630.
  * /og?title=…&kicker=…  → navy card with the Beyonn logo, the page title and the emblem.
- * Built from local brand files read once at module scope.
+ * Brand originals live in cloud storage and are cached for image generation.
  */
-const [logo, emblem] = await Promise.all([
-  readFile(join(process.cwd(), "public/assets/beyonn-logo.png"), "base64"),
-  readFile(join(process.cwd(), "public/assets/site/beyonn-emblem.png"), "base64"),
-]);
-const logoSrc = `data:image/png;base64,${logo}`;
-const emblemSrc = `data:image/png;base64,${emblem}`;
-
 const size = { width: 1200, height: 630 };
 
 export async function GET(request: Request) {
+  const [logoSrc, emblemSrc] = await Promise.all([
+    cloudImageData("/assets/beyonn-logo.png"),
+    cloudImageData("/assets/site/beyonn-emblem.png"),
+  ]);
   const { searchParams } = new URL(request.url);
   const title = (searchParams.get("title") || "Build the practice beyond the chair.").slice(0, 110);
   const kicker = (searchParams.get("kicker") || "The OSA + TMD program your team can run").slice(0, 60);

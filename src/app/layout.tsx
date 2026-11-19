@@ -14,7 +14,13 @@ const display = Montserrat({
   display: "swap",
 });
 
-export const metadata: Metadata = { metadataBase: new URL(site.url) };
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  icons: {
+    icon: { url: "/icon.png", sizes: "256x256", type: "image/png" },
+    apple: { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+  },
+};
 
 export const viewport: Viewport = {
   themeColor: "#ffffff",

@@ -53,7 +53,7 @@ function scan(file) {
   }
   visit(source);
 }
-function walk(dir) {for(const f of fs.readdirSync(dir,{withFileTypes:true})) {const p=path.join(dir,f.name); if(f.isDirectory()) {if(!['i18n','cms','api','control'].includes(f.name)) walk(p); else if (f.name === 'control' && p.endsWith('components/control')) { for (const name of ['HomeContent.tsx', 'PageContent.tsx', 'ResourcesContent.tsx', 'ArticleContent.tsx']) scan(path.join(p, name)); }} else if(/\.tsx?$/.test(f.name) && !/\b(og|sitemap|robots|manifest|seo|proxy)\b/.test(p)) scan(p);}}
+function walk(dir) {for(const f of fs.readdirSync(dir,{withFileTypes:true})) {const p=path.join(dir,f.name); if(f.isDirectory()) {if(!['i18n','cms','api','control','media'].includes(f.name)) walk(p); else if (f.name === 'control' && p.endsWith('components/control')) { for (const name of ['HomeContent.tsx', 'PageContent.tsx', 'ResourcesContent.tsx', 'ArticleContent.tsx']) scan(path.join(p, name)); }} else if(/\.tsx?$/.test(f.name) && !/\b(og|sitemap|robots|manifest|seo|proxy)\b/.test(p)) scan(p);}}
 walk(root);
 for (const text of ['Language','English','Use English','Use device language','Choose your language','Loading translation…','Translation could not be loaded. Please try again.','Retry','Website language','Audio is available in English.']) add(text);
 const overrides = JSON.parse(fs.readFileSync('scripts/i18n-ui-overrides.json', 'utf8'));

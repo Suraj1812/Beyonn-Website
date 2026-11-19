@@ -1,0 +1,487 @@
+{
+  "/apple-icon.png": {
+    "object": "site/assets/b264da47820d432694ac6fa85462f23690c0cc6b9e1cd48e7a83fe71d593c536.png",
+    "type": "image/png",
+    "size": 30816,
+    "sha256": "b264da47820d432694ac6fa85462f23690c0cc6b9e1cd48e7a83fe71d593c536"
+  },
+  "/assets/audio/kiara-airway-1.m4a": {
+    "object": "site/assets/6ae2507889a24b3e684d4aca16467d80dd10faf510b9b6bcec09007c820bd1d0.m4a",
+    "type": "audio/mp4",
+    "size": 240678,
+    "sha256": "6ae2507889a24b3e684d4aca16467d80dd10faf510b9b6bcec09007c820bd1d0"
+  },
+  "/assets/audio/kiara-airway-2.m4a": {
+    "object": "site/assets/d8b64b231838a032afac32fe6d7f53896969c1c8403f5d4928b4482a86eb0db3.m4a",
+    "type": "audio/mp4",
+    "size": 176586,
+    "sha256": "d8b64b231838a032afac32fe6d7f53896969c1c8403f5d4928b4482a86eb0db3"
+  },
+  "/assets/audio/kiara-airway-3.m4a": {
+    "object": "site/assets/ea36c9557ccc0997977d861d999f37f661e2a76cbb64b55a389b09b52fa5064f.m4a",
+    "type": "audio/mp4",
+    "size": 220579,
+    "sha256": "ea36c9557ccc0997977d861d999f37f661e2a76cbb64b55a389b09b52fa5064f"
+  },
+  "/assets/beyonn-logo.png": {
+    "object": "site/assets/ef1972edd927998b6b2f7b126cd97f4df5522e76feef58540a578ad5db7b6c00.png",
+    "type": "image/png",
+    "size": 72552,
+    "sha256": "ef1972edd927998b6b2f7b126cd97f4df5522e76feef58540a578ad5db7b6c00"
+  },
+  "/assets/patient-app/home.webp": {
+    "object": "site/assets/d5e9d72922e9a5d6a2ccc7dbbd9d10a0cc6612d64392cb8609c2cc699242d747.webp",
+    "type": "image/webp",
+    "size": 71394,
+    "sha256": "d5e9d72922e9a5d6a2ccc7dbbd9d10a0cc6612d64392cb8609c2cc699242d747"
+  },
+  "/assets/patient-app/play-store/screen-1.webp": {
+    "object": "site/assets/d2a8a4657df9c28d04e1dc993950d744a72b8e30501990c14799ff309dd09709.webp",
+    "type": "image/webp",
+    "size": 74586,
+    "sha256": "d2a8a4657df9c28d04e1dc993950d744a72b8e30501990c14799ff309dd09709"
+  },
+  "/assets/patient-app/play-store/screen-2.webp": {
+    "object": "site/assets/ffd89d24981854e33b0ef68cb225271d6f5be78aada812ac188e48b3e791cd15.webp",
+    "type": "image/webp",
+    "size": 66192,
+    "sha256": "ffd89d24981854e33b0ef68cb225271d6f5be78aada812ac188e48b3e791cd15"
+  },
+  "/assets/patient-app/play-store/screen-3.webp": {
+    "object": "site/assets/a7615d4917ca6b865a344afe5c8e09ba05343e6435100f024e8ac5d2a366c019.webp",
+    "type": "image/webp",
+    "size": 97072,
+    "sha256": "a7615d4917ca6b865a344afe5c8e09ba05343e6435100f024e8ac5d2a366c019"
+  },
+  "/assets/patient-app/play-store/screen-4.webp": {
+    "object": "site/assets/893a3230525c3697c2a27a0828ba30a6332843acbf6d47b109d622353cd92a91.webp",
+    "type": "image/webp",
+    "size": 85562,
+    "sha256": "893a3230525c3697c2a27a0828ba30a6332843acbf6d47b109d622353cd92a91"
+  },
+  "/assets/patient-app/play-store/screen-5.webp": {
+    "object": "site/assets/79efb417afbede0e3d585802b9583c288c301792a029038dcf85c701b91e942d.webp",
+    "type": "image/webp",
+    "size": 78376,
+    "sha256": "79efb417afbede0e3d585802b9583c288c301792a029038dcf85c701b91e942d"
+  },
+  "/assets/patient-app/play-store/screen-6.webp": {
+    "object": "site/assets/74018225bfc4b51696e6107921b1d6903ce95b475d9c52161a53b0be61d54c83.webp",
+    "type": "image/webp",
+    "size": 102496,
+    "sha256": "74018225bfc4b51696e6107921b1d6903ce95b475d9c52161a53b0be61d54c83"
+  },
+  "/assets/patient-app/progress.webp": {
+    "object": "site/assets/0728fce735dbec088d9a6453b69506f7880ac1f2c29b0f0118cdecedf6bfa974.webp",
+    "type": "image/webp",
+    "size": 47048,
+    "sha256": "0728fce735dbec088d9a6453b69506f7880ac1f2c29b0f0118cdecedf6bfa974"
+  },
+  "/assets/patient-app/sleep-check.webp": {
+    "object": "site/assets/9c4fb01f73c0da4c1c508dd714d7da266a0a044f819448216466104d3817e9ab.webp",
+    "type": "image/webp",
+    "size": 53680,
+    "sha256": "9c4fb01f73c0da4c1c508dd714d7da266a0a044f819448216466104d3817e9ab"
+  },
+  "/assets/patient-app/visit-preparation.webp": {
+    "object": "site/assets/40d374ca3f82a150ada14c76b0345e765d3fde695ea68f67b6188fc65c3ae801.webp",
+    "type": "image/webp",
+    "size": 52858,
+    "sha256": "40d374ca3f82a150ada14c76b0345e765d3fde695ea68f67b6188fc65c3ae801"
+  },
+  "/assets/patient-app/welcome.webp": {
+    "object": "site/assets/0d6191d81910338d289e5cd03a67a4c9a6ccecff4003a231a64f97325cefe5fb.webp",
+    "type": "image/webp",
+    "size": 54220,
+    "sha256": "0d6191d81910338d289e5cd03a67a4c9a6ccecff4003a231a64f97325cefe5fb"
+  },
+  "/assets/people/brenda-np.webp": {
+    "object": "site/assets/f426fd239e654655a06c7c101537dbae399f16b83db404fb6546479d14dfc5f1.webp",
+    "type": "image/webp",
+    "size": 20934,
+    "sha256": "f426fd239e654655a06c7c101537dbae399f16b83db404fb6546479d14dfc5f1"
+  },
+  "/assets/people/brock-willey.webp": {
+    "object": "site/assets/9153eb59a01995abc6a2fc341ccf3c72f67150f3fdf3b14ca531e1787925e082.webp",
+    "type": "image/webp",
+    "size": 14482,
+    "sha256": "9153eb59a01995abc6a2fc341ccf3c72f67150f3fdf3b14ca531e1787925e082"
+  },
+  "/assets/people/bryan-kalish.webp": {
+    "object": "site/assets/12a0d2f768afe367213c95a58605c22eed89f82c6b8a765b27c92d139c7d5f15.webp",
+    "type": "image/webp",
+    "size": 17400,
+    "sha256": "12a0d2f768afe367213c95a58605c22eed89f82c6b8a765b27c92d139c7d5f15"
+  },
+  "/assets/people/clinic-team.webp": {
+    "object": "site/assets/75450758386ce43c43042d8e0b0b2fa2a1c25978882123fcdca1bc0b699defc6.webp",
+    "type": "image/webp",
+    "size": 210352,
+    "sha256": "75450758386ce43c43042d8e0b0b2fa2a1c25978882123fcdca1bc0b699defc6"
+  },
+  "/assets/people/clinical-review.webp": {
+    "object": "site/assets/2801861dd43cb20019cd892a52d421a8faab1aea441bb872e530839f45f2edc1.webp",
+    "type": "image/webp",
+    "size": 98944,
+    "sha256": "2801861dd43cb20019cd892a52d421a8faab1aea441bb872e530839f45f2edc1"
+  },
+  "/assets/people/dave-gergen.webp": {
+    "object": "site/assets/3cf8d23936e8f37d6da16881a417f0318f6af76c1f49880f5446c3918b8f69a3.webp",
+    "type": "image/webp",
+    "size": 15580,
+    "sha256": "3cf8d23936e8f37d6da16881a417f0318f6af76c1f49880f5446c3918b8f69a3"
+  },
+  "/assets/people/dave-singh.webp": {
+    "object": "site/assets/d1d3497e6fac2bd42516497b0eec7379999777e633a5f348fd16d266d4c808c1.webp",
+    "type": "image/webp",
+    "size": 22954,
+    "sha256": "d1d3497e6fac2bd42516497b0eec7379999777e633a5f348fd16d266d4c808c1"
+  },
+  "/assets/people/dr-pebble.webp": {
+    "object": "site/assets/ae7e6c5cde5a28d3145775fe069173f69a250e9a845aa5a31438074a1d108b8f.webp",
+    "type": "image/webp",
+    "size": 82582,
+    "sha256": "ae7e6c5cde5a28d3145775fe069173f69a250e9a845aa5a31438074a1d108b8f"
+  },
+  "/assets/people/dr-shaw.webp": {
+    "object": "site/assets/f3d7076ddf6b3d93adeb4ee25e028b144e77382c090c9b5a3e4562c04c85d008.webp",
+    "type": "image/webp",
+    "size": 18120,
+    "sha256": "f3d7076ddf6b3d93adeb4ee25e028b144e77382c090c9b5a3e4562c04c85d008"
+  },
+  "/assets/people/fayeza-fayez.webp": {
+    "object": "site/assets/60e6ed505977ca2471ec09addfd642590ed9256dcc9b5c2fcc7cea0a69ef396a.webp",
+    "type": "image/webp",
+    "size": 17758,
+    "sha256": "60e6ed505977ca2471ec09addfd642590ed9256dcc9b5c2fcc7cea0a69ef396a"
+  },
+  "/assets/people/front-desk-team.webp": {
+    "object": "site/assets/4f4cccd6a6397aeb14f8e0e2b40e5c62987076ef6be818dd049d0193ca05e0a5.webp",
+    "type": "image/webp",
+    "size": 128626,
+    "sha256": "4f4cccd6a6397aeb14f8e0e2b40e5c62987076ef6be818dd049d0193ca05e0a5"
+  },
+  "/assets/people/haramandeep.webp": {
+    "object": "site/assets/812c0c601635b1f9e822b24cc0913dd2d0a7a17e724cc5b17d89709df8e8d5da.webp",
+    "type": "image/webp",
+    "size": 71894,
+    "sha256": "812c0c601635b1f9e822b24cc0913dd2d0a7a17e724cc5b17d89709df8e8d5da"
+  },
+  "/assets/people/nicole-np.webp": {
+    "object": "site/assets/88484e884e64cc32fff77ef73ae3921a203dff3a6817f3cd6c8fe4f03094a8b9.webp",
+    "type": "image/webp",
+    "size": 19954,
+    "sha256": "88484e884e64cc32fff77ef73ae3921a203dff3a6817f3cd6c8fe4f03094a8b9"
+  },
+  "/assets/people/patient-conversation.webp": {
+    "object": "site/assets/34ca14853278383ce423888638f70168cbdc7f4fcab803ef30ae03999cb4ef0b.webp",
+    "type": "image/webp",
+    "size": 323758,
+    "sha256": "34ca14853278383ce423888638f70168cbdc7f4fcab803ef30ae03999cb4ef0b"
+  },
+  "/assets/people/patient-handshake.webp": {
+    "object": "site/assets/27e49d8fdb6d7df7b58363e43d6899112413670862615b6a0208f8beddc141f7.webp",
+    "type": "image/webp",
+    "size": 463654,
+    "sha256": "27e49d8fdb6d7df7b58363e43d6899112413670862615b6a0208f8beddc141f7"
+  },
+  "/assets/people/practice-support.webp": {
+    "object": "site/assets/171e623520ac1525d02495eac241234c42eef178316776661f41921a60cf40a6.webp",
+    "type": "image/webp",
+    "size": 81928,
+    "sha256": "171e623520ac1525d02495eac241234c42eef178316776661f41921a60cf40a6"
+  },
+  "/assets/people/ramon.webp": {
+    "object": "site/assets/d642c457cbefb9898df2953d503169dd0194d48f249b67c7933110fcfff7b14e.webp",
+    "type": "image/webp",
+    "size": 50100,
+    "sha256": "d642c457cbefb9898df2953d503169dd0194d48f249b67c7933110fcfff7b14e"
+  },
+  "/assets/people/rodney-hero.webp": {
+    "object": "site/assets/13147bb4e3873bdafc28672fd641f2ab0f2a52c293810de9851e7691cdc61e4d.webp",
+    "type": "image/webp",
+    "size": 223972,
+    "sha256": "13147bb4e3873bdafc28672fd641f2ab0f2a52c293810de9851e7691cdc61e4d"
+  },
+  "/assets/people/rodney-portrait.webp": {
+    "object": "site/assets/a632287d8747b8b8ce89efd42938cfb54225f49f17aa0bc4966f01435b53b6ba.webp",
+    "type": "image/webp",
+    "size": 64504,
+    "sha256": "a632287d8747b8b8ce89efd42938cfb54225f49f17aa0bc4966f01435b53b6ba"
+  },
+  "/assets/people/ryan.webp": {
+    "object": "site/assets/7a7fffcc3031bdffad6f7daa5db0ec93cf5456884551b7ea6ff1e2afc2055704.webp",
+    "type": "image/webp",
+    "size": 76774,
+    "sha256": "7a7fffcc3031bdffad6f7daa5db0ec93cf5456884551b7ea6ff1e2afc2055704"
+  },
+  "/assets/people/team-training.webp": {
+    "object": "site/assets/1408bb1ae338d1ecb9d20a485aa8175b61db2d79421534b387b1d9cd44d82aa3.webp",
+    "type": "image/webp",
+    "size": 129706,
+    "sha256": "1408bb1ae338d1ecb9d20a485aa8175b61db2d79421534b387b1d9cd44d82aa3"
+  },
+  "/assets/site/beyonn-control-logo.png": {
+    "object": "site/assets/f73188ab7f7947c81fabb6529936d4aef10979b08ea4b56c6b6ec06a9035b551.png",
+    "type": "image/png",
+    "size": 59450,
+    "sha256": "f73188ab7f7947c81fabb6529936d4aef10979b08ea4b56c6b6ec06a9035b551"
+  },
+  "/assets/site/beyonn-emblem-green.png": {
+    "object": "site/assets/c1f3397508a2a219442bd2f14d3a0346b477ff68ac5527fe265ca8f1beae8f55.png",
+    "type": "image/png",
+    "size": 130294,
+    "sha256": "c1f3397508a2a219442bd2f14d3a0346b477ff68ac5527fe265ca8f1beae8f55"
+  },
+  "/assets/site/beyonn-emblem.png": {
+    "object": "site/assets/999ce8cc84ec38facedd79a7e3dd6d67e901b178e1f6870b4a15825e793d9adb.png",
+    "type": "image/png",
+    "size": 139223,
+    "sha256": "999ce8cc84ec38facedd79a7e3dd6d67e901b178e1f6870b4a15825e793d9adb"
+  },
+  "/assets/site/beyonn-half-emblem.png": {
+    "object": "site/assets/085e8514b72171d525c30cffc233207fe6c9fff9dbe7fecdd23e89b8aa998246.png",
+    "type": "image/png",
+    "size": 141361,
+    "sha256": "085e8514b72171d525c30cffc233207fe6c9fff9dbe7fecdd23e89b8aa998246"
+  },
+  "/assets/site/card-done-for-you.png": {
+    "object": "site/assets/bbe7ed24536e73d29719239add245c0b8858f98eae08a871d1819bd7fde4c43e.png",
+    "type": "image/png",
+    "size": 96903,
+    "sha256": "bbe7ed24536e73d29719239add245c0b8858f98eae08a871d1819bd7fde4c43e"
+  },
+  "/assets/site/card-pr-marketing.png": {
+    "object": "site/assets/f03d1e06b9d335211e06a144c0bddfc0d3f15fc658ab33937b0b6c46cf259ecc.png",
+    "type": "image/png",
+    "size": 197325,
+    "sha256": "f03d1e06b9d335211e06a144c0bddfc0d3f15fc658ab33937b0b6c46cf259ecc"
+  },
+  "/assets/site/half-circle.png": {
+    "object": "site/assets/b5059eae8d704de36f9cd9dabb2a54e1899448348c3eb4500f26510bb5dce18c.png",
+    "type": "image/png",
+    "size": 42595,
+    "sha256": "b5059eae8d704de36f9cd9dabb2a54e1899448348c3eb4500f26510bb5dce18c"
+  },
+  "/assets/site/never-lose-a-yes.jpg": {
+    "object": "site/assets/4a9fd128bea754c2ee0b0e61f695e0276bedff8368186210e8714d9df11e94ba.jpg",
+    "type": "image/jpeg",
+    "size": 707393,
+    "sha256": "4a9fd128bea754c2ee0b0e61f695e0276bedff8368186210e8714d9df11e94ba"
+  },
+  "/assets/site/patient-conversations.jpg": {
+    "object": "site/assets/20e688be6ef8ac78b9f03f0100fd5259b0925405b1a82389d29909edc8805995.jpg",
+    "type": "image/jpeg",
+    "size": 586571,
+    "sha256": "20e688be6ef8ac78b9f03f0100fd5259b0925405b1a82389d29909edc8805995"
+  },
+  "/assets/site/platform-coaching.png": {
+    "object": "site/assets/d06003e7710e7481b917e4ebc1e83ff773d353456b9fed8d5c9bd9d099fd9cf6.png",
+    "type": "image/png",
+    "size": 1513033,
+    "sha256": "d06003e7710e7481b917e4ebc1e83ff773d353456b9fed8d5c9bd9d099fd9cf6"
+  },
+  "/assets/site/platform-library.png": {
+    "object": "site/assets/a6daa619a7e381efde7f2201402c09571dfd1cffeece541c0211bc2d7c2a8dc7.png",
+    "type": "image/png",
+    "size": 1223333,
+    "sha256": "a6daa619a7e381efde7f2201402c09571dfd1cffeece541c0211bc2d7c2a8dc7"
+  },
+  "/assets/site/platform-medical-billing.png": {
+    "object": "site/assets/954e9c5b10effbb04c4f1d5bb7e366c81b486669dff333efb88cfa0b247e1461.png",
+    "type": "image/png",
+    "size": 508963,
+    "sha256": "954e9c5b10effbb04c4f1d5bb7e366c81b486669dff333efb88cfa0b247e1461"
+  },
+  "/assets/site/platform-platform.png": {
+    "object": "site/assets/c41217ad69250f4db1c44542f90123e59326dffd026d5867f187289cbe37c546.png",
+    "type": "image/png",
+    "size": 1587833,
+    "sha256": "c41217ad69250f4db1c44542f90123e59326dffd026d5867f187289cbe37c546"
+  },
+  "/assets/site/platform-presentations.png": {
+    "object": "site/assets/56ea8f0ec364f2dfad34a70e1a19a12c4db8a2604561d69480ff799cc1b3d0b1.png",
+    "type": "image/png",
+    "size": 1538096,
+    "sha256": "56ea8f0ec364f2dfad34a70e1a19a12c4db8a2604561d69480ff799cc1b3d0b1"
+  },
+  "/assets/site/platform-staff-onboarding.png": {
+    "object": "site/assets/5afb8d2840bda611bfe2d2a4154ebad776bb8961fa9a5c34d55895504502bc89.png",
+    "type": "image/png",
+    "size": 145945,
+    "sha256": "5afb8d2840bda611bfe2d2a4154ebad776bb8961fa9a5c34d55895504502bc89"
+  },
+  "/assets/site/staff-onboarding.jpg": {
+    "object": "site/assets/0f93d33942f25c64c6229fb283fc79bcdfb849009864d23fc2fe295811c794ab.jpg",
+    "type": "image/jpeg",
+    "size": 480404,
+    "sha256": "0f93d33942f25c64c6229fb283fc79bcdfb849009864d23fc2fe295811c794ab"
+  },
+  "/assets/site/who-is-beyonn-for.png": {
+    "object": "site/assets/fb91816ac8447c5c8996705b99c6ccc6cb1c3bf0f414337df8fe5893bd16d1de.png",
+    "type": "image/png",
+    "size": 440329,
+    "sha256": "fb91816ac8447c5c8996705b99c6ccc6cb1c3bf0f414337df8fe5893bd16d1de"
+  },
+  "/assets/store-badges/app-store.svg": {
+    "object": "site/assets/a26fc5b38380272c92e9019a2eb8b45542a66814b3e2b203772db8904b9fb99f.svg",
+    "type": "image/svg+xml",
+    "size": 10804,
+    "sha256": "a26fc5b38380272c92e9019a2eb8b45542a66814b3e2b203772db8904b9fb99f"
+  },
+  "/assets/store-badges/google-play.png": {
+    "object": "site/assets/f72611e2df8e88204009fd896d05d5e8e83c77009c63943bbffa169559934849.png",
+    "type": "image/png",
+    "size": 4904,
+    "sha256": "f72611e2df8e88204009fd896d05d5e8e83c77009c63943bbffa169559934849"
+  },
+  "/assets/team/cassie-portrait.webp": {
+    "object": "site/assets/a62d1a70fd4c855d47394dee3b90048245838624b8334d80e8cd2c686aa839b0.webp",
+    "type": "image/webp",
+    "size": 62262,
+    "sha256": "a62d1a70fd4c855d47394dee3b90048245838624b8334d80e8cd2c686aa839b0"
+  },
+  "/assets/team/cassie.webp": {
+    "object": "site/assets/7e520caf0802d38b7d8957561cc8cb2404b6da633622d4764b6ec012e454fd33.webp",
+    "type": "image/webp",
+    "size": 87680,
+    "sha256": "7e520caf0802d38b7d8957561cc8cb2404b6da633622d4764b6ec012e454fd33"
+  },
+  "/assets/team/donna-portrait.webp": {
+    "object": "site/assets/eb1456d553b035af62131bab86d15b6210a957ca89cc51e48085d949a44f5bad.webp",
+    "type": "image/webp",
+    "size": 23110,
+    "sha256": "eb1456d553b035af62131bab86d15b6210a957ca89cc51e48085d949a44f5bad"
+  },
+  "/assets/team/donna.webp": {
+    "object": "site/assets/b27689bd04871622d9820acc44b176435f87abd7a7db1b9d1fc8ca31e5816224.webp",
+    "type": "image/webp",
+    "size": 103124,
+    "sha256": "b27689bd04871622d9820acc44b176435f87abd7a7db1b9d1fc8ca31e5816224"
+  },
+  "/assets/team/jenny-portrait.webp": {
+    "object": "site/assets/2eecd88eec6e6e62d79ac716b0840745b4b9ff9cbef132b86ebf7943896063d0.webp",
+    "type": "image/webp",
+    "size": 72180,
+    "sha256": "2eecd88eec6e6e62d79ac716b0840745b4b9ff9cbef132b86ebf7943896063d0"
+  },
+  "/assets/team/jenny.webp": {
+    "object": "site/assets/00201c8307211db131cf6ce92181a51e68566253c6489639f3e0fae3bdcd1aee.webp",
+    "type": "image/webp",
+    "size": 80536,
+    "sha256": "00201c8307211db131cf6ce92181a51e68566253c6489639f3e0fae3bdcd1aee"
+  },
+  "/assets/team/jessica-portrait.webp": {
+    "object": "site/assets/33eb3b12618713514126644bcc6637eee3c48cb0900839fa3e0effddd7195ce2.webp",
+    "type": "image/webp",
+    "size": 92794,
+    "sha256": "33eb3b12618713514126644bcc6637eee3c48cb0900839fa3e0effddd7195ce2"
+  },
+  "/assets/team/jessica.webp": {
+    "object": "site/assets/987b1857fca5994a4be2c0b31f4cf3f72046b70c4aecb754c917d6aed6ee85e1.webp",
+    "type": "image/webp",
+    "size": 154864,
+    "sha256": "987b1857fca5994a4be2c0b31f4cf3f72046b70c4aecb754c917d6aed6ee85e1"
+  },
+  "/assets/team/karen-portrait.webp": {
+    "object": "site/assets/0226b5f1fb4c02753cd562203ff800f848d26c40dd4c337488014b6a7f029730.webp",
+    "type": "image/webp",
+    "size": 72958,
+    "sha256": "0226b5f1fb4c02753cd562203ff800f848d26c40dd4c337488014b6a7f029730"
+  },
+  "/assets/team/karen.webp": {
+    "object": "site/assets/c8cad40aaf8f50f4499c7bfb4f7628d0b1c9ed26e7a13bef2fcc2e9ae7760080.webp",
+    "type": "image/webp",
+    "size": 80448,
+    "sha256": "c8cad40aaf8f50f4499c7bfb4f7628d0b1c9ed26e7a13bef2fcc2e9ae7760080"
+  },
+  "/assets/team/kayla.webp": {
+    "object": "site/assets/fb0f4e7090f2da5576e3ff297b64f7ac3389a0c37cf3a8d704b1b7b2ddd5043c.webp",
+    "type": "image/webp",
+    "size": 156396,
+    "sha256": "fb0f4e7090f2da5576e3ff297b64f7ac3389a0c37cf3a8d704b1b7b2ddd5043c"
+  },
+  "/assets/team/kyla-portrait.webp": {
+    "object": "site/assets/fc7774bf2deafd988465977bf4dd4e4bae748944983f47eb17c75f8236d982d1.webp",
+    "type": "image/webp",
+    "size": 78876,
+    "sha256": "fc7774bf2deafd988465977bf4dd4e4bae748944983f47eb17c75f8236d982d1"
+  },
+  "/assets/team/rod.webp": {
+    "object": "site/assets/2af6afdc43895db3e70da0a1b72f499d5b56016551ec5fd387c03075a62d219d.webp",
+    "type": "image/webp",
+    "size": 91416,
+    "sha256": "2af6afdc43895db3e70da0a1b72f499d5b56016551ec5fd387c03075a62d219d"
+  },
+  "/assets/team/team-at-work-v3.webp": {
+    "object": "site/assets/28640937250e71e03af53af2b2a877cfcba2fabdc4f0bd3eaf6a1c320922af21.webp",
+    "type": "image/webp",
+    "size": 345532,
+    "sha256": "28640937250e71e03af53af2b2a877cfcba2fabdc4f0bd3eaf6a1c320922af21"
+  },
+  "/assets/videos/doctor-introduction-poster.jpg": {
+    "object": "site/assets/c8408c6babe8c5b0bcb83f76478f76083d379794c4c5217de8345164dc771206.jpg",
+    "type": "image/jpeg",
+    "size": 43354,
+    "sha256": "c8408c6babe8c5b0bcb83f76478f76083d379794c4c5217de8345164dc771206"
+  },
+  "/assets/videos/doctor-introduction.mp4": {
+    "object": "site/assets/4250901f6d0330e903e072919de295fff212943bbc020a4f0beee943ba0c77c3.mp4",
+    "type": "video/mp4",
+    "size": 57311678,
+    "sha256": "4250901f6d0330e903e072919de295fff212943bbc020a4f0beee943ba0c77c3"
+  },
+  "/assets/videos/oral-appliance-demo-original.mp4": {
+    "object": "site/oral-appliance-demo-original.mp4",
+    "type": "video/mp4",
+    "size": 32957678
+  },
+  "/assets/videos/oral-appliance-demo.en.vtt": {
+    "object": "site/assets/00b9fb76325605e0340aad5568702161b538eef15ba4babe8821fbaaad68a12f.vtt",
+    "type": "text/vtt",
+    "size": 1928,
+    "sha256": "00b9fb76325605e0340aad5568702161b538eef15ba4babe8821fbaaad68a12f"
+  },
+  "/assets/videos/oral-appliance-poster.webp": {
+    "object": "site/assets/d9fbf76b5f35fdbe3612067efa816f96fc2283e9d8f983b47c50ce23ab87a372.webp",
+    "type": "image/webp",
+    "size": 34536,
+    "sha256": "d9fbf76b5f35fdbe3612067efa816f96fc2283e9d8f983b47c50ce23ab87a372"
+  },
+  "/assets/videos/osa-tmd-consultation.mp4": {
+    "object": "site/assets/63f5d7f99ad389f2ab8de7d0aa994ab8fd0420e1f5ff3990c706c4021cb31f71.mp4",
+    "type": "video/mp4",
+    "size": 48282133,
+    "sha256": "63f5d7f99ad389f2ab8de7d0aa994ab8fd0420e1f5ff3990c706c4021cb31f71"
+  },
+  "/assets/videos/osa-tmd-poster.jpg": {
+    "object": "site/assets/ba1e14a7fc382b18c0a1841a20c845fdbbcc59ffca06eda06d842459a2314739.jpg",
+    "type": "image/jpeg",
+    "size": 29718,
+    "sha256": "ba1e14a7fc382b18c0a1841a20c845fdbbcc59ffca06eda06d842459a2314739"
+  },
+  "/assets/videos/website-walkthrough-poster.jpg": {
+    "object": "site/assets/b6b11901bbbe062d9c2c6287f0aa632fea8893a1a3678df55fd6b54cea29a0de.jpg",
+    "type": "image/jpeg",
+    "size": 67134,
+    "sha256": "b6b11901bbbe062d9c2c6287f0aa632fea8893a1a3678df55fd6b54cea29a0de"
+  },
+  "/assets/videos/website-walkthrough.mp4": {
+    "object": "site/assets/42ad3c0499a220233d8af5219310a3a103dfc020ccae1f63ccdea975ed89d579.mp4",
+    "type": "video/mp4",
+    "size": 131019278,
+    "sha256": "42ad3c0499a220233d8af5219310a3a103dfc020ccae1f63ccdea975ed89d579"
+  },
+  "/assets/workshop/rod-invite.webp": {
+    "object": "site/assets/285c2d1e5f029d268a0f05dd3ab3a20b3648124b60c269e96466c010bf123403.webp",
+    "type": "image/webp",
+    "size": 10806,
+    "sha256": "285c2d1e5f029d268a0f05dd3ab3a20b3648124b60c269e96466c010bf123403"
+  },
+  "/icon.png": {
+    "object": "site/assets/3b63a6c3650452734c0940847813588cef028c1089c84f3fe1fc32a2bd25dde2.png",
+    "type": "image/png",
+    "size": 43310,
+    "sha256": "3b63a6c3650452734c0940847813588cef028c1089c84f3fe1fc32a2bd25dde2"
+  }
+}

@@ -9,12 +9,16 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
-  // The share-image route reads these brand files from disk; make sure they ship with it.
-  outputFileTracingIncludes: {
-    "/og": [
-      "./public/assets/beyonn-logo.png",
-      "./public/assets/site/beyonn-emblem.png",
-    ],
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: "/assets/:path*", destination: "/api/media/assets/assets/:path*" },
+        { source: "/icon.png", destination: "/api/media/assets/icon.png" },
+        { source: "/apple-icon.png", destination: "/api/media/assets/apple-icon.png" },
+      ],
+      afterFiles: [],
+      fallback: [],
+    };
   },
   turbopack: {
     rules: {

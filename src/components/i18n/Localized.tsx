@@ -1,5 +1,6 @@
 "use client";
 
+import { isMigratedVideo } from "@/lib/media/aliases";
 import {
   Children,
   cloneElement,
@@ -191,7 +192,8 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
       if (
         node.type === "iframe" &&
         !next.startsWith("blob:") &&
-        !next.startsWith("/api/control/media/")
+        !next.startsWith("/api/control/media/") &&
+        !isMigratedVideo(next)
       ) {
         try {
           if (
@@ -285,7 +287,8 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
     node.type === "iframe" &&
     typeof updates.src === "string" &&
     (updates.src.startsWith("blob:") ||
-      updates.src.startsWith("/api/control/media/"))
+      updates.src.startsWith("/api/control/media/") ||
+      isMigratedVideo(updates.src))
   )
     return (
       <video
@@ -294,7 +297,9 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
         title={String(updates.title ?? node.props.title ?? "Video")}
         data-cms-edit-media={updates["data-cms-edit-media"] as string | undefined}
         controls
-        preload="metadata"
+        playsInline
+        preload="none"
+        poster={isMigratedVideo(updates.src) ? updates.src.replace(/\.mp4$/, "-poster.jpg") : undefined}
         className={String(node.props.className ?? "")}
       />
     );

@@ -1,13 +1,11 @@
-import { bucket } from "@/lib/cms/server/firebase";
+import { cloudAsset, cloudMediaUrl } from "@/lib/media/server";
 import { failure } from "@/lib/cms/server/http";
 
 export async function GET() {
   try {
-    const [url] = await bucket().file("site/oral-appliance-demo-original.mp4").getSignedUrl({
-      action: "read",
-      version: "v4",
-      expires: Date.now() + 60 * 60 * 1000,
-    });
+    const asset = cloudAsset("/assets/videos/oral-appliance-demo-original.mp4");
+    if (!asset) return new Response(null, { status: 404 });
+    const url = await cloudMediaUrl(asset.object);
     return new Response(null, {
       status: 307,
       headers: {

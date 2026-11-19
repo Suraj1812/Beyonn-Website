@@ -7,6 +7,7 @@ import {
 import { EDITOR_DOCUMENT, EDITOR_READY, pageOverrideKey } from "@/lib/cms/visual";
 import { CMS_CHANNEL, repository } from "@/lib/cms/storage";
 import { usePathname } from "next/navigation";
+import { migratedMediaSource } from "@/lib/media/aliases";
 import {
   createContext,
   useContext,
@@ -35,7 +36,9 @@ export function useCmsText() {
       (value: string, kind: "text" | "link" | "media" = "text") => {
         const source = normalize(value);
         const replacement = document.overrides[pageOverrideKey(pathname, kind, source)] ?? document.overrides[`${kind}:${source}`];
-        const next = replacement === undefined ? value : replacement;
+        const next = replacement === undefined
+          ? (kind === "media" || kind === "link" ? migratedMediaSource(value) : value)
+          : replacement;
         return next.startsWith("cms-media:")
           ? (mediaUrls[next.slice(10)] ??
               `/api/control/media/${next.slice(10)}`)
