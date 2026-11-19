@@ -1,4 +1,5 @@
 "use client";
+import { CmsSection } from "./BuilderCanvas";
 import { useCmsData } from "@/components/control/CmsProvider";
 import { Localized } from "@/components/i18n/Localized";
 import { PageHero } from "@/components/sections/PageHero";
@@ -14,12 +15,13 @@ export default function ResourcesPage() {
     <Localized>
       {
         <>
-          <PageHero
+          <CmsSection id="hero" label="Resources introduction"><PageHero
             eyebrow="Beyonn Resources"
             title="Knowledge for the practice. Clarity for the patient."
             sub="Understand the clinical connection and the work around care, one useful guide at a time."
           />
-          <section className="container-x section-y">
+          </CmsSection>
+          <CmsSection id="resources" label="Resource articles"><section className="container-x section-y">
             <div
               data-morph-shape="rect"
               className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
@@ -80,7 +82,7 @@ export default function ResourcesPage() {
                 );
               })}
             </div>
-          </section>
+          </section></CmsSection>
         </>
       }
     </Localized>

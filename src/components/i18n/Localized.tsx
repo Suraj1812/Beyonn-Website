@@ -9,6 +9,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { listKey, type BuilderPage } from "@/lib/cms/builder";
 import { translateText, type Catalog } from "@/lib/i18n/languages";
 import { useCms, useCmsText } from "@/components/control/CmsProvider";
 import { safeUrl, normalize } from "@/lib/cms/model";
@@ -125,6 +126,7 @@ type ManagedOptions = {
   pathname: string;
   formats?: Record<string, TextFormat>;
   ranges?: Record<string, TextRange[]>;
+  builderPage?: BuilderPage;
 };
 
 function managed(node: ReactNode, options: ManagedOptions): ReactNode {
@@ -249,6 +251,7 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
         if (typeof node.type === "string" && phraseTags.has(node.type))
           updates.tabIndex = node.props.tabIndex ?? 0;
       }
+      if (replacement.includes("\n")) updates.style = { ...(node.props.style as CSSProperties | undefined), ...(updates.style as CSSProperties | undefined), whiteSpace: "pre-line" };
       const format = formats?.[pageOverrideKey(pathname, "text", phrase)];
       Object.assign(updates, textFormatProps(format, {
         ...(node.props.style as CSSProperties | undefined),
@@ -295,6 +298,16 @@ function managed(node: ReactNode, options: ManagedOptions): ReactNode {
         className={String(node.props.className ?? "")}
       />
     );
+  if ((node.type === "ul" || node.type === "ol") && !node.props["data-cms-no-list"]) {
+    const source = normalize(plainText(node.props.children));
+    if (source) {
+      const id = listKey(String(node.props["data-cms-list-source"] ?? source));
+      updates["data-cms-list"] = id;
+      const items = options.builderPage?.lists?.[id] ?? [];
+      if (items.length) updates.children = <>{updates.children as ReactNode}{items.map((item, index) =>
+        <li key={`cms-list-${index}`} className="cms-builder-text" data-cms-added-list-item={index}>{resolve(item)}</li>)}</>;
+    }
+  }
   return cloneElement(node, updates);
 }
 
@@ -309,7 +322,7 @@ export function Localized({
   const { catalog } = useLanguage();
   const resolve = useCmsText();
   const { document, editing, pathname } = useCms();
-  const content = managed(children, { resolve, editing, pathname, formats: document.textFormats, ranges: document.textRanges });
+  const content = managed(children, { resolve, editing, pathname, formats: document.textFormats, ranges: document.textRanges, builderPage: document.builder?.[pathname] });
   if (text && resolve(normalize(text)) !== normalize(text))
     return <>{translateText(resolve(normalize(text)), catalog)}</>;
   // Word-by-word animation spans must be translated as a sentence, preserving word order.

@@ -1,3 +1,4 @@
+import { validateBuilder, type Builder } from "./builder";
 import { pages } from "@/content/pages";
 import * as siteContent from "@/content/site";
 import * as faqs from "@/content/faqs";
@@ -55,6 +56,7 @@ export type Theme = {
 };
 export type CmsDocument = {
   version: 1;
+  builder?: Builder;
   data: Record<string, Json>;
   overrides: Record<string, string>;
   textFormats?: Record<string, TextFormat>;
@@ -197,6 +199,7 @@ export function validateDocument(value: unknown): asserts value is CmsDocument {
       });
   };
   walk(d);
+  if (d.builder !== undefined) validateBuilder(d.builder, safeUrl);
   if (
     Array.isArray(d.data) ||
     Array.isArray(d.overrides) ||

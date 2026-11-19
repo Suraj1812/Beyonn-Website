@@ -1,4 +1,5 @@
 "use client";
+import { CmsSection } from "./BuilderCanvas";
 import { Localized } from "@/components/i18n/Localized";
 import Link from "next/link";
 import { useCmsData } from "./CmsProvider";
@@ -53,7 +54,7 @@ export default function ResourceArticle({
               image: `${site.url}${ogImageUrl(article.title)}`,
             }}
           />
-          <header
+          <CmsSection id="hero" label="Article introduction"><header
             data-cms-hero
             className="relative overflow-hidden bg-[linear-gradient(135deg,var(--color-ink),var(--color-night))] px-5 pb-10 pt-32 text-paper sm:pb-24 sm:pt-48"
           >
@@ -92,11 +93,10 @@ export default function ResourceArticle({
                 {article.excerpt}
               </p>
             </ScrollExit>
-          </header>
+          </header></CmsSection>
           <article className="mx-auto max-w-3xl px-5 py-10 sm:py-28">
             {article.body.map((block, index) => (
-              <section
-                key={`${article.slug}-${index}`}
+              <CmsSection id={`article-${index}`} label={block.h ?? `Article section ${index + 1}`} key={`${article.slug}-${index}`}><section
                 className="mb-8 sm:mb-12"
               >
                 {block.h && (
@@ -126,7 +126,7 @@ export default function ResourceArticle({
                     ))}
                   </ul>
                 )}
-              </section>
+              </section></CmsSection>
             ))}
             {article.audience === "patients" && (
               <p

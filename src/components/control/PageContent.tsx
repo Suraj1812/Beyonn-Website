@@ -1,6 +1,7 @@
 "use client";
 import * as sharedFaqs from "@/content/faqs";
 import { Localized } from "@/components/i18n/Localized";
+import { CmsSection } from "./BuilderCanvas";
 import { useCms, useCmsData } from "./CmsProvider";
 
 import {
@@ -38,7 +39,7 @@ export default function PageContent({
   if (!raw) return null;
   const page = {
     ...raw,
-    sections: raw.sections.filter((section) => section.enabled !== false).map(section => {
+    sections: raw.sections.map((section, cmsIndex) => ({ ...section, cmsIndex })).map(section => {
       // Default shared FAQs stay linked; a page-specific edit becomes an explicit override.
       const binding = section.faq && faqBindings.get(JSON.stringify(section.faq));
       return binding ? { ...section, faq: document.data[binding] as unknown as typeof section.faq } : section;
@@ -58,9 +59,10 @@ export default function PageContent({
     };
   });
   const faqText = page.sections
+    .filter((section) => section.enabled !== false)
     .flatMap((section) => section.faq ?? [])
     .filter((f) => typeof f.a === "string");
-  const jumpLinks = page.sections.flatMap(({ id }) =>
+  const jumpLinks = page.sections.filter((section) => section.enabled !== false).flatMap(({ id }) =>
     id
       ? [
           {
@@ -124,7 +126,7 @@ export default function PageContent({
               }}
             />
           )}
-          <PageHero
+          <CmsSection id="hero" label="Page introduction"><PageHero
             compact={key === "team"}
             visual={key === "team" ? <TeamSupportVisual /> : undefined}
             kicker={legacy ? undefined : page.eyebrow}
@@ -159,17 +161,19 @@ export default function PageContent({
               )
             }
           />
+          </CmsSection>
           <SectionJumps links={jumpLinks} />
           {!legacy &&
             page.sections.map((section, index) => (
-              <ContentSection
-                key={section.id ?? section.title ?? section.eyebrow ?? index}
+              <CmsSection id={`section-${section.cmsIndex}`} label={section.title ?? section.eyebrow ?? `Section ${index + 1}`} key={section.id ?? index}>
+              {section.enabled !== false && <ContentSection
                 section={section}
                 index={index}
-              />
+              />}</CmsSection>
             ))}
           {legacy &&
             page.sections.map((section, index) => {
+              if (section.enabled === false) return null;
               const tone = index % 2 === 0 ? "bg-paper" : "bg-paper-2";
               const flip = index % 2 === 1;
 
@@ -294,7 +298,7 @@ export default function PageContent({
                   </div>
                 </section>
               );
-            })}
+            }).map((element, index) => <CmsSection id={`section-${page.sections[index].cmsIndex}`} label={page.sections[index].title ?? `Section ${index + 1}`} key={index}>{element}</CmsSection>)}
           {page.disclaimer && (
             <p data-aos="fade" className="container-x py-7 text-sm text-muted">
               {page.disclaimer}

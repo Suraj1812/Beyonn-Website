@@ -73,11 +73,32 @@ function Editor({ onSignOut, onInteraction }: {
   onSignOut: () => void;
   onInteraction: () => void;
 }) {
+  const [message, setMessage] = useState("");
   const [draft, setDraft] = useState<CmsDocument>();
+  const [past, setPast] = useState<CmsDocument[]>([]);
+  const [future, setFuture] = useState<CmsDocument[]>([]);
+  const updateDraft = useCallback((next: CmsDocument) => {
+    if (!draft || JSON.stringify(next) === JSON.stringify(draft)) return;
+    setPast((items) => [...items.slice(-49), draft]);
+    setFuture([]);
+    setDraft(next);
+    setMessage("");
+  }, [draft]);
+  const undo = useCallback(() => {
+    if (!draft || !past.length) return;
+    setFuture((items) => [draft, ...items]);
+    setDraft(past[past.length - 1]);
+    setPast(past.slice(0, -1));
+  }, [draft, past]);
+  const redo = useCallback(() => {
+    if (!draft || !future.length) return;
+    setPast((items) => [...items, draft]);
+    setDraft(future[0]);
+    setFuture(future.slice(1));
+  }, [draft, future]);
   const [saved, setSaved] = useState("");
   const [published, setPublished] = useState("");
   const [path, setPath] = useState("/");
-  const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState<"publish" | "sign-out">("publish");
@@ -93,6 +114,7 @@ function Editor({ onSignOut, onInteraction }: {
       const liveDocument = live ?? createDefaultDocument();
       const current = savedDraft ?? liveDocument;
       setDraft(current);
+      setPast([]); setFuture([]);
       setSaved(JSON.stringify(current));
       setPublished(JSON.stringify(liveDocument));
     } catch (failure) {
@@ -169,6 +191,8 @@ function Editor({ onSignOut, onInteraction }: {
           <h1>Edit website</h1>
           {draft && (
             <div className="ctl-editor-actions">
+              <button type="button" className="ctl-button" disabled={busy || !past.length} onClick={undo}>Undo</button>
+              <button type="button" className="ctl-button" disabled={busy || !future.length} onClick={redo}>Redo</button>
               {dirty && <span className="ctl-editor-status">Unsaved changes</span>}
               <button type="button" className="ctl-button" disabled={busy || !dirty} onClick={() => void save(false)}>
                 <Save size={17} aria-hidden="true" /> Save draft
@@ -181,8 +205,8 @@ function Editor({ onSignOut, onInteraction }: {
         </div>
         {message && <p className={error ? "ctl-error" : "ctl-editor-message"} role={error ? "alert" : "status"}>{message}</p>}
         {draft ? (
-          <VisualEditor key={path} draft={draft} path={path} pages={pages} selectPage={setPath}
-            update={(next) => { setDraft(next); setMessage(""); }} onInteraction={onInteraction} />
+          <fieldset disabled={busy} inert={busy} className="ctl-editor-canvas"><VisualEditor key={path} draft={draft} path={path} pages={pages} selectPage={setPath}
+            update={updateDraft} onInteraction={onInteraction} /></fieldset>
         ) : (
           <button className="ctl-button" type="button" onClick={() => void load()}>Try again</button>
         )}

@@ -3,6 +3,7 @@
 import { ChevronDown, ExternalLink, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { normalize, safeUrl, type CmsDocument, type MediaAsset } from "@/lib/cms/model";
+import { BuilderPanel } from "./BuilderPanel";
 import { repository } from "@/lib/cms/storage";
 import {
   EDITOR_DOCUMENT,
@@ -79,6 +80,10 @@ export function VisualEditor({
   const frame = useRef<HTMLIFrameElement>(null);
   const inspector = useRef<HTMLElement>(null);
   const [frameDocument, setFrameDocument] = useState<Document | null>(null);
+  const [builderTab, setBuilderTab] = useState("sections");
+  const [builderOpen, setBuilderOpen] = useState(false);
+  const [layoutElement, setLayoutElement] = useState<Element>();
+  const [viewport, setViewport] = useState("desktop");
   const [ready, setReady] = useState(false);
   const [selection, setSelection] = useState<{ targets: Target[]; active: VisualKind }>();
   const selected = selection?.targets.find(({ kind }) => kind === selection.active);
@@ -128,6 +133,12 @@ export function VisualEditor({
       const target = event.target as Element | null;
       if (target?.nodeType !== 1) return;
       onInteraction();
+      if (builderOpen && target.closest("#main")) {
+        event.preventDefault(); event.stopPropagation();
+        setLayoutElement(target);
+        setBuilderTab("style");
+        return;
+      }
       if ("button" in event && handleHighlight(target)) {
         event.preventDefault();
         event.stopPropagation();
@@ -190,7 +201,7 @@ export function VisualEditor({
       frameDocument.removeEventListener("mouseup", finishHighlight);
       frameDocument.removeEventListener("keyup", finishHighlight);
     };
-  }, [frameDocument, onInteraction]);
+  }, [frameDocument, onInteraction, builderOpen]);
 
   useEffect(() => {
     if (!selected) return;
@@ -209,22 +220,38 @@ export function VisualEditor({
       inspector.current?.scrollIntoView({ block: "nearest" });
   }, [selection]);
 
+  useEffect(() => {
+    if (!builderOpen || !layoutElement?.isConnected) return;
+    layoutElement.setAttribute("data-cms-editor-layout-selected", "");
+    return () => layoutElement.removeAttribute("data-cms-editor-layout-selected");
+  }, [builderOpen, layoutElement, draft]);
+
   return (
     <div className="ctl-visual">
       <div className="ctl-visual-bar">
         <PagePicker pages={pages} path={path} selectPage={selectPage} />
+        <div className="ctl-builder-tabs" role="group" aria-label="Editing mode">
+          <button type="button" className="ctl-button" aria-pressed={!builderOpen} onClick={() => setBuilderOpen(false)}>Edit text & media</button>
+          <button type="button" className="ctl-button" aria-pressed={builderOpen} onClick={() => setBuilderOpen(true)}>Design & sections</button>
+        </div>
+        <label className="ctl-field"><span>Preview size</span><select aria-label="Preview size" value={viewport} onChange={(event) => setViewport(event.target.value)}><option value="desktop">Desktop</option><option value="mobile">Mobile · 390px</option></select></label>
         <a className="ctl-button ctl-small" href={path} target="_blank" rel="noopener noreferrer">
           Open live page <ExternalLink size={14} />
         </a>
       </div>
       <iframe
         ref={frame}
-        className="ctl-visual-preview"
+        className={`ctl-visual-preview ${viewport === "mobile" ? "ctl-preview-mobile" : ""}`}
         title="Editable website preview"
         src={`${path}?cms-preview=1&cms-edit=1`}
         onLoad={(event) => setFrameDocument(event.currentTarget.contentDocument)}
       />
-      {selection && selected && (
+      {builderOpen && <BuilderPanel draft={draft} path={path} update={update} frameDocument={frameDocument} tab={builderTab} setTab={setBuilderTab} selected={layoutElement} select={setLayoutElement} />}
+      {!builderOpen && !selection && <aside className="ctl-visual-inspector ctl-editing-help" aria-label="Editing help">
+        <h2>Click to edit</h2><p>Choose any text, button, image or video in the preview to change it.</p>
+        <p>Use <strong>Design & sections</strong> to change backgrounds, adjust spacing or add content.</p>
+      </aside>}
+      {!builderOpen && selection && selected && (
         <aside ref={inspector} className="ctl-visual-inspector" aria-label="Edit selected content"
           onKeyDown={(event) => { if (event.key === "Escape") setSelection(undefined); }}>
           <div className="ctl-visual-selection">

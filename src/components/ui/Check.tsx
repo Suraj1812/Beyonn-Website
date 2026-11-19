@@ -1,8 +1,10 @@
+"use client";
+import { Localized } from "@/components/i18n/Localized";
 import { Check as CheckIcon, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 export function CheckList({ items, tone = "dawn", negative, className }: { items: React.ReactNode[]; tone?: "dawn" | "breath"; negative?: boolean; className?: string }) {
-  return (
+  return <Localized>{(
     <ul className={cn("grid gap-3.5", className)}>
       {items.map((item, i) => (
         <li key={i} data-aos="fade-up" data-aos-delay={Math.min(i * 70, 350)} className="flex gap-3.5 leading-relaxed">
@@ -19,5 +21,7 @@ export function CheckList({ items, tone = "dawn", negative, className }: { items
         </li>
       ))}
     </ul>
-  );
+  )}</Localized>;
 }
+
+CheckList.cmsLocalizedBoundary = true;

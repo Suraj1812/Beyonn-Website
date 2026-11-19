@@ -4,7 +4,21 @@ The private workspace is `/control`. It is absent from public navigation and exc
 
 Choose a page, then click the item you want to edit in its preview. The editor opens with controls for that item. Change copy, normal or hover text color, text size, or the optional loading label on navigation buttons. Select a colored part of a line, or drag to highlight individual words. Highlighted words can be changed on one page or everywhere the same source text appears. Replace an image or video, set alt text, or update a link destination. Click **Apply** to see the edit, **Save draft** to keep it private, or **Publish** to update the live website.
 
-If the same source text, media URL, or link destination appears multiple times on one page, its matching occurrences are updated together. New copy is edited in English. Website layouts and shared configuration are maintained in source.
+If the same source text, media URL, or link destination appears multiple times on one page, its matching occurrences are updated together. New copy is edited in English.
+
+## Design and page building
+
+Open **Design & sections** next to the page picker. The three tools are:
+
+- **Sections:** jump to a section, insert a heading/text, image, list, cards or call-to-action section before or after an existing section, or at the start/end of the page. New sections can contain any combination of headings, multiline text, lists, cards, images, uploaded MP4/WebM videos, buttons and spacers. Rename, duplicate, hide, delete or relocate them. Hidden custom sections remain accessible through their edit buttons. Existing homepage and content-page sections can be moved or hidden.
+- **Design:** click an element in the preview, or choose a section, then change its solid background or two-color gradient, text color, four-sided padding and margins, item gap, maximum width, corner radius, alignment and visibility. Use **Select parent container** to adjust the enclosing card or section. Desktop settings apply by default; mobile overrides apply at viewport widths of 640px or less. **Preview size** switches the iframe to desktop or 390px mobile. **Reset desktop/mobile design** restores the original settings for that element and screen size.
+- **Content:** expand a content collection to edit its fields and add, move or remove entries in lists, cards, buttons, FAQs and paragraphs. Changes affect the selected collection wherever it is used. The current page has its own collection. Adding entries to an existing visual list is also available in Design after selecting that list.
+
+**Undo** and **Redo** keep up to 50 in-memory editing steps, including deletions, across page changes. They reset on reload. Saving a draft persists the whole document privately; publishing applies the content and design together. Existing text, link, media and selected-word editing remains available under **Edit text & media**. Newlines in edited or added text render as separate lines.
+
+The optional `builder` property is keyed by route. It stores validated element styles, added sections and extra visual-list entries. Old documents remain valid without it. Backgrounds accept six-digit hex colors and bounded gradient angles; spacing is bounded; layout selectors are restricted to elements inside `#main`. New blocks use React rendering rather than arbitrary HTML or scripts. Content and media URL validation applies to all new blocks. Media uploads use the same authenticated upload pipeline and library as the original editor.
+
+Section anchors and element selectors are stable within the existing source layout. A later developer redesign that removes a section or changes its internal markup may require resetting or reapplying styles anchored to that markup. Custom English copy falls back to English in other locales until translations are provided; existing translation catalogs continue to work.
 
 ## Backend
 
@@ -62,6 +76,7 @@ Official references: https://firebase.google.com/pricing, https://firebase.googl
 - `npm run build` (includes all translation-catalog checks)
 - `PLAYWRIGHT_CHANNEL=chrome npm run test:cms`
 - Opt-in authenticated tests require `CMS_TEST_EMAIL`, `CMS_TEST_PASSWORD`, and `CMS_E2E_WRITE=1`. Use an Auth emulator or a separate test account/project: these tests publish a temporary page and restore the original published and draft documents afterward. They disable traces so login credentials are not written to browser traces.
+- `PLAYWRIGHT_CHANNEL=chrome npx playwright test tests/cms-builder.spec.ts --workers=1` tests the real editor and preview using an isolated in-memory content API, including draft privacy, reload persistence, cross-browser publication, responsive CSS, media upload integration, validation, undo/redo and save conflicts. It makes no production writes.
 - Existing Academy, scrolling, interactive-experience and language tests remain relevant regression coverage.
 
 Run the Auth emulator with `firebase emulators:start --only auth`. A test server may set `FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099`; production must never set it. File-upload success, media streaming and cloud-deployment checks require an actual provisioned Storage bucket and deployed environment. Signature rejection and anonymous upload rejection can be checked without a bucket.

@@ -13,6 +13,7 @@ import { ScrollProgress } from "@/components/visual/ScrollProgress";
 import type { CmsDocument } from "@/lib/cms/model";
 import { usePathname } from "next/navigation";
 import { type ReactNode } from "react";
+import { BuilderCanvas } from "./BuilderCanvas";
 import { CmsProvider } from "./CmsProvider";
 import { CmsAppearance, CmsSlot } from "./PublicCms";
 
@@ -46,7 +47,7 @@ export function SiteShell({
                   <Header />
                 </CmsSlot>
                 <main id="main" tabIndex={-1} className="outline-none">
-                  {children}
+                  <BuilderCanvas>{children}</BuilderCanvas>
                 </main>
                 <CmsSlot name="footer">
                   <Footer />

@@ -3,7 +3,8 @@ import { ContentSection } from "@/components/sections/ContentSection";
 import type { PageSection } from "@/content/pages";
 import { defaultTheme } from "@/lib/cms/model";
 import { usePathname } from "next/navigation";
-import { Children, Fragment, isValidElement, type ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
+import { CmsSection } from "./BuilderCanvas";
 import { useCms } from "./CmsProvider";
 
 export function CmsHomeLayout({ children }: { children: ReactNode }) {
@@ -16,10 +17,9 @@ export function CmsHomeLayout({ children }: { children: ReactNode }) {
   return (
     <>
       {document.home
-        .filter((block) => block.enabled)
         .map((block, index) => (
-          <Fragment key={`${block.id}-${index}`}>
-            {block.section ? (
+          <CmsSection id={block.id} label={block.label} key={`${block.id}-${index}`}>
+            {!block.enabled ? null : block.section ? (
               <ContentSection
                 section={block.section as PageSection}
                 index={index}
@@ -27,7 +27,7 @@ export function CmsHomeLayout({ children }: { children: ReactNode }) {
             ) : (
               originals.get(block.id.split("~")[0])
             )}
-          </Fragment>
+          </CmsSection>
         ))}
     </>
   );

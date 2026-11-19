@@ -40,6 +40,7 @@ function scan(file) {
     if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) {
       const p = n.parent;
       if (ts.isImportDeclaration(p) || ts.isExportDeclaration(p) || ts.isLiteralTypeNode(p) || ts.isImportSpecifier(p)) return;
+      if (ts.isJsxAttribute(p) && p.name.getText(source) === "label" && p.parent.parent.tagName?.getText(source) === "CmsSection") return;
       if (ts.isJsxAttribute(p) && (skipProps.test(p.name.getText(source)) || /^(data-|aria-(controls|current|expanded|hidden|modal|live|atomic|describedby|labelledby))/.test(p.name.getText(source)))) return;
       if (ts.isPropertyAssignment(p) && p.name.getText(source) === "id" && file.endsWith('/content/pages.ts')) {
         add(n.text === 'faq' || n.text === 'tmd' ? n.text.toUpperCase() : n.text.charAt(0).toUpperCase() + n.text.slice(1).replaceAll('-', ' '), true);
