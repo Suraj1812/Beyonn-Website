@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "检查后，提供者可以安排家庭睡眠测试。该应用程序可以帮助您预订一份。",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "在 Beyonn 患者应用程序中快速检查即可显示您的打鼾可能如何影响您的睡眠。这不是诊断，但它是预约检查的好理由。",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "第二次睡眠测试以确认您的治疗有效，然后定期检查。",
-  "A service line that grows without you": "无需您即可成长的服务线",
+  "Keep patients connected with the Beyonn App": "通过Beyonn应用与患者保持联系",
   "A sleep test": "睡眠测试",
   "A sleep test, often done at home in your own bed, read by a physician.": "睡眠测试，通常在家里自己的床上进行，由医生阅读。",
   "A useful conversation, not a sales maze.": "一次有用的对话，而不是销售迷宫。",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "选择一个步骤以查看您的团队如何获得支持。",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "选择任何部分以了解其名称和作用。使用左右箭头键探索零件，或使用 Enter 检查气道。用鼠标拖动以旋转模型。",
   "Send this to someone you love": "将此发送给您爱的人",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "设置医疗账单、创造稳定的患者需求并获得持续的团队支持。",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "了解Beyonn Patient App如何通过健康教育、预约详情和就诊提醒为患者提供支持。",
   "Show fewer questions": "显示更少的问题",
   "Sign in": "登录",
   "Sign in to see your treatment progress, forms and messages from your care team.": "登录以查看您的治疗进度、表格和来自您的护理团队的消息。",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "博士从一开始就确定了紧迫性，并在他的日程安排中安排了时间——从每周 5 个时段开始。",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "医生了解气道健康的重要性。你无法视而不见你所看到的。一旦发现呼吸、睡眠或气道受损的迹象，就必须予以解决。综合治疗意味着治疗整个患者，而不仅仅是牙齿。呼吸为王。气道健康是重中之重，因为所有其他治疗都依赖于气道健康。",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "团队必须直接从医生那里听到优先事项。新目标。新的期望。新协议。",
-  "Illustration of a clinical team collaborating": "临床团队协作的插画"
+  "Illustration of a clinical team collaborating": "临床团队协作的插画",
+  "Your learning resources": "您的学习资源"
 }

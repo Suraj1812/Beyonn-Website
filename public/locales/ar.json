@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "يمكن لمقدم الخدمة طلب اختبار النوم المنزلي بعد الاختبار. التطبيق يساعدك على حجز واحد.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "فحص سريع في تطبيق Beyonn للمرضى يوضح كيف قد يؤثر الشخير في نومك. هذا ليس تشخيصًا، لكنه سبب وجيه لحجز فحص طبي.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "اختبار نوم ثانٍ للتأكد من فعالية علاجك، ثم إجراء فحوصات منتظمة.",
-  "A service line that grows without you": "خط خدمة ينمو بدونك",
+  "Keep patients connected with the Beyonn App": "أبقِ المرضى على تواصل عبر تطبيق Beyonn",
   "A sleep test": "اختبار النوم",
   "A sleep test, often done at home in your own bed, read by a physician.": "اختبار النوم، والذي يتم إجراؤه غالبًا في المنزل على سريرك، ويقرأه الطبيب.",
   "A useful conversation, not a sales maze.": "محادثة مفيدة وليست متاهة مبيعات.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "حدد خطوة لترى كيف يتم دعم فريقك.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "حدد أي جزء لمعرفة اسمه ودوره. استخدم مفاتيح الأسهم لليسار ولليمين لاستكشاف الأجزاء، أو أدخل لفحص مجرى الهواء. اسحب بالماوس لتدوير النموذج.",
   "Send this to someone you love": "أرسل هذا إلى شخص تحبه",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "قم بإعداد الفواتير الطبية وإنشاء طلب ثابت للمرضى والحصول على دعم الفريق المستمر.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "اكتشف كيف يدعم تطبيق Beyonn للمرضى التثقيف وتفاصيل المواعيد والتذكير بالزيارات.",
   "Show fewer questions": "عرض أسئلة أقل",
   "Sign in": "تسجيل الدخول",
   "Sign in to see your treatment progress, forms and messages from your care team.": "قم بتسجيل الدخول للاطلاع على تقدم العلاج والنماذج والرسائل الواردة من فريق الرعاية الخاص بك.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "يحدد الطبيب الضرورة الملحة منذ البداية ويخصص وقتًا لها في جدوله الزمني - بدءًا من 5 فترات في الأسبوع.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "يفهم الطبيب أولوية صحة مجرى الهواء. لا يمكنك إلغاء ما رأيته. بمجرد التعرف على علامات ضعف التنفس أو النوم أو مجرى الهواء، يجب معالجتها. العلاج الشامل يعني علاج المريض بأكمله، وليس الأسنان فقط. التنفس هو الملك. تحظى صحة مجرى الهواء بالأولوية لأن كل العلاجات الأخرى تعتمد عليها.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "يجب أن يسمع الفريق الأولوية مباشرة من الطبيب. أهداف جديدة. توقعات جديدة. بروتوكولات جديدة.",
-  "Illustration of a clinical team collaborating": "رسم توضيحي لفريق سريري يعمل معًا"
+  "Illustration of a clinical team collaborating": "رسم توضيحي لفريق سريري يعمل معًا",
+  "Your learning resources": "موارد التعلم الخاصة بك"
 }

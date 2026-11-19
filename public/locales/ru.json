@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "После обследования поставщик услуг может заказать домашний тест на сон. Приложение поможет вам забронировать один.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Быстрая проверка в приложении Beyonn Patient App, которая показывает, как храп может влиять на ваш сон. Это не диагноз, но хороший повод записаться на обследование.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Второй тест на сон, чтобы подтвердить эффективность вашего лечения, а затем регулярные проверки.",
-  "A service line that grows without you": "Линия обслуживания, которая растет без вас",
+  "Keep patients connected with the Beyonn App": "Поддерживайте связь с пациентами через приложение Beyonn",
   "A sleep test": "Тест на сон",
   "A sleep test, often done at home in your own bed, read by a physician.": "Тест на сон, который часто проводится дома в собственной постели и читается врачом.",
   "A useful conversation, not a sales maze.": "Полезный разговор, а не лабиринт продаж.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Выберите шаг, чтобы увидеть, как поддерживается ваша команда.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Выберите любую часть, чтобы узнать ее название и роль. Используйте клавиши со стрелками влево и вправо, чтобы исследовать части, или Enter, чтобы осмотреть дыхательные пути. Перетащите мышью, чтобы повернуть модель.",
   "Send this to someone you love": "Отправь это тому, кого любишь",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Настройте выставление счетов за медицинские услуги, создайте устойчивый спрос среди пациентов и получите постоянную поддержку команды.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Узнайте, как Beyonn Patient App помогает пациентам с помощью обучающих материалов, сведений о приёмах и напоминаний о визитах.",
   "Show fewer questions": "Показать меньше вопросов",
   "Sign in": "Войти",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Войдите в систему, чтобы увидеть ход вашего лечения, формы и сообщения от вашей команды по уходу.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Доктор с самого начала устанавливает срочность и выделяет для нее время в своем расписании – начиная с 5 слотов в неделю.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Доктор понимает приоритет здоровья дыхательных путей. Вы не можете развидеть то, что видели. Как только обнаружены признаки нарушения дыхания, сна или проходимости дыхательных путей, их необходимо устранить. Комплексное лечение подразумевает лечение всего пациента, а не только зубов. Дыхание – король. Здоровье дыхательных путей имеет приоритет, поскольку от него зависит любое другое лечение.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "Команда должна услышать приоритет непосредственно от Доктора. Новые цели. Новые ожидания. Новые протоколы.",
-  "Illustration of a clinical team collaborating": "Иллюстрация совместной работы клинической команды"
+  "Illustration of a clinical team collaborating": "Иллюстрация совместной работы клинической команды",
+  "Your learning resources": "Ваши учебные материалы"
 }

@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Sağlayıcı, muayeneden sonra evde uyku testi isteyebilir. Uygulama rezervasyon yapmanıza yardımcı olur.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Beyonn Hasta Uygulamasındaki kısa kontrol, horlamanızın uykunuzu nasıl etkiliyor olabileceğini gösterir. Bu bir tanı değildir; ancak muayene randevusu almak için iyi bir nedendir.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Tedavinizin işe yaradığını doğrulamak için ikinci bir uyku testi ve ardından düzenli kontroller.",
-  "A service line that grows without you": "Siz olmadan büyüyen bir hizmet hattı",
+  "Keep patients connected with the Beyonn App": "Beyonn Uygulaması ile hastalarla bağlantıda kalın",
   "A sleep test": "Bir uyku testi",
   "A sleep test, often done at home in your own bed, read by a physician.": "Genellikle evde kendi yatağınızda yapılan ve bir doktor tarafından okunan bir uyku testi.",
   "A useful conversation, not a sales maze.": "Faydalı bir sohbet, satış labirenti değil.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Ekibinizin nasıl desteklendiğini görmek için bir adım seçin.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Adını ve rolünü öğrenmek için herhangi bir parçayı seçin. Parçaları keşfetmek için sol ve sağ ok tuşlarını kullanın veya hava yolunu incelemek için Enter'ı kullanın. Modeli döndürmek için fareyle sürükleyin.",
   "Send this to someone you love": "Bunu sevdiğin birine gönder",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Tıbbi faturalandırmayı ayarlayın, istikrarlı hasta talebi oluşturun ve sürekli ekip desteği alın.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Beyonn Patient App uygulamasının eğitim bilgileri, randevu ayrıntıları ve ziyaret hatırlatmalarıyla hastaları nasıl desteklediğini görün.",
   "Show fewer questions": "Daha az soru göster",
   "Sign in": "Oturum aç",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Tedavinizin ilerleyişini, formlarını ve bakım ekibinizden gelen mesajları görmek için oturum açın.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Doktor en başından itibaren aciliyet belirler ve haftada 5 aralıktan başlayarak programında bunun için zaman ayırır.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Doktor solunum yolu sağlığının önceliğinin bilincindedir. Gördüğünü geri alamazsın. Solunum, uyku veya solunum yolunda bozulma belirtileri fark edildikten sonra bunların ele alınması gerekir. Kapsamlı tedavi, yalnızca dişlerin değil, hastanın tamamının tedavi edilmesi anlamına gelir. Nefes almak kraldır. Hava yolu sağlığı önceliklidir çünkü diğer tüm tedaviler buna bağlıdır.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "Ekip önceliği doğrudan Doktor'dan duymalıdır. Yeni hedefler. Yeni beklentiler. Yeni protokoller.",
-  "Illustration of a clinical team collaborating": "Birlikte çalışan klinik ekibin illüstrasyonu"
+  "Illustration of a clinical team collaborating": "Birlikte çalışan klinik ekibin illüstrasyonu",
+  "Your learning resources": "Öğrenme kaynaklarınız"
 }

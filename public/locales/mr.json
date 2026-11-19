@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "प्रदाता परीक्षेनंतर होम स्लीप टेस्ट ऑर्डर करू शकतो. ॲप तुम्हाला एक बुक करण्यात मदत करते.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Beyonn पेशंट अॅपमधील एक झटपट तपासणी, जी घोरण्याचा तुमच्या झोपेवर कसा परिणाम होत असू शकतो हे दाखवते. हे निदान नाही, पण तपासणीसाठी भेट ठरवण्याचे एक योग्य कारण आहे.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "तुमचा उपचार कार्य करत असल्याची पुष्टी करण्यासाठी दुसरी झोप चाचणी, त्यानंतर नियमित चेक-इन.",
-  "A service line that grows without you": "तुमच्याशिवाय वाढणारी सेवा लाइन",
+  "Keep patients connected with the Beyonn App": "Beyonn ॲपद्वारे रुग्णांना जोडून ठेवा",
   "A sleep test": "झोपेची चाचणी",
   "A sleep test, often done at home in your own bed, read by a physician.": "झोपेची चाचणी, अनेकदा तुमच्या स्वतःच्या पलंगावर घरी केली जाते, डॉक्टरांनी वाचली आहे.",
   "A useful conversation, not a sales maze.": "एक उपयुक्त संभाषण, विक्री चक्रव्यूह नाही.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "तुमचा संघ कसा सपोर्ट करतो हे पाहण्यासाठी एक पायरी निवडा.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "कोणतेही भाग त्याचे नाव आणि भूमिका जाणून घेण्यासाठी निवडा. भाग एक्सप्लोर करण्यासाठी डाव्या आणि उजव्या बाण की वापरा किंवा वायुमार्गाची तपासणी करण्यासाठी Enter वापरा. मॉडेल फिरवण्यासाठी माउसने ड्रॅग करा.",
   "Send this to someone you love": "तुमच्या प्रिय व्यक्तीला हे पाठवा",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "वैद्यकीय बिलिंग सेट करा, रुग्णाची स्थिर मागणी निर्माण करा आणि चालू असलेल्या टीमचे समर्थन मिळवा.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Beyonn Patient App शैक्षणिक माहिती, अपॉइंटमेंटचे तपशील आणि भेटींच्या स्मरणपत्रांद्वारे रुग्णांना कशी मदत करते ते पाहा.",
   "Show fewer questions": "कमी प्रश्न दाखवा",
   "Sign in": "साइन इन करा",
   "Sign in to see your treatment progress, forms and messages from your care team.": "तुमची उपचार प्रगती, फॉर्म आणि तुमच्या काळजी टीमकडून मेसेज पाहण्यासाठी साइन इन करा.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "डॉक्टर अगदी सुरुवातीपासूनच तातडीची स्थापना करतात आणि त्यासाठी त्याच्या शेड्यूलमध्ये वेळ अवरोधित करतात - दर आठवड्याला 5 स्लॉटसह सुरुवात.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "डॉक्टरांना वायुमार्गाच्या आरोग्याचे प्राधान्य समजते. तुम्ही जे पाहिले आहे ते तुम्ही पाहू शकत नाही. एकदा तडजोड श्वासोच्छवासाची, झोपेची किंवा वायुमार्गाची चिन्हे ओळखली गेली की, त्यांना संबोधित करणे आवश्यक आहे. सर्वसमावेशक उपचार म्हणजे केवळ दातांवर नव्हे तर संपूर्ण रुग्णावर उपचार करणे. श्वास हा राजा आहे. वायुमार्गाच्या आरोग्यास प्राधान्य दिले जाते कारण इतर सर्व उपचार त्यावर अवलंबून असतात.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "टीमने थेट डॉक्टरांकडून प्राधान्य ऐकले पाहिजे. नवीन ध्येये. नवीन अपेक्षा. नवीन प्रोटोकॉल.",
-  "Illustration of a clinical team collaborating": "एकत्र काम करणाऱ्या क्लिनिकल टीमचे चित्रण"
+  "Illustration of a clinical team collaborating": "एकत्र काम करणाऱ्या क्लिनिकल टीमचे चित्रण",
+  "Your learning resources": "तुमची शिक्षण संसाधने"
 }

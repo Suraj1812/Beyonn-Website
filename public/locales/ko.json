@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "서비스 제공자는 검사 후 가정 수면 테스트를 주문할 수 있습니다. 이 앱을 사용하면 예약하는 데 도움이 됩니다.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "코골이가 수면에 어떤 영향을 미칠 수 있는지 보여주는 Beyonn Patient App의 빠른 확인입니다. 진단은 아니지만 검사를 예약하는 것이 좋은 이유입니다.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "치료가 효과가 있는지 확인하기 위한 두 번째 수면 테스트를 실시한 후 정기적으로 체크인합니다.",
-  "A service line that grows without you": "당신 없이도 성장하는 서비스 라인",
+  "Keep patients connected with the Beyonn App": "Beyonn 앱으로 환자와 연결을 유지하세요",
   "A sleep test": "수면 테스트",
   "A sleep test, often done at home in your own bed, read by a physician.": "수면 테스트는 주로 집에서 침대에서 실시하며 의사가 판독합니다.",
   "A useful conversation, not a sales maze.": "판매 미로가 아닌 유용한 대화입니다.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "팀이 어떻게 지원되는지 확인하려면 단계를 선택하세요.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "부품을 선택하여 이름과 역할을 알아보세요. 왼쪽 및 오른쪽 화살표 키를 사용하여 부품을 탐색하거나 Enter를 사용하여 기도를 검사하십시오. 모델을 회전하려면 마우스로 드래그하세요.",
   "Send this to someone you love": "사랑하는 사람에게 이 편지를 보내세요",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "의료비 청구를 설정하고 꾸준한 환자 수요를 창출하며 지속적인 팀 지원을 받으세요.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Beyonn Patient App이 교육 정보, 예약 세부 사항 및 방문 알림으로 환자를 어떻게 지원하는지 알아보세요.",
   "Show fewer questions": "질문 간략히 보기",
   "Sign in": "로그인",
   "Sign in to see your treatment progress, forms and messages from your care team.": "치료 진행 상황, 양식, 담당 진료팀의 메시지를 확인하려면 로그인하세요.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "의사는 처음부터 긴급성을 설정하고 일주일에 5번부터 시작하여 일정에 시간을 할당합니다.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "의사는 기도 건강의 우선순위를 이해합니다. 당신은 당신이 본 것을 볼 수 없습니다. 호흡, 수면 또는 기도 장애의 징후가 인식되면 이를 해결해야 합니다. 종합치료란 단순히 치아만을 치료하는 것이 아닌 환자 전체를 치료하는 것을 의미합니다. 호흡이 왕입니다. 다른 모든 치료는 기도 건강에 달려 있기 때문에 기도 건강이 최우선입니다.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "팀은 의사로부터 우선순위에 대해 직접 들어야 합니다. 새로운 목표. 새로운 기대. 새로운 프로토콜.",
-  "Illustration of a clinical team collaborating": "협력하는 임상 팀의 일러스트"
+  "Illustration of a clinical team collaborating": "협력하는 임상 팀의 일러스트",
+  "Your learning resources": "학습 자료"
 }

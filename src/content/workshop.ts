@@ -9,6 +9,6 @@ export const workshopContent = {
     { title: "The money you’re leaving on the table", text: "See what not offering OSA + TMD care is costing your practice every month." },
     { title: "Patients you’re already seeing", text: "Spot the signs in your current patients and turn screenings into accepted treatment." },
     { title: "Higher-value cases, better outcomes", text: "Learn why treating OSA and TMD together drives better results and bigger case value." },
-    { title: "A service line that grows without you", text: "Set up medical billing, create steady patient demand and get ongoing team support." },
+    { title: "Keep patients connected with the Beyonn App", text: "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders." },
   ],
 } as const;

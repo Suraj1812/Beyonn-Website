@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "医療提供者は、検査後に自宅での睡眠検査を注文できます。アプリは予約に役立ちます。",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Beyonn Patient Appの簡単なチェックで、いびきが睡眠に影響を及ぼしている可能性を確認できます。これは診断ではありませんが、診察を予約するきっかけになります。",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "治療が効果があることを確認するための 2 回目の睡眠検査と、その後の定期的なチェックイン。",
-  "A service line that grows without you": "あなたなしでも成長するサービスライン",
+  "Keep patients connected with the Beyonn App": "Beyonnアプリで患者とのつながりを維持",
   "A sleep test": "睡眠テスト",
   "A sleep test, often done at home in your own bed, read by a physician.": "睡眠検査。多くの場合、自宅で自分のベッドで行われ、医師が読み取ります。",
   "A useful conversation, not a sales maze.": "営業の迷路ではなく、有益な会話です。",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "ステップを選択して、チームがどのようにサポートされているかを確認してください。",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "任意の部品を選択すると、その名前と役割がわかります。左右の矢印キーを使用して部品を探索するか、Enter キーを使用して気道を検査します。マウスでドラッグしてモデルを回転します。",
   "Send this to someone you love": "愛する人にこれを送りましょう",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "医療請求を設定し、安定した患者の需要を生み出し、継続的なチームのサポートを受けます。",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Beyonn Patient Appが学習情報、予約の詳細、受診リマインダーで患者をどのようにサポートするかをご紹介します。",
   "Show fewer questions": "表示する質問の数を減らす",
   "Sign in": "サインイン",
   "Sign in to see your treatment progress, forms and messages from your care team.": "サインインして、治療の進行状況、フォーム、ケアチームからのメッセージを確認してください。",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "医師は最初から緊急性を確立し、週に 5 つの枠から始めてスケジュールの時間をブロックします。",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "医師は気道の健康が最優先であることを理解しています。見たものを元に戻すことはできません。呼吸、睡眠、気道の障害の兆候が認識されたら、対処する必要があります。総合治療とは、歯だけを治療するのではなく、患者さん全体を診る治療のことです。呼吸は王様です。他の治療法はすべて気道の健康に依存するため、気道の健康が優先されます。",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "チームは医師から直接優先順位を聞かなければなりません。新しい目標。新たな期待。新しいプロトコル。",
-  "Illustration of a clinical team collaborating": "協力する臨床チームのイラスト"
+  "Illustration of a clinical team collaborating": "協力する臨床チームのイラスト",
+  "Your learning resources": "学習リソース"
 }

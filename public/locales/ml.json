@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "ഒരു പരീക്ഷയ്ക്ക് ശേഷം ഒരു ദാതാവിന് ഹോം സ്ലീപ്പ് ടെസ്റ്റ് ഓർഡർ ചെയ്യാൻ കഴിയും. ഒന്ന് ബുക്ക് ചെയ്യാൻ ആപ്പ് നിങ്ങളെ സഹായിക്കുന്നു.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "നിങ്ങളുടെ കൂർക്കംവലി ഉറക്കത്തെ എങ്ങനെ ബാധിച്ചേക്കാമെന്ന് കാണിക്കുന്ന Beyonn Patient App-ലെ ഒരു ലഘു പരിശോധന. ഇത് രോഗനിർണയമല്ല; എന്നാൽ പരിശോധനയ്ക്കായി ഡോക്ടറെ കാണാൻ സമയം നിശ്ചയിക്കാനുള്ള ഒരു നല്ല കാരണമാണ്.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "നിങ്ങളുടെ ചികിത്സ പ്രവർത്തിക്കുന്നുണ്ടെന്ന് സ്ഥിരീകരിക്കുന്നതിനുള്ള രണ്ടാമത്തെ ഉറക്ക പരിശോധന, തുടർന്ന് പതിവ് ചെക്ക്-ഇന്നുകൾ.",
-  "A service line that grows without you": "നിങ്ങളില്ലാതെ വളരുന്ന ഒരു സേവന ലൈൻ",
+  "Keep patients connected with the Beyonn App": "Beyonn ആപ്പിലൂടെ രോഗികളുമായി ബന്ധം നിലനിർത്തുക",
   "A sleep test": "ഒരു ഉറക്ക പരിശോധന",
   "A sleep test, often done at home in your own bed, read by a physician.": "ഒരു ഫിസിഷ്യൻ വായിക്കുന്ന ഒരു ഉറക്ക പരിശോധന, പലപ്പോഴും നിങ്ങളുടെ സ്വന്തം കിടക്കയിൽ വീട്ടിൽ തന്നെ നടത്തുന്നു.",
   "A useful conversation, not a sales maze.": "ഒരു ഉപയോഗപ്രദമായ സംഭാഷണം, ഒരു വിൽപ്പന മാളമല്ല.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "നിങ്ങളുടെ ടീമിനെ എങ്ങനെ പിന്തുണയ്ക്കുന്നുവെന്ന് കാണാൻ ഒരു ഘട്ടം തിരഞ്ഞെടുക്കുക.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "ഏതെങ്കിലും ഭാഗം അതിൻ്റെ പേരും റോളും അറിയാൻ തിരഞ്ഞെടുക്കുക. ഭാഗങ്ങൾ പര്യവേക്ഷണം ചെയ്യാൻ ഇടത്, വലത് അമ്പടയാള കീകൾ ഉപയോഗിക്കുക അല്ലെങ്കിൽ എയർവേ പരിശോധിക്കാൻ എൻ്റർ ചെയ്യുക. മോഡൽ തിരിക്കാൻ ഒരു മൗസ് ഉപയോഗിച്ച് വലിച്ചിടുക.",
   "Send this to someone you love": "നിങ്ങൾ ഇഷ്ടപ്പെടുന്ന ഒരാൾക്ക് ഇത് അയയ്ക്കുക",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "മെഡിക്കൽ ബില്ലിംഗ് സജ്ജീകരിക്കുക, സ്ഥിരമായ രോഗികളുടെ ആവശ്യം സൃഷ്ടിക്കുക, ടീമിൻ്റെ പിന്തുണ നേടുക.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "വിദ്യാഭ്യാസ വിവരങ്ങൾ, അപ്പോയിന്റ്മെന്റ് വിശദാംശങ്ങൾ, സന്ദർശന ഓർമ്മപ്പെടുത്തലുകൾ എന്നിവയിലൂടെ Beyonn Patient App രോഗികളെ എങ്ങനെ പിന്തുണയ്ക്കുന്നുവെന്ന് കാണുക.",
   "Show fewer questions": "കുറച്ച് ചോദ്യങ്ങൾ കാണിക്കുക",
   "Sign in": "സൈൻ ഇൻ ചെയ്യുക",
   "Sign in to see your treatment progress, forms and messages from your care team.": "നിങ്ങളുടെ ചികിത്സയുടെ പുരോഗതിയും ഫോമുകളും നിങ്ങളുടെ കെയർ ടീമിൽ നിന്നുള്ള സന്ദേശങ്ങളും കാണാൻ സൈൻ ഇൻ ചെയ്യുക.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "ഡോക്ടർ ആദ്യം മുതൽ തന്നെ അടിയന്തിരാവസ്ഥ സ്ഥാപിക്കുകയും അതിനുള്ള സമയക്രമത്തിൽ സമയം തടയുകയും ചെയ്യുന്നു - ആഴ്ചയിൽ 5 സ്ലോട്ടുകളിൽ ആരംഭിക്കുന്നു.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "എയർവേ ആരോഗ്യത്തിൻ്റെ മുൻഗണന ഡോക്ടർ മനസ്സിലാക്കുന്നു. നിങ്ങൾ കണ്ടത് കാണാതിരിക്കാനാവില്ല. വിട്ടുവീഴ്ച ചെയ്യപ്പെടുന്ന ശ്വസനം, ഉറക്കം അല്ലെങ്കിൽ ശ്വാസനാളത്തിൻ്റെ ലക്ഷണങ്ങൾ തിരിച്ചറിഞ്ഞുകഴിഞ്ഞാൽ, അവ പരിഹരിക്കപ്പെടണം. സമഗ്രമായ ചികിത്സ എന്നാൽ മുഴുവൻ രോഗിയെയും ചികിത്സിക്കുക, പല്ലുകൾ മാത്രമല്ല. ശ്വസനം രാജാവാണ്. എയർവേ ആരോഗ്യം മുൻഗണന നൽകുന്നു, കാരണം മറ്റെല്ലാ ചികിത്സയും അതിനെ ആശ്രയിച്ചിരിക്കുന്നു.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "ടീം മുൻഗണന ഡോക്ടറിൽ നിന്ന് നേരിട്ട് കേൾക്കണം. പുതിയ ലക്ഷ്യങ്ങൾ. പുതിയ പ്രതീക്ഷകൾ. പുതിയ പ്രോട്ടോക്കോളുകൾ.",
-  "Illustration of a clinical team collaborating": "ഒരുമിച്ച് പ്രവർത്തിക്കുന്ന ക്ലിനിക്കൽ സംഘത്തിൻ്റെ ചിത്രീകരണം"
+  "Illustration of a clinical team collaborating": "ഒരുമിച്ച് പ്രവർത്തിക്കുന്ന ക്ലിനിക്കൽ സംഘത്തിൻ്റെ ചിത്രീകരണം",
+  "Your learning resources": "നിങ്ങളുടെ പഠന വിഭവങ്ങൾ"
 }

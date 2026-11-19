@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Nhà cung cấp có thể yêu cầu kiểm tra giấc ngủ tại nhà sau kỳ thi. Ứng dụng này giúp bạn đặt một.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Kiểm tra nhanh trong Ứng dụng bệnh nhân Beyonn để biết tiếng ngáy của bạn có thể ảnh hưởng đến giấc ngủ như thế nào. Đó không phải là một chẩn đoán, nhưng đó là lý do chính đáng để đăng ký khám.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Kiểm tra giấc ngủ thứ hai để xác nhận việc điều trị của bạn đang có hiệu quả, sau đó kiểm tra thường xuyên.",
-  "A service line that grows without you": "Một dòng dịch vụ phát triển mà không có bạn",
+  "Keep patients connected with the Beyonn App": "Giữ kết nối với bệnh nhân qua ứng dụng Beyonn",
   "A sleep test": "Kiểm tra giấc ngủ",
   "A sleep test, often done at home in your own bed, read by a physician.": "Một bài kiểm tra giấc ngủ, thường được thực hiện tại nhà trên giường của bạn, do bác sĩ đọc.",
   "A useful conversation, not a sales maze.": "Một cuộc trò chuyện hữu ích, không phải là mê cung bán hàng.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Chọn một bước để xem nhóm của bạn được hỗ trợ như thế nào.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Chọn bất kỳ phần nào để tìm hiểu tên và vai trò của nó. Sử dụng các phím mũi tên trái và phải để khám phá các bộ phận hoặc Enter để kiểm tra đường thở. Kéo bằng chuột để xoay mô hình.",
   "Send this to someone you love": "Gửi cái này cho người bạn yêu",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Thiết lập thanh toán y tế, tạo nhu cầu ổn định cho bệnh nhân và nhận được sự hỗ trợ liên tục của nhóm.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Tìm hiểu cách Beyonn Patient App hỗ trợ bệnh nhân với thông tin giáo dục, chi tiết cuộc hẹn và lời nhắc tái khám.",
   "Show fewer questions": "Hiển thị ít câu hỏi hơn",
   "Sign in": "Đăng nhập",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Đăng nhập để xem tiến trình điều trị, biểu mẫu và tin nhắn từ nhóm chăm sóc của bạn.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Bác sĩ thiết lập tính cấp bách ngay từ đầu và sắp xếp thời gian trong lịch trình của mình cho việc đó - bắt đầu với 5 thời điểm mỗi tuần.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Bác sĩ hiểu tầm quan trọng của sức khỏe đường thở. Bạn không thể nhìn thấy những gì bạn đã thấy. Một khi các dấu hiệu về hô hấp, giấc ngủ hoặc đường thở bị tổn thương được nhận biết, chúng phải được giải quyết. Điều trị toàn diện có nghĩa là điều trị toàn bộ bệnh nhân chứ không chỉ riêng răng. Hơi thở là Vua. Sức khỏe đường thở được ưu tiên vì mọi phương pháp điều trị khác đều phụ thuộc vào nó.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "Nhóm phải nghe trực tiếp về mức độ ưu tiên từ Bác sĩ. Mục tiêu mới. Những kỳ vọng mới. Giao thức mới.",
-  "Illustration of a clinical team collaborating": "Minh họa nhóm lâm sàng phối hợp làm việc"
+  "Illustration of a clinical team collaborating": "Minh họa nhóm lâm sàng phối hợp làm việc",
+  "Your learning resources": "Tài nguyên học tập của bạn"
 }

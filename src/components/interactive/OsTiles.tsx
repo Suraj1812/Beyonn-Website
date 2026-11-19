@@ -44,7 +44,7 @@ export function OsTiles() {
           </ol>
         </div>
         <div className="rounded-xl bg-paper/[0.04] p-4">
-          <p className="t-eyebrow text-paper/55">Included in {area.name}</p>
+          <p className="t-eyebrow text-paper/55">{active === 0 ? "Your learning resources" : <>Included in {area.name}</>}</p>
           <ul className="mt-3 space-y-3">{area.items.map((item) => <li key={item} className="flex gap-2 text-sm leading-relaxed"><Check className="mt-0.5 size-4 flex-none text-breath" aria-hidden />{item}</li>)}</ul>
         </div>
       </div>

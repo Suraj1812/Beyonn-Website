@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Un prestataire peut commander un test de sommeil à domicile après un examen. L'application vous aide à en réserver un.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Une vérification rapide dans l'application Beyonn Patient qui montre comment vos ronflements peuvent affecter votre sommeil. Ce n'est pas un diagnostic, mais c'est une bonne raison pour réserver un examen.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Un deuxième test de sommeil pour confirmer l'efficacité de votre traitement, puis des contrôles réguliers.",
-  "A service line that grows without you": "Une gamme de services qui grandit sans vous",
+  "Keep patients connected with the Beyonn App": "Gardez le lien avec les patients grâce à l’application Beyonn",
   "A sleep test": "Un test de sommeil",
   "A sleep test, often done at home in your own bed, read by a physician.": "Un test du sommeil, souvent effectué à la maison dans votre propre lit, lu par un médecin.",
   "A useful conversation, not a sales maze.": "Une conversation utile, pas un labyrinthe commercial.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Sélectionnez une étape pour voir comment votre équipe est prise en charge.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Sélectionnez n’importe quelle pièce pour connaître son nom et son rôle. Utilisez les touches fléchées gauche et droite pour explorer les pièces, ou Entrée pour inspecter les voies respiratoires. Faites glisser avec une souris pour faire pivoter le modèle.",
   "Send this to someone you love": "Envoie ceci à quelqu'un que tu aimes",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Configurez la facturation médicale, créez une demande constante pour les patients et bénéficiez du soutien continu de votre équipe.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Découvrez comment l’application Beyonn Patient accompagne les patients avec des informations éducatives, les détails des rendez-vous et des rappels de visite.",
   "Show fewer questions": "Afficher moins de questions",
   "Sign in": "Connectez-vous",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Connectez-vous pour voir la progression de votre traitement, les formulaires et les messages de votre équipe soignante.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Le Docteur établit l'urgence dès le début et bloque du temps dans son planning – à commencer par 5 créneaux par semaine.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Le Docteur comprend la priorité de la santé des voies respiratoires. Vous ne pouvez pas ignorer ce que vous avez vu. Une fois que les signes d’une respiration, d’un sommeil ou des voies respiratoires compromis sont reconnus, ils doivent être traités. Un traitement complet signifie traiter le patient dans son ensemble, pas seulement ses dents. La respiration est reine. La santé des voies respiratoires est prioritaire car tous les autres traitements en dépendent.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "L'équipe doit entendre la priorité directement du Docteur. De nouveaux objectifs. De nouvelles attentes. Nouveaux protocoles.",
-  "Illustration of a clinical team collaborating": "Illustration d’une équipe clinique travaillant ensemble"
+  "Illustration of a clinical team collaborating": "Illustration d’une équipe clinique travaillant ensemble",
+  "Your learning resources": "Vos ressources pédagogiques"
 }

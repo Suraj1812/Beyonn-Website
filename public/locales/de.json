@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Ein Anbieter kann nach einer Untersuchung einen Heimschlaftest anordnen. Die App hilft Ihnen bei der Buchung.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Ein kurzer Check in der Beyonn-Patienten-App, der zeigt, wie sich Ihr Schnarchen möglicherweise auf Ihren Schlaf auswirkt. Es ist keine Diagnose, aber ein guter Grund, eine Untersuchung zu buchen.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Ein zweiter Schlaftest, um zu bestätigen, dass Ihre Behandlung wirkt, und anschließend regelmäßige Kontrolluntersuchungen.",
-  "A service line that grows without you": "Eine Servicelinie, die ohne Sie wächst",
+  "Keep patients connected with the Beyonn App": "Halten Sie Patienten mit der Beyonn App in Verbindung",
   "A sleep test": "Ein Schlaftest",
   "A sleep test, often done at home in your own bed, read by a physician.": "Ein Schlaftest, der oft zu Hause im eigenen Bett durchgeführt und von einem Arzt durchgeführt wird.",
   "A useful conversation, not a sales maze.": "Ein nützliches Gespräch, kein Verkaufslabyrinth.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Wählen Sie einen Schritt aus, um zu sehen, wie Ihr Team unterstützt wird.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Wählen Sie ein beliebiges Teil aus, um seinen Namen und seine Rolle zu erfahren. Verwenden Sie die Pfeiltasten nach links und rechts, um Teile zu erkunden, oder die Eingabetaste, um die Atemwege zu untersuchen. Ziehen Sie mit der Maus, um das Modell zu drehen.",
   "Send this to someone you love": "Senden Sie dies an jemanden, den Sie lieben",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Richten Sie die medizinische Abrechnung ein, sorgen Sie für eine stabile Patientennachfrage und erhalten Sie kontinuierliche Teamunterstützung.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Erfahren Sie, wie die Beyonn Patient App Patienten mit Informationen, Termindetails und Besuchserinnerungen unterstützt.",
   "Show fewer questions": "Weniger Fragen anzeigen",
   "Sign in": "Melden Sie sich an",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Melden Sie sich an, um Ihren Behandlungsfortschritt, Formulare und Nachrichten Ihres Pflegeteams zu sehen.",
@@ -1487,5 +1487,6 @@
   "You evaluate and treat, with Dr. Rodney Willey’s protocols and case support behind you.": "Sie untersuchen und behandeln, unterstützt durch die Protokolle und die Fallberatung von Dr. Rodney Willey.",
   "Your team does, trained step by step through Beyonn Academy training in billing and medical necessity and backed by the coding and documentation kit. Optional Billing Assist is there as a safety net.": "Ihr Team übernimmt dies, Schritt für Schritt durch Beyonn Academy in Abrechnung und medizinischer Notwendigkeit geschult und durch das Kodierungs- und Dokumentationspaket unterstützt. Optional steht Billing Assist als zusätzliche Unterstützung zur Verfügung.",
   "Your team gathers records and gets insurance approval, using Beyonn forms and the coding kit.": "Ihr Team sammelt Unterlagen und holt die Genehmigung der Versicherung ein, unterstützt durch Beyonn-Formulare und das Kodierungspaket.",
-  "Illustration of a clinical team collaborating": "Illustration eines zusammenarbeitenden klinischen Teams"
+  "Illustration of a clinical team collaborating": "Illustration eines zusammenarbeitenden klinischen Teams",
+  "Your learning resources": "Ihre Lernressourcen"
 }

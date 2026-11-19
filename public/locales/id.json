@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Penyedia dapat memesan tes tidur di rumah setelah ujian. Aplikasi ini membantu Anda memesannya.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Pemeriksaan cepat di Aplikasi Beyonn Patient yang menunjukkan bagaimana dengkuran Anda dapat memengaruhi tidur Anda. Ini bukan diagnosis, tetapi merupakan alasan bagus untuk melakukan pemeriksaan.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Tes tidur kedua untuk memastikan pengobatan Anda berhasil, kemudian check-in rutin.",
-  "A service line that grows without you": "Jalur layanan yang tumbuh tanpa Anda",
+  "Keep patients connected with the Beyonn App": "Jaga pasien tetap terhubung melalui aplikasi Beyonn",
   "A sleep test": "Tes tidur",
   "A sleep test, often done at home in your own bed, read by a physician.": "Tes tidur, sering kali dilakukan di rumah di tempat tidur Anda sendiri, dibaca oleh dokter.",
   "A useful conversation, not a sales maze.": "Percakapan yang bermanfaat, bukan labirin penjualan.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Pilih langkah untuk melihat bagaimana tim Anda didukung.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Pilih bagian mana pun untuk mempelajari nama dan perannya. Gunakan tombol panah kiri dan kanan untuk menjelajahi bagian-bagiannya, atau Enter untuk memeriksa jalan napas. Seret dengan mouse untuk memutar model.",
   "Send this to someone you love": "Kirimkan ini kepada seseorang yang Anda sayangi",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Siapkan penagihan medis, ciptakan permintaan pasien yang stabil, dan dapatkan dukungan tim yang berkelanjutan.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Lihat bagaimana Beyonn Patient App mendukung pasien dengan edukasi, detail janji temu, dan pengingat kunjungan.",
   "Show fewer questions": "Tampilkan lebih sedikit pertanyaan",
   "Sign in": "Masuk",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Masuk untuk melihat kemajuan pengobatan Anda, formulir dan pesan dari tim perawatan Anda.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Dokter menetapkan urgensi sejak awal dan memblokir waktu dalam jadwalnya – dimulai dengan 5 slot per minggu.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Dokter memahami prioritas kesehatan saluran napas. Anda tidak dapat mengabaikan apa yang telah Anda lihat. Setelah tanda-tanda gangguan pernapasan, tidur, atau saluran napas diketahui, hal tersebut harus ditangani. Perawatan komprehensif berarti merawat seluruh pasien, bukan hanya gigi saja. Bernafas adalah Raja. Kesehatan saluran napas menjadi prioritas karena setiap pengobatan bergantung padanya.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "Tim harus mendengar prioritasnya langsung dari Dokter. Tujuan baru. Harapan baru. Protokol baru.",
-  "Illustration of a clinical team collaborating": "Ilustrasi tim klinis yang bekerja sama"
+  "Illustration of a clinical team collaborating": "Ilustrasi tim klinis yang bekerja sama",
+  "Your learning resources": "Sumber belajar Anda"
 }

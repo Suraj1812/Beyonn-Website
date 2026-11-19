@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "பரீட்சைக்குப் பிறகு வீட்டு உறக்கப் பரிசோதனையை வழங்குநர் ஆர்டர் செய்யலாம். ஒன்றை முன்பதிவு செய்ய ஆப்ஸ் உதவுகிறது.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "உங்கள் குறட்டை உங்கள் தூக்கத்தை எவ்வாறு பாதிக்கலாம் என்பதைக் காட்டும் Beyonn Patient பயன்பாட்டில் விரைவான சோதனை. இது ஒரு நோயறிதல் அல்ல, ஆனால் இது ஒரு தேர்வை பதிவு செய்ய ஒரு நல்ல காரணம்.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "உங்கள் சிகிச்சை செயல்படுகிறதா என்பதை உறுதிப்படுத்த இரண்டாவது தூக்கப் பரிசோதனை, பிறகு வழக்கமான செக்-இன்கள்.",
-  "A service line that grows without you": "நீங்கள் இல்லாமல் வளரும் சேவை வரி",
+  "Keep patients connected with the Beyonn App": "Beyonn செயலி மூலம் நோயாளிகளுடன் தொடர்பில் இருங்கள்",
   "A sleep test": "ஒரு தூக்க சோதனை",
   "A sleep test, often done at home in your own bed, read by a physician.": "ஒரு தூக்கப் பரிசோதனை, பெரும்பாலும் உங்கள் சொந்த படுக்கையில் வீட்டிலேயே செய்யப்படுகிறது, ஒரு மருத்துவர் படிக்கவும்.",
   "A useful conversation, not a sales maze.": "ஒரு பயனுள்ள உரையாடல், விற்பனை பிரமை அல்ல.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "உங்கள் குழு எவ்வாறு ஆதரிக்கப்படுகிறது என்பதைப் பார்க்க ஒரு படியைத் தேர்ந்தெடுக்கவும்.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "எந்த ஒரு பகுதியையும் அதன் பெயர் மற்றும் பாத்திரத்தை அறிய தேர்ந்தெடுக்கவும். பகுதிகளை ஆராய இடது மற்றும் வலது அம்புக்குறி விசைகளைப் பயன்படுத்தவும் அல்லது காற்றுப்பாதையை ஆய்வு செய்ய Enter ஐப் பயன்படுத்தவும். மாதிரியை சுழற்ற ஒரு சுட்டியை இழுக்கவும்.",
   "Send this to someone you love": "நீங்கள் விரும்பும் ஒருவருக்கு இதை அனுப்பவும்",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "மருத்துவ பில்லிங் அமைக்கவும், நிலையான நோயாளி தேவையை உருவாக்கவும் மற்றும் குழு ஆதரவைப் பெறவும்.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "கல்வித் தகவல்கள், சந்திப்பு விவரங்கள் மற்றும் வருகை நினைவூட்டல்கள் மூலம் Beyonn Patient App நோயாளிகளுக்கு எவ்வாறு உதவுகிறது என்பதைப் பாருங்கள்.",
   "Show fewer questions": "குறைவான கேள்விகளைக் காட்டு",
   "Sign in": "உள்நுழைக",
   "Sign in to see your treatment progress, forms and messages from your care team.": "உங்கள் சிகிச்சை முன்னேற்றம், படிவங்கள் மற்றும் உங்கள் பராமரிப்புக் குழுவின் செய்திகளைப் பார்க்க உள்நுழையவும்.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "மருத்துவர் ஆரம்பத்திலிருந்தே அவசரத்தை நிறுவுகிறார் மற்றும் அதற்கான நேரத்தைத் தடுக்கிறார் - வாரத்திற்கு 5 இடங்களுடன் தொடங்குகிறார்.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "காற்றுப்பாதை ஆரோக்கியத்தின் முன்னுரிமையை மருத்துவர் புரிந்துகொள்கிறார். நீங்கள் பார்த்ததை நீங்கள் பார்க்காமல் இருக்க முடியாது. சமரசம் செய்யப்பட்ட சுவாசம், தூக்கம் அல்லது காற்றுப்பாதையின் அறிகுறிகள் கண்டறியப்பட்டவுடன், அவை கவனிக்கப்பட வேண்டும். விரிவான சிகிச்சை என்பது முழு நோயாளிக்கும் சிகிச்சை அளிப்பதாகும், வெறுமனே பற்களுக்கு அல்ல. சுவாசம் ராஜா. காற்றுப்பாதை ஆரோக்கியம் முன்னுரிமை பெறுகிறது, ஏனெனில் மற்ற ஒவ்வொரு சிகிச்சையும் அதை சார்ந்துள்ளது.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "குழு மருத்துவரிடம் நேரடியாக முன்னுரிமை கேட்க வேண்டும். புதிய இலக்குகள். புதிய எதிர்பார்ப்புகள். புதிய நெறிமுறைகள்.",
-  "Illustration of a clinical team collaborating": "இணைந்து பணிபுரியும் மருத்துவக் குழுவின் விளக்கப்படம்"
+  "Illustration of a clinical team collaborating": "இணைந்து பணிபுரியும் மருத்துவக் குழுவின் விளக்கப்படம்",
+  "Your learning resources": "உங்கள் கற்றல் வளங்கள்"
 }

@@ -54,7 +54,7 @@
   "A provider can order a home sleep test after an exam. The app helps you book one.": "Un fornitore può ordinare un test del sonno a casa dopo un esame. L'app ti aiuta a prenotarne uno.",
   "A quick check in the Beyonn Patient App that shows how your snoring may be affecting your sleep. It isn't a diagnosis, but it's a good reason to book an exam.": "Un rapido controllo nell'app Beyonn Patient che mostra come il tuo russare potrebbe influenzare il tuo sonno. Non è una diagnosi, ma è un buon motivo per prenotare un esame.",
   "A second sleep test to confirm your treatment is working, then regular check-ins.": "Un secondo test del sonno per confermare che il trattamento sta funzionando, quindi controlli regolari.",
-  "A service line that grows without you": "Una linea di servizi che cresce senza di te",
+  "Keep patients connected with the Beyonn App": "Mantieni i pazienti connessi con l’app Beyonn",
   "A sleep test": "Un test del sonno",
   "A sleep test, often done at home in your own bed, read by a physician.": "Un test del sonno, spesso eseguito a casa nel proprio letto, letto da un medico.",
   "A useful conversation, not a sales maze.": "Una conversazione utile, non un labirinto di vendite.",
@@ -911,7 +911,7 @@
   "Select a step to see how your team is supported.": "Seleziona un passaggio per vedere come viene supportato il tuo team.",
   "Select any part to learn its name and role. Use left and right arrow keys to explore parts, or Enter to inspect the airway. Drag with a mouse to rotate the model.": "Seleziona una parte qualsiasi per conoscerne il nome e il ruolo. Utilizza i tasti freccia sinistra e destra per esplorare le parti oppure Invio per ispezionare le vie aeree. Trascinare con il mouse per ruotare il modello.",
   "Send this to someone you love": "Invia questo a qualcuno che ami",
-  "Set up medical billing, create steady patient demand and get ongoing team support.": "Imposta la fatturazione medica, crea una domanda costante da parte dei pazienti e ottieni supporto continuo da parte del team.",
+  "See how the Beyonn Patient App supports patients with education, appointment details and visit reminders.": "Scopri come Beyonn Patient App supporta i pazienti con informazioni educative, dettagli degli appuntamenti e promemoria delle visite.",
   "Show fewer questions": "Mostra meno domande",
   "Sign in": "Accedi",
   "Sign in to see your treatment progress, forms and messages from your care team.": "Accedi per vedere i progressi del trattamento, i moduli e i messaggi del tuo team di assistenza.",
@@ -1488,5 +1488,6 @@
   "The Doctor establishes urgency from the very beginning and blocks time in his schedule for it – beginning with 5 slots per week.": "Il Dottore stabilisce l’urgenza fin dall’inizio e blocca il tempo nel suo programma – iniziando con 5 orari a settimana.",
   "The Doctor understands the priority of airway health. You cannot unsee what you have seen. Once the signs of compromised breathing, sleep, or airway are recognized, they must be addressed. Comprehensive treatment means treating the whole patient, not simply the teeth. Breathing is King. Airway health takes priority because every other treatment depends on it.": "Il Dottore comprende la priorità della salute delle vie aeree. Non puoi vedere ciò che hai visto. Una volta riconosciuti i segni di respirazione, sonno o vie aeree compromessi, è necessario affrontarli. Un trattamento completo significa trattare l’intero paziente, non solo i denti. La respirazione è re. La salute delle vie aeree ha la priorità perché ogni altro trattamento dipende da essa.",
   "The team must hear the priority directly from the Doctor. New goals. New expectations. New protocols.": "La squadra deve sentire la priorità direttamente dal Dottore. Nuovi obiettivi. Nuove aspettative. Nuovi protocolli.",
-  "Illustration of a clinical team collaborating": "Illustrazione di un team clinico che collabora"
+  "Illustration of a clinical team collaborating": "Illustrazione di un team clinico che collabora",
+  "Your learning resources": "Le tue risorse formative"
 }
