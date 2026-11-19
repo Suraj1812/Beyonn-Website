@@ -1,5 +1,6 @@
 import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
+import { Trademark } from "@/components/layout/Trademark";
 
 /**
  * First-visit intro on a navy curtain: the Beyonn emblem draws itself from
@@ -37,7 +38,9 @@ export function Intro() {
             <rect width="1600" height="1306" fill="url(#intro-g)" mask="url(#intro-draw)" />
           </svg>
         </div>
-        <Image src="/assets/beyonn-logo.png" alt="" width={800} height={164} priority className="intro__word h-auto w-40 brightness-0 invert" />
+        <Trademark className="intro__word" light>
+          <Image src="/assets/beyonn-logo.png" alt="" width={800} height={164} priority className="h-auto w-40 brightness-0 invert" />
+        </Trademark>
         <div className="intro__bar">
           <span />
         </div>

@@ -44,6 +44,7 @@ export async function GET(request: Request) {
           <div style={{ display: "flex", background: "#ffffff", borderRadius: 999, padding: "14px 26px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={logoSrc} width={234} height={48} alt="Beyonn" />
+            <span style={{ fontSize: 13, lineHeight: 1, marginLeft: 3, color: "#3177bf" }}>™</span>
           </div>
         </div>
 

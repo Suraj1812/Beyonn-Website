@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Trademark } from "@/components/layout/Trademark";
 import { LogOut, Save, Upload } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createDefaultDocument, validateDocument, type CmsDocument } from "@/lib/cms/model";
@@ -13,7 +14,7 @@ import "./control.css";
 function Loading({ label }: { label: string }) {
   return (
     <div className="ctl-loading" role="status">
-      <Image src="/assets/site/beyonn-control-logo.png" alt="Beyonn" width={165} height={34} />
+      <Trademark><Image src="/assets/site/beyonn-control-logo.png" alt="Beyonn" width={165} height={34} /></Trademark>
       <p>{label}</p>
     </div>
   );
@@ -181,7 +182,7 @@ function Editor({ onSignOut, onInteraction }: {
   return (
     <div className="ctl-app">
       <header className="ctl-editor-header">
-        <Image className="ctl-editor-brand" src="/assets/site/beyonn-control-logo.png" alt="Beyonn" width={165} height={34} />
+        <Trademark><Image className="ctl-editor-brand" src="/assets/site/beyonn-control-logo.png" alt="Beyonn" width={165} height={34} /></Trademark>
         <button type="button" className="ctl-button" disabled={busy} onClick={() => dirty ? ask("sign-out") : void signOut()}>
           <LogOut size={17} aria-hidden="true" /> Sign out
         </button>

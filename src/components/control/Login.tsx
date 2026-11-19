@@ -1,6 +1,7 @@
 "use client";
 import { ArrowLeft, ArrowRight, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 import Image from "next/image";
+import { Trademark } from "@/components/layout/Trademark";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 export function Login({ onLogin }: { onLogin: () => void }) {
@@ -34,14 +35,16 @@ export function Login({ onLogin }: { onLogin: () => void }) {
   return (
     <main className="ctl-login" aria-labelledby="control-sign-in">
       <div className="ctl-login-card">
+        <Trademark className="ctl-login-logo">
         <Image
-          className="ctl-login-logo"
           src="/assets/site/beyonn-control-logo.png"
           alt="Beyonn"
           width={190}
           height={39}
           loading="eager"
+          style={{ width: "calc(100% - 11px)", height: "auto" }}
         />
+        </Trademark>
         <h1 id="control-sign-in">Sign in to your account</h1>
         <p className="ctl-login-caption">Access the Beyonn control panel</p>
         <form onSubmit={submit}>

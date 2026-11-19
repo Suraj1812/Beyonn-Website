@@ -25,7 +25,7 @@ export function Footer() {
         <div className="grid gap-4 sm:gap-14 lg:grid-cols-[1.2fr_2fr]">
           <div data-aos="fade-up">
             <Link href="/" aria-label="Beyonn home">
-              <Logo size="lg" tone="light" className="max-sm:[&>img]:w-32" />
+              <Logo size="lg" tone="light" className="max-sm:[&_img]:w-32" />
             </Link>
             <p className="mt-2 max-w-sm text-sm leading-snug sm:mt-6 sm:text-xl text-paper/80">
               Beyond Training. Beyond Billing. <em className="serif-em text-breath">Beyond the Appliance.</em>

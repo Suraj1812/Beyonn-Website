@@ -1,6 +1,7 @@
 import { Localized } from "@/components/i18n/Localized";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { Trademark } from "./Trademark";
 
 type Props = { className?: string; size?: "nav" | "md" | "lg"; tone?: "badge" | "light" | "plain"; priority?: boolean };
 
@@ -12,6 +13,7 @@ const width = { nav: "w-[7.25rem] sm:w-[8rem] xl:w-[8.75rem]", md: "w-40", lg: "
  */
 export function Logo({ className, size = "md", tone = "badge", priority }: Props) {
   const img = (
+    <Trademark light={tone === "light"}>
     <Image
       src="/assets/beyonn-logo.png"
       alt="Beyonn"
@@ -20,6 +22,7 @@ export function Logo({ className, size = "md", tone = "badge", priority }: Props
       priority={priority}
       className={cn("h-auto", width[size], tone === "light" && "brightness-0 invert")}
     />
+    </Trademark>
   );
   if (tone !== "badge") return <Localized>{<span className={cn("inline-flex items-center", className)}>{img}</span>}</Localized>;
   return <Localized>{<span className={cn("inline-flex items-center rounded-full bg-white px-3 py-1.5", className)}>{img}</span>}</Localized>;
